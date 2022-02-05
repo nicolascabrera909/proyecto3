@@ -1,16 +1,15 @@
 {
   "name": "backend",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "^0.29.0",
-    "morgan": "~1.9.1"
+    "express": "^4.17.2",
+    "socket.io": "^4.4.1"
   }
 }

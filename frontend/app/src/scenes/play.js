@@ -1,5 +1,6 @@
 import Snake from "../gameobjects/Snake.js";
 import Comida from "../gameobjects/Comida.js";
+//import io from "socket.io-client";
 
 // configuracion de las escenas
 class Play extends Phaser.Scene {
@@ -39,6 +40,11 @@ class Play extends Phaser.Scene {
             this.snake.changeMov('abajo');
         });
 
+        // this.socket = io('http://localhost:3000');
+        // this.socket.on('connect', function () {
+        // 	console.log('Connected!');
+        // });
+        
         // Colision de cabeza con comida
         // this.snake.cuerpo[0] -> es la cebza
         this.physics.add.collider(this.snake.cuerpo[0], this.comida.comida, () => {
