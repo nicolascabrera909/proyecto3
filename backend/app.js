@@ -54,6 +54,7 @@ const io = new Server(server, {
  */
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
+    console.log('Socket ID: ' + socket.id);
     io.emit('chat message', msg);
   });
 });
