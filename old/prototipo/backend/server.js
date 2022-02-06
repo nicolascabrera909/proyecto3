@@ -9,7 +9,7 @@ var server = http.Server(app)
 var io = socketIO(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:5500",
+    origin: "http://localhost",
   }
 })
 
