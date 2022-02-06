@@ -1,9 +1,9 @@
 var config = {
   type: Phaser.AUTO,
   parent: 'phaser-example',
-  width: 800,
-  height: 600,
-  backgroundColor: '#ffffff',
+  width: 1366,
+  height: 768,
+  backgroundColor: '#33E3FF',
   physics: {
     default: 'arcade',
     arcade: {
@@ -21,7 +21,7 @@ var config = {
 var game = new Phaser.Game(config)
 
 function preload() {
-  this.load.image('car', 'static/assets/car.png')
+  this.load.image('destructor', 'static/assets/destructor.png')
 }
 
 function create() {
@@ -64,19 +64,19 @@ function create() {
 }
 
 function addPlayer(self, playerInfo) {
-  self.car = self.physics.add.image(playerInfo.x, playerInfo.y, 'car')
+  self.destructor = self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
     .setOrigin(0.5, 0.5)
-    .setDisplaySize(50, 50)
+    .setDisplaySize(150, 50)
 
-  self.car.setCollideWorldBounds(true)
-  self.car.setTint(playerInfo.color)
-  self.car.setDrag(1000)
+  self.destructor.setCollideWorldBounds(true)
+  self.destructor.setTint(playerInfo.color)
+  self.destructor.setDrag(1000)
 }
 
 function addOtherPlayers(self, playerInfo) {
-  const otherPlayer = self.physics.add.image(playerInfo.x, playerInfo.y, 'car')
+  const otherPlayer = self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
     .setOrigin(0.5, 0.5)
-    .setDisplaySize(50, 50)
+    .setDisplaySize(150, 50)
     .setRotation(playerInfo.rotation)
     
   otherPlayer.playerId = playerInfo.playerId
@@ -85,38 +85,38 @@ function addOtherPlayers(self, playerInfo) {
 }
 
 function update() {
-  if (this.car) {
+  if (this.destructor) {
     if (this.cursors.left.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {
-      this.car.setAngularVelocity(-100)
+      this.destructor.setAngularVelocity(-100)
     } else if (this.cursors.right.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {
-      this.car.setAngularVelocity(100)
+      this.destructor.setAngularVelocity(100)
     } else {
-      this.car.setAngularVelocity(0)
+      this.destructor.setAngularVelocity(0)
     }
 
-    const velX = Math.cos((this.car.angle - 360) * 0.01745)
-    const velY = Math.sin((this.car.angle - 360) * 0.01745)
+    const velX = Math.cos((this.destructor.angle - 360) * 0.01745)
+    const velY = Math.sin((this.destructor.angle - 360) * 0.01745)
     if (this.cursors.up.isDown) {
-      this.car.setVelocityX(200 * velX)
-      this.car.setVelocityY(200 * velY)
+      this.destructor.setVelocityX(200 * velX)
+      this.destructor.setVelocityY(200 * velY)
     } else if (this.cursors.down.isDown) {
-      this.car.setVelocityX(-100 * velX)
-      this.car.setVelocityY(-100 * velY)
+      this.destructor.setVelocityX(-100 * velX)
+      this.destructor.setVelocityY(-100 * velY)
     } else {
-      this.car.setAcceleration(0)
+      this.destructor.setAcceleration(0)
     }
 
-    var x = this.car.x
-    var y = this.car.y
-    var r = this.car.rotation
-    if (this.car.oldPosition && (x !== this.car.oldPosition.x || y !== this.car.oldPosition.y || r !== this.car.oldPosition.rotation)) {
-      this.socket.emit('playerMovement', { x: this.car.x, y: this.car.y, rotation: this.car.rotation })
+    var x = this.destructor.x
+    var y = this.destructor.y
+    var r = this.destructor.rotation
+    if (this.destructor.oldPosition && (x !== this.destructor.oldPosition.x || y !== this.destructor.oldPosition.y || r !== this.destructor.oldPosition.rotation)) {
+      this.socket.emit('playerMovement', { x: this.destructor.x, y: this.destructor.y, rotation: this.destructor.rotation })
     }
 
-    this.car.oldPosition = {
-      x: this.car.x,
-      y: this.car.y,
-      rotation: this.car.rotation
+    this.destructor.oldPosition = {
+      x: this.destructor.x,
+      y: this.destructor.y,
+      rotation: this.destructor.rotation
     }
   }
 }
