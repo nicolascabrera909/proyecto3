@@ -27,13 +27,9 @@ const io = new Server(server, {
 /**
  * Request retornando un archivo
  */
-//  app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   next();
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html');
 // });
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
 
 /**
  * Socket.io Mensaje en consola
@@ -45,22 +41,22 @@ app.get('/', (req, res) => {
 /**
  * Socket.io Mensaje en consola - Conectado y desconectado
  */
-io.on('connection', function (socket) {
- console.log('A user connected: ' + socket.id);
+// io.on('connection', function (socket) {
+//  console.log('A user connected: ' + socket.id);
 
- socket.on('disconnect', function () {
-     console.log('A user disconnected: ' + socket.id);
- });
-});
+//  socket.on('disconnect', function () {
+//      console.log('A user disconnected: ' + socket.id);
+//  });
+// });
 
 /**
  * Socket.io Chat
  */
-// io.on('connection', (socket) => {
-//   socket.on('chat message', (msg) => {
-//     io.emit('chat message', msg);
-//   });
-// });
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
+});
 
 /**
  * Respuesta 404
