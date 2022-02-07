@@ -1,3 +1,4 @@
+//declaro variables e instancias
 const express = require('express')
 const http = require('http')
 const path = require('path')
@@ -12,6 +13,8 @@ var io = socketIO(server, {
   }
 })
 
+
+//rutas
 app.use('/static', express.static(__dirname + '/static'))
 
 app.get('/', function (request, response) {
@@ -22,8 +25,14 @@ server.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
 
+//variables jugador
 var players = {}
 
+
+
+// configuracion del socket
+
+//mustra en el log al jugador
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected')
 
@@ -52,6 +61,8 @@ io.on('connection', function (socket) {
   })
 })
 
+
+//ver que hace
 function getRandomColor() {
   return '0x' + Math.floor(Math.random() * 16777215).toString(16)
 }
