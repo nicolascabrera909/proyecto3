@@ -1,17 +1,19 @@
 // importacion de las escenas
-/*
 import Bootloader from "./bootloader.js";
+import Menu from "./scenes/menu.js";
+/*
+
 import Play from "./scenes/play.js";
 import GameOver from "./scenes/gameover.js";
 import UI from "./scenes/UI.js";
-import Menu from "./scenes/menu.js";
+
 
 */
 // CONFIG BASICA
 const config = {
     title: 'Snake',
-    width: 320,
-    height: 180,
+    width: 400,
+    height: 300,
     type: Phaser.AUTO, // ESTO ES PARA CANVAS O WEBGL
     parent: 'container', // hacemos ref al div donde se va a dibugar el juego
     backgroundColor: '#f9ca24',
@@ -23,7 +25,7 @@ const config = {
         //    gravity: {y: 100}
         //}
     },
-    scene: [],
+    scene: [Bootloader, Menu],
 }
 
 new Phaser.Game(config); // forma de cargar phaser
