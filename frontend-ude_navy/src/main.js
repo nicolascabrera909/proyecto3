@@ -1,6 +1,9 @@
 // importacion de las escenas
 import Bootloader from "./bootloader.js";
 import Menu from "./scenes/menu.js";
+import Credits from "./scenes/credits.js";
+import Configuration from "./scenes/configuration.js";
+
 /*
 
 import Play from "./scenes/play.js";
@@ -25,7 +28,8 @@ const config = {
         //    gravity: {y: 100}
         //}
     },
-    scene: [Bootloader, Menu],
+    title: '1.0',
+    scene: [Bootloader, Menu, Credits, Configuration],
 }
 
 new Phaser.Game(config); // forma de cargar phaser
