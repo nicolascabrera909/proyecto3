@@ -4,15 +4,32 @@ class Configuration extends Phaser.Scene {
         console.log('Configuration');
     }
 
+    /*
+    Configuration ()
+    {
+        Phaser.Scene.call(this, { key: 'configuration' });
+    }
+
+    init (data)
+    {
+        console.log('init', data);
+
+        this.music = data.musica;
+
+    }
+
+      */
+    
+
     create () {
-        this.soundOn = true;
-   
+        this.soundOn = false;
+        var music = this.sound;
         const loadingText = this.add.text(this.sys.game.config.width/2, 
             this.sys.game.config.height - (this.sys.game.config.height - 50) , 
             'Opciones', { fontSize: 30 }).setOrigin(0.5);
 
 
-        this.soundButton = this.add.image(60, 100, 'checked');
+        this.soundButton = this.add.image(60, 100, 'unchecked');
         this.soundText = this.add.text(90, 90, 'Sonido habilitado', { fontSize: 24 });
     
         this.soundButton.setInteractive();
@@ -41,8 +58,13 @@ class Configuration extends Phaser.Scene {
     
         if (this.soundOn === false) {
           this.soundButton.setTexture('unchecked');
+          this.sound.stopByKey('audio_menu');
+          console.log('seapaga');
+          
         } else {
           this.soundButton.setTexture('checked');
+          console.log('se prende');
+          //this.music.play(); //-> ver como prender la musica aca
         }
       }
 }
