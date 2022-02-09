@@ -1,12 +1,9 @@
-* {
-    padding: 0px; 
-    margin: 0px; 
-    font-family: Century Gothic; 
-}
+
 
 * {
     margin: 100;
     padding: 0;
+ 
 }
 body {
     display: flex;
@@ -14,8 +11,9 @@ body {
     background-color: #5e6b77;
 }
 #container{
-    margin-top: 130px;
+    margin-top: 300px;
     transform: scale(2);
+    
 }
 
 
