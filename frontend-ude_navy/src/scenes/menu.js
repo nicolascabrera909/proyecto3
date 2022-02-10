@@ -10,9 +10,7 @@ class Menu extends Phaser.Scene {
         xmlHttp.send( null );
         return xmlHttp.responseText;
     }
-
     
-
     showVersion(){
         this.mensaje = this.getMensaje();
         this.add.text(this.sys.game.config.width - 80, this.sys.game.config.height - 20, 'Versión: ' + this.sys.game.config.gameTitle, { font: '10px Courier', fill: '#2FA4E7' })
@@ -58,11 +56,10 @@ class Menu extends Phaser.Scene {
         ]);
     }
     
-
     create() {
         //this.playMusic()
-        this.showVersion();
         this.loadBackground();
+        this.showVersion();
         this.helpText();
 
         // Game

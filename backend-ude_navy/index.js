@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const cors = require('cors');
+const { database } = require('./config.js');
 
 app.use(
   cors({
@@ -22,6 +23,12 @@ let whitelist=['http://localhost','http://localhost:5500','http://localhost:5501
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+app.get('/version', async (req, res) => {
+  const version = await pool.query('SELECT version FROM udenavybd.version');
+  console.log(version);
+  res.render(version);
+});
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
