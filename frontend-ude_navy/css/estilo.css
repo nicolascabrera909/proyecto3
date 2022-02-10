@@ -1,0 +1,44 @@
+
+
+* {
+    margin: 100;
+    padding: 0;
+ 
+}
+body {
+    display: flex;
+    justify-content: center;
+    background-color: #5e6b77;
+}
+#container{
+    margin-top: 300px;
+    transform: scale(2);
+    
+}
+
+
+.home{
+    display: flex;
+    flex-wrap: wrap;
+}
+.in-flex{
+    flex: 1;
+    min-width: 250p;
+}
+
+.in-flex:first-child{
+    flex: 2;
+    padding: 25px;
+    background-color: azure;
+    margin: 20px;
+    margin-bottom: 0px;
+}
+
+.in-flex div{
+    padding: 25px;
+    background-color: azure;
+    margin: 20px;
+}
+
+
+
