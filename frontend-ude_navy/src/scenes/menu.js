@@ -3,8 +3,8 @@ class Menu extends Phaser.Scene {
         super('Menu');
     }
 
-    getMensaje(){
-        var url = 'http://localhost:3000';
+    getVersion(){
+        var url = 'http://localhost:3000/version';
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open( "GET", url, false ); // false for synchronous request
         xmlHttp.send( null );
@@ -12,9 +12,8 @@ class Menu extends Phaser.Scene {
     }
     
     showVersion(){
-        this.mensaje = this.getMensaje();
-        this.add.text(this.sys.game.config.width - 80, this.sys.game.config.height - 20, 'Versión: ' + this.sys.game.config.gameTitle, { font: '10px Courier', fill: '#2FA4E7' })
-        this.add.text(this.sys.game.config.width - 180, this.sys.game.config.height - 20, this.mensaje, { font: '10px Courier', fill: '#2FA4E7' })
+        this.version = this.getVersion();
+        this.add.text(this.sys.game.config.width - 180, this.sys.game.config.height - 20, this.version, { font: '10px Courier', fill: '#2FA4E7' })
     }
 
     loadBackground(){
