@@ -4,6 +4,10 @@ class Credits extends Phaser.Scene {
         console.log('Credits');
     }
 
+    preload(){
+      
+    }
+
     create () {
         this.creditsText = this.add.text(0, 0, 'Juego creado por', { fontSize: '20px', fill: '#fff' });
 

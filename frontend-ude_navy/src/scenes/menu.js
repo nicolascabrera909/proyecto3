@@ -19,39 +19,20 @@ class Menu extends Phaser.Scene {
         this.add.text(this.sys.game.config.width - 180, this.sys.game.config.height - 20, this.mensaje, { font: '10px Courier', fill: '#2FA4E7' })
     }
 
-    loadLogo(){
+    loadBackground(){
         // se centra la imagen como logo para cuando inicia el juego
-        this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2 , 'logo').setScale(0.5);
+        //this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2 , 'background').setScale(0.5);
+        this.add.image(0, 0, 'background').setOrigin(0, 0)
     }
 
     helpText(){
-        /*
-        const pressButton = this.add.dynamicBitmapText(
-            this.sys.game.config.width/2, 
-            this.sys.game.config.height - 40
-            , 'pixel', 'PRESIONE UN BOTON PARA COMENZAR',
-             12).setOrigin(0.5);
         
-        
-        // EFECTO DE PARPADEO EN EL TEXTO
-        this.tweens.add({
-            targets: pressButton,
-            alpha: 0, // -> trasparencia
-            ease: (x) => x < 0.5 ? 0 : 1,
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        */
-
-
     }
 
     centerButton (gameObject, offset = 0) {
         Phaser.Display.Align.In.Center(
           gameObject,
-          this.add.zone(this.sys.game.config.width/2, this.sys.game.config.height/2 - offset * 50, this.sys.game.config.width, this.sys.game.config.height)
+          this.add.zone(this.sys.game.config.width/2, this.sys.game.config.height/2 - offset * 20, this.sys.game.config.width, this.sys.game.config.height)
         );
       }
     centerButtonText (gameText, gameButton) {
@@ -61,18 +42,27 @@ class Menu extends Phaser.Scene {
         );
     }
 
-    playMusic(){
+    playMusic(){        
         var music = this.sound.add('audio_menu');
         music.play();
     }
-    preload(){
-        
+
+    stopMusic(){
+        var music = this.sound.add('audio_menu');
+        music.stop();
     }
+    preload(){
+        //var music = this.sound.add('audio_menu');
+        this.load.audio('audio_menu', [
+            './static/assets/audio/Dangerous.mp3',
+        ]);
+    }
+    
 
     create() {
-        this.playMusic()
+        //this.playMusic()
         this.showVersion();
-        this.loadLogo();
+        this.loadBackground();
         this.helpText();
 
         // Game
@@ -81,16 +71,11 @@ class Menu extends Phaser.Scene {
         this.gameText = this.add.text(0, 0, 'Jugar', { fontSize: '15px', fill: '#fff' });
         this.centerButtonText(this.gameText, this.gameButton);
         this.gameButton.on('pointerdown', function (pointer) {
-        this.scene.start('Game' );
+            this.scene.start('Game' );
         }.bind(this));
-        this.input.on('pointerover', function (event, gameObjects) {
-        gameObjects[0].setTexture('blueButton2');
-        });
-        this.input.on('pointerout', function (event, gameObjects) {
-        gameObjects[0].setTexture('blueButton1');
-        });
         
-
+      
+        /*
         // Options
         this.optionsButton = this.add.sprite(300, 200, 'blueButton1').setInteractive();
         this.centerButton(this.optionsButton);
@@ -99,7 +84,9 @@ class Menu extends Phaser.Scene {
         this.optionsButton.on('pointerdown', function (pointer) {
             this.scene.start('Configuration');
         }.bind(this));
-        // Credits
+
+        */
+        // creditos
         this.creditsButton = this.add.sprite(300, 200, 'blueButton1').setInteractive();
         this.centerButton(this.creditsButton, -1);
         this.creditsText = this.add.text(0, 0, 'Creditos', { fontSize: '15px', fill: '#fff' });
@@ -107,42 +94,40 @@ class Menu extends Phaser.Scene {
         this.creditsButton.on('pointerdown', function (pointer) {
             this.scene.start('Credits');
         }.bind(this));
-        this.input.on('pointerover', function (event, gameObjects) {
-            gameObjects[0].setTexture('blueButton2');
-        });
-        this.input.on('pointerout', function (event, gameObjects) {
-            gameObjects[0].setTexture('blueButton1');
-        });
+       
+        //esto hay que cambiarlo para que sean en el onclick y no al pasar el mose por arriba.
+        //Poner imagen en lugar de un check (usar la de Tomas pero hay que achicarla)
+
+        this.soundOn = false;
+        this.soundText = this.add.text(this.sys.game.config.width/2 , 400, 'Sonido', { fontSize: 24 });
+
+        this.soundButton = this.add.sprite(this.sys.game.config.width/2 - 30, 410, 'unchecked');
+    
+        this.soundButton.setInteractive();
+    
         
-
-        
-
-
-        // eventos para entrar al juego desde el menu
-        // si presiono arriba, abajo, izq o der llamo a la escena "PLAY"
-        /*
-        this.input.keyboard.on('keydown_RIGHT', () => {
-            this.scene.start('Play');
-        });
-        this.input.keyboard.on('keydown_LEFT', () => {
-            this.scene.start('Play');
-        });
-        this.input.keyboard.on('keydown_UP', () => {
-            this.scene.start('Play');
-        });
-        this.input.keyboard.on('keydown_DOWN', () => {
-            this.scene.start('Play');
-        });
-
-        this.input.keyboard.on('keydown_ENTER', () => {
-            this.scene.start('Play');
-        });
-        this.input.on('pointerdown', () => {
-            this.scene.start('Play');
-        })
-        */
-
+    
+        this.soundButton.on('pointerout', function () {
+            this.soundOn = !this.soundOn;
+            this.updateAudio();
+        }.bind(this));
+       
     }
+
+    updateAudio() {
+        
+    
+        if (this.soundOn === false) {
+          this.soundButton.setTexture('unchecked');
+          this.sound.stopByKey('audio_menu');
+          console.log('seapaga');
+          
+        } else {
+          this.soundButton.setTexture('checked');
+          console.log('se prende');
+          this.playMusic(); //-> ver como prender la musica aca
+        }
+      }
 
 }
 

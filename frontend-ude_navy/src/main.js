@@ -2,7 +2,7 @@
 import Bootloader from "./bootloader.js";
 import Menu from "./scenes/menu.js";
 import Credits from "./scenes/credits.js";
-import Configuration from "./scenes/configuration.js";
+import PreGame from "./scenes/pregame.js";
 
 /*
 
@@ -15,11 +15,11 @@ import UI from "./scenes/UI.js";
 // CONFIG BASICA
 const config = {
     title: 'Snake',
-    width: 400,
-    height: 300,
+    width: 800,
+    height: 600,
     type: Phaser.AUTO, // ESTO ES PARA CANVAS O WEBGL
     parent: 'container', // hacemos ref al div donde se va a dibugar el juego
-    backgroundColor: '#f9ca24',
+    //backgroundColor: '#f9ca24',
     pixelArt: true, // carga el liezo
     physics: {
         default: "arcade",
@@ -29,7 +29,7 @@ const config = {
         //}
     },
     title: '1.0',
-    scene: [Bootloader, Menu, Credits, Configuration],
+    scene: [Bootloader, Menu, Credits, PreGame],
 }
 
 new Phaser.Game(config); // forma de cargar phaser
