@@ -23,7 +23,6 @@ class Configuration extends Phaser.Scene {
 
     create () {
         this.soundOn = false;
-        var music = this.sound;
         const loadingText = this.add.text(this.sys.game.config.width/2, 
             this.sys.game.config.height - (this.sys.game.config.height - 50) , 
             'Opciones', { fontSize: 30 }).setOrigin(0.5);

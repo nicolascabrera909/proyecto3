@@ -18,11 +18,12 @@ class Bootloader extends Phaser.Scene {
     }
     loadImages () {
         this.load.image('logo', './static/assets/img/logo.jpeg');
-        this.load.image('menu-bg', './static/assets/img/background_menu.png');
+        this.load.image('background', './static/assets/img/background.png');
         this.load.image('blueButton1', './static/assets/img/blue_button02.png');
         this.load.image('blueButton2', './static/assets/img/blue_button03.png');
         this.load.image('checked', './static/assets/img/checkbox_checked.png');
-        this.load.image('unchecked', './static/assets/img/checkbox_unchecked.png');       
+        this.load.image('unchecked', './static/assets/img/checkbox_unchecked.png');
+        this.load.image('sound', './static/assets/img/music_image.png');       
     }
 
     loadFonts () {
@@ -109,7 +110,7 @@ class Bootloader extends Phaser.Scene {
         this.loadScripts();
         this.loadImages();
         this.loadFonts();
-        this.loadMusic();
+        //this.loadMusic();
         
     }
 
