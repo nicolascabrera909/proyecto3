@@ -1,6 +1,9 @@
 CREATE DATABASE udenavybd;
 GRANT ALL PRIVILEGES ON udenavybd.* TO udeuser IDENTIFIED BY 'udepass';
+
 USE udenavybd;
+SET PASSWORD FOR 'udeuser'@'%' = PASSWORD('udepass');
+
 -- TABLE Version
 CREATE TABLE version (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
