@@ -13,7 +13,7 @@ class Menu extends Phaser.Scene {
     
     showVersion(){
         this.version = this.getVersion();
-        this.add.text(this.sys.game.config.width - 180, this.sys.game.config.height - 20, this.version, { font: '10px Courier', fill: '#2FA4E7' })
+        this.add.text(this.sys.game.config.width - 80, this.sys.game.config.height - 20, 'Version:' + this.version, { font: '10px Courier', fill: '#ffffff' })
     }
 
     loadBackground(){
@@ -94,8 +94,8 @@ class Menu extends Phaser.Scene {
        
         //Poner imagen en lugar de un check (usar la de Tomas pero hay que achicarla)
         this.soundOn = false;
-        this.soundText = this.add.text(this.sys.game.config.width/2 , 400, 'Sonido', { fontSize: 24 });
-        this.soundButton = this.add.sprite(this.sys.game.config.width/2 - 30, 410, 'unchecked');
+        this.soundText = this.add.text(this.sys.game.config.width/2 , 300, 'Sonido', { fontSize: 14 });
+        this.soundButton = this.add.sprite(this.sys.game.config.width/2 - 30, 310, 'unchecked');
         this.soundButton.setInteractive();
 
         this.soundButton.on('pointerdown', function () {

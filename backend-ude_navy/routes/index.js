@@ -4,12 +4,15 @@ const router = express.Router();
 const pool = require('../database');
 
 router.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Bienvenidos a UDE Navy');
 });
   
 router.get('/version', async (req, res) => {
-    var version = await pool.query('SELECT version FROM udenavybd.version');
-    res.send(version);
+    const version = await pool.query('SELECT version FROM udenavybd.version');
+    if (version.length > 0) 
+        res.send(version[0].version);
+    else
+        res.send('0');
 });
 
 module.exports = router;
