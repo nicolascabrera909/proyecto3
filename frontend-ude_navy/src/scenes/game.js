@@ -5,6 +5,7 @@ class Game extends Phaser.Scene {
   }
 
   showMap(){
+    this.load.image('mapa_principal', './static/assets/img/mapa_principal.png');
     this.add.image(0, 0, 'mapa_principal').setOrigin(0, 0)
   }
 

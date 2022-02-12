@@ -5,7 +5,9 @@ class Bootloader extends Phaser.Scene {
     }
 
     loadScripts () {
-        
+        this.load.scripts('align', './static/assets/util/align.js')
+        this.load.scripts('align_grid', './static/assets/util/alignGrid.js')
+        this.load.scripts('UI', './static/assets/util/UIBlock.js')
     }
     
     loadMusic () {
@@ -24,7 +26,8 @@ class Bootloader extends Phaser.Scene {
         this.load.image('checked', './static/assets/img/checkbox_checked.png');
         this.load.image('unchecked', './static/assets/img/checkbox_unchecked.png');
         this.load.image('mapa_principal', './static/assets/img/mapa.png');
-       
+        this.load.image('mapa_principal_dos', './static/assets/img/mapa.jpg');
+
     }
 
     loadFonts () {
