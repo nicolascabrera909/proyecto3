@@ -31,7 +31,8 @@ class Menu extends Phaser.Scene {
           gameObject,
           this.add.zone(this.sys.game.config.width/2, this.sys.game.config.height/2 - offset * 20, this.sys.game.config.width, this.sys.game.config.height)
         );
-      }
+    }
+
     centerButtonText (gameText, gameButton) {
         Phaser.Display.Align.In.Center(
             gameText,
@@ -48,6 +49,7 @@ class Menu extends Phaser.Scene {
         var music = this.sound.add('audio_menu');
         music.stop();
     }
+
     preload(){
         //var music = this.sound.add('audio_menu');
         this.load.audio('audio_menu', [
@@ -69,8 +71,7 @@ class Menu extends Phaser.Scene {
         this.gameButton.on('pointerdown', function (pointer) {
             this.scene.start('Game' );
         }.bind(this));
-        
-      
+
         /*
         // Options
         this.optionsButton = this.add.sprite(300, 200, 'blueButton1').setInteractive();
@@ -80,8 +81,8 @@ class Menu extends Phaser.Scene {
         this.optionsButton.on('pointerdown', function (pointer) {
             this.scene.start('Configuration');
         }.bind(this));
-
         */
+
         // creditos
         this.creditsButton = this.add.sprite(300, 200, 'blueButton1').setInteractive();
         this.centerButton(this.creditsButton, -1);
@@ -91,19 +92,13 @@ class Menu extends Phaser.Scene {
             this.scene.start('Credits');
         }.bind(this));
        
-        //esto hay que cambiarlo para que sean en el onclick y no al pasar el mose por arriba.
         //Poner imagen en lugar de un check (usar la de Tomas pero hay que achicarla)
-
         this.soundOn = false;
         this.soundText = this.add.text(this.sys.game.config.width/2 , 400, 'Sonido', { fontSize: 24 });
-
         this.soundButton = this.add.sprite(this.sys.game.config.width/2 - 30, 410, 'unchecked');
-    
         this.soundButton.setInteractive();
-    
-        
-    
-        this.soundButton.on('pointerout', function () {
+
+        this.soundButton.on('pointerdown', function () {
             this.soundOn = !this.soundOn;
             this.updateAudio();
         }.bind(this));
@@ -111,13 +106,10 @@ class Menu extends Phaser.Scene {
     }
 
     updateAudio() {
-        
-    
         if (this.soundOn === false) {
           this.soundButton.setTexture('unchecked');
           this.sound.stopByKey('audio_menu');
           console.log('seapaga');
-          
         } else {
           this.soundButton.setTexture('checked');
           console.log('se prende');

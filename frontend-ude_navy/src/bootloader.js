@@ -103,8 +103,6 @@ class Bootloader extends Phaser.Scene {
 
     }
 
-    
-
     preload () {
         this.progressBar()
         this.loadScripts();
