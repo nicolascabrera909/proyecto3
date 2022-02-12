@@ -23,7 +23,8 @@ class Bootloader extends Phaser.Scene {
         this.load.image('blueButton2', './static/assets/img/blue_button03.png');
         this.load.image('checked', './static/assets/img/checkbox_checked.png');
         this.load.image('unchecked', './static/assets/img/checkbox_unchecked.png');
-        this.load.image('sound', './static/assets/img/music_image.png');       
+        this.load.image('mapa_principal', './static/assets/img/mapa.png');
+       
     }
 
     loadFonts () {

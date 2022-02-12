@@ -2,7 +2,7 @@
 import Bootloader from "./bootloader.js";
 import Menu from "./scenes/menu.js";
 import Credits from "./scenes/credits.js";
-import PreGame from "./scenes/pregame.js";
+import Game from "./scenes/game.js";
 
 /*
 
@@ -29,7 +29,7 @@ const config = {
         //}
     },
     title: '1.0',
-    scene: [Bootloader, Menu, Credits, PreGame],
+    scene: [Bootloader, Menu, Credits, Game],
 }
 
 new Phaser.Game(config); // forma de cargar phaser

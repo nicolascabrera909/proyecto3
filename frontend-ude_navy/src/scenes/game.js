@@ -1,28 +1,25 @@
-var config = {
-  type: Phaser.AUTO,
-  parent: 'phaser-example',
-  width: 800,
-  height: 600,
-  physics: {
-    default: 'arcade',
-    arcade: {
-      debug: false,
-      gravity: { y: 0 }
-    }
-  },
-  scene: {
-    preload: preload,
-    create: create,
-    update: update
-  } 
-};
- 
-var game = new Phaser.Game(config);
- 
-function preload() {}
- 
-function create() {
-  this.socket = io();
+class Game extends Phaser.Scene {
+  constructor() {
+      super('Game');
+      console.log("Game cargdo");
+  }
+
+  showMap(){
+    this.add.image(0, 0, 'mapa_principal').setOrigin(0, 0)
+  }
+
+  preload ()
+  { 
+    
+      //this.load.html('nameform', './static/assets/html/loginform.html');
+      //console.log("pregame preload");
+  }
+
+  create ()
+  { 
+    console.log("mapa");
+    this.showMap();
+  }
 }
- 
-function update() {}
+
+export default Game;
