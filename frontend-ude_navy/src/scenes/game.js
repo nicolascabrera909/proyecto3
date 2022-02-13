@@ -12,7 +12,8 @@ class Game extends Phaser.Scene {
   }
 
   showMap(){
-    this.add.image(0, 0, 'mapa_principal').setOrigin(0, 0);
+    //this.add.image(0, 0, 'mapa_principal').setOrigin(0, 0);
+    this.background=this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'mapa_principal').setOrigin(0, 0);
   }
 
   showSubmarino(){
@@ -63,6 +64,10 @@ class Game extends Phaser.Scene {
     this.showDestructor();
     this.showSubmarino();
     this.showCargueros();
+  }
+
+  update(){
+    this.background.tilePositionY -= 0.3;
   }
 }
 
