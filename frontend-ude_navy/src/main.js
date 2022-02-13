@@ -5,11 +5,10 @@ import Credits from "./scenes/credits.js";
 import Game from "./scenes/game.js";
 
 /*
-
+ 
 import Play from "./scenes/play.js";
 import GameOver from "./scenes/gameover.js";
 import UI from "./scenes/UI.js";
-
 
 */
 // CONFIG BASICA
