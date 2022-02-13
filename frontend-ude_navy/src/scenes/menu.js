@@ -3,6 +3,7 @@ class Menu extends Phaser.Scene {
         super('Menu');
     }
 
+    /**obtengo la version de la base*/
     getVersion(){
         var url = 'http://localhost:3000/version';
         var xmlHttp = new XMLHttpRequest();
@@ -10,7 +11,7 @@ class Menu extends Phaser.Scene {
         xmlHttp.send( null );
         return xmlHttp.responseText;
     }
-    
+    /***/
     showVersion(){
         this.version = this.getVersion();
         this.add.text(this.sys.game.config.width - 80, this.sys.game.config.height - 20, 'Version:' + this.version, { font: '10px Courier', fill: '#ffffff' })
