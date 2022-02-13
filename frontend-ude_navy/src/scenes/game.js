@@ -50,7 +50,7 @@ class Game extends Phaser.Scene {
     this.submarino.showSubmarino();
     this.carguero.showCargueros();
     this.submarino.moveSubmarino();
-   // this.carguero.moveCarguero();
+    
   }
 
   update(){

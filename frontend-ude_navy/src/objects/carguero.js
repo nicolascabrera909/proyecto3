@@ -4,7 +4,7 @@ class Carguero {
         
     }
     showCargueros(){
-        
+        var velocidad=2
         var randomX = Phaser.Math.Between(50, 200);
         var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
         let x=0;
@@ -14,6 +14,7 @@ class Carguero {
           //this.add.image(this.sys.game.config.width -270, this.sys.game.config.height -230, 'carguero').setDisplaySize(19, 7).setOrigin(-x, -y);  
           this.carguero=this.scene.physics.add.image(randomX, randomY, 'carguero').setDisplaySize(30, 10).setOrigin(x, y);  
           this.carguero.setCollideWorldBounds(true); 
+          this.carguero.setVelocity(velocidad,0);
           y=y+2;
         }
         x=x-2;
@@ -22,6 +23,7 @@ class Carguero {
           //this.add.image(this.sys.game.config.width -270, this.sys.game.config.height -200, 'carguero').setDisplaySize(19, 7).setOrigin(-x, -y);
           this.carguero=this.scene.physics.add.image(randomX, randomY, 'carguero').setDisplaySize(30, 10).setOrigin(x, y);
           this.carguero.setCollideWorldBounds(true); 
+          this.carguero.setVelocity(velocidad,0);
           y=y-2;
         }
       }
@@ -68,9 +70,10 @@ class Carguero {
       }
 
    
-    moveCarguero(){
-        this.carguero.y++;
-    }
+   /* moveCarguero(){
+        //this.carguero.x++;
+        //this.carguero.setVelocity(5,0);
+    }*/
 }
 
 export default Carguero;
