@@ -29,7 +29,7 @@ class Menu extends Phaser.Scene {
     centerButton (gameObject, offset = 0) {
         Phaser.Display.Align.In.Center(
           gameObject,
-          this.add.zone(this.sys.game.config.width/2, this.sys.game.config.height/2 - offset * 20, this.sys.game.config.width, this.sys.game.config.height)
+          this.add.zone(this.sys.game.config.width/2, this.sys.game.config.height/2 - offset * 30, this.sys.game.config.width, this.sys.game.config.height)
         );
     }
 
@@ -76,7 +76,7 @@ class Menu extends Phaser.Scene {
         // Help
         this.optionsButton = this.add.sprite(300, 200, 'blueButton1').setInteractive();
         this.centerButton(this.optionsButton);
-        this.optionsText = this.add.text(0, 0, 'Opciones', { fontSize: '15px', fill: '#fff' });
+        this.optionsText = this.add.text(0, 0, 'Ayuda', { fontSize: '15px', fill: '#fff' });
         this.centerButtonText(this.optionsText, this.optionsButton);
         this.optionsButton.on('pointerdown', function (pointer) {
             this.scene.start('Help');
