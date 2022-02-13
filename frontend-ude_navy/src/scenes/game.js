@@ -1,8 +1,10 @@
+import Submarino from "../objects/submarino.js";
 class Game extends Phaser.Scene {
   constructor() {
       super('Game');
       console.log("Game cargado");
   }
+  
 
   loadImages(){
     this.load.image('destructor', './static/assets/img/destructor1.png');
@@ -16,13 +18,8 @@ class Game extends Phaser.Scene {
     this.background=this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'mapa_principal').setOrigin(0, 0);
   }
 
-  showSubmarino(){
-      //this.add.image(this.sys.game.config.width -480, this.sys.game.config.height -220, 'submarino').setDisplaySize(50, 10);
-    var randomX = Phaser.Math.Between(400, this.sys.game.config.width-50);
-    var randomY = Phaser.Math.Between(50, this.sys.game.config.height-50);
-    this.add.image(randomX, randomY, 'submarino').setDisplaySize(50, 10).flipX=true;
-  }
   
+
   showDestructor(){
     //this.add.image(this.sys.game.config.width -480, this.sys.game.config.height -250, 'destructor').setDisplaySize(37, 13).setOrigin(-5, -3);
     var randomX = Phaser.Math.Between(50, 300);
@@ -52,6 +49,7 @@ class Game extends Phaser.Scene {
 
   preload ()
   { 
+    this.submarino = new Submarino(this);
     this.loadImages();
       //this.load.html('nameform', './static/assets/html/loginform.html');
     console.log("Game preload");
@@ -62,8 +60,9 @@ class Game extends Phaser.Scene {
     console.log("mapa");
     this.showMap();
     this.showDestructor();
-    this.showSubmarino();
+    this.submarino.showSubmarino();
     this.showCargueros();
+    this.submarino.moveSubmarino();
   }
 
   update(){
