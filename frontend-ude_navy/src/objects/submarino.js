@@ -5,10 +5,8 @@ class Submarino {
     }
 
     showSubmarino(){
-        //this.add.image(this.sys.game.config.width -480, this.sys.game.config.height -220, 'submarino').setDisplaySize(50, 10);
       var randomX = Phaser.Math.Between(400, this.scene.game.config.width-50);
       var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
-      //this.add.image(randomX, randomY, 'submarino').setDisplaySize(50, 10).flipX=true;
       this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
       this.submarino.setDisplaySize(50, 10)
       this.submarino.flipX=true;
