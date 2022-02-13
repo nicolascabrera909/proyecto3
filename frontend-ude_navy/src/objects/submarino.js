@@ -9,24 +9,45 @@ class Submarino {
       var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
       this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
       this.submarino.setDisplaySize(50, 10)
-      this.submarino.flipX=true;
+     // this.submarino.setOrigen(0,0);
+      //this.submarino.flipX=true;
       //this.scene.physics.add.collider(this.cuerpo[0], this.cuerpo[i], () => this.choca());
+      this.submarino.setCollideWorldBounds(true);
     }
     
     moveSubmarino(){
   
+        /*mover derecha*/
         this.scene.input.keyboard.on('keydown-RIGHT', () => {
+          //console.log(Phaser.Input.Keyboard.KeyCodes);
           this.submarino.x += 10;
         });
+        /*mover izquierda*/
         this.scene.input.keyboard.on('keydown-LEFT', () => {
-            this.submarino.x -= 10; 
+          //console.log(Phaser.Input.Keyboard.KeyCodes);
+          this.submarino.x -= 10; 
         });
+        /*mover arriba*/
         this.scene.input.keyboard.on('keydown-UP', () => {
-            this.submarino.y -= 10;
+         // console.log(Phaser.Input.Keyboard.KeyCodes);
+          this.submarino.y -= 10;
         });
+        /*mover abajo*/
         this.scene.input.keyboard.on('keydown-DOWN', () => {
-            this.submarino.y += 10;
+         // console.log(Phaser.Input.Keyboard.KeyCodes);
+          this.submarino.y += 10;
         });
+        /*giro izquierda*/
+        this.scene.input.keyboard.on('keydown-A', () => {
+         // console.log(Phaser.Input.Keyboard.KeyCodes);
+          this.submarino.flipX = true;
+        });
+         /*giro derecha*/
+         this.scene.input.keyboard.on('keydown-S', () => {
+          console.log(Phaser.Input.Keyboard.KeyCodes);
+          this.submarino.flipX = false;
+        });
+        
   
      
       //this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
