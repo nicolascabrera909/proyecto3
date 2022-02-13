@@ -72,16 +72,16 @@ class Menu extends Phaser.Scene {
             this.scene.start('Game' );
         }.bind(this));
 
-        /*
-        // Options
+        
+        // Help
         this.optionsButton = this.add.sprite(300, 200, 'blueButton1').setInteractive();
         this.centerButton(this.optionsButton);
         this.optionsText = this.add.text(0, 0, 'Opciones', { fontSize: '15px', fill: '#fff' });
         this.centerButtonText(this.optionsText, this.optionsButton);
         this.optionsButton.on('pointerdown', function (pointer) {
-            this.scene.start('Configuration');
+            this.scene.start('Help');
         }.bind(this));
-        */
+        
 
         // creditos
         this.creditsButton = this.add.sprite(300, 200, 'blueButton1').setInteractive();
