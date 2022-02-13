@@ -54,7 +54,7 @@ class Menu extends Phaser.Scene {
     preload(){
         //var music = this.sound.add('audio_menu');
         this.load.audio('audio_menu', [
-            './static/assets/audio/Dangerous.mp3',
+            './static/assets/audio/menu.mp3',
         ]);
     }
     
