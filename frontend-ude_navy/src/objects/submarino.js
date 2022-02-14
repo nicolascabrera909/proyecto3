@@ -10,7 +10,7 @@ class Submarino {
       this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
       this.submarino.setDisplaySize(50, 10)
      // this.submarino.setOrigen(0,0);
-      //this.submarino.flipX=true;
+      this.submarino.flipX=true;
       //this.scene.physics.add.collider(this.cuerpo[0], this.cuerpo[i], () => this.choca());
       
     }

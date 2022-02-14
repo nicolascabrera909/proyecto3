@@ -9,6 +9,11 @@ class Game extends Phaser.Scene {
       super('Game');
       console.log("Game cargado");
   }
+
+  getUsersName(){
+    // esto debe venir de la escena previa que es donde cargan sus datos
+    return ['Pepe','Maria'];   
+  }
   
 
   loadImages(){
@@ -36,7 +41,10 @@ class Game extends Phaser.Scene {
     this.destructor = new Destructor(this);
     this.loadImages();
       //this.load.html('nameform', './static/assets/html/loginform.html');
-    console.log("Game preload");
+    let users = [];
+    this.users = this.getUsersName();
+
+    
   }
 
   create ()
@@ -49,9 +57,13 @@ class Game extends Phaser.Scene {
     this.submarino.moveSubmarino();
     //this.destructor.moveDestructor();
 
-    this.physics.add.collider(this.submarino, this.destructor);
-    this.destructor = this.physics.add.image(400, 460, 'destructor').setImmovable();
+
     
+    this.label_jugador_uno = this.add.text(20, 60, 'Jugador uno: ' + this.users[0] , { font: '15px Arial', fill: '#000' })
+
+    this.label_jugador_dos = this.add.text(this.sys.game.config.width - 240, 60  , 'Jugador dos: ' +  this.users[1] , { font: '15px Arial', fill: '#000' })
+
+
   }
 
   update(){
