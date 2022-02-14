@@ -95,8 +95,8 @@ class Menu extends Phaser.Scene {
        
         //Poner imagen en lugar de un check (usar la de Tomas pero hay que achicarla)
         this.soundOn = false;
-        this.soundText = this.add.text(this.sys.game.config.width/2 , 300, 'Sonido', { fontSize: 14 });
-        this.soundButton = this.add.sprite(this.sys.game.config.width/2 - 30, 310, 'unchecked');
+        this.soundText = this.add.text(400 , 385, 'Sonido', { fontSize: 14 });
+        this.soundButton = this.add.sprite(370, 390, 'unchecked');
         this.soundButton.setInteractive();
 
         this.soundButton.on('pointerdown', function () {

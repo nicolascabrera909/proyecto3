@@ -1,6 +1,6 @@
 * {
     margin: 100;
-    padding: 0;
+    padding: 10;
  
 }
 body {
@@ -9,9 +9,7 @@ body {
     background-color: #5e6b77;
 }
 #container{
-    margin-top: 100px;
-    transform: scale(2);
-    
+    margin-top: 10px;
 }
 
 .home{

@@ -11,43 +11,67 @@ class Submarino {
       this.submarino.setDisplaySize(50, 10)
      // this.submarino.setOrigen(0,0);
       this.submarino.flipX=true;
+      this.submarino.setCollideWorldBounds(true);
       //this.scene.physics.add.collider(this.cuerpo[0], this.cuerpo[i], () => this.choca());
       
     }
     
     moveSubmarino(){
-  
-        /*mover derecha*/
-        this.scene.input.keyboard.on('keydown-RIGHT', () => {
-          //console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.x += 10;
-        });
-        /*mover izquierda*/
-        this.scene.input.keyboard.on('keydown-LEFT', () => {
-          //console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.x -= 10; 
-        });
-        /*mover arriba*/
-        this.scene.input.keyboard.on('keydown-UP', () => {
-         // console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.y -= 10;
-        });
-        /*mover abajo*/
-        this.scene.input.keyboard.on('keydown-DOWN', () => {
-         // console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.y += 10;
-        });
-        /*giro izquierda*/
-        this.scene.input.keyboard.on('keydown-A', () => {
-         // console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.flipX = true;
-        });
-         /*giro derecha*/
-         this.scene.input.keyboard.on('keydown-S', () => {
-          console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.flipX = false;
-        });
-        
+      this.cursors = this.scene.input.keyboard.createCursorKeys();
+      if (this.submarino) {
+        if (this.cursors.left.isDown) {
+          this.submarino.setAngularVelocity(-100)
+        } else if (this.cursors.right.isDown) {
+          this.submarino.setAngularVelocity(100)
+        } else {
+          this.submarino.setAngularVelocity(0)
+        }
+        const velX = Math.cos((this.submarino.angle - 360) * 0.01745)
+        const velY = Math.sin((this.submarino.angle - 360) * 0.01745)
+        if (this.cursors.down.isDown) {
+          this.submarino.setVelocityX(200 * velX)
+          this.submarino.setVelocityY(200 * velY)
+        } else if (this.cursors.up.isDown) {
+          this.submarino.setVelocityX(-100 * velX)
+          this.submarino.setVelocityY(-100 * velY)
+        } else {
+          this.submarino.setAcceleration(0)
+          this.submarino.setVelocityY(0)
+          this.submarino.setVelocityX(0)
+         }
+        }
+      //////////////
+        // /*mover derecha*/
+        // this.scene.input.keyboard.on('keydown-RIGHT', () => {
+        //   //console.log(Phaser.Input.Keyboard.KeyCodes);
+        //   this.submarino.x += 10;
+        // });
+        // /*mover izquierda*/
+        // this.scene.input.keyboard.on('keydown-LEFT', () => {
+        //   //console.log(Phaser.Input.Keyboard.KeyCodes);
+        //   this.submarino.x -= 10; 
+        // });
+        // /*mover arriba*/
+        // this.scene.input.keyboard.on('keydown-UP', () => {
+        //  // console.log(Phaser.Input.Keyboard.KeyCodes);
+        //   this.submarino.y -= 10;
+        // });
+        // /*mover abajo*/
+        // this.scene.input.keyboard.on('keydown-DOWN', () => {
+        //  // console.log(Phaser.Input.Keyboard.KeyCodes);
+        //   this.submarino.y += 10;
+        // });
+        // /*giro izquierda*/
+        // this.scene.input.keyboard.on('keydown-A', () => {
+        //  // console.log(Phaser.Input.Keyboard.KeyCodes);
+        //   this.submarino.flipX = true;
+        // });
+        //  /*giro derecha*/
+        //  this.scene.input.keyboard.on('keydown-S', () => {
+        //   console.log(Phaser.Input.Keyboard.KeyCodes);
+        //   this.submarino.flipX = false;
+        // });
+    //////////////
   
      
       //this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);

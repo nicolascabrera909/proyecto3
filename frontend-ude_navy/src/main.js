@@ -15,8 +15,8 @@ import UI from "./scenes/UI.js";
 // CONFIG BASICA
 const config = {
     title: 'Snake',
-    width: 600,
-    height: 400,
+    width: 800,
+    height: 600,
     type: Phaser.AUTO, // ESTO ES PARA CANVAS O WEBGL
     parent: 'container', // hacemos ref al div donde se va a dibugar el juego
     //backgroundColor: '#f9ca24',
