@@ -12,7 +12,7 @@ class Submarino {
      // this.submarino.setOrigen(0,0);
       //this.submarino.flipX=true;
       //this.scene.physics.add.collider(this.cuerpo[0], this.cuerpo[i], () => this.choca());
-      this.submarino.setCollideWorldBounds(true);
+      
     }
     
     moveSubmarino(){
@@ -20,22 +20,22 @@ class Submarino {
         /*mover derecha*/
         this.scene.input.keyboard.on('keydown-RIGHT', () => {
           //console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.x += 1;
+          this.submarino.x += 10;
         });
         /*mover izquierda*/
         this.scene.input.keyboard.on('keydown-LEFT', () => {
           //console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.x -= 1; 
+          this.submarino.x -= 10; 
         });
         /*mover arriba*/
         this.scene.input.keyboard.on('keydown-UP', () => {
          // console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.y -= 1;
+          this.submarino.y -= 10;
         });
         /*mover abajo*/
         this.scene.input.keyboard.on('keydown-DOWN', () => {
          // console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.y += 1;
+          this.submarino.y += 10;
         });
         /*giro izquierda*/
         this.scene.input.keyboard.on('keydown-A', () => {

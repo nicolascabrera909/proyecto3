@@ -1,6 +1,7 @@
 //imoprto archivos
 import Submarino from "../objects/submarino.js";
 import Carguero  from "../objects/carguero.js";
+import Destructor  from "../objects/destructor.js";
 
 
 class Game extends Phaser.Scene {
@@ -24,12 +25,7 @@ class Game extends Phaser.Scene {
 
   
 
-  showDestructor(){
-    //this.add.image(this.sys.game.config.width -480, this.sys.game.config.height -250, 'destructor').setDisplaySize(37, 13).setOrigin(-5, -3);
-    var randomX = Phaser.Math.Between(50, 300);
-    var randomY = Phaser.Math.Between(50, this.sys.game.config.height-50);
-    this.add.image(randomX, randomY, 'destructor').setDisplaySize(50, 10);
-  }
+  
 
   
 
@@ -37,6 +33,7 @@ class Game extends Phaser.Scene {
   { 
     this.submarino = new Submarino(this);
     this.carguero = new Carguero(this);
+    this.destructor = new Destructor(this);
     this.loadImages();
       //this.load.html('nameform', './static/assets/html/loginform.html');
     console.log("Game preload");
@@ -46,10 +43,14 @@ class Game extends Phaser.Scene {
   { 
     console.log("mapa");
     this.showMap();
-    this.showDestructor();
+    this.destructor.showDestructor();
     this.submarino.showSubmarino();
     this.carguero.showCargueros();
     this.submarino.moveSubmarino();
+    //this.destructor.moveDestructor();
+
+    this.physics.add.collider(this.submarino, this.destructor);
+    this.destructor = this.physics.add.image(400, 460, 'destructor').setImmovable();
     
   }
 
