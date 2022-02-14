@@ -69,6 +69,7 @@ class Game extends Phaser.Scene {
   update(){
     this.background.tilePositionY -= 0.3;
     this.submarino.moveSubmarino();
+    this.destructor.moveDestructor();
   }
 }
 
