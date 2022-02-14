@@ -20,22 +20,22 @@ class Submarino {
         /*mover derecha*/
         this.scene.input.keyboard.on('keydown-RIGHT', () => {
           //console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.x += 10;
+          this.submarino.x += 1;
         });
         /*mover izquierda*/
         this.scene.input.keyboard.on('keydown-LEFT', () => {
           //console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.x -= 10; 
+          this.submarino.x -= 1; 
         });
         /*mover arriba*/
         this.scene.input.keyboard.on('keydown-UP', () => {
          // console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.y -= 10;
+          this.submarino.y -= 1;
         });
         /*mover abajo*/
         this.scene.input.keyboard.on('keydown-DOWN', () => {
          // console.log(Phaser.Input.Keyboard.KeyCodes);
-          this.submarino.y += 10;
+          this.submarino.y += 1;
         });
         /*giro izquierda*/
         this.scene.input.keyboard.on('keydown-A', () => {
