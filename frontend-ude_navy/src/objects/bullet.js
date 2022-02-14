@@ -7,6 +7,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
 
     fire (x, y)
     {
+        console.log('entro a fire');
         this.body.reset(x, y);
 
         this.setActive(true);
@@ -17,6 +18,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
 
     preUpdate (time, delta)
     {
+        console.log('entro a preupdate');
         super.preUpdate(time, delta);
 
         if (this.y <= -32)

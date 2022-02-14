@@ -2,7 +2,7 @@
 import Submarino from "../objects/submarino.js";
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
-import Bullets from "../objects/bullets.js"
+import Bullets from "../objects/bullets.js";
 
 
 class Game extends Phaser.Scene {
@@ -57,6 +57,7 @@ class Game extends Phaser.Scene {
     this.submarino.showSubmarino();
     this.carguero.showCargueros();
 
+
     //this.destructor.moveDestructor();
 
 
@@ -66,6 +67,7 @@ class Game extends Phaser.Scene {
     this.background.tilePositionY -= 0.3;
     this.submarino.moveSubmarino();
     this.destructor.moveDestructor();
+    this.bullets.shootBullets(this.submarino);
   }
 }
 

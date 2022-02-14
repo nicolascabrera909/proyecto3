@@ -1,5 +1,3 @@
-import Bullets from "./bullets";
-
 class Submarino {
     constructor(scene){
         this.scene = scene;

@@ -1,4 +1,4 @@
-import Bullet from "./bullet";
+import Bullet from "./bullet.js";
 
 class Bullets extends Phaser.Physics.Arcade.Group
 {
@@ -17,12 +17,24 @@ class Bullets extends Phaser.Physics.Arcade.Group
 
     fireBullet (x, y)
     {
+        console.log('entro a fireBullet');
         let bullet = this.getFirstDead(false);
 
         if (bullet)
         {
             bullet.fire(x, y);
         }
+    }
+
+    shootBullets (ship){
+        console.log('shootBullets entre');
+        this.scene.input.on('pointermove', (pointer) => {
+            ship.x = pointer.x;
+        });
+
+        this.scene.input.on('pointerdown', (pointer) => {
+            this.fireBullet(ship.x, ship.y);
+        });
     }
 }
 
