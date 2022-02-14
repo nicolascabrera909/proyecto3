@@ -1,3 +1,5 @@
+import Bullets from "./bullets";
+
 class Submarino {
     constructor(scene){
         this.scene = scene;
@@ -94,6 +96,7 @@ class Submarino {
       //this.ball.setBounce(1)
       //this.cursors = this.input.keyboard.createCursorKeys()
     }
+
 
 }
 
