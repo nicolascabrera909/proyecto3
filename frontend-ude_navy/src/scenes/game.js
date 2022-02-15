@@ -74,6 +74,7 @@ class Game extends Phaser.Scene {
     this.destructor.create();
     this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.algo, null, this);
     this.destructor.moveDestructor();
+    
 
  
    //marcador del juego

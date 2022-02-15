@@ -1,3 +1,5 @@
+import Torpedo from "./torpedo.js";
+
 class Submarino extends Phaser.GameObjects.Sprite {
   //anterior
   /*constructor(scene){
@@ -50,10 +52,18 @@ class Submarino extends Phaser.GameObjects.Sprite {
 
     }
     
+    
     shootTorpedo(){
-      var torpedo=this.scene.physics.add.image(this.submarino.x,this.submarino.y,'torpedo');
-      torpedo.setVelocity(-100,0);
+      //let torpedo = this.scene.add.existing(new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo'));
+      this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
+      this.torpedo.create();
     }
+
+    /*
+    algo(){
+      console.log('pego el torpedo');
+    }
+    */
 
     moveSubmarino(){
       this.cursors = this.scene.input.keyboard.createCursorKeys();
