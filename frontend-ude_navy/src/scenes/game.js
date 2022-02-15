@@ -2,7 +2,7 @@
 import Submarino from "../objects/submarino.js";
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
-import Bullets from "../objects/bullets.js";
+//import Bullets from "../objects/bullets.js";
 
 
 class Game extends Phaser.Scene {
@@ -23,7 +23,7 @@ class Game extends Phaser.Scene {
     this.load.image('submarino', './static/assets/img/submarino1.png');
     this.load.image('carguero', './static/assets/img/carguero1.png');
     this.load.image('mapa_principal', './static/assets/img/mapa_principal.png');
-    this.load.image('bullets', './static/assets/img/checkbox_unchecked.png');
+    this.load.image('torpedo', './static/assets/img/torpedo.png');
   }
 
   showMap() {
@@ -41,7 +41,7 @@ class Game extends Phaser.Scene {
     this.submarino = new Submarino(this);
     this.carguero = new Carguero(this);
     this.destructor = new Destructor(this);
-    this.bullets = new Bullets(this);
+    //this.bullets = new Bullets(this);
     this.loadImages();
     //this.load.html('nameform', './static/assets/html/loginform.html');
     let users = [];
@@ -52,11 +52,12 @@ class Game extends Phaser.Scene {
 
   create() {
     console.log("mapa");
+    
     this.showMap();
     this.destructor.showDestructor();
     this.submarino.showSubmarino();
     this.carguero.showCargueros();
-
+    
 
     //this.destructor.moveDestructor();
 
@@ -64,10 +65,11 @@ class Game extends Phaser.Scene {
   }
 
   update() {
+    //let cursors = this.input.keyboard.createCursorKeys();
     this.background.tilePositionY -= 0.3;
     this.submarino.moveSubmarino();
-    this.destructor.moveDestructor();
-    this.bullets.shootBullets(this.submarino);
+    //this.destructor.moveDestructor();
+    //this.bullets.shootBullets(this.submarino);
   }
 }
 

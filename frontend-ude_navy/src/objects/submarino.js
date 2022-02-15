@@ -13,11 +13,21 @@ class Submarino {
       this.submarino.flipX=true;
       this.submarino.setCollideWorldBounds(true);
       //this.scene.physics.add.collider(this.cuerpo[0], this.cuerpo[i], () => this.choca());
-      
+      //this.cursorKeys=this.scene.input.keyboard.createCursorKeys();
+      this.spacebar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
     }
     
+    shootTorpedo(){
+      var torpedo=this.scene.physics.add.image(this.submarino.x,this.submarino.y,'torpedo');
+      torpedo.setVelocity(-100,0);
+    }
+
     moveSubmarino(){
       this.cursors = this.scene.input.keyboard.createCursorKeys();
+      if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
+        this.shootTorpedo();
+      }
       if (this.submarino) {
         if (this.cursors.left.isDown) {
           this.submarino.setAngularVelocity(-100)
