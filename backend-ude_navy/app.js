@@ -1,8 +1,13 @@
+//var Armamento from './services/Armament.js';
 const express = require('express')
 const app = express()
 const port = 3000
 const cors = require('cors');
 const { database } = require('./config');
+
+
+
+
 
 //CORS
 app.use(
@@ -27,3 +32,13 @@ app.use(require('./routes/index'));
 app.listen(port, () => {
   console.log(`Express Server is running on port ${port}`);
 })
+
+
+
+//prueba
+// let arma=new Armamento(10,15);
+
+ //console.log('armamento'+ arma);
+ //console.log("poder"+ arma.power);
+ //arma.power=200;
+ //console.log("poder"+arma.power);*/

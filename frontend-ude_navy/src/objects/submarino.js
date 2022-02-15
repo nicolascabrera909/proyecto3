@@ -16,7 +16,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
       this.submarino.setCollideWorldBounds(true);
       this.submarino.setDisplaySize(50, 10);
-      //this.submarino.flipX=true;
+      this.submarino.flipX=true;
       //this.submarino.setImmovable();
       
       this.spacebar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
