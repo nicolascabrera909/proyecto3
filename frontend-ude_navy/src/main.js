@@ -28,6 +28,9 @@ const config = {
         //    gravity: {y: 100}
         //}
     },
+
+   
+
     title: '1.0',
     scene: [Bootloader, Menu, Credits, Game, Help],
 }

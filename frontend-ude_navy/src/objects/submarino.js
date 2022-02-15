@@ -1,13 +1,22 @@
-class Submarino {
-    constructor(scene){
-        this.scene = scene;
-        
+class Submarino extends Phaser.GameObjects.Sprite {
+  //anterior
+  /*constructor(scene){
+       this.scene = scene;
+    }*/
+  constructor(scene,x,y,type){
+    super(scene,x,y,type);    
+    scene.add.existing(this);
+    scene.physics.world.enable(this);
+    this.scene = scene;
     }
 
+
     showSubmarino(){
+      
       var randomX = Phaser.Math.Between(400, this.scene.game.config.width-50);
       var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
-      this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
+      //this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
+      this.submarino = this.scene.physics.add.sprite(randomX, randomY, "submarino")
       this.submarino.setDisplaySize(50, 10)
      // this.submarino.setOrigen(0,0);
       this.submarino.flipX=true;
@@ -104,6 +113,8 @@ class Submarino {
       //this.ball.setBounce(1)
       //this.cursors = this.input.keyboard.createCursorKeys()
     }
+
+    
 
 
 }

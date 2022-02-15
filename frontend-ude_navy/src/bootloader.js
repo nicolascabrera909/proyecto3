@@ -17,7 +17,7 @@ class Bootloader extends Phaser.Scene {
         ]);
     
     }
-    loadImages () {
+    loadImages () { 
         this.load.image('logo', './static/assets/img/logo.jpeg');
         this.load.image('background', './static/assets/img/background.png');
         this.load.image('blueButton1', './static/assets/img/blue_button02.png');
@@ -88,7 +88,7 @@ class Bootloader extends Phaser.Scene {
             assetText.setText('cargando archivos: ' + file.key);
         });
 
-        // remove progress bar when complete
+        // remove progress bar when complete, cuando se cargo todo
         this.load.on('complete', function () {
             progressBar.destroy();
             progressBox.destroy();

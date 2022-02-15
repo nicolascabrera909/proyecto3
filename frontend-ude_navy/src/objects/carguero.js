@@ -1,8 +1,19 @@
-class Carguero {
-    constructor(scene){
-        this.scene = scene;
-        
+class Carguero extends Phaser.GameObjects.Sprite{
+    
+  
+  
+  constructor(scene,x,y,type){
+    super(scene,x,y,type);    
+    scene.add.existing(this);
+    scene.physics.world.enable(this);
+    this.scene = scene;
     }
+    //anterior
+    /*constructor(scene){
+              this.scene = scene;
+    }*/
+
+
     showCargueros(){
         var velocidad=2
         var randomX = Phaser.Math.Between(50, 200);
@@ -12,15 +23,18 @@ class Carguero {
         let i=0;
         for (i; i < 3; i++) {
           //this.add.image(this.sys.game.config.width -270, this.sys.game.config.height -230, 'carguero').setDisplaySize(19, 7).setOrigin(-x, -y);  
-          this.carguero=this.scene.physics.add.image(randomX, randomY, 'carguero').setDisplaySize(30, 10).setOrigin(x, y);  
+          this.carguero=this.scene.physics.add.sprite(randomX, randomY, 'carguero');
+         // this.carguero=this.scene.physics.add.image(randomX, randomY, 'carguero');
+          this.carguero.setDisplaySize(30, 10).setOrigin(x, y);  
           this.carguero.setCollideWorldBounds(true); 
           this.carguero.setVelocity(velocidad,0);
+          
           y=y+2;
         }
         x=x-2;
         y=y-2;
         for (i; i > 0; i--) {
-          //this.add.image(this.sys.game.config.width -270, this.sys.game.config.height -200, 'carguero').setDisplaySize(19, 7).setOrigin(-x, -y);
+           //this.add.image(this.sys.game.config.width -270, this.sys.game.config.height -200, 'carguero').setDisplaySize(19, 7).setOrigin(-x, -y);
           this.carguero=this.scene.physics.add.image(randomX, randomY, 'carguero').setDisplaySize(30, 10).setOrigin(x, y);
           this.carguero.setCollideWorldBounds(true); 
           this.carguero.setVelocity(velocidad,0);
