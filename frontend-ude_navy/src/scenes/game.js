@@ -33,7 +33,7 @@ class Game extends Phaser.Scene {
     this.load.image('carguero', './static/assets/img/carguero1.png');
     this.load.image('mapa_principal', './static/assets/img/mapa_principal.png');
     this.load.image('torpedo', './static/assets/img/torpedo.png');
-    this.load.image('canon', './static/assets/img/canon.png');
+    this.load.image('canon', './static/assets/img/cannon.png');
 
   }
 
