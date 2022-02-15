@@ -10,12 +10,14 @@ class Game extends Phaser.Scene {
     super('Game');
     console.log("Game cargado");
     this.score_value = 0
+    this.cant_torpedos_enviados = 0;
+    this.cant_canones_enviados = 0;
+
     
   }
 
   init() {
-    
-    this.score = 0;
+  
   }
 
 
@@ -31,6 +33,8 @@ class Game extends Phaser.Scene {
     this.load.image('carguero', './static/assets/img/carguero1.png');
     this.load.image('mapa_principal', './static/assets/img/mapa_principal.png');
     this.load.image('torpedo', './static/assets/img/torpedo.png');
+    this.load.image('canon', './static/assets/img/canon.png');
+
   }
 
   showMap() {
@@ -42,6 +46,8 @@ class Game extends Phaser.Scene {
     this.score++;
     console.log("choco submarino");
   }
+
+
 
 
 
@@ -66,40 +72,74 @@ class Game extends Phaser.Scene {
     this.carguero.showCargueros();
    //this.destructor.moveDestructor();
     */
+
     this.showMap();
     this.carguero.showCargueros();
-    this.physics.world.setBoundsCollision(true, true, true, true);
+    this.physics.world.setBoundsCollision(true, true, true, false);
     this.submarino.create();
     this.destructor.create();
-    this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.algo(), null, this);
+    this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.algo, null, this);
+    //this.physics.add.collider(this.torpedo.get(), this.destructor.get(), this.algo, null, this);
     this.destructor.moveDestructor();
     
 
+    this.createTorpedoLabel();
+    this.createCanonLabel();
  
    //marcador del juego
     
-    this.scoreText = this.add.text(16, 16, 'PUNTOS:' + this.score_value, { 
+    
+
+
+
+  }
+
+  
+
+  algo(){
+    console.log('pego')
+  }
+
+
+
+  /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
+
+  createTorpedoLabel(){
+    this.torpedos_quantity = this.add.text(16, 16, 'Torpedos: ' + this.cant_torpedos_enviados, { 
       fontSize: '20px', 
       fill: '#fff', 
       fontFamily: 'verdana, arial, sans-serif' 
     });
 
+  }
 
+  updateTorpedoStatics() {
+    this.torpedos_quantity.setText("Torpedos: " + this.cant_torpedos_enviados);
+  }
+
+  createCanonLabel(){
+    this.canon_quantity = this.add.text(16, 40, 'Cañon: ' + this.cant_canones_enviados, { 
+      fontSize: '20px', 
+      fill: '#fff', 
+      fontFamily: 'verdana, arial, sans-serif' 
+    });
 
   }
 
-  algo(){
-    console.log('Contacto destructor con sumarino');
-    this.destructor.destroy();
-    this.submarino.destroy();
+  updateCanonStatics() {
+    this.canon_quantity.setText("Cañon: " + this.cant_canones_enviados);
   }
+
+  /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7
+
+
 
   update() {
-    //let cursors = this.input.keyboard.createCursorKeys();
     this.background.tilePositionY -= 0.3;
     this.submarino.moveSubmarino();
-    //this.destructor.moveDestructor();
-    //this.bullets.shootBullets(this.submarino);
+    this.updateTorpedoStatics();
+    this.updateCanonStatics();
+
   }
 
  

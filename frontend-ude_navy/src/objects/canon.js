@@ -1,4 +1,4 @@
-class Torpedo extends Phaser.GameObjects.Sprite {
+class Canion extends Phaser.GameObjects.Sprite {
 
     constructor(scene,x,y,type){
       super(scene,x,y,type);    
@@ -7,18 +7,17 @@ class Torpedo extends Phaser.GameObjects.Sprite {
       this.scene = scene;
       this.pos_x = x;
       this.pos_y = y;
-      this.quantity = 0
 
     }
 
     get() {
-        return this.torpedo;
+        return this.canon;
       }
 
     createShoot(){
-        this.torpedo = this.scene.physics.add.image(this.pos_x, this.pos_y,'torpedo');
+        this.canon = this.scene.physics.add.image(this.pos_x, this.pos_y,'canon');
         //this.torpedo.setCollideWorldBounds(true);
-        this.torpedo.setVelocity(-100,0);
+        this.canon.setVelocity(-100,0);
     }
 
     create(x,y){
@@ -30,14 +29,14 @@ class Torpedo extends Phaser.GameObjects.Sprite {
     // VER SI VALE LA PENA YA QUE ES UNA VARIABLE QUE HAY EN GAME, SI ES PROLIJO HACERLO ASI
 
     set_quantity(){
-        this.scene.cant_torpedos_enviados  += 1;
+        this.scene.cant_canones_enviados  += 1;
     }
 
     get_quantity(){
-        return this.scene.cant_torpedos_enviados;
+        return this.scene.cant_canones_enviados;
     }
 
   
 }
 
-export default Torpedo;
+export default Canion;

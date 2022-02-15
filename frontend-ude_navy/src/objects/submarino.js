@@ -1,4 +1,5 @@
 import Torpedo from "./torpedo.js";
+import Canion from "./canon.js";
 
 class Submarino extends Phaser.GameObjects.Sprite {
   //anterior
@@ -18,7 +19,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
       this.submarino.setCollideWorldBounds(true);
       this.submarino.setDisplaySize(50, 10);
-      this.submarino.flipX=true;
+      //this.submarino.flipX=true;
       //this.submarino.setImmovable();
       
       this.spacebar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -33,6 +34,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.destroy;
     }
 
+    /*
     showSubmarino(){
       // no se esta usando
       var randomX = Phaser.Math.Between(400, this.scene.game.config.width-50);
@@ -51,12 +53,20 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.spacebar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     }
+    */
+    
     
     
     shootTorpedo(){
-      //let torpedo = this.scene.add.existing(new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo'));
       this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
+      this.torpedo.setVisible(false);
       this.torpedo.create();
+    }
+
+    shootCannon(){
+      this.canon = new Canion(this.scene, this.submarino.x, this.submarino.y, 'canon')
+      this.canon.setVisible(false);
+      this.canon.create();
     }
 
     /*
@@ -69,7 +79,11 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.cursors = this.scene.input.keyboard.createCursorKeys();
       if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
         this.shootTorpedo();
+        //this.shootCannon();
       }
+      this.scene.input.keyboard.on('keydown-A', () => {
+        this.shootCannon();
+      });
       if (this.submarino) {
         if (this.cursors.left.isDown) {
           this.submarino.setAngularVelocity(-100)
