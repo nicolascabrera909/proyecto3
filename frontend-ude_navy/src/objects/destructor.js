@@ -4,11 +4,32 @@ class Destructor {
         
     }
 
+    create(){
+      var randomX = Phaser.Math.Between(50, 300);
+      var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
+      this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
+      this.destructor.setBounce(1);
+      this.destructor.setDisplaySize(50, 10);
+      this.destructor.setCollideWorldBounds(true);
+      this.destructor.setImmovable();
+    }
+
+    get(){
+      return this.destructor;
+    }
+
+    
+    destroy(){
+      this.destroy;
+    }
+
     showDestructor(){
+        // no se esta usando
         //this.add.image(this.sys.game.config.width -480, this.sys.game.config.height -250, 'destructor').setDisplaySize(37, 13).setOrigin(-5, -3);
         var randomX = Phaser.Math.Between(50, 300);
         var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
         this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
+        this.destructor.setBounce(1);
         this.destructor.setDisplaySize(50, 10);
         this.destructor.setCollideWorldBounds(true);
 

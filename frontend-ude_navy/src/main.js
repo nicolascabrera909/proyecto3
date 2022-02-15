@@ -23,10 +23,9 @@ const config = {
     pixelArt: true, // carga el liezo
     physics: {
         default: "arcade",
-        //esto es para probar que funcionan las prop physics
-        //arcade: {
-        //    gravity: {y: 100}
-        //}
+        arcade: {
+            debug: false
+          }
     },
 
    

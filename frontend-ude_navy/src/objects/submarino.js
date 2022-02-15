@@ -10,17 +10,40 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.scene = scene;
     }
 
+    create(){
+      var randomX = Phaser.Math.Between(400, this.scene.game.config.width-50);
+      var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
+      this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
+      this.submarino.setCollideWorldBounds(true);
+      this.submarino.setDisplaySize(50, 10);
+      //this.submarino.flipX=true;
+      //this.submarino.setImmovable();
+      
+      this.spacebar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    }
+    
+    get() {
+      return this.submarino;
+    }
+
+    destroy(){
+      this.destroy;
+    }
 
     showSubmarino(){
-      
+      // no se esta usando
       var randomX = Phaser.Math.Between(400, this.scene.game.config.width-50);
       var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
       //this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
-      this.submarino = this.scene.physics.add.sprite(randomX, randomY, "submarino")
+      this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
+      this.submarino.setCollideWorldBounds(true);
+
+      
       this.submarino.setDisplaySize(50, 10)
      // this.submarino.setOrigen(0,0);
       this.submarino.flipX=true;
-      this.submarino.setCollideWorldBounds(true);
+      //this.submarino.setCollideWorldBounds(true);
       //this.scene.physics.add.collider(this.cuerpo[0], this.cuerpo[i], () => this.choca());
       //this.cursorKeys=this.scene.input.keyboard.createCursorKeys();
       this.spacebar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);

@@ -9,8 +9,15 @@ class Game extends Phaser.Scene {
   constructor() {
     super('Game');
     console.log("Game cargado");
+    this.score_value = 0
     
   }
+
+  init() {
+    
+    this.score = 0;
+  }
+
 
   getUsersName() {
     // esto debe venir de la escena previa que es donde cargan sus datos
@@ -35,15 +42,6 @@ class Game extends Phaser.Scene {
     this.score++;
     console.log("choco submarino");
   }
-/*
-  algoPasa(carguero,defensa){
-    console.log("algo pasa");
-  }
-  init() {
-    this.score = 0;
-  }*/
-
-  
 
 
 
@@ -60,30 +58,40 @@ class Game extends Phaser.Scene {
   }
 
   create() {
+    /*
     console.log("mapa");
     this.showMap();
     this.destructor.showDestructor();
     this.submarino.showSubmarino();
     this.carguero.showCargueros();
    //this.destructor.moveDestructor();
- 
+    */
+
+    this.showMap();
+    this.carguero.showCargueros();
+    this.physics.world.setBoundsCollision(true, true, true, false);
+    this.submarino.create();
+    this.destructor.create();
+    this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.algo, null, this);
+    this.destructor.moveDestructor();
+
  
    //marcador del juego
-    this.scoreText = this.add.text(16, 16, 'PUNTOS: 0', { 
+    
+    this.scoreText = this.add.text(16, 16, 'PUNTOS:' + this.score_value, { 
       fontSize: '20px', 
       fill: '#fff', 
       fontFamily: 'verdana, arial, sans-serif' 
     });
 
-    
-    //fisicas del juego
-   // this.physics.add.collider(this.carguero, this.submarino, this.choca ,null,this);    
-    this.physics.add.collider(this.submarino,this.carguero,this.choca,null,this);
-
-    //this.submarino.chocarSumarino(this.submarino,this.carguero);
-  
 
 
+  }
+
+  algo(){
+    console.log('asd');
+    this.destructor.destroy();
+    this.submarino.destroy();
   }
 
   update() {
