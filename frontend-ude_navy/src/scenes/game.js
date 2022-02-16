@@ -44,11 +44,11 @@ class Game extends Phaser.Scene {
          if (players[id].playerId === this.socket.id) {
            if (this.option == 'submarino') {
              console.log("Es submarino");
-             this.submarino.create(players[id].playerId);
+             //this.submarino.create(players[id].playerId);
            }
            else
              console.log("Es destructor");
-             this.destructor.create(players[id]);
+             //this.destructor.create(players[id]);
          } else {
            //this.addOtherPlayers(players[id]);
          }
@@ -60,8 +60,8 @@ class Game extends Phaser.Scene {
 
      
 
-    //this.submarino.create();
-    //this.destructor.create();
+    this.submarino.create();
+    this.destructor.create();
     this.carguero.showCargueros();
     //creo los titulos de la cantidad de disparos realizados
     this.createTorpedoLabel();
