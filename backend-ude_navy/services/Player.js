@@ -1,26 +1,26 @@
-class Map {
+class Pleyer {
 
     /*Constructor*/
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
+    constructor(name,boatList) {
+        this.name = name;
+        this.boatList = boatList;
 
     }
 
     /*Geters and seters*/
-    getHeight() {
-        return this.height
+    getName() {
+        return this.name
     }
-    getWidth() {
-        return this.width
+    getBoatList() {
+        return this.boatList
     }
-    setHeight(height) {
-         this.height=height;
+    setName(name) {
+         this.name=name;
     }
-    setWidth(width) {
-         this.width=width;
+    setBoatList(boatList) {
+         this.boatList=boatList;
     }
 
 
 }
-export default Map;
+export default Pleyer;
