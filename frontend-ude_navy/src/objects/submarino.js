@@ -1,5 +1,6 @@
 import Torpedo from "./torpedo.js";
 import Canion from "./canon.js";
+import Bullets from "./bullets.js";
 
 class Submarino extends Phaser.GameObjects.Sprite {
   //anterior
@@ -73,6 +74,11 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.canon.create();
     }
 
+    shootBullet(){
+      this.bullet = new Bullets();
+      this.bullet.fireBullet(this.x, this.y);
+    }
+
     /*
     algo(){
       console.log('pego el torpedo');
@@ -92,6 +98,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
         }
         else if (keyA.isDown){
           this.shootCannon();
+          //this.shootBullet(this.x, this.y);
         }
         if (this.submarino) {
           if (this.cursors.left.isDown) {
