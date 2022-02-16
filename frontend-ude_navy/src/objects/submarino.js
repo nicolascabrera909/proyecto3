@@ -15,7 +15,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.is_destroyed = false
     }
 
-    create(){
+    create(playerInfo){
+      console.log(playerInfo);
       var randomX = Phaser.Math.Between(400, this.scene.game.config.width-50);
       var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
       this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
@@ -23,9 +24,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.submarino.setDisplaySize(50, 10);
       this.submarino.flipX=true;
       //this.submarino.setImmovable();
-      
       this.spacebar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
     }
     
     get() {
