@@ -48,8 +48,10 @@ class Game extends Phaser.Scene {
 
 
 
+    /*Seteo donde va a escuchar el soket*/
+    this.socket = io("http://localhost:5500");
+    
     //Listen for web socket events
-    this.socket = io("http://localhost:3000");
     this.socket.on('currentPlayers', function (players) {
       Object.keys(players).forEach(function (id) {
         if (players[id].playerId === this.socket.id) {
@@ -152,7 +154,10 @@ class Game extends Phaser.Scene {
     // esto debe venir de la escena previa que es donde cargan sus datos
     return ['Pepe', 'Maria'];
   }
-
+/**Cargo el bando que selecciono el usuario */
+  init(data){
+    this.option = data.option;
+  }
 
 
   // camera() {

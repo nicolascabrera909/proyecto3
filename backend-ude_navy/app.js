@@ -22,7 +22,7 @@ const io = socketIO(server, {
   }
 });
 
-/**Metodo de escucha  */
+/**Metodo de escucha de funcion conectar */
 io.on('connection', function (socket) {
   console.log('Usuario conectado: ', socket.id);
 console.log(arrayPlayers.length);
