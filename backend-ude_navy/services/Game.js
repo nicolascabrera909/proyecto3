@@ -21,7 +21,7 @@ class Game {
     setPlayerList(playerList) {
         this.playerList = playerList;
     }
-    setIdMap(metros) {
+    setIdMap(idMap) {
         this.idMap = idMap;
     }
     setIdDifficulty(idDifficulty) {

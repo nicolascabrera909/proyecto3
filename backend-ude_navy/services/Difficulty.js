@@ -32,22 +32,22 @@ class Difficulty {
      
 
 
-    setMultiplierMap() {
+    setMultiplierMap(multiplierMap) {
          this.multiplierMap=multiplierMap;
     }
-    setMultiplierLife() {
+    setMultiplierLife(multiplierLife) {
          this.multiplierLife=multiplierLife;
     }
-    setMultiplierPower() {
+    setMultiplierPower(multiplierPower) {
          this.multiplierPower=multiplierPower;
     }
-    setMultiplierVisibility() {
+    setMultiplierVisibility(multiplierVisibility) {
          this.multiplierVisibility=multiplierVisibility;
     }
-    setMultiplierSpeed() {
+    setMultiplierSpeed(multiplierSpeed) {
          this.multiplierSpeed=multiplierSpeed;
     }
-    setMultiplierDistance() {
+    setMultiplierDistance(multiplierDistance) {
          this.multiplierDistance=multiplierDistance;
     }
 
