@@ -75,16 +75,16 @@ class Game extends Phaser.Scene {
 
     this.showMap();
     this.carguero.showCargueros();
-    this.physics.world.setBoundsCollision(true, true, true, false);
+    this.physics.world.setBoundsCollision(true, true, true, true);
     this.submarino.create();
     this.destructor.create();
     this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.algo, null, this);
     //this.physics.add.collider(this.torpedo.get(), this.destructor.get(), this.algo, null, this);
     this.destructor.moveDestructor();
-    
-
     this.createTorpedoLabel();
     this.createCanonLabel();
+
+
  
    //marcador del juego
     
