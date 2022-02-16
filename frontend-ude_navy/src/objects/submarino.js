@@ -7,6 +7,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
   /*constructor(scene){
        this.scene = scene;
     }*/
+
   constructor(scene, x, y, type) {
     super(scene, x, y, type);
     scene.add.existing(this);
