@@ -7,7 +7,7 @@ class Torpedo extends Phaser.GameObjects.Sprite {
       this.scene = scene;
       this.pos_x = x;
       this.pos_y = y;
-      this.quantity = 0
+      this.quantity = 0;
 
     }
 

@@ -77,13 +77,17 @@ class Submarino extends Phaser.GameObjects.Sprite {
 
     moveSubmarino(){
       this.cursors = this.scene.input.keyboard.createCursorKeys();
+      var keyA = this.scene.input.keyboard.addKey('A');
+      this.key = this.scene.input.keyboard.addKeys({
+        'A': Phaser.Input.Keyboard.KeyCodes.A
+      });
       if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
         this.shootTorpedo();
         //this.shootCannon();
       }
-      this.scene.input.keyboard.on('keydown-A', () => {
+      else if (keyA.isDown){
         this.shootCannon();
-      });
+      }
       if (this.submarino) {
         if (this.cursors.left.isDown) {
           this.submarino.setAngularVelocity(-100)
