@@ -49,8 +49,8 @@ class Game extends Phaser.Scene {
 
 
     /*Seteo donde va a escuchar el soket*/
-    this.socket = io("http://localhost:5500");
-    
+    this.socket = io("http://localhost:3000");
+
     //Listen for web socket events
     this.socket.on('currentPlayers', function (players) {
       Object.keys(players).forEach(function (id) {
@@ -91,7 +91,7 @@ class Game extends Phaser.Scene {
     this.background.tilePositionY -= 0.3;
     //movimientos  de sumarino y destructor
     this.submarino.moveSubmarino();
-    this.destructor.moveDestructor();
+   // this.destructor.moveDestructor();
     //actualiza los lanzamientos de torpedos y cañones
     this.updateTorpedoStatics();
     this.updateCanonStatics();
@@ -154,8 +154,9 @@ class Game extends Phaser.Scene {
     // esto debe venir de la escena previa que es donde cargan sus datos
     return ['Pepe', 'Maria'];
   }
-/**Cargo el bando que selecciono el usuario */
-  init(data){
+
+  /**Cargo el bando que selecciono el usuario */
+  init(data) {
     this.option = data.option;
   }
 
