@@ -11,6 +11,7 @@ class Destructor {
       this.destructor.setBounce(1);
       this.destructor.setDisplaySize(50, 10);
       this.destructor.setCollideWorldBounds(true);
+      this.destructor.flipX = true;
       this.destructor.setImmovable();
     }
 

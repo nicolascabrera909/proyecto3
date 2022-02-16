@@ -38,14 +38,12 @@ class Game extends Phaser.Scene {
     this.submarino.create();
     this.destructor.create();
     this.carguero.showCargueros();
-    
-    this.destructor.moveDestructor();
+    //creo los titulos de la cantidad de disparos realizados
     this.createTorpedoLabel();
     this.createCanonLabel();
-    
     //configuro las coliciones de los elementos entre si y los limites del mapa
     this.physics.world.setBoundsCollision(true, true, true, true);
-    this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.algo, null, this);
+    this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.accionColision, null, this);
     console.log(this.option);
 
 
@@ -89,12 +87,14 @@ class Game extends Phaser.Scene {
 
   update() {
     this.background.tilePositionY -= 0.3;
+    //movimientos  de sumarino y destructor
     this.submarino.moveSubmarino();
+    this.destructor.moveDestructor();
+    //actualiza los lanzamientos de torpedos y cañones
     this.updateTorpedoStatics();
     this.updateCanonStatics();
 
-
-
+    //----------> ver que hacer con el comentario, se borra
     //this.sys.game.cameras.follow(this.submarino,false); 
 
 
@@ -111,7 +111,7 @@ class Game extends Phaser.Scene {
     this.load.image('canon', './static/assets/img/cannon.png');
 
   }
-
+  /**Cargo el mapa */
   showMap() {
     this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'mapa_principal').setOrigin(0, 0);
 
@@ -137,18 +137,17 @@ class Game extends Phaser.Scene {
     //Fin Ejemplo*/
 
   }
-  
-  
-  algo() {
+
+  /**Accion a tomar en caso de colicion de destructor y submarino */
+  accionColision() {
     console.log('pego');
     this.submarino.destroy();
     this.destructor.destroy();
   }
 
-  init() {
-
-  }
-
+  /**Obtener usuario, ver si se va a usar.
+   * Ahora esta fijo
+   */
   getUsersName() {
     // esto debe venir de la escena previa que es donde cargan sus datos
     return ['Pepe', 'Maria'];
@@ -163,14 +162,13 @@ class Game extends Phaser.Scene {
   //   this.cameras.main.roundPixels = true; // avoid tile bleed
   // }
 
-  choca() {
-    this.score++;
-    console.log("choco submarino");
-  }
 
-  init(data) {
-    this.option = data.option;
-  }
+
+  ///////////////////////////////Manejo de usuario///////////////////////////////////////////
+
+
+  ///////////////////////////////Fin Manejo de usuario///////////////////////////////////////
+
 
 
   /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
