@@ -1,11 +1,17 @@
+
+/*Declaro variables o contantes*/
+
 //var Armamento from './services/Armament.js';
 const express = require('express')
 const app = express()
 const port = 3000
 const cors = require('cors');
 const { database } = require('./config');
+const players = {};
+const arrayPlayers=[];
 
-//SOCKET.IO
+
+/**SOCKET.IO configuracion**/
 const http = require('http');
 const socketIO = require('socket.io');
 const server = http.Server(app);
@@ -16,9 +22,7 @@ const io = socketIO(server, {
   }
 });
 
-const players = {};
-const arrayPlayers=[];
-
+/**Metodo de escucha  */
 io.on('connection', function (socket) {
   console.log('Usuario conectado: ', socket.id);
 console.log(arrayPlayers.length);
@@ -36,6 +40,7 @@ console.log(arrayPlayers.length);
     else {
       players[socket.id] = {
         // flipX: false,
+  
         // x: Math.floor(Math.random() * 400) + 50,
         // y: Math.floor(Math.random() * 500) + 50,
         playerId: socket.id
@@ -44,20 +49,22 @@ console.log(arrayPlayers.length);
       console.log("Jugador 2" + "\nX:" + players[socket.id].x + "\nY:" +players[socket.id].y);
     }
 
-  //Envio jugadores a nuevo jugador
+
+
+  //Envio jugadores a nuevo jugador, en este punto me comunico con el front
   socket.emit('currentPlayers', players);
   
-  //Actualizo a todos los jugadores sobre nuevo jugador
+  //Actualizo a todos los jugadores sobre nuevo jugador,en este punto me comunico con el front
   socket.broadcast.emit('newPlayer', players[socket.id]);
 
-  //Al desconectarse un usuario, se lo borra de jugadores
+  //Al desconectarse un usuario, se lo borra de jugadores,en este punto me comunico con el front
   socket.on('disconnect', function () {
     console.log('Usuario desconectado: ', socket.id);
     delete players[socket.id];
     io.emit('playerDisconnected', socket.id);
   });
 
-  //Cuando se mueve un jugador se actualiza la informacion
+  //Cuando se mueve un jugador se actualiza la informacion,en este punto me comunico con el front
   socket.on('playerMovement', function (movementData) {
     players[socket.id].x = movementData.x;
     players[socket.id].y = movementData.y;
