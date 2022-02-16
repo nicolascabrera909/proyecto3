@@ -8,7 +8,7 @@ const { database } = require('./config');
 //SOCKET.IO
 const http = require('http');
 const socketIO = require('socket.io');
-var server = http.Server(app);
+const server = http.Server(app);
 const io = socketIO(server, {
   pingTimeout: 60000,
   cors: {
@@ -17,41 +17,58 @@ const io = socketIO(server, {
 });
 
 const players = {};
+const arrayPlayers=[];
 
 io.on('connection', function (socket) {
-  console.log('User connected: ', socket.id);
-  // create a new player and add it to our players object
-  
-  players[socket.id] = {
-    // flipX: false,
-    // x: Math.floor(Math.random() * 400) + 50,
-    // y: Math.floor(Math.random() * 500) + 50,
-    playerId: socket.id
-  };
-  
-  // send the players object to the new player
+  console.log('Usuario conectado: ', socket.id);
+console.log(arrayPlayers.length);
+  if(arrayPlayers.length < 2){
+    if(arrayPlayers.length == 0) {
+      players[socket.id] = {
+        // flipX: false,
+        // x: Math.floor(Math.random() * 400) + 50,
+        // y: Math.floor(Math.random() * 500) + 50,
+        playerId: socket.id
+      };
+      arrayPlayers[0]=players;
+      console.log("Jugador 1" + "\nX:" + players[socket.id].x + "\nY:" +players[socket.id].y);
+    }
+    else {
+      players[socket.id] = {
+        // flipX: false,
+        // x: Math.floor(Math.random() * 400) + 50,
+        // y: Math.floor(Math.random() * 500) + 50,
+        playerId: socket.id
+      };
+      arrayPlayers[1]=players;
+      console.log("Jugador 2" + "\nX:" + players[socket.id].x + "\nY:" +players[socket.id].y);
+    }
+
+  //Envio jugadores a nuevo jugador
   socket.emit('currentPlayers', players);
   
-  // update all other players of the new player
+  //Actualizo a todos los jugadores sobre nuevo jugador
   socket.broadcast.emit('newPlayer', players[socket.id]);
 
-  // when a player disconnects, remove them from our players object
+  //Al desconectarse un usuario, se lo borra de jugadores
   socket.on('disconnect', function () {
-    console.log('User disconnected: ', socket.id);
+    console.log('Usuario desconectado: ', socket.id);
     delete players[socket.id];
-    // emit a message to all players to remove this player
     io.emit('playerDisconnected', socket.id);
   });
 
-  // when a plaayer moves, update the player data
+  //Cuando se mueve un jugador se actualiza la informacion
   socket.on('playerMovement', function (movementData) {
     players[socket.id].x = movementData.x;
     players[socket.id].y = movementData.y;
-    players[socket.id].flipX = movementData.flipX;
-    // emit a message to all players about the player that moved
+    //players[socket.id].flipX = movementData.flipX;
     socket.broadcast.emit('playerMoved', players[socket.id]);
-    // console.log('user Moved: ', socket.id);
   });
+
+  }
+  else{
+    console.log("Juego completo. Intente mas tarde.");
+  }
 });
 
 //CORS
@@ -75,10 +92,8 @@ app.use(require('./routes/index'));
 
 //LISTEN
 server.listen(port, () => {
-  console.log(`Express Server is running on port ${port}`);
+  console.log(`Servidor Express corriendo en el puerto: ${port}`);
 })
-
-
 
 //prueba
 // let arma=new Armamento(10,15);
