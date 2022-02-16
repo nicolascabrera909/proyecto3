@@ -4,6 +4,7 @@ import Menu from "./scenes/menu.js";
 import Credits from "./scenes/credits.js";
 import Game from "./scenes/game.js";
 import Help from "./scenes/help.js";
+import Choose from "./scenes/choose.js";
 
 /*
  
@@ -31,7 +32,7 @@ const config = {
    
 
     title: '1.0',
-    scene: [Bootloader, Menu, Credits, Game, Help],
+    scene: [Bootloader, Menu, Credits, Game, Help, Choose],
 }
 
 new Phaser.Game(config); // forma de cargar phaser

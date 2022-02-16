@@ -40,17 +40,44 @@ class Game extends Phaser.Scene {
   showMap() {
     //this.add.image(0, 0, 'mapa_principal').setOrigin(0, 0);
     this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'mapa_principal').setOrigin(0, 0);
+ 
+   //Ejemplo
+    
+    // create the map
+    // this.map = this.make.tilemap({
+    //   key: 'map'
+    // });
+    
+    // first parameter is the name of the tilemap in tiled
+    // var tiles = this.map.addTilesetImage('spritesheet', 'tiles', 16, 16, 1, 2);
+    
+    // creating the layers
+    // this.map.createStaticLayer('Grass', tiles, 0, 0);
+    // this.map.createStaticLayer('Obstacles', tiles, 0, 0);
+    
+    // don't go out of the map
+    // this.physics.world.bounds.width = this.map.widthInPixels;
+    // this.physics.world.bounds.height = this.map.heightInPixels;
+    
+    //Fin Ejemplo
+  
   }
+
+  // camera() {
+  //   // limit camera to map
+  //   this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+  //   this.cameras.main.startFollow(this.player);
+  //   this.cameras.main.roundPixels = true; // avoid tile bleed
+  // }
 
   choca() {
     this.score++;
     console.log("choco submarino");
   }
 
-
-
-
-
+  init(data){
+    this.option = data.option;
+  }
 
   preload() {
     this.submarino = new Submarino(this,0,0,'submarino');
@@ -73,7 +100,10 @@ class Game extends Phaser.Scene {
    //this.destructor.moveDestructor();
     */
 
+    //this.updateCamera();
+    //this.cursors = this.input.keyboard.createCursorKeys();
     this.showMap();
+    console.log(this.option);
     this.carguero.showCargueros();
     this.physics.world.setBoundsCollision(true, true, true, true);
     this.submarino.create();

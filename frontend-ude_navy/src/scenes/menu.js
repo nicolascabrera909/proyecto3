@@ -1,4 +1,3 @@
-
 class Menu extends Phaser.Scene {
     constructor() {
         super('Menu');
@@ -74,7 +73,7 @@ class Menu extends Phaser.Scene {
         this.gameText = this.add.text(0, 0, 'Jugar', { fontSize: '15px', fill: '#fff' });
         this.centerButtonText(this.gameText, this.gameButton);
         this.gameButton.on('pointerdown', function (pointer) {
-            this.scene.start('Game' );
+            this.scene.start('Choose' );
         }.bind(this));
 
         
