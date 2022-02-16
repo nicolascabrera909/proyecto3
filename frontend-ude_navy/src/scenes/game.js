@@ -79,10 +79,13 @@ class Game extends Phaser.Scene {
     this.submarino.create();
     this.destructor.create();
     this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.algo, null, this);
-    //this.physics.add.collider(this.torpedo.get(), this.destructor.get(), this.algo, null, this);
+    //this.physics.add.collider(this.torpedo.get(),/ this.destructor.get(), this.algo, null, this);
     this.destructor.moveDestructor();
     this.createTorpedoLabel();
     this.createCanonLabel();
+
+    //this.sys.game.cameras.setBounds(0,0, this.sys.game.config.width, this.sys.game.config.height);
+    //this.sys.game.cameras.main.startFollow(this.submarino);
 
 
  
@@ -97,7 +100,9 @@ class Game extends Phaser.Scene {
   
 
   algo(){
-    console.log('pego')
+    console.log('pego');
+    this.submarino.destroy();
+    this.destructor.destroy();
   }
 
 
@@ -139,6 +144,11 @@ class Game extends Phaser.Scene {
     this.submarino.moveSubmarino();
     this.updateTorpedoStatics();
     this.updateCanonStatics();
+
+    
+
+    //this.sys.game.cameras.follow(this.submarino,false); 
+
 
   }
 

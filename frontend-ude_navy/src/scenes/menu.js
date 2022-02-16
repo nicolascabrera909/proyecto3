@@ -1,3 +1,4 @@
+
 class Menu extends Phaser.Scene {
     constructor() {
         super('Menu');
@@ -20,7 +21,10 @@ class Menu extends Phaser.Scene {
     loadBackground(){
         // se centra la imagen como logo para cuando inicia el juego
         //this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2 , 'background').setScale(0.5);
-        this.add.image(0, 0, 'background').setOrigin(0, 0)
+        let fondo = this.add.image(0, 0, 'background').setOrigin(0, 0);
+        this.align_class = new Align(this.sys.game);
+        this.align_class.scaleToGameW(fondo, 2);
+
     }
 
     helpText(){

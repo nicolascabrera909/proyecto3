@@ -20,7 +20,7 @@ class Destructor {
 
     
     destroy(){
-      this.destroy;
+      this.destructor.destroy();
     }
 
     showDestructor(){

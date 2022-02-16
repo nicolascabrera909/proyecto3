@@ -5,9 +5,9 @@ class Bootloader extends Phaser.Scene {
     }
 
     loadScripts () {
-        this.load.scripts('align', './static/assets/util/align.js')
-        this.load.scripts('align_grid', './static/assets/util/alignGrid.js')
-        this.load.scripts('UI', './static/assets/util/UIBlock.js')
+        this.load.scripts('align_custom', './src/util/align.js')
+        this.load.scripts('align_grid', './src/util/alignGrid.js')
+        this.load.scripts('UI', './src/util/UIBlock.js')
     }
     
     loadMusic () {
