@@ -1,32 +1,27 @@
-class Bullet extends Phaser.Physics.Arcade.Sprite
-{
-    constructor (scene, x, y)
-    {
+class Bullet extends Phaser.Physics.Arcade.Sprite{
+
+    constructor(scene, x, y) {
         super(scene, x, y, 'bullet');
     }
 
-    fire (x, y)
-    {
-        console.log('entro a fire');
+    fire (x, y) {
         this.body.reset(x, y);
-
         this.setActive(true);
         this.setVisible(true);
-
-        this.setVelocityY(-300);
+        this.setScale(0.1);
+        this.setAngle(Phaser.Math.RadToDeg(z));
+        self.scene.physics.velocityFromRotation(z - (Math.PI/2), 600, this.body.velocity);
+        this.disable(this);
     }
 
-    preUpdate (time, delta)
-    {
-        console.log('entro a preupdate');
-        super.preUpdate(time, delta);
+    disable(self) {
+        setTimeout(function (){
+            self.setActive(false);
+            self.setVisible(false);
+        }, 300);
 
-        if (this.y <= -32)
-        {
-            this.setActive(false);
-            this.setVisible(false);
-        }
     }
+
 }
 
 export default Bullet;

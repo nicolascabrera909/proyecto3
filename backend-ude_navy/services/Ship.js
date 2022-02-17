@@ -1,4 +1,4 @@
-class Destructor extends Ship{
+class Ship extends Boat{
     
     /*Constructor*/
     constructor(time, depth) {
@@ -7,4 +7,4 @@ class Destructor extends Ship{
 
    
 }
-export default Destructor;
+export default Ship;

@@ -5,13 +5,16 @@ class Destructor {
     }
 
     create(){
+      console.log("Inicio crear destructor")
       var randomX = Phaser.Math.Between(50, 300);
       var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
       this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
       this.destructor.setBounce(1);
       this.destructor.setDisplaySize(50, 10);
       this.destructor.setCollideWorldBounds(true);
+      this.destructor.flipX = true;
       this.destructor.setImmovable();
+      console.log("Termino crear destructor")
     }
 
     get(){

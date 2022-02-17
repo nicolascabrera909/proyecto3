@@ -1,40 +1,30 @@
-import Bullet from "./bullet.js";
+class Bullets extends Phaser.Physics.Arcade.Group{
 
-class Bullets extends Phaser.Physics.Arcade.Group
-{
-    constructor (scene)
-    {
-        super(scene.physics.world, scene);
-
+    constructor (scene) {
+        super(this.scene.physics.world, scene);
         this.createMultiple({
-            frameQuantity: 5,
+            frameQuantity: 100,
             key: 'bullet',
             active: false,
             visible: false,
             classType: Bullet
-        });
+         });
+        this.available = true;
     }
 
-    fireBullet (x, y)
-    {
-        console.log('entro a fireBullet');
+    fireBullet (x, y) {
         let bullet = this.getFirstDead(false);
-
-        if (bullet)
-        {
+        if (bullet) {
+            this.disable(this);
             bullet.fire(x, y);
         }
     }
 
-    shootBullets (ship){
-        console.log('shootBullets entre');
-        this.scene.input.on('pointermove', (pointer) => {
-            ship.x = pointer.x;
-        });
-
-        this.scene.input.on('pointerdown', (pointer) => {
-            this.fireBullet(ship.x, ship.y);
-        });
+    disable(){
+        let self = this;
+        setTimeout(function (){
+            self.available = false;
+        }, 300);
     }
 }
 
