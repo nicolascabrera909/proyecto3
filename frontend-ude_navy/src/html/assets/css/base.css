@@ -3,7 +3,8 @@
      font-style: normal;
      font-weight: normal;
      src: local('DINPro Light'), url('../fonts/dinpro_font/DINPro-Light.woff2') format('woff2');
-     }
+  }
+  
      
      html {
        font-size: 62.5%;
@@ -55,49 +56,59 @@ h1 {
 }
 
 
-.button-primary {
-     position: relative;
-     background-color: #F76C6C;
-     color: #fff;
-     font-size: 1.8rem;
-     font-weight: 700;
-     transition: color 0.3s ease-in;
-     z-index: 1;
- }
- .button {
-     display: inline-block;
-     margin-top: 20px;
-     padding: 8px 25px;
-     border-radius: 4px;
- }
- .button {
-     font-size: 20px;
-     padding: 10px;
-     width: 200px;
-     background-color: #F76C6C;
-     border: none;
-     color: #05386b;
-     text-align: center;
-     margin: 10px;
-     /* transition: all 0.5s; */
- }
 
- .button-primary::after {
-     content: '';
-     position: absolute;
-     bottom: 0;
-     left: 0;
-     right: 0;
-     top: 0;
-     background-color: #fff;
-     border-radius: 4px;
-     opacity: 0;
-     -webkit-transform: scaleX(0.8);
-     -ms-transform: scaleX(0.8);
-     transform: scaleX(0.8);
-     transition: all 0.3s ease-in;
-     z-index: -1;
- }
+.video-game-button {
+  background-color: black;
+  font-size: 30pt;
+  font-family: 'Press Start 2p';
+	text-shadow: 1px 1px pink, -1px -1px maroon;
+
+	line-height: 1.5em;
+	text-align: center;
+	display: inline-block;
+	width: 1.5em;
+	-webkit-border-radius: .75em;
+	-moz-border-radius: .75em;
+	-o-border-radius: .75em;
+		border-radius: .75em;
+	background-color: red;
+	-webkit-box-shadow:  0 .2em maroon;
+	-moz-box-shadow:  0 .2em maroon;
+	-o-box-shadow:  0 .2em maroon;
+	box-shadow:  0 .2em maroon;
+	color: red;
+	margin: 5px;
+	background-color: red;
+	background-image: -o-linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	background-image: -moz-linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	background-image: -webkit-linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	background-image: linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	cursor: pointer;
+  padding-left: 5px;
+}
+.start-btn{
+    text-align: center;
+	display: inline-block;
+	margin:5px;
+    font-weight: bold;
+    padding: 10px 0 10px 10px ;
+    background-color: lightgray;
+    text-shadow: -1px -1px black, 1px 1px white;
+    color: gray;
+    -webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	-o-border-radius: 7px;
+	border-radius: 7px;
+    box-shadow: 0 .2em gray; 
+    cursor: pointer;
+
+}
+.video-game-button:active, .start-btn:active {
+	box-shadow: none;
+	position: relative;
+	top: .2em;
+}
+
 
 
 
