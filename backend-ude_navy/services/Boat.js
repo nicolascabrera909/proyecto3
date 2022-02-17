@@ -5,8 +5,11 @@ class Boat {
         this.positionX = positionX;
         this.positionY = positionY;
         this.boatLife = boatLife;
-        this.boatType = boatType;
         this.visibility = visibility;
+    }
+
+    isDestroy(){
+        return true;
     }
 
     /*Geters and seters*/
@@ -41,8 +44,6 @@ class Boat {
     setVisibility(visibility) {
         this.visibility = visibility;
     }
-
-
 
 }
 
