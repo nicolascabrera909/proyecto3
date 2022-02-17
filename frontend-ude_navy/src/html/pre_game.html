@@ -14,30 +14,62 @@
   <body>
     <div class="bg">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">UDE-NAVY</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="./index.html">Home </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="./help.html">Ayuda </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">FAQ <span class="sr-only">(current)</span> </a>
-            </li>
-            </ul>
-        </div>
-	    </nav>
+            <a class="navbar-brand" href="#">UDE-NAVY</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./index.html">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./pre_game.html">Comenzar partida  <span class="sr-only">(current)</span>  </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./help.html">FAQ </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="./credits.html">Creditos</a>
+                  </li>
+                </ul>
+            </div>
+        </nav>
        
 
         <div>
 
-            <p>seleccion de usuarios</p>
+            <div class="container py-5">
+                <div class="row">
+                    <div class="">
+                        <form>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <p for="player-one" class="pregame-p" >Jugador uno</p>
+                                    <input type="text" class="form-control" id="player_one" placeholder="Ingrese su nombre de usuario">
+                                </div>
+                                <div class="col-sm-6">
+                                    <p for="player-two" class="pregame-p">Jugador dos</p>
+                                    <input type="text" class="form-control" id="player_two" placeholder="Ingrese su nombre de usuario">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <p for="boat-type-player-one" class="pregame-p">Tipo de embarcación</p>
+                                    <img class="boat-type-img img-fluid" src="./assets/img/submarino1.png"></img>                               
+                                </div>
+                                <div class="col-sm-6">
+                                    <p for="boat-type-player-two" class="pregame-p">Tipo de embarcación</p>
+                                    <img class="boat-type-img img-fluid" src="./assets/img/destructor1.png"></img>
+                                    <img class="boat-type-img img-fluid" src="./assets/img/carguero1.png"></img>
+                                </div>
+                            </div>
+                           
+                        </form>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
