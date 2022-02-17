@@ -7,24 +7,60 @@ class Players {
         this.playerList = playerList;
     }
 
-    InsBack() {
-        //inserta al final del array
+    InsBack(player) {
+        this.playerList.push(player);
     }
 
-    Find(String) {
-        return 0;
+    Member(player) {
+        //primera forma
+        //return this.playerList.includes(player);
+        //me queda la duda de como se hace para ingresar a los atributos de Player
+
+        //segunda forma
+        /*var esMember = false;
+        for(var i = 0; i < playerList.length; i++){ 
+            if (playerList[i.name] === player) { 
+                esMember =  true;
+            }
+        }
+        return myPlayer;*/
+    }
+
+    Find(player) {
+        //primera forma
+        //return this.playerList.find(player);
+        //me queda la duda de como se hace para ingresar a los atributos de Player
+
+        //segunda forma
+        /*var myPlayer = new Player();
+        for(var i = 0; i < playerList.length; i++){ 
+            if (playerList[i.name] === player) { 
+                myPlayer =  playerList[i];
+            }
+        }
+        return myPlayer;*/
     }
 
     esVacia() {
-         return true;
+        return this.playerList.length === 0;
     }
 
-    DeletePlayer(String) {
-         //borra al jugador con el id recibido por parámetro del array de players
+    DeletePlayer(player) {
+        for (var i = 0; i < playerList.length; i++) {
+            if (playerList[i.name] === player) {
+                delete playerList[i];
+            }
+        }
     }
 
-    OrderList(){
-        //re ordena la lista
+    OrderList(actual) {
+        var array = new Array();
+        for (var i = 0, j = actual.length; i < j; i++) {
+            if (actual[i]) {
+                array.push(actual[i]);
+            }
+        }
+        return array;
     }
 }
 

@@ -1,10 +1,9 @@
-class Pleyer {
+class Player {
 
     /*Constructor*/
     constructor(name,boatList) {
         this.name = name;
         this.boatList = boatList;
-
     }
 
     /*Geters and seters*/
@@ -23,4 +22,4 @@ class Pleyer {
 
 
 }
-export default Pleyer;
+export default Player;
