@@ -3,6 +3,7 @@ const Game = require('./Games.js');
 
 class Gamers {
 
+    
     /*Constructor*/
     constructor(gameList) {
         this.gameList = gameList;

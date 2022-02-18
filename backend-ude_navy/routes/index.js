@@ -2,6 +2,7 @@
 const Games = require('../services/Games.js');
 const express = require('express');
 const router = express.Router();
+var gameList=[];
 
 const pool = require('../persistence/database');
 
@@ -32,7 +33,8 @@ router.get('/coordenadasSubmarino/:param', async (req, res) => {
 */
 /*buscar coordenadas para submarino*/
 router.get('/coordenadas/:param', async (req, res) => {
-    var nuevoGame= new Games();
+    
+    var nuevoGame= new Games(gameList);
     var lasCoordenadas=nuevoGame.coordenadasSubmarino();
     res.send(lasCoordenadas);
 

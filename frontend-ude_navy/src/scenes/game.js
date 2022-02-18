@@ -45,8 +45,8 @@ class Game extends Phaser.Scene {
           if (this.option == 'submarino') {
             console.log("Es submarino");
             
-            this.submarino.create(players[id].playerId);
-          }
+            this.submarino.create(players[id].playerId); //listo vieja
+          }  
           else
             console.log("Es destructor");
           //this.destructor.create(players[id]);
