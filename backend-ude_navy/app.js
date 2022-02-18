@@ -1,7 +1,5 @@
 //importo las clases que necesito
-const player = require('./services/Player.js');
-const game = require('./services/Game.js');
-const games = require('./services/Games.js');
+const games = require('./services/Games.js')
 
 
 /*Declaro variables o contantes*/
@@ -87,19 +85,8 @@ io.on('connection', function (socket) {
 /**Metodo de escucha de funcion conectar */
 io.on('nuevaPartida', function (name, boatList, socketId) {
   console.log('Nueva partida');
-  //creo el jugador
-  var player = new Player(name, boatList, socketId);
-  //creo la lista de jugadores de la partida
-  var playerList = [];
-  playerList.push(player);
-  //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
-  var nivel = 1;
-  var mapaId = 1;
-  //creo el juego 
-  var match = new Game(playerList, mapaId, nivel);
-  //guardo el juego en la lista de juegos
+  
   var gamePLay = new Games();
-  gamePLay.createGame(match);
 });
 
 
