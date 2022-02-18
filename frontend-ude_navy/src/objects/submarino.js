@@ -13,8 +13,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
   }
 
   create(playerInfo) {
-    var resultado=this.obtengoCoordendad();
-    console.log(resultado);
+    //var resultado=this.obtengoCoordendad();
+    //console.log(resultado);
     console.log(playerInfo);
     /*
     var randomX = Phaser.Math.Between(400, this.scene.game.config.width - 50);
@@ -42,6 +42,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
   
   }
 
+  /*
+
   obtengoCoordendad(){
     var url = 'http://localhost:3000/coordenadasSubmarino/?nico';
     var xmlHttp = new XMLHttpRequest();
@@ -52,6 +54,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     return xmlHttp.response;
 
   }
+
+  */
 
   get() {
     return this.submarino;
