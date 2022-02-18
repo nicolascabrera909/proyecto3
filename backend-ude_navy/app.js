@@ -85,8 +85,8 @@ io.on('connection', function (socket) {
 /**Metodo de escucha de funcion conectar */
 io.on('nuevaPartida', function (name, boatList, socketId) {
   console.log('Nueva partida');
-  
   var gamePLay = new Games();
+  gamePLay.createGame(name,socketId);
 });
 
 

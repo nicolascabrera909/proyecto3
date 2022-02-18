@@ -40,6 +40,8 @@ class Game extends Phaser.Scene {
     
     /*Seteo donde va a escuchar el soket, tambien obtengo el id del soket*/
     this.socket = io("http://localhost:3000");
+
+    
     //envio datos al backend para que inicie la partida
     nuevaPartida(name,bandoBarcos,this.socket.id);
 
