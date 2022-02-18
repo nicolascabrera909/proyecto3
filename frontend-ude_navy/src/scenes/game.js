@@ -55,11 +55,57 @@ class Game extends Phaser.Scene {
         }
       }.bind(this));
     }.bind(this));
-    this.socket.on('newPlayer', function (playerInfo) {
-      //this.addOtherPlayers(playerInfo);
+    
+    this.socket.on('SubmarinoPos', function (variableQueRecibo) {
+
+    }.bind(this));
+
+    this.socket.on('SubmarinoProfundidad', function (variableQueRecibo) {
+      
+    }.bind(this));
+    this.socket.on('SubmarinoVida', function (variableQueRecibo) {
+      
+    }.bind(this));
+    this.socket.on('cantidadTorpedos', function (variableQueRecibo) {
+      
+    }.bind(this));
+    this.socket.on('CantidadCanionSubmarino', function (variableQueRecibo) {
+      
+    }.bind(this));
+
+    this.socket.on('DestructorPos', function (variableQueRecibo) {
+      
+    }.bind(this));
+
+    this.socket.on('DestructorVida', function (variableQueRecibo) {
+      
+    }.bind(this));
+
+    this.socket.on('CantidadCanionDestructor', function (variableQueRecibo) {
+      
+    }.bind(this));
+
+    this.socket.on('cantidadCargasProfundidad', function (variableQueRecibo) {
+      
+    }.bind(this));
+
+    this.socket.on('CargerosPos', function (variableQueRecibo) {
+
+    }.bind(this));
+
+    this.socket.on('CargerosVida', function (variableQueRecibo) {
+      
     }.bind(this));
 
 
+
+
+
+
+
+
+
+    
 
     this.submarino.create();
     this.destructor.create();

@@ -22,5 +22,4 @@ class DepthCharge extends Armament{
    
 }
 
-export default DepthCharge;
 

@@ -7,4 +7,3 @@ class Cannon extends Armament{
     }
 }
 
-export default Cannon;

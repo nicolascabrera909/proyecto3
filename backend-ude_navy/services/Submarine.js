@@ -17,4 +17,3 @@ class Submarine extends Ship {
 
 
 }
-export default Submarine;
