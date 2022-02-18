@@ -25,20 +25,17 @@ class Players {
         }
         return myPlayer;*/
     }
-
+    
+    /**Recibe como parametro id jugador que es igual al socket  y devuelvo un jugador*/
     Find(player) {
-        //primera forma
-        //return this.playerList.find(player);
-        //me queda la duda de como se hace para ingresar a los atributos de Player
-
         //segunda forma
-        /*var myPlayer = new Player();
-        for(var i = 0; i < playerList.length; i++){ 
-            if (playerList[i.name] === player) { 
+        var myPlayer = new Player();
+        for(var i = 0; i < this.playerList.length; i++){ 
+            if (this.playerList[i].name === player) { 
                 myPlayer =  playerList[i];
             }
         }
-        return myPlayer;*/
+        return myPlayer;
     }
 
     esVacia() {
