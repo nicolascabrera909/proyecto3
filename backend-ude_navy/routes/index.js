@@ -16,13 +16,15 @@ router.get('/version', async (req, res) => {
 });
 
 /*buscar coordenadas parea barcos*/
-router.get('/coordenadas/:param', async (req, res) => {
-        console.log(req.params);
-        console.log(req.body);
+router.get('/coordenadas/:barco', async (req, res) => {
+ 
         //metodo para devolver cordenadas de manera random
+        
+        
         coor={
+            "param": req.params,
             "x":"500",
-            "y":"70"
+            "y":"300"
         }
         res.send(coor);
    
