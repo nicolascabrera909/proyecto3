@@ -1,17 +1,41 @@
-//import Game from "./Game.js";
-const Game = require('./Games.js');
+//importo las clases que necesito
+const player = require('./Player.js')
+const game = require('./Game.js')
+const submarino = require('./Submarine.js')
 
-class Gamers {
 
-    
+
+class Games {
+
+
     /*Constructor*/
-    constructor(gameList) {
-        this.gameList = gameList;
+    constructor() {
+        this.gameList = [];
     }
 
-    createGame() {
-        //inserta al final del array
+    createGame(name, socketId) {
 
+        //creo el jugador
+        var player = new Player(name,socketId);
+        //creo la lista de jugadores de la partida
+        var playerList = [];
+       //obtengo coordenadas del submarino y lo creo
+        var coordenadas =coordenadasSubmarino();
+        var elSubmarino= new Submarine();
+        elSubmarino.positionX=coordenadas.x;
+        elSubmarino.positionY=coordenadas.y;
+        
+        //creo la lista de botes y se la asigno al jugadores
+        
+        //
+        playerList.push(player);
+        //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
+        var nivel = 1;
+        var mapaId = 1;
+        //creo el juego 
+        var match = new Game(playerList, mapaId, nivel);
+        //inserta al final del array
+        this.gameList.push(match);
     }
 
     saveGame(String) {
@@ -26,7 +50,7 @@ class Gamers {
     
 
     /**Este metodo devuelve un arreglo de x e y*/
-    coordenadasCargueros(bandoBaco, tamañoXMapa, tamañoYmapa) {
+    coordenadasCargueros() {
 
         /// cordenadas del mapa inicial es  width: 800,    height: 600,
         var xTotal = 800;

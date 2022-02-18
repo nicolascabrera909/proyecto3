@@ -1,12 +1,15 @@
+//importo las clases que necesito
+const games = require('./services/Games.js')
+
 
 /*Declaro variables o contantes*/
-
-//var Armamento from './services/Armament.js';
 const express = require('express')
 const app = express()
 const port = 3000
 const cors = require('cors');
 const { database } = require('./config');
+
+
 const players = {};
 var cantUsers = 0;
 
@@ -95,6 +98,14 @@ io.on('connection', function (socket) {
     console.log("Juego completo. Intente mas tarde.");
   }
 });*/
+
+/**Metodo de escucha de funcion conectar */
+io.on('nuevaPartida', function (name, boatList, socketId) {
+  console.log('Nueva partida');
+  var gamePLay = new Games();
+  gamePLay.createGame(name,socketId);
+});
+
 
 //CORS
 app.use(

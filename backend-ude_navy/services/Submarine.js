@@ -1,7 +1,7 @@
 class Submarine extends Ship {
 
     /*Constructor*/
-    constructor(depth) {
+    constructor() {
         super();
         this.depth = depth;
     }
