@@ -50,12 +50,11 @@ class Gamers {
         var listaCoordenadas = [];
 
 
-
         coordenada = {
             "x": Math.random() * (mapaMitad - 0) + 0,
             "y": Math.random() * (yTotal - 0) + 0
         };
-        listaCoordenadas.pushcoordenada
+        listaCoordenadas.push(coordenada);
         for (var i = 0; i < 5; i++) {
             if (i < 3) {
                 coordenada.y = y + 10;
@@ -65,34 +64,30 @@ class Gamers {
                 }
                 coordenada.y = y + 10;
             }
+            listaCoordenadas.push(coordenada);
         }
-        var j = 0;
-        coordenada = {
-            "x": Math.random() * (mapaMitad - 0) + 0,
-            "y": Math.random() * (yTotal - 0) + 0
-        };
         var noEsIgual = false;
         var contador = 0;
         while (!esIgual) {
-            for (var j = 0; j < listaCoordenadas.length; j++) {
-                if (coordenada.x == listaCoordenadas[j].x && coordenada.y == listaCoordenadas[j].y) {
-                    coordenada = {
-                        "x": Math.random() * (mapaMitad - 0) + 0,
-                        "y": Math.random() * (yTotal - 0) + 0
-                    };
-                } else {
-                    contador ++;
-
-                }
+            coordenada.x = Math.random() * (mapaMitad - 0) + 0;
+            coordenada.y = Math.random() * (yTotal - 0) + 0;
+        };
+        for (var j = 0; j < listaCoordenadas.length; j++) {
+            if ((coordenada.x == listaCoordenadas[j].x && coordenada.y == listaCoordenadas[j].y)) {
+                contador++;
             }
-            if(contador==6){
-                noEsIgual=true;  
-            }else{
-                contador=0;
-            }
+        }
+        if (contador == 6) {
+            noEsIgual = true;
+            listaCoordenadas.push(coordenada);
+        } else {
+            contador = 0;
         }
         return listaCoordenadas;
     }
+
+
+
 
 
 
