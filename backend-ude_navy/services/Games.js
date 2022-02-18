@@ -1,4 +1,5 @@
-import Game from "./Game.js";
+//import Game from "./Game.js";
+const Game = require('./Games.js');
 
 class Gamers {
 
@@ -22,23 +23,18 @@ class Gamers {
 
 
     /**Este metodo devuelve un arreglo de x e y*/
-    coordenadasBarcos(bandoBaco,tamañoXMapa,tamañoYmapa){
+    coordenadasSubmarino(bandoBaco,tamañoXMapa,tamañoYmapa){
 
         coordenada = {
-
-        }
-        
-        //me fijo que bando recibi por parametro
-        //bando sumarino
-        if(bandoBaco==1){
-
-
-        }else{
-
-        }
+            "x":"500",
+            "y":"80"
+        };
+        return  coordenada;
     }
 
 
 }
 
-export default Gamers;
+
+
+
