@@ -1,5 +1,5 @@
 //import Game from "./Game.js";
-const Game = require('./Games.js');
+const Game = require('./Game.js');
 
 class Gamers {
 

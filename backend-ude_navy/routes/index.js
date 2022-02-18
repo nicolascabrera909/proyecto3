@@ -1,5 +1,5 @@
 
-const Games = require('../services/Games.js');
+const Gamers = require('../services/Gamers.js');
 const express = require('express');
 const router = express.Router();
 
@@ -18,6 +18,7 @@ router.get('/version', async (req, res) => {
 });
 
 /*buscar coordenadas para submarino*/
+/*
 router.get('/coordenadasSubmarino/:param', async (req, res) => {
         console.log(req.params);
         console.log(req.body);
@@ -28,16 +29,12 @@ router.get('/coordenadasSubmarino/:param', async (req, res) => {
    
 });
 
+*/
 /*buscar coordenadas para submarino*/
 router.get('/coordenadas/:param', async (req, res) => {
-    console.log(req.params);
-    console.log(req.body);
-    //metodo para devolver cordenadas de manera random
-    coor={
-        "x":"500",
-        "y":"70"
-    }
-    res.send(coor);
+    var nuevoGame= new Gamers();
+    var lasCoordenadas=nuevoGame.coordenadasBarcos();
+    res.send(lasCoordenadas);
 
 });
 

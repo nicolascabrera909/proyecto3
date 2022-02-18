@@ -13,17 +13,36 @@ class Submarino extends Phaser.GameObjects.Sprite {
   }
 
   create(playerInfo) {
-    var resultado=this.obtengoCoordendad();
-    console.log(resultado);
+    //var resultado=this.obtengoCoordendad();
+    //console.log(resultado);
     console.log(playerInfo);
-    /*var randomX = Phaser.Math.Between(400, this.scene.game.config.width - 50);
+    /*
+    var randomX = Phaser.Math.Between(400, this.scene.game.config.width - 50);
     var randomY = Phaser.Math.Between(50, this.scene.game.config.height - 50);
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
     this.submarino.setDisplaySize(50, 10);
     this.submarino.flipX = true;
-    this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);*/
+    this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    */
 
+    var randomX = Phaser.Math.Between(400, this.scene.game.config.width - 50);
+    var randomY = Phaser.Math.Between(50, this.scene.game.config.height - 50);
+    var url = 'http://localhost:3000/coordenadas/';
+    var param = "submarino" 
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url + param, false);
+    xmlHttp.send(null);
+    
+    var coordenadas = JSON.parse(xmlHttp.responseText);
+    console.log("param" + coordenadas.param);
+    this.submarino = this.scene.physics.add.image(parseInt(coordenadas.x), parseInt(coordenadas.y), "submarino")
+    this.submarino.setDisplaySize(50, 10);
+    this.submarino.flipX = true;
+    this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  
   }
+
+  /*
 
   obtengoCoordendad(){
     var url = 'http://localhost:3000/coordenadasSubmarino/?nico';
@@ -35,6 +54,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     return xmlHttp.response;
 
   }
+
+  */
 
   get() {
     return this.submarino;
