@@ -32,20 +32,30 @@ class Game extends Phaser.Scene {
   }
 
   create() {
+    var name='nico';///-> esto lo tengo que obtener del menu web
+    var bandoBarcos='submarino'; //-->esto tambien tiene q venir de la web 
+   
     //Creo el mapa
     this.showMap();
     
-    //Creo sumarino,destructor y cargueros y los ubico en el mapa
-    /*Seteo donde va a escuchar el soket*/
+    /*Seteo donde va a escuchar el soket, tambien obtengo el id del soket*/
     this.socket = io("http://localhost:3000");
+    //envio datos al backend para que inicie la partida
+    nuevaPartida(name,bandoBarcos,this.socket.id);
+
+
+    /*Nueva partida*/
+
+    
     //Listen for web socket events
-    this.socket.on('currentPlayers', function (players) {
+
+    this.socket.on('currentPlayers', (players) =>{
       Object.keys(players).forEach(function (id) {
         if (players[id].playerId === this.socket.id) {
           if (this.option == 'submarino') {
             console.log("Es submarino");
             
-            this.submarino.create(players[id].playerId); //listo vieja
+            this.submarino.create(players[id].playerId); 
           }  
           else
             console.log("Es destructor");
@@ -221,10 +231,11 @@ class Game extends Phaser.Scene {
 
 
 
-  ///////////////////////////////Manejo de usuario///////////////////////////////////////////
+  /*Creo una nueva partida*/
+  nuevaPartida(name,boatList,socketId){
+    this.socket.emit('nuevaPartida',  name,boatList,socketId)
 
-
-  ///////////////////////////////Fin Manejo de usuario///////////////////////////////////////
+  }
 
 
 

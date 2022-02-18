@@ -1,17 +1,16 @@
-//import Game from "./Game.js";
-const Game = require('./Games.js');
+const Game = require('./Game.js');
 
-class Gamers {
+class Games {
 
     
     /*Constructor*/
-    constructor(gameList) {
-        this.gameList = gameList;
+    constructor() {
+        this.gameList = [];
     }
 
-    createGame() {
+    createGame(game) {
         //inserta al final del array
-
+        this.gameList.push(game);
     }
 
     saveGame(String) {

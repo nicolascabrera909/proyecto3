@@ -1,12 +1,17 @@
+//importo las clases que necesito
+const player = require('./services/Player.js');
+const game = require('./services/Game.js');
+const games = require('./services/Games.js');
+
 
 /*Declaro variables o contantes*/
-
-//var Armamento from './services/Armament.js';
 const express = require('express')
 const app = express()
 const port = 3000
 const cors = require('cors');
 const { database } = require('./config');
+
+
 const players = {};
 const arrayPlayers = [];
 
@@ -25,7 +30,7 @@ const io = socketIO(server, {
 /**Metodo de escucha de funcion conectar */
 io.on('connection', function (socket) {
   console.log('Usuario conectado: ', socket.id);
-  console.log('cantidad'+arrayPlayers.length);
+  console.log('cantidad' + arrayPlayers.length);
   if (arrayPlayers.length < 2) {
     if (arrayPlayers.length == 0) {
       players[socket.id] = {
@@ -78,6 +83,25 @@ io.on('connection', function (socket) {
     console.log("Juego completo. Intente mas tarde.");
   }
 });
+
+/**Metodo de escucha de funcion conectar */
+io.on('nuevaPartida', function (name, boatList, socketId) {
+  console.log('Nueva partida');
+  //creo el jugador
+  var player = new Player(name, boatList, socketId);
+  //creo la lista de jugadores de la partida
+  var playerList = [];
+  playerList.push(player);
+  //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
+  var nivel = 1;
+  var mapaId = 1;
+  //creo el juego 
+  var match = new Game(playerList, mapaId, nivel);
+  //guardo el juego en la lista de juegos
+  var gamePLay = new Games();
+  gamePLay.createGame(match);
+});
+
 
 //CORS
 app.use(
