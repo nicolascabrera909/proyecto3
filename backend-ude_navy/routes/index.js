@@ -1,5 +1,5 @@
 
-const Gamers = require('../services/Gamers.js');
+const Games = require('../services/Games.js');
 const express = require('express');
 const router = express.Router();
 
@@ -32,8 +32,8 @@ router.get('/coordenadasSubmarino/:param', async (req, res) => {
 */
 /*buscar coordenadas para submarino*/
 router.get('/coordenadas/:param', async (req, res) => {
-    var nuevoGame= new Gamers();
-    var lasCoordenadas=nuevoGame.coordenadasBarcos();
+    var nuevoGame= new Games();
+    var lasCoordenadas=nuevoGame.coordenadasSubmarino();
     res.send(lasCoordenadas);
 
 });

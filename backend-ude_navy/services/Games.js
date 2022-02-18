@@ -1,7 +1,7 @@
 //import Game from "./Game.js";
-const Game = require('./Game.js');
 
-class Gamers {
+
+class Games {
 
     /*Constructor*/
     constructor(gameList) {
