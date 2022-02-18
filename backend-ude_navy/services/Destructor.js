@@ -7,4 +7,3 @@ class Destructor extends Ship{
 
    
 }
-export default Destructor;

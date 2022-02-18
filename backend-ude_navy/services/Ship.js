@@ -7,4 +7,3 @@ class Ship extends Boat{
 
    
 }
-export default Ship;

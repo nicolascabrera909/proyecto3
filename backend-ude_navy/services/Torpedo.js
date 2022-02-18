@@ -9,4 +9,3 @@ class Torpedo extends Armament{
   
 }
 
-export default Torpedo;

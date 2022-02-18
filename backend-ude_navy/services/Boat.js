@@ -47,4 +47,3 @@ class Boat {
 
 }
 
-export default Boat;

@@ -7,4 +7,3 @@ class Freighters extends Boat{
 
    
 }
-export default Freighters;
