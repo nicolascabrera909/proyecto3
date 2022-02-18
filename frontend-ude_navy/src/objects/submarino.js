@@ -26,11 +26,13 @@ class Submarino extends Phaser.GameObjects.Sprite {
   }
 
   obtengoCoordendad(){
-    var url = 'http://localhost:3000/coordenadasSubmarino/';
+    var url = 'http://localhost:3000/coordenadasSubmarino/?nico';
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url, false); // false for synchronous request
-    xmlHttp.send();
-    return xmlHttp.responseText;
+    xmlHttp.open("GET", url); // false for synchronous request
+    //xmlHttp.send(null);
+    xmlHttp.onload =()=>{
+      console.log((xmlHttp.response))   }
+    return xmlHttp.response;
 
   }
 

@@ -18,7 +18,7 @@ router.get('/version', async (req, res) => {
 });
 
 /*buscar coordenadas para submarino*/
-router.get('/coordenadas/:param', async (req, res) => {
+router.get('/coordenadasSubmarino/:param', async (req, res) => {
         console.log(req.params);
         console.log(req.body);
         //metodo para devolver cordenadas de manera random
