@@ -21,7 +21,7 @@ class Game extends Phaser.Scene {
     this.carguero = new Carguero(this, 10, 10, 'carguero');
     this.destructor = new Destructor(this);
     this.loadImages();
-   
+
 
     //-----> ver que hacer con lo comentado
     //let users = [];
@@ -34,31 +34,32 @@ class Game extends Phaser.Scene {
   create() {
     //Creo el mapa
     this.showMap();
+    
     //Creo sumarino,destructor y cargueros y los ubico en el mapa
-     /*Seteo donde va a escuchar el soket*/
-     this.socket = io("http://localhost:3000");
+    /*Seteo donde va a escuchar el soket*/
+    this.socket = io("http://localhost:3000");
+    //Listen for web socket events
+    this.socket.on('currentPlayers', function (players) {
+      Object.keys(players).forEach(function (id) {
+        if (players[id].playerId === this.socket.id) {
+          if (this.option == 'submarino') {
+            console.log("Es submarino");
+            
+            this.submarino.create(players[id].playerId);
+          }
+          else
+            console.log("Es destructor");
+          //this.destructor.create(players[id]);
+        } else {
+          //this.addOtherPlayers(players[id]);
+        }
+      }.bind(this));
+    }.bind(this));
+    this.socket.on('newPlayer', function (playerInfo) {
+      //this.addOtherPlayers(playerInfo);
+    }.bind(this));
 
-     //Listen for web socket events
-     this.socket.on('currentPlayers', function (players) {
-       Object.keys(players).forEach(function (id) {
-         if (players[id].playerId === this.socket.id) {
-           if (this.option == 'submarino') {
-             console.log("Es submarino");
-             //this.submarino.create(players[id].playerId);
-           }
-           else
-             console.log("Es destructor");
-             //this.destructor.create(players[id]);
-         } else {
-           //this.addOtherPlayers(players[id]);
-         }
-       }.bind(this));
-     }.bind(this));
-     this.socket.on('newPlayer', function (playerInfo) {
-       //this.addOtherPlayers(playerInfo);
-     }.bind(this));
 
-     
 
     this.submarino.create();
     this.destructor.create();
@@ -73,7 +74,7 @@ class Game extends Phaser.Scene {
 
 
 
-   
+
 
     //--------------> ver que hacer con estos comentarios
     /*
