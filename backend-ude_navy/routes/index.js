@@ -33,7 +33,6 @@ router.get('/coordenadasSubmarino/:param', async (req, res) => {
 */
 /*buscar coordenadas para submarino*/
 router.get('/coordenadas/:param', async (req, res) => {
-    
     var nuevoGame= new Games(gameList);
     var lasCoordenadas=nuevoGame.coordenadasSubmarino();
     res.send(lasCoordenadas);
