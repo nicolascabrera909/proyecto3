@@ -1,7 +1,8 @@
-class DepthCharge extends Armament{
+ class DepthCharge extends Armament{
     
      /*Constructor*/
      constructor(time, depth) {
+        super();
         this.time = time;
         this.depth = depth;
     }

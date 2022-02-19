@@ -2,9 +2,10 @@ class Armament {
 
 
     /*Constructor*/
-    constructor(power, distance) {
+    constructor(power, distance, cantMunicion) {
         this.power = power;
         this.distance = distance;
+        this.cantMunicion = cantMunicion;
     }
 
     /*Geters and seters*/
@@ -14,14 +15,16 @@ class Armament {
     getDistance() {
         return this.distance;
     }
-    setPower(poder) {
-        this.power = poder;
+    getCantMunicion() {
+        return this.cantMunicion;
     }
-    setDistance(metros) {
-        this.distance = metro;
+    setPower(power) {
+        this.power = power;
     }
-
-    
-
-
+    setDistance(distance) {
+        this.distance = distance;
+    }
+    setCantMunicion(cantMunicion) {
+        this.cantMunicion = cantMunicion;
+    }
 }

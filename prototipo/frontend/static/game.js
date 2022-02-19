@@ -27,14 +27,13 @@ function preload() {
 function create() {
   var self = this
   this.socket = io("http://localhost:3000")
-  this.otherPlayers = this.physics.add.group()
 
   this.socket.on('currentPlayers', function (players) {
-    Object.keys(players).forEach(function (id) {
-      if (players[id].playerId === self.socket.id) {
-        addPlayer(self, players[id])
+    Object.keys(players).forEach(function (i) {
+      if (players[i].playerId === self.socket.id) {
+        addPlayer(self, players[i])
       } else {
-        addOtherPlayers(self, players[id])
+        addOtherPlayers(self, players[i])
       }
     })
   })

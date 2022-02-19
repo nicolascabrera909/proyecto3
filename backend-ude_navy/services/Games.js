@@ -2,8 +2,8 @@
 const player = require('./Player.js')
 const game = require('./Game.js')
 const submarino = require('./Submarine.js')
-
-
+const cannon = require('./Cannon.js')
+const torpedo = require('./Torpedo.js')
 
 class Games {
 
@@ -13,29 +13,60 @@ class Games {
         this.gameList = [];
     }
 
-    createGame(name, socketId) {
+    createGame(name, bandoBarcos, socketId) {
 
-        //creo el jugador
-        var player = new Player(name,socketId);
+        
         //creo la lista de jugadores de la partida
         var playerList = [];
-       //obtengo coordenadas del submarino y lo creo
-        var coordenadas =coordenadasSubmarino();
-        var elSubmarino= new Submarine();
-        elSubmarino.positionX=coordenadas.x;
-        elSubmarino.positionY=coordenadas.y;
-        
+        if (bandoBarcos === 'submarino') {
+            //obtengo coordenadas del submarino y lo creo
+            var coordenadas = coordenadasSubmarino();
+            var elTorpedo = new Cannon();
+            elTorpedo.setPower(150);
+            elTorpedo.setDistance(100);
+            elTorpedo.setCantMunicion(30);
+            var elCanoon = new Torpedo();
+            elCanoon.setDistance(150);
+            elCanoon.setPower(500);
+            elCanoon.setCantMunicion(30);
+            var elSubmarino = new Submarine(1, elTorpedo, elCanoon);
+            elSubmarino.setPositionX(coordenadas.x);
+            elSubmarino.setPositionY(coordenadas.y);
+            elSubmarino.setBoatlife(100);
+            elSubmarino.setBoatlife(100);
+            player.setBoatList().push(elSubmarino);
+            //agrego al jugador a la lista de jugadores
+            playerList.push(player);
+            //creo el jugador
+            var player = new Player(playerList,name, socketId);
+            //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
+            var nivel = 1;
+            var mapaId = 1;
+            //creo la partida
+            var match = new Game(playerList, mapaId, nivel);
+            //inserta al final del array
+            this.gameList.push(match);
+
+        } else {
+            var coordenadas = coordenadasSubmarino();
+            var laDepthCharge = new laDepthCharge(1, 1);
+            var elCanoon = new Torpedo();
+            elCanoon.setDistance(150);
+            elCanoon.setPower(500);
+            elCanoon.setCantMunicion(30);
+            var elSubmarino = new Submarine(1, elTorpedo, elCanoon);
+            elSubmarino.setPositionX(coordenadas.x);
+            elSubmarino.setPositionY(coordenadas.y);
+            elSubmarino.setBoatlife(100);
+            elSubmarino.setBoatlife(100);
+            player.setBoatList().push(elSubmarino);
+        }
+
         //creo la lista de botes y se la asigno al jugadores
-        
+
         //
-        playerList.push(player);
-        //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
-        var nivel = 1;
-        var mapaId = 1;
-        //creo el juego 
-        var match = new Game(playerList, mapaId, nivel);
-        //inserta al final del array
-        this.gameList.push(match);
+
+
     }
 
     saveGame(String) {
@@ -47,7 +78,7 @@ class Games {
     }
 
 
-    
+
 
     /**Este metodo devuelve un arreglo de x e y*/
     coordenadasCargueros() {

@@ -1,9 +1,11 @@
 class Submarine extends Ship {
 
     /*Constructor*/
-    constructor() {
+    constructor(depth,torpedo,cannon) {
         super();
-        this.depth = depth;
+        this.depth = depth;// 1 superficie, 2 sumergido y 3sumergido proufundo
+        this.torpedo=torpedo;
+        this.cannon=cannon;
     }
 
     /*Geters and seters*/

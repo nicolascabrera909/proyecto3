@@ -14,8 +14,6 @@ class Game extends Phaser.Scene {
     this.cant_canones_enviados = 0;
   }
 
-
-
   preload() {
     this.submarino = new Submarino(this, 0, 0, 'submarino');
     this.carguero = new Carguero(this, 10, 10, 'carguero');
@@ -38,19 +36,37 @@ class Game extends Phaser.Scene {
     //Creo el mapa
     this.showMap();
     
-    /*Seteo donde va a escuchar el soket, tambien obtengo el id del soket*/
-    this.socket = io("http://localhost:3000");
+    /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
+    //var self = this
+    this.socket = io("http://localhost:3000")
+    this.socket.emit('connection',  name,bandoBarcos,socketId)
+
+    this.socket.on('currentPlayers', function (players) {
+       //la lista esta vacia?
+       if
+    })
+
+    this.socket.on('newPlayer', function (playerInfo) {
+        addOtherPlayers(self, playerInfo)
+    })
+
+    this.socket.on('playerDisconnected', function (playerId) {
+        self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+            if (playerId === otherPlayer.playerId) {
+                otherPlayer.destroy()
+            }
+        })
+    })
 
     
-    //envio datos al backend para que inicie la partida
-    nuevaPartida(name,bandoBarcos,this.socket.id);
+    
 
 
     /*Nueva partida*/
 
     
     //Listen for web socket events
-
+    /*
     this.socket.on('currentPlayers', (players) =>{
       Object.keys(players).forEach(function (id) {
         if (players[id].playerId === this.socket.id) {
@@ -108,15 +124,7 @@ class Game extends Phaser.Scene {
     this.socket.on('CargerosVida', function (variableQueRecibo) {
       
     }.bind(this));
-
-
-
-
-
-
-
-
-
+    */
     
 
     this.submarino.create();
@@ -164,7 +172,6 @@ class Game extends Phaser.Scene {
 
 
   }
-
 
   /**Cargo la imagenes del juego*/
   loadImages() {
@@ -223,7 +230,6 @@ class Game extends Phaser.Scene {
     this.option = data.option;
   }
 
-
   // camera() {
   //   // limit camera to map
   //   this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -232,7 +238,7 @@ class Game extends Phaser.Scene {
   // }
 
 
-
+/*  */
   /*Creo una nueva partida*/
   nuevaPartida(name,boatList,socketId){
     this.socket.emit('nuevaPartida',  name,boatList,socketId)
@@ -270,10 +276,6 @@ class Game extends Phaser.Scene {
   }
 
   /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7
-
-
-
-
 
 
 }

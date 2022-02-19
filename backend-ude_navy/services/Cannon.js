@@ -5,5 +5,7 @@ class Cannon extends Armament{
         super();
         
     }
+
+    
 }
 
