@@ -1,11 +1,24 @@
+import Torpedo from "./Torpedo.js";
+import Cannon from "./Cannon.js";
+
 class Submarine extends Ship {
 
     /*Constructor*/
-    constructor(depth,torpedo,cannon) {
+    constructor(coordenadas) {
         super();
-        this.depth = depth;// 1 superficie, 2 sumergido y 3sumergido proufundo
-        this.torpedo=torpedo;
-        this.cannon=cannon;
+        this.depth.setDepth(1);// 1 superficie, 2 sumergido y 3sumergido proufundo
+        this.torpedo = new Torpedo();
+        this.torpedo.setPower(150);
+        this.torpedo.setDistance(100);
+        this.torpedo.setCantMunicion(30);
+        this.cannon = new Cannon();
+        this.cannon.setDistance(150);
+        this.cannon.setPower(500);
+        this.cannon.setCantMunicion(30);
+        this.positionX = coordenadas.x;
+        this.positionY = coordenadas.y;
+        this.boatLife.setBoatlife(100);
+        this.visibility.setVisibility(100);
     }
 
     /*Geters and seters*/
@@ -34,6 +47,13 @@ class Submarine extends Ship {
         };
         return coordenada;
     }
+
+    //Crea submarino con el armamento y recibe las coordenadas por parametros
+    
+    createSubmarine (coorX, coorY){
+        
+    }
+    
 
 
 }

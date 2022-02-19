@@ -1,5 +1,5 @@
 //importo las clases que necesito
-const games = require('./services/Games.js')
+const Games = require('./services/Games.js')
 
 
 /*Declaro variables o contantes*/
@@ -36,15 +36,31 @@ send.addEventListener('click', function () {
 });*/
 
 
-//mustra en el log al jugador
+//muestra en el log al jugador
 io.on('connection', function (name, bandoBarcos, socketId) {
   console.log('player [' + socketId + '] connected')
   //valido si la lita esta vacia
   if (listaGame.length === 0) {
     console.log('Nueva partida');
+    //creo una instacia de todos los juegos y agrego a la lista de juegos
     var gamePLay = new Games();
+    
     gamePLay.createGame(name,bandoBarcos, socketId);
+    //emito datos al frontend
+    console.log('termine de crear la partida y emiti al frontend');
   } else {
+    //valido si la partida no esta llena
+    if(listaGame.length > 1){
+      //emitir mensaje para el frontend, que no se puede agregar mas jugadores
+    }else{
+      console.log('player 2 [' + socketId + '] connected')
+      console.log('Uniendo a partida');
+      
+      
+      
+      
+      gamePLay[0].getPlayerList().push(player2);
+    }
 
   }
 

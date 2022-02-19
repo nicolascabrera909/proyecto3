@@ -1,18 +1,18 @@
 class Boat {
 
     /*Constructor*/
-    constructor(positionX, positionY, boatLife, boatType, visibility) {
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.boatLife = boatLife;
-        this.visibility = visibility;
+    constructor() {
+        this.positionX;
+        this.positionY;
+        this.boatLife;
+        this.visibility;
     }
 
     isDestroy(){
         return true;
     }
 
-    /*Geters and seters*/
+    /*Getters and setters*/
     getPositionX() {
         return this.positionX;
     }
@@ -28,7 +28,6 @@ class Boat {
     getVisibility() {
         return this.visibility;
     }
-
     setPositionX(positionX) {
         this.positionX = positionX;
     }

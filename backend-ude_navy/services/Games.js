@@ -13,32 +13,23 @@ class Games {
         this.gameList = [];
     }
 
-    createGame(name, bandoBarcos, socketId) {
+    getGameList() {
+        return this.gameList;
+    }
 
-        
-        //creo la lista de jugadores de la partida
-        var playerList = [];
+    createGame(name, bandoBarcos, socketId, unir) {
         if (bandoBarcos === 'submarino') {
             //obtengo coordenadas del submarino y lo creo
-            var coordenadas = coordenadasSubmarino();
-            var elTorpedo = new Cannon();
-            elTorpedo.setPower(150);
-            elTorpedo.setDistance(100);
-            elTorpedo.setCantMunicion(30);
-            var elCanoon = new Torpedo();
-            elCanoon.setDistance(150);
-            elCanoon.setPower(500);
-            elCanoon.setCantMunicion(30);
-            var elSubmarino = new Submarine(1, elTorpedo, elCanoon);
-            elSubmarino.setPositionX(coordenadas.x);
-            elSubmarino.setPositionY(coordenadas.y);
-            elSubmarino.setBoatlife(100);
-            elSubmarino.setBoatlife(100);
-            player.setBoatList().push(elSubmarino);
+            var coordenadas = this.coordenadasSubmarino();
+            var elSubmarino = new Submarino(coordenadas);
+            //creo la lista de botes y agrego al submarino
+            var boatList = [elSubmarino];
+            //creo el jugador
+            var player = new Player(name, socketId, boatList);
+            //creo la lista de jugadores de la partida
+            var playerList = [];
             //agrego al jugador a la lista de jugadores
             playerList.push(player);
-            //creo el jugador
-            var player = new Player(playerList,name, socketId);
             //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
             var nivel = 1;
             var mapaId = 1;
@@ -48,26 +39,66 @@ class Games {
             this.gameList.push(match);
 
         } else {
-            var coordenadas = coordenadasSubmarino();
-            var laDepthCharge = new laDepthCharge(1, 1);
-            var elCanoon = new Torpedo();
-            elCanoon.setDistance(150);
-            elCanoon.setPower(500);
-            elCanoon.setCantMunicion(30);
-            var elSubmarino = new Submarine(1, elTorpedo, elCanoon);
-            elSubmarino.setPositionX(coordenadas.x);
-            elSubmarino.setPositionY(coordenadas.y);
-            elSubmarino.setBoatlife(100);
-            elSubmarino.setBoatlife(100);
-            player.setBoatList().push(elSubmarino);
+            var coordenadas = this.coordenadasCargueros();
+            var elDestructor = new Destructor(coordenadas);
+            //falta crear los cargueros y agregarlos a la lista de botes
+
+            //creo el jugador
+            var player = new Player(name, socketId, boatList);
+            //creo la lista de botes y agrego al al destructor y los cargueros
+            var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
+            //creo el jugador
+            var player = new Player(name, socketId, boatList);
+            //creo la lista de jugadores de la partida
+            var playerList = [];
+            //agrego al jugador a la lista de jugadores
+            playerList.push(player);
+            //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
+            var nivel = 1;
+            var mapaId = 1;
+            //creo la partida
+            var match = new Game(playerList, mapaId, nivel);
+            //inserta al final del array
+            this.gameList.push(match);
         }
 
         //creo la lista de botes y se la asigno al jugadores
 
-        //
 
 
     }
+
+    UnirGame(name, bandoBarcos, socketId,) {
+
+        if (bandoBarcos === 'submarino') {
+            //obtengo coordenadas del submarino y lo creo
+            var coordenadas = this.coordenadasSubmarino();
+            var elSubmarino = new Submarino(coordenadas);
+            //creo la lista de botes y agrego al submarino
+            var boatList = [elSubmarino];
+            //creo el jugador
+            var player2 = new Player(name, socketId, boatList);
+            //agrego al jugador a la lista de jugadores
+            this.getGameList()[0].getPlayerList().push(player2);
+
+        } else {
+            var coordenadas = this.coordenadasCargueros();
+            var elDestructor = new Destructor(coordenadas);
+            //falta crear los cargueros y agregarlos a la lista de botes
+
+            //creo la lista de botes y agrego al al destructor y los cargueros
+            var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
+            //creo el jugador
+            var player2 = new Player(name, socketId, boatList);
+        }
+
+        //creo la lista de botes y se la asigno al jugadores
+
+
+
+    }
+
+
 
     saveGame(String) {
         //guarda la partida 

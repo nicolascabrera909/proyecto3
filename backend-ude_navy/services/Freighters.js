@@ -4,6 +4,4 @@ class Freighters extends Boat{
     constructor() {
        super();
    }
-
-   
 }

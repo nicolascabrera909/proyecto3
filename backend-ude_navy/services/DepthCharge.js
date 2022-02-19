@@ -14,10 +14,10 @@
     getDepth() {
         return this.depth;
     }
-    setPositionX(time) {
+    setTime(time) {
         this.time = time;
     }
-    setPositionY(depth) {
+    setDepth(depth) {
         this.depth = depth;
     }
    
