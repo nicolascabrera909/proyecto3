@@ -1,8 +1,10 @@
-class Torpedo extends Armament{
+class Torpedo{
     
     /*Constructor*/
     constructor(time, depth) {
-       super();
+        Torpedo.prototype = new Armament;
+
+        //super();
    }
 
    

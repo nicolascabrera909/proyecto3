@@ -1,10 +1,13 @@
 class Map {
 
     /*Constructor*/
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
+    constructor() {
+        this.setDefaultSize()
+    }
 
+    setDefaultSize(){
+        this.setWidth(800);
+        this.setHeight(600);
     }
 
     /*Geters and seters*/
@@ -21,5 +24,5 @@ class Map {
          this.width=width;
     }
 
-
+    
 }

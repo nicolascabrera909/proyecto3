@@ -32,18 +32,18 @@ class Game extends Phaser.Scene {
   create() {
     var name='nico';///-> esto lo tengo que obtener del menu web
     var bandoBarcos='submarino'; //-->esto tambien tiene q venir de la web 
-   
+    let level = 1;
     //Creo el mapa
     this.showMap();
     
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
     //var self = this
     this.socket = io("http://localhost:3000")
-    this.socket.emit('connection',  name,bandoBarcos,socketId)
+    this.socket.emit('connection',  name,bandoBarcos,this.socket.id, level)
 
     this.socket.on('currentPlayers', function (players) {
        //la lista esta vacia?
-       if
+       
     })
 
     this.socket.on('newPlayer', function (playerInfo) {

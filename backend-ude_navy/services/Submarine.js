@@ -1,12 +1,15 @@
+/*
 import Torpedo from "./Torpedo.js";
 import Cannon from "./Cannon.js";
-
-class Submarine extends Ship {
-
+*/
+class Submarine {
+    
     /*Constructor*/
-    constructor(coordenadas) {
-        super();
+    constructor(mapa, dificultad) {
+        Submarine.prototype = new Ship;
+        //super();
         this.depth.setDepth(1);// 1 superficie, 2 sumergido y 3sumergido proufundo
+        /*
         this.torpedo = new Torpedo();
         this.torpedo.setPower(150);
         this.torpedo.setDistance(100);
@@ -15,10 +18,15 @@ class Submarine extends Ship {
         this.cannon.setDistance(150);
         this.cannon.setPower(500);
         this.cannon.setCantMunicion(30);
+        
+        */
+       let coordenadas = this.coordenadasSubmarino(mapa.getWidth(), mapa.getHeight());
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
         this.boatLife.setBoatlife(100);
         this.visibility.setVisibility(100);
+        this.dificultad = dificultad;
+
     }
 
     /*Geters and seters*/
@@ -31,11 +39,11 @@ class Submarine extends Ship {
     }
 
     /**Este metodo devuelve un arreglo de x e y*/
-    coordenadasSubmarino(bandoBaco, tamañoXMapa, tamañoYmapa) {
+    coordenadasSubmarino(tamañoXMapa, tamañoYmapa) {
 
         /// cordenadas del mapa inicial es  width: 800,    height: 600,
-        var xTotal = 800;
-        var yTotal = 600;
+        var xTotal = tamañoXMapa * this.dificultad.multiplierMap;
+        var yTotal = tamañoYmapa * this.dificultad.multiplierMap;
         var mapaMitad = xTotal / 2;
 
         //calculo numero ramdom

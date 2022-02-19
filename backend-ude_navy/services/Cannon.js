@@ -1,8 +1,9 @@
-class Cannon extends Armament{
+class Cannon {
     
      /*Constructor*/
      constructor() {
-        super();
+        Cannon.prototype = new Armament;
+        //super();
         
     }
 

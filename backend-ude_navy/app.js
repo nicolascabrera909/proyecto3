@@ -2,7 +2,7 @@
 const Games = require('./services/Games.js')
 
 
-/*Declaro variables o contantes*/
+/*Declaro variables o constantes*/
 const express = require('express')
 const app = express()
 const port = 3000
@@ -37,32 +37,36 @@ send.addEventListener('click', function () {
 
 
 //muestra en el log al jugador
-io.on('connection', function (name, bandoBarcos, socketId) {
+/*
+name -> nombre de usuario
+bandoBarcos -> tipo de barco
+socketId -> id del usuario de socket
+level -> nivel de dificultad del juego
+*/
+
+io.on('connection', function (name, bandoBarcos, socketId, level) {
   console.log('player [' + socketId + '] connected')
   //valido si la lita esta vacia
   if (listaGame.length === 0) {
     console.log('Nueva partida');
     //creo una instacia de todos los juegos y agrego a la lista de juegos
-    var gamePLay = new Games();
-    
-    gamePLay.createGame(name,bandoBarcos, socketId);
+    var gamePLay = new Games(level);
+
+    gamePLay.createGame(name, bandoBarcos, socketId);
     //emito datos al frontend
     console.log('termine de crear la partida y emiti al frontend');
   } else {
     //valido si la partida no esta llena
-    if(listaGame.length > 1){
+    if (listaGame.length > 1) {
       //emitir mensaje para el frontend, que no se puede agregar mas jugadores
-    }else{
+    } else {
       console.log('player 2 [' + socketId + '] connected')
       console.log('Uniendo a partida');
-      
-      
-      
-      
       gamePLay[0].getPlayerList().push(player2);
     }
 
   }
+
 
 
   socket.emit('currentPlayers', players)
@@ -73,6 +77,8 @@ io.on('connection', function (name, bandoBarcos, socketId) {
     delete players[socket.id]
     io.emit('playerDisconnected', socket.id)
   })
+
+
 
 
 
@@ -111,7 +117,7 @@ io.on('connection', function (name, bandoBarcos, socketId) {
     var gamePLay = new Games();
     gamePLay.createGame(name, socketId);
   });
-
+});
 
   //CORS
   app.use(
@@ -136,4 +142,5 @@ io.on('connection', function (name, bandoBarcos, socketId) {
   server.listen(port, () => {
     console.log(`Servidor Express corriendo en el puerto: ${port}`);
   });
+
 
