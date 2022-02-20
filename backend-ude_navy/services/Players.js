@@ -61,3 +61,4 @@ class Players {
     }
 }
 
+export default Players;

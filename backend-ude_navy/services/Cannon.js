@@ -10,3 +10,4 @@ class Cannon {
     
 }
 
+export default Cannon;

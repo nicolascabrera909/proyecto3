@@ -11,3 +11,4 @@ class Torpedo{
   
 }
 
+export default Torpedo;

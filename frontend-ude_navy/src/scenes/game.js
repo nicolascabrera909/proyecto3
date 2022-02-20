@@ -41,12 +41,12 @@ class Game extends Phaser.Scene {
     this.socket = io("http://localhost:3000")
     console.log(this.socket.id)
     //this.socket.emit('connection',  name,bandoBarcos,this.socket.id, level)
-    this.socket.emit('createGame',name,bandoBarcos, this.socket.id, level )
-    this.socket.on('createGame', name, bandoBarcos, this.socket.id, level)
+    this.socket.emit('createGame',name,bandoBarcos, this.socket.id, level)
+    /*this.socket.on('createGame', name, bandoBarcos, this.socket.id, level)
     this.socket.on('currentPlayers', function (players) {
        //la lista esta vacia?
        
-    })
+    })*/
 
 //
 // var self = this
@@ -152,9 +152,9 @@ class Game extends Phaser.Scene {
     this.createTorpedoLabel();
     this.createCanonLabel();
     //configuro las coliciones de los elementos entre si y los limites del mapa
-    this.physics.world.setBoundsCollision(true, true, true, true);
-    this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.accionColision, null, this);
-    console.log(this.option);
+    //this.physics.world.setBoundsCollision(true, true, true, true);
+    //this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.accionColision, null, this);
+    //console.log(this.option);
 
 
 
@@ -179,8 +179,8 @@ class Game extends Phaser.Scene {
   update() {
     this.background.tilePositionY -= 0.3;
     //movimientos  de sumarino y destructor
-    this.submarino.moveSubmarino();
-    this.destructor.moveDestructor();
+    //this.submarino.moveSubmarino();
+    //this.destructor.moveDestructor();
     //actualiza los lanzamientos de torpedos y cañones
     this.updateTorpedoStatics();
     this.updateCanonStatics();

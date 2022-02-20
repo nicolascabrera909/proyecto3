@@ -1,14 +1,14 @@
 //importo las clases que necesito
-//const Games = require('./services/Games.js')
-//module.exports.Games = (Games)
+import Games from './services/Games.js'
 
 
 /*Declaro variables o constantes*/
-const express = require('express')
-const app = express()
-const port = 3000
-const cors = require('cors');
-const { database } = require('./config');
+// const express = require('express');
+import express from 'express';
+const app = express();
+const port = 3000;
+import cors from 'cors';
+import { database } from './config.js';
 
 //variables del juego
 const players = {};
@@ -16,6 +16,7 @@ var cantUsers = 0;
 var listaGame = [];
 
 /**SOCKET.IO configuracion**/
+
 const http = require('http');
 const socketIO = require('socket.io');
 const server = http.Server(app);
@@ -48,23 +49,31 @@ level -> nivel de dificultad del juego
 
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
   io.on('connection', function (socket) {
-  console.log('player [' + socket.id + '] connected')
-  //valido si la lita esta vacia
-  if (listaGame.length === 0) {
-    console.log('Nueva partida');
-  }
+    console.log('player [' + socket.id + '] connected')
+    //valido si la lita esta vacia
+    if (listaGame.length === 0) {
+      console.log('Nueva partida');
+    }
+
+    socket.on('createGame', function (name, bandoBarcos, socketId, level) {
+      console.log('player [' + socketId + '] connected')
+    //valido si la lita esta vacia
+      console.log('New Game' + name + ' - '+ bandoBarcos+' - ' + level);
+      //creo una instacia de todos los juegos y agrego a la lista de juegos
+      console.log('antes de new');
+      const gamePLay = new Games(level);
+
+      console.log('antes gamePLay.createGame');
+      gamePLay.createGame(name, bandoBarcos, socketId);
+      console.log(gamePLay);
+      console.log(socketId);
+      //emito datos al frontend
+      console.log('termine de crear la partida y emiti al frontend');
+    });
+    
 });
 
-io.on('createGame', function (name, bandoBarcos, socketId, level) {
-  console.log('player [' + socketId + '] connected')
-  //valido si la lita esta vacia
-    console.log('New Game' + name + ' - '+ bandoBarcos+' - ' + level);
-    //creo una instacia de todos los juegos y agrego a la lista de juegos
-    var gamePLay = new Games(level);
-    gamePLay.createGame(name, bandoBarcos, socketId);
-    //emito datos al frontend
-    console.log('termine de crear la partida y emiti al frontend');
-  });
+
 
 
 
