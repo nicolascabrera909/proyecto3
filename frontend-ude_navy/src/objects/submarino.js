@@ -20,7 +20,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     //console.log(playerInfo);
     
     var randomX = coordenadas.x;
-    var randomY = 
+    var randomY = coordenadas.y;
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino")
     this.submarino.setDisplaySize(50, 10);
     this.submarino.flipX = true;
