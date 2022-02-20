@@ -1,13 +1,12 @@
-class Cannon {
+import Armament from './Armament.js'
+
+class Cannon extends Armament{
     
      /*Constructor*/
      constructor() {
-        Cannon.prototype = new Armament;
-        //super();
-        
+        super();
     }
 
-    
 }
 
 export default Cannon;

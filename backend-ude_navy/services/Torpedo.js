@@ -1,14 +1,15 @@
-class Torpedo{
-    
+import Armament from './Armament.js'
+
+class Torpedo extends Armament {
+
     /*Constructor*/
     constructor(time, depth) {
-        Torpedo.prototype = new Armament;
+        super();
+        this.time=time;
+        this.depth=depth;
+        //const Torpedo = new Armament;
+    }
 
-        //super();
-   }
-
-   
-  
 }
 
 export default Torpedo;

@@ -77,14 +77,13 @@ level -> nivel de dificultad del juego
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected')
   //valido si la lita esta vacia
-  Pool.getConnection();
   console.log("luego de la conexion");
   if (listaGame.length === 0) {
     console.log('Nueva partida');
   }
 
-  socket.on('createGame', function (name, bandoBarcos, socketId, level) {
-    console.log('player [' + socketId + '] connected')
+  socket.on('createGame', function (name, bandoBarcos, level) {
+    console.log('player [' + socket.id + '] connected')
     //valido si la lita esta vacia
     console.log('New Game' + name + ' - ' + bandoBarcos + ' - ' + level);
     //creo una instacia de todos los juegos y agrego a la lista de juegos
@@ -92,10 +91,12 @@ io.on('connection', function (socket) {
     const gamePLay = new Games(level);
 
     console.log('antes gamePLay.createGame');
-    gamePLay.createGame(name, bandoBarcos, socketId);
+    gamePLay.createGame(name, bandoBarcos, socket.id);
     console.log(gamePLay);
-    console.log(socketId);
+    console.log(socket.id);
     //emito datos al frontend
+    console.log('emito los datos al front');
+    io.emit('losJuegos', gamePLay[0]);
     console.log('termine de crear la partida y emiti al frontend');
   });
 

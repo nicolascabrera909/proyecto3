@@ -2,9 +2,10 @@
 // const player = require('./Player.js')
 import Player from './Player.js'
 import Game from './Game.js'
-import Submarino from './Submarine.js'
+import Submarine from './Submarine.js'
 import Cannon from './Cannon.js'
 import Torpedo from './Torpedo.js'
+import Difficulty from './Difficulty.js'
 
 class Games {
 
@@ -25,8 +26,6 @@ class Games {
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
             var elSubmarino = new Submarine(this.mapa, this.difficulty);
-
-
             //creo la lista de botes y agrego al submarino
             var boatList = [elSubmarino];
             //creo el jugador

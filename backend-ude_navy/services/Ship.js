@@ -1,3 +1,5 @@
+import Boat from './Boat.js'
+
 class Ship extends Boat{
     
     /*Constructor*/
@@ -7,3 +9,5 @@ class Ship extends Boat{
 
    
 }
+
+export default Ship;

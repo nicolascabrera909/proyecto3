@@ -2,32 +2,32 @@
 //import Cannon from "./Cannon.js";
 import Cannon from './Cannon.js'
 import Torpedo from'./Torpedo.js'
+import Ship from './Ship.js'
 
 class Submarine {
     
     /*Constructor*/
     constructor(mapa, dificultad) {
-        Submarine.prototype = new Ship;
+        const Submarine = new Ship;
         //super();
-        this.depth.setDepth(1);// 1 superficie, 2 sumergido y 3sumergido proufundo
+        this.depth=1;// 1 superficie, 2 sumergido y 3 sumergido proufundo
         
         this.torpedo = new Torpedo();
-        
-        /*
-        this.torpedo.setPower(150);
-        this.torpedo.setDistance(100);
-        this.torpedo.setCantMunicion(30);
+        this.torpedo.power=100;
+        this.torpedo.distance=100;
+        this.torpedo.cantMunicion=30;
+
         this.cannon = new Cannon();
-        this.cannon.setDistance(150);
-        this.cannon.setPower(500);
-        this.cannon.setCantMunicion(30);
+        this.cannon.power = 100;
+        this.cannon.distance = 100;
+        this.cannon.cantMunicion = 30;
         
-        */
-       let coordenadas = this.coordenadasSubmarino(mapa.getWidth(), mapa.getHeight());
+        /*mapa.getWidth(), mapa.getHeight()*/
+        const coordenadas = this.coordenadasSubmarino(800,600);
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
-        this.boatLife.setBoatlife(100);
-        this.visibility.setVisibility(100);
+        this.boatLife = 100;
+        this.visibility = 100;
         this.dificultad = dificultad;
 
     }
@@ -45,14 +45,14 @@ class Submarine {
     coordenadasSubmarino(tamañoXMapa, tamañoYmapa) {
 
         /// cordenadas del mapa inicial es  width: 800,    height: 600,
-        var xTotal = tamañoXMapa * this.dificultad.multiplierMap;
-        var yTotal = tamañoYmapa * this.dificultad.multiplierMap;
-        var mapaMitad = xTotal / 2;
+        const xTotal = tamañoXMapa ;
+        const yTotal = tamañoYmapa ;
+        const mapaMitad = xTotal / 2;
 
         //calculo numero ramdom
-        var x1 = Math.random() * (mapaMitad - xTotal) + mapaMitad;
-        var y1 = Math.random() * (yTotal - 0) + 0;
-        coordenada = {
+        const x1 = Math.random() * (mapaMitad - xTotal) + mapaMitad;
+        const y1 = Math.random() * (yTotal - 0) + 0;
+        const coordenada = {
             "x": x1,
             "y": y1
         };

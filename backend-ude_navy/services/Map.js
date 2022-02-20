@@ -2,27 +2,31 @@ class Map {
 
     /*Constructor*/
     constructor() {
-        this.setDefaultSize()
+        this.width = 800;
+        this.height = 600;
     }
 
-    setDefaultSize(){
-        this.setWidth(800);
-        this.setHeight(600);
-    }
-
-    /*Geters and seters*/
-    getHeight() {
-        return this.height
+    /*Getters and setters*/
+   /* getHeight() {
+        return this.heigh
     }
     getWidth() {
         return this.width
-    }
+    }*/
     setHeight(height) {
-         this.height=height;
+        this.height = height;
     }
     setWidth(width) {
-         this.width=width;
+        this.width = width;
     }
 
-    
+
 }
+
+function getHeight() {
+    return this.heigh
+}
+function getWidth() {
+    return this.width
+
+export default Map;
