@@ -39,12 +39,30 @@ class Game extends Phaser.Scene {
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
     //var self = this
     this.socket = io("http://localhost:3000")
-    this.socket.emit('connection',  name,bandoBarcos,this.socket.id, level)
-
+    console.log(this.socket.id)
+    //this.socket.emit('connection',  name,bandoBarcos,this.socket.id, level)
+    this.socket.emit('createGame',name,bandoBarcos, this.socket.id, level )
+    this.socket.on('createGame', name, bandoBarcos, this.socket.id, level)
     this.socket.on('currentPlayers', function (players) {
        //la lista esta vacia?
        
     })
+
+//
+// var self = this
+// this.socket = io("http://localhost:3000")
+
+// this.socket.on('currentPlayers', function (players) {
+//   Object.keys(players).forEach(function (i) {
+//     if (players[i].playerId === self.socket.id) {
+//       addPlayer(self, players[i])
+//     } else {
+//       addOtherPlayers(self, players[i])
+//     }
+//   })
+// })
+
+//
 
     this.socket.on('newPlayer', function (playerInfo) {
         addOtherPlayers(self, playerInfo)

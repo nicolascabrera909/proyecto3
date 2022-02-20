@@ -1,5 +1,6 @@
 //importo las clases que necesito
-const Games = require('./services/Games.js')
+//const Games = require('./services/Games.js')
+//module.exports.Games = (Games)
 
 
 /*Declaro variables o constantes*/
@@ -43,40 +44,38 @@ bandoBarcos -> tipo de barco
 socketId -> id del usuario de socket
 level -> nivel de dificultad del juego
 */
+//var gamePLay = new Games(10);
 
-io.on('connection', function (name, bandoBarcos, socketId, level) {
-  console.log('player [' + socketId + '] connected')
+//io.on('connection', function (name, bandoBarcos, socketId, level) {
+  io.on('connection', function (socket) {
+  console.log('player [' + socket.id + '] connected')
   //valido si la lita esta vacia
   if (listaGame.length === 0) {
     console.log('Nueva partida');
+  }
+});
+
+io.on('createGame', function (name, bandoBarcos, socketId, level) {
+  console.log('player [' + socketId + '] connected')
+  //valido si la lita esta vacia
+    console.log('New Game' + name + ' - '+ bandoBarcos+' - ' + level);
     //creo una instacia de todos los juegos y agrego a la lista de juegos
     var gamePLay = new Games(level);
-
     gamePLay.createGame(name, bandoBarcos, socketId);
     //emito datos al frontend
     console.log('termine de crear la partida y emiti al frontend');
-  } else {
-    //valido si la partida no esta llena
-    if (listaGame.length > 1) {
-      //emitir mensaje para el frontend, que no se puede agregar mas jugadores
-    } else {
-      console.log('player 2 [' + socketId + '] connected')
-      console.log('Uniendo a partida');
-      gamePLay[0].getPlayerList().push(player2);
-    }
-
-  }
+  });
 
 
 
-  socket.emit('currentPlayers', players)
-  socket.broadcast.emit('newPlayer', players[socket.id])
+  // io.broadcast.emit('currentPlayers', players)
+  // io.broadcast.emit('newPlayer', players[socket.id])
 
-  socket.on('disconnect', function () {
-    console.log('player [' + socket.id + '] disconnected')
-    delete players[socket.id]
-    io.emit('playerDisconnected', socket.id)
-  })
+  // io.on('disconnect', function () {
+  //   console.log('player [' + socket.id + '] disconnected')
+  //   delete players[socket.id]
+  //   io.broadcast.emit('playerDisconnected', socket.id)
+  // })
 
 
 
@@ -117,7 +116,6 @@ io.on('connection', function (name, bandoBarcos, socketId, level) {
     var gamePLay = new Games();
     gamePLay.createGame(name, socketId);
   });
-});
 
   //CORS
   app.use(
