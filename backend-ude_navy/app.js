@@ -89,13 +89,13 @@ io.on('connection', function (socket) {
     //creo una instacia de todos los juegos y agrego a la lista de juegos
     console.log('antes de new');
     const gamePLay = new Games(level);
-
     console.log('antes gamePLay.createGame');
     gamePLay.createGame(name, bandoBarcos, socket.id);
     console.log(gamePLay);
     console.log(socket.id);
     //emito datos al frontend
     console.log('emito los datos al front');
+    console.log(gamePLay[0]);
     io.emit('losJuegos', gamePLay[0]);
     console.log('termine de crear la partida y emiti al frontend');
   });

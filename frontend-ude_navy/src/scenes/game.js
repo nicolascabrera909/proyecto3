@@ -30,23 +30,36 @@ class Game extends Phaser.Scene {
   }
 
   create() {
-    var name='nico';///-> esto lo tengo que obtener del menu web
-    var bandoBarcos='submarino'; //-->esto tambien tiene q venir de la web 
+    var name = 'nico';///-> esto lo tengo que obtener del menu web
+    var bandoBarcos = 'submarino'; //-->esto tambien tiene q venir de la web 
     let level = 1;
     //Creo el mapa
     this.showMap();
-    
+
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
     //var self = this
     console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
     //this.socket.emit('connection',  name,bandoBarcos,this.socket.id, level)
     console.log('Emito al back datos del front');
-    this.socket.emit('createGame',name, bandoBarcos, level);
+    this.socket.emit('createGame', name, bandoBarcos, level);
     console.log('voy a obtener la info del back');
     this.socket.on('losJuegos', function (gamePLay) {
       console.log('gamePLay=>');
       console.log(gamePLay);
+      console.log('Voy a dibujar el submarino');
+      const jugador1 = gamePLay[0];
+      console.log(jugador1);
+      const boatList = jugador1.boatList;
+      console.log(boatList);
+      const submarino = jugador1.boatList[0];
+      console.log(submarino);
+      const coordenada = {
+        "x": submarino.positionX,
+        "y": submarino.positionY,
+      };
+      console.log(coordenada);
+      this.submarino.create(coordenada);
     });
 
     /*this.socket.on('createGame', name, bandoBarcos, this.socket.id, level)
@@ -55,41 +68,34 @@ class Game extends Phaser.Scene {
        
     })*/
 
-//
-// var self = this
-// this.socket = io("http://localhost:3000")
+    //
+    // var self = this
+    // this.socket = io("http://localhost:3000")
 
-// this.socket.on('currentPlayers', function (players) {
-//   Object.keys(players).forEach(function (i) {
-//     if (players[i].playerId === self.socket.id) {
-//       addPlayer(self, players[i])
-//     } else {
-//       addOtherPlayers(self, players[i])
-//     }
-//   })
-// })
+    // this.socket.on('currentPlayers', function (players) {
+    //   Object.keys(players).forEach(function (i) {
+    //     if (players[i].playerId === self.socket.id) {
+    //       addPlayer(self, players[i])
+    //     } else {
+    //       addOtherPlayers(self, players[i])
+    //     }
+    //   })
+    // })
 
-//
+    //
 
     this.socket.on('newPlayer', function (playerInfo) {
-        addOtherPlayers(self, playerInfo)
+      addOtherPlayers(self, playerInfo)
     })
 
     this.socket.on('playerDisconnected', function (playerId) {
-        self.otherPlayers.getChildren().forEach(function (otherPlayer) {
-            if (playerId === otherPlayer.playerId) {
-                otherPlayer.destroy()
-            }
-        })
+      self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+        if (playerId === otherPlayer.playerId) {
+          otherPlayer.destroy()
+        }
+      })
     })
 
-    
-    
-
-
-    /*Nueva partida*/
-
-    
     //Listen for web socket events
     /*
     this.socket.on('currentPlayers', (players) =>{
@@ -108,51 +114,12 @@ class Game extends Phaser.Scene {
         }
       }.bind(this));
     }.bind(this));
-    
-    this.socket.on('SubmarinoPos', function (variableQueRecibo) {
-
-    }.bind(this));
-
-    this.socket.on('SubmarinoProfundidad', function (variableQueRecibo) {
-      
-    }.bind(this));
-    this.socket.on('SubmarinoVida', function (variableQueRecibo) {
-      
-    }.bind(this));
-    this.socket.on('cantidadTorpedos', function (variableQueRecibo) {
-      
-    }.bind(this));
-    this.socket.on('CantidadCanionSubmarino', function (variableQueRecibo) {
-      
-    }.bind(this));
-
-    this.socket.on('DestructorPos', function (variableQueRecibo) {
-      
-    }.bind(this));
-
-    this.socket.on('DestructorVida', function (variableQueRecibo) {
-      
-    }.bind(this));
-
-    this.socket.on('CantidadCanionDestructor', function (variableQueRecibo) {
-      
-    }.bind(this));
-
-    this.socket.on('cantidadCargasProfundidad', function (variableQueRecibo) {
-      
-    }.bind(this));
-
-    this.socket.on('CargerosPos', function (variableQueRecibo) {
-
-    }.bind(this));
-
-    this.socket.on('CargerosVida', function (variableQueRecibo) {
-      
-    }.bind(this));
     */
-    
 
-    this.submarino.create();
+
+
+
+
     this.destructor.create();
     this.carguero.showCargueros();
     //creo los titulos de la cantidad de disparos realizados
@@ -263,10 +230,10 @@ class Game extends Phaser.Scene {
   // }
 
 
-/*  */
+  /*  */
   /*Creo una nueva partida*/
-  nuevaPartida(name,boatList,socketId){
-    this.socket.emit('nuevaPartida',  name,boatList,socketId)
+  nuevaPartida(name, boatList, socketId) {
+    this.socket.emit('nuevaPartida', name, boatList, socketId)
 
   }
 
