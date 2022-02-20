@@ -1,7 +1,7 @@
-const mysql = require('mysql');
-const { promisify } = require('util');
-const { database } = require('../config');
-const pool = mysql.createPool(database);
+import mysql from 'mysql';
+import { promisify } from 'util';
+import config from '../config.js';
+const pool = mysql.createPool(config);
 
 // export default Router;
 const Pool = function Pool() {

@@ -11,7 +11,7 @@ const app = express();
 const port = 3000;
 
 //import { database } from './config.js';
-app.use('/', router);
+app.use('/', Router);
 
 //variables del juego
 const players = {};
@@ -156,11 +156,12 @@ app.use(
 let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:5501', 'http://localhost:3000', 'http://127.0.0.1', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501', 'http://127.0.0.1:3000', 'http://proyecto.sysmemories.com', 'http://proyecto.sysmemories.com:5500', 'http://proyecto.sysmemories.com:5501', 'http://proyecto.sysmemories.com:3000'];
 
 //ROUTES
-app.use(require('./routes/index'));
+// app.use(require('./routes/index'));
 
 //LISTEN
-server.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Servidor Express corriendo en el puerto: ${port}`);
+  
 });
 
 

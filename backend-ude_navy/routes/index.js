@@ -1,8 +1,7 @@
 
 import Games from '../services/Games.js';
 import express from 'express';
-import { } from '../persistence/database';
-
+import pool from '../persistence/database.js';
 // export const function Router {
 
 const router = express.Router();
