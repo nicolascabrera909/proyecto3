@@ -3,7 +3,7 @@ import { promisify } from 'util';
 import config from '../config.js';
 const pool = mysql.createPool(config);
 
-// export default Router;
+//export default Router;
 const Pool = function Pool() {
   //CONNECTION
   pool.getConnection((err, connection) => {

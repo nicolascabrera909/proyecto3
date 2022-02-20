@@ -6,12 +6,15 @@ import Router from './routes/index.js'
 /*Declaro variables o constantes*/
 // const express = require('express');
 import express from 'express';
+import Pool from './persistence/database.js'
 
 const app = express();
 const port = 3000;
 
 //import { database } from './config.js';
-app.use('/', Router);
+//app.use('/', Router);
+//app.use('/version', Router);
+//app.use('/', Pool);
 
 //variables del juego
 const players = {};
@@ -20,19 +23,29 @@ let listaGame = [];
  
 
 /**SOCKET.IO configuracion**/
-
 import http from 'http';
-//import * as socketIO from 'socket.io';
 import { Server } from "socket.io";
-//const io = socketIO();
-//Server = http.Server(app);
-const httpServer = createServer();
+
+// SERVER EXPRESS
+const httpServer = createServer(app); 
+
+// httpServer.on('request', (request, res) => {
+//   res.writeHead(200, { 'Content-Type': 'application/json' });
+//   res.end(JSON.stringify({
+//     data: 'Hello World!'
+//   }));
+// });
+
+
+// SOCKET SERVER
 const io = new Server(httpServer, {
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:5500",
   }
 });
+
+
 /*io = socketIO(server, {
   pingTimeout: 60000,
   cors: {
@@ -64,6 +77,8 @@ level -> nivel de dificultad del juego
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected')
   //valido si la lita esta vacia
+  Pool.getConnection();
+  console.log("luego de la conexion");
   if (listaGame.length === 0) {
     console.log('Nueva partida');
   }
@@ -86,51 +101,6 @@ io.on('connection', function (socket) {
 
 });
 
-
-
-
-
-// io.broadcast.emit('currentPlayers', players)
-// io.broadcast.emit('newPlayer', players[socket.id])
-
-// io.on('disconnect', function () {
-//   console.log('player [' + socket.id + '] disconnected')
-//   delete players[socket.id]
-//   io.broadcast.emit('playerDisconnected', socket.id)
-// })
-
-
-
-
-
-/*
-    //Envio jugadores a nuevo jugador, en este punto me comunico con el front
-    socket.emit('currentPlayers', players);
- 
-  //Actualizo a todos los jugadores sobre nuevo jugador,en este punto me comunico con el front
-  socket.broadcast.emit('newPlayer', players[socket.id]);
- 
-  //Al desconectarse un usuario, se lo borra de jugadores,en este punto me comunico con el front
-  socket.on('disconnect', function () {
-    console.log('Usuario desconectado: ', socket.id);
-    console.log(players);
-    delete players[socket.id];
-    io.emit('playerDisconnected', socket.id);
-  });
- 
-  //Cuando se mueve un jugador se actualiza la informacion,en este punto me comunico con el front
-  socket.on('playerMovement', function (movementData) {
-    players[socket.id].x = movementData.x;
-    players[socket.id].y = movementData.y;
-    //players[socket.id].flipX = movementData.flipX;
-    socket.broadcast.emit('playerMoved', players[socket.id]);
-  });
- 
-}
-  else {
-    console.log("Juego completo. Intente mas tarde.");
-  }
-});*/
 
 /**Metodo de escucha de funcion conectar */
 io.on('nuevaPartida', function (name, boatList, socketId) {
@@ -156,7 +126,14 @@ app.use(
 let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:5501', 'http://localhost:3000', 'http://127.0.0.1', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501', 'http://127.0.0.1:3000', 'http://proyecto.sysmemories.com', 'http://proyecto.sysmemories.com:5500', 'http://proyecto.sysmemories.com:5501', 'http://proyecto.sysmemories.com:3000'];
 
 //ROUTES
-// app.use(require('./routes/index'));
+const root = Router.root;
+app.get('/', () => root);
+//var router = express.Router(); 
+//app.get('/', router);
+
+//app.get('/', (req, res) => {
+//  res.send(Router);
+//})
 
 //LISTEN
 httpServer.listen(port, () => {
