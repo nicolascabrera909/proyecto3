@@ -28,3 +28,4 @@ class Armament {
         this.cantMunicion = cantMunicion;
     }
 }
+export default Armament;

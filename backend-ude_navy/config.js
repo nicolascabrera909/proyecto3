@@ -1,4 +1,4 @@
-module.exports = {
+config = {
 
     database: {
         connectionLimit: 10,
@@ -10,3 +10,4 @@ module.exports = {
     }
 
 };
+export default config;
