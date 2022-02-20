@@ -1,7 +1,8 @@
-/*
-import Torpedo from "./Torpedo.js";
-import Cannon from "./Cannon.js";
-*/
+//import Torpedo from "./Torpedo.js";
+//import Cannon from "./Cannon.js";
+const Cannon = require('./Cannon.js');
+const Torpedo = require('./Torpedo.js');
+
 class Submarine {
     
     /*Constructor*/
@@ -9,8 +10,10 @@ class Submarine {
         Submarine.prototype = new Ship;
         //super();
         this.depth.setDepth(1);// 1 superficie, 2 sumergido y 3sumergido proufundo
-        /*
+        
         this.torpedo = new Torpedo();
+        
+        /*
         this.torpedo.setPower(150);
         this.torpedo.setDistance(100);
         this.torpedo.setCantMunicion(30);
