@@ -15,8 +15,10 @@ class DAOVersion {
         */
         console.log('valor del result' + result); 
         //console.log('luego');
-        if (result.length > 0) 
+        if (result != null) {
+            console.log('entro al result');
             return result.id;
+        }
         else
             return ('123')
     } 
