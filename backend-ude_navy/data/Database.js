@@ -3,6 +3,7 @@ const { promisify } = require('util');
 const { database } = require('../config');
 const pool = mysql.createPool(database);
 
+
 //CONNECTION
 pool.getConnection((err, connection) => {
   if (err) {
@@ -27,3 +28,4 @@ pool.getConnection((err, connection) => {
 pool.query = promisify(pool.query);
 
 module.exports = pool;
+

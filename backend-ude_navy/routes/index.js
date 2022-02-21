@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/Controller'); 
 
+router.get('/', controller.index); 
+
+router.get('/version', controller.version);
+
+module.exports = router;
+
 // router.get('/', (req, res) => {
 //     res.send('Bienvenidos a UDE Navy');
 // });
@@ -14,9 +20,7 @@ const controller = require('../controllers/Controller');
 //         res.send('0');
 // });
 
-router.get('/', controller.index); 
 
-router.get('/version', controller.version);
 
 /*buscar coordenadas para submarino*/
 /*
@@ -40,4 +44,3 @@ router.get('/coordenadasSubmarino/:param', async (req, res) => {
 
 // });
 
-module.exports = router;
