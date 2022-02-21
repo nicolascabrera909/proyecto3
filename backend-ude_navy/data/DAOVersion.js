@@ -7,14 +7,12 @@ class DAOVersion {
 
     async version() {
         const consultas = new queries();
-        const result = await.pool.query(consultas.version());
-        console.log('valor del result' + result);
+        const result = await pool.query(consultas.version());
         if (result != null) {
-            console.log('entro al result');
-            return result.id;
+            return result[0].version;
         }
         else
-            return ('123')
+            return ('Error');
     }        
 
 }
