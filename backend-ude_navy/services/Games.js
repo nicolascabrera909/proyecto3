@@ -12,19 +12,18 @@ class Games {
     /*Constructor*/
     constructor(level) {
         this.gameList = [];
-        this.difficulty = new Difficulty(level)
-        this.mapa = new Map()
+        
     }
 
     getGameList() {
         return this.gameList;
     }
 
-    createGame(name, bandoBarcos, socketId) {
+    createGame(name, bandoBarcos, socketId,mapa,difficulty) {
         if (bandoBarcos === 'submarino') {
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
-            var elSubmarino = new Submarine(this.mapa, this.difficulty);
+            var elSubmarino = new Submarine(mapa,difficulty);
             //creo la lista de botes y agrego al submarino
             var boatList = [elSubmarino];
             //creo el jugador
@@ -66,7 +65,7 @@ class Games {
 
         //creo la lista de botes y se la asigno al jugadores
 
-        return this.gameList;
+        //return this.gameList;
 
     }
 

@@ -6,12 +6,14 @@ import Destructor from "../objects/destructor.js";
 
 class Game extends Phaser.Scene {
 
+
   /*Constructor de la clase Game, inicializo la clase*/
   constructor() {
     super('Game');
     console.log("Game cargado");
     this.cant_torpedos_enviados = 0;
     this.cant_canones_enviados = 0;
+    this.gameList = [];
   }
 
   preload() {
@@ -32,61 +34,53 @@ class Game extends Phaser.Scene {
   create() {
     var name = 'nico';///-> esto lo tengo que obtener del menu web
     var bandoBarcos = 'submarino'; //-->esto tambien tiene q venir de la web 
-    let level = 1;
+    var level = 1;
+    var mapa = 1;
+    var dificultad = 1;
+
     //Creo el mapa
     this.showMap();
-
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
-    //var self = this
     console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
-    //this.socket.emit('connection',  name,bandoBarcos,this.socket.id, level)
-    console.log('Emito al back datos del front');
-    this.socket.emit('createGame', name, bandoBarcos, level);
-    console.log('voy a obtener la info del back');
-    this.socket.on('losJuegos', function (gamePLay) {
-      console.log('Contenido de gamePLay=>');
-      console.log(gamePLay);
-      console.log('Voy a dibujar el submarino');
-      const jugador1 = gamePLay[0];
-      console.log('este es el jugador 1'+jugador1);
-      const boatList = jugador1.boatList;
-      console.log('esta es la lista de botes' +boatList);
-      const submarino = jugador1.boatList[0];
-      console.log(submarino);
-      const coordenada = {
-        "x": submarino.positionX,
-        "y": submarino.positionY,
-      };
-      console.log(coordenada);
-      this.submarino.create(coordenada);
-    });
+    //valido si la lista de juegos esta vacia o tiene un juego iniciado
+    if (!(this.gameList.length > 0)) {
+      console.log('Inicio Partida');
+      //****si la lista tiene datos la partida esta iniciada, entramos aca******/
+      //emito los datos al front
+      this.socket.emit('createGame', name, bandoBarcos, level, mapa, dificultad);
+      //obtengo la respuesta del socket desde el backend
+      this.socket.on('Los Juegos formato JSON', function (jsonGame) {
+        console.log('Contenido de jsonGame:' + jsonGame);
+        //convertir el json de los juegos q obtuve de la respuesta a un objeto que tiene la lista de juegos  
+        this.gameList = JSON.parse(jsonGame);
+        console.log('Los juegos:' + losJuegos[0].playerList[0].name);
+      });
 
-    /*this.socket.on('createGame', name, bandoBarcos, this.socket.id, level)
-    this.socket.on('currentPlayers', function (players) {
-       //la lista esta vacia?
-       
-    })*/
+    } else {
+      console.log('Me uno a partida');
+      this.destructor.create();
+      this.carguero.showCargueros();
+      //creo los titulos de la cantidad de disparos realizados
+      this.createTorpedoLabel();
+      this.createCanonLabel();
+    }
 
-    //
-    // var self = this
-    // this.socket = io("http://localhost:3000")
-
-    // this.socket.on('currentPlayers', function (players) {
-    //   Object.keys(players).forEach(function (i) {
-    //     if (players[i].playerId === self.socket.id) {
-    //       addPlayer(self, players[i])
-    //     } else {
-    //       addOtherPlayers(self, players[i])
-    //     }
-    //   })
-    // })
-
-    //
+    /* [{ "playerList": [{ "name": "nico", 
+                         "boatList": [{ "depth": 1, 
+                                         "torpedo": { "power": 100, "distance": 100, "cantMunicion": 30 }, 
+                                         "cannon": { "power": 100, "distance": 100, "cantMunicion": 30 }, 
+                                         "positionX": 149.24414571461799, "positionY": 296.181080834839, 
+                                         "boatLife": 100, 
+                                         "visibility": 100, 
+                                         "dificultad": 1 }]
+                         , "socketId": "QN0AwoNjq8exrrf7AAAB" }]
+                         , "idMap": 1, 
+                         "idDifficulty": 1 }]*/
 
     this.socket.on('newPlayer', function (playerInfo) {
       addOtherPlayers(self, playerInfo)
-    })
+    });
 
     this.socket.on('playerDisconnected', function (playerId) {
       self.otherPlayers.getChildren().forEach(function (otherPlayer) {
@@ -94,70 +88,43 @@ class Game extends Phaser.Scene {
           otherPlayer.destroy()
         }
       })
-    })
+    });
 
-    //Listen for web socket events
-    /*
-    this.socket.on('currentPlayers', (players) =>{
-      Object.keys(players).forEach(function (id) {
-        if (players[id].playerId === this.socket.id) {
-          if (this.option == 'submarino') {
-            console.log("Es submarino");
-            
-            this.submarino.create(players[id].playerId); 
-          }  
-          else
-            console.log("Es destructor");
-          //this.destructor.create(players[id]);
-        } else {
-          //this.addOtherPlayers(players[id]);
-        }
-      }.bind(this));
-    }.bind(this));
-    */
+  };
+
+  
+
+  //configuro las coliciones de los elementos entre si y los limites del mapa
+  //this.physics.world.setBoundsCollision(true, true, true, true);
+  //this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.accionColision, null, this);
+  //console.log(this.option);
 
 
 
+  //--------------> ver que hacer con estos comentarios
+  /*
+  console.log("mapa");
+  this.showMap();
+  this.destructor.showDestructor();
+  this.submarino.showSubmarino();
+  this.carguero.showCargueros();
+ //this.destructor.moveDestructor();
+  */
+  //this.physics.add.collider(this.torpedo.get(),/ this.destructor.get(), this.algo, null, this);
+  //this.updateCamera();
+  //this.cursors = this.input.keyboard.createCursorKeys();
+  //this.sys.game.cameras.setBounds(0,0, this.sys.game.config.width, this.sys.game.config.height);
+  //this.sys.game.cameras.main.startFollow(this.submarino);
 
-
-    this.destructor.create();
-    this.carguero.showCargueros();
-    //creo los titulos de la cantidad de disparos realizados
-    this.createTorpedoLabel();
-    this.createCanonLabel();
-    //configuro las coliciones de los elementos entre si y los limites del mapa
-    //this.physics.world.setBoundsCollision(true, true, true, true);
-    //this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.accionColision, null, this);
-    //console.log(this.option);
-
-
-
-
-
-    //--------------> ver que hacer con estos comentarios
-    /*
-    console.log("mapa");
-    this.showMap();
-    this.destructor.showDestructor();
-    this.submarino.showSubmarino();
-    this.carguero.showCargueros();
-   //this.destructor.moveDestructor();
-    */
-    //this.physics.add.collider(this.torpedo.get(),/ this.destructor.get(), this.algo, null, this);
-    //this.updateCamera();
-    //this.cursors = this.input.keyboard.createCursorKeys();
-    //this.sys.game.cameras.setBounds(0,0, this.sys.game.config.width, this.sys.game.config.height);
-    //this.sys.game.cameras.main.startFollow(this.submarino);
-  }
 
   update() {
-    this.background.tilePositionY -= 0.3;
+   // this.background.tilePositionY -= 0.3;
     //movimientos  de sumarino y destructor
     //this.submarino.moveSubmarino();
     //this.destructor.moveDestructor();
     //actualiza los lanzamientos de torpedos y cañones
-    this.updateTorpedoStatics();
-    this.updateCanonStatics();
+    //this.updateTorpedoStatics();
+    //this.updateCanonStatics();
 
     //----------> ver que hacer con el comentario, se borra
     //this.sys.game.cameras.follow(this.submarino,false); 
@@ -181,23 +148,23 @@ class Game extends Phaser.Scene {
 
 
     /**Ejemplo
-
+  
     // create the map
     this.map = this.make.tilemap({
       key: 'map'
     });
-
+  
     // first parameter is the name of the tilemap in tiled
     var tiles = this.map.addTilesetImage('spritesheet', 'tiles', 16, 16, 1, 2);
-
+  
     // creating the layers
     this.map.createStaticLayer('Grass', tiles, 0, 0);
     this.map.createStaticLayer('Obstacles', tiles, 0, 0);
-
+  
     // don't go out of the map
     this.physics.world.bounds.width = this.map.widthInPixels;
     this.physics.world.bounds.height = this.map.heightInPixels;
-
+  
     //Fin Ejemplo*/
 
   }
@@ -230,17 +197,11 @@ class Game extends Phaser.Scene {
   // }
 
 
-  /*  */
-  /*Creo una nueva partida*/
-  nuevaPartida(name, boatList, socketId) {
-    this.socket.emit('nuevaPartida', name, boatList, socketId)
-
-  }
 
 
 
   /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
-
+/*
   createTorpedoLabel() {
     this.torpedos_quantity = this.add.text(16, 16, 'Torpedos: ' + this.cant_torpedos_enviados, {
       fontSize: '20px',
@@ -266,7 +227,7 @@ class Game extends Phaser.Scene {
   updateCanonStatics() {
     this.canon_quantity.setText("Cañon: " + this.cant_canones_enviados);
   }
-
+*/
   /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7
 
 

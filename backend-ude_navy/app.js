@@ -11,8 +11,8 @@ const { database } = require('./config');
 //variables del juego
 const players = {};
 let cantUsers = 0;
-let listaGame = [];
- 
+var gamePlay = new Games(level);
+
 /**SOCKET.IO configuracion**/
 const http = require('http');
 const socketIO = require('socket.io');
@@ -54,22 +54,25 @@ io.on('connection', function (socket) {
     console.log('Nueva partida');
   }
 
-  socket.on('createGame', function (name, bandoBarcos, level) {
-    console.log('player [' + socket.id + '] connected')
+  socket.on('createGame', function (name, bandoBarcos, level, mapa, dificultad) {
+    console.log('Player 1 [' + socket.id + '] connected')
     //valido si la lita esta vacia
-    console.log('New Game' + name + ' - ' + bandoBarcos + ' - ' + level);
-    //creo una instacia de todos los juegos y agrego a la lista de juegos
-    console.log('antes de new');
-    const gamePLay = new Games(level);
-    console.log('antes gamePLay.createGame');
-    gamePLay.createGame(name, bandoBarcos, socket.id);
-    console.log(gamePLay);
-    console.log(socket.id);
-    //emito datos al frontend
-    console.log('emito los datos al front');
-    console.log(gamePLay[0]);
-    io.emit('losJuegos', gamePLay[0]);
-    console.log('termine de crear la partida y emiti al frontend');
+    if (!gamePlay.getGameList().length > 0) {
+      console.log('Creo una instancia de juego');
+      var listaGame = gamePLay.createGame(name, bandoBarcos, socket.id, mapa, dificultad);
+      // console.log(gamePLay);
+      console.log(gamePLay.gameList);
+      console.log(socket.id);
+      //emito datos al frontend
+      console.log('emito los datos al front');
+      var jsonGame = JSON.stringify(gamePLay.gameList);
+      console.log('esto es un json -> ' + jsonGame);
+      io.emit('losJuegos', jsonGame);
+      console.log('termine de crear la partida y emiti al frontend');
+    } else {
+      // creo el jugador dos y lo uno a la partida
+    }
+
   });
 
 });
@@ -101,7 +104,7 @@ let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:
 app.use(require('./routes/index'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
