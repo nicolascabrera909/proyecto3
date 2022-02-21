@@ -66,7 +66,7 @@ class Games {
 
         //creo la lista de botes y se la asigno al jugadores
 
-
+        return this.gameList;
 
     }
 

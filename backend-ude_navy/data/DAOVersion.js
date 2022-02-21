@@ -4,25 +4,18 @@ const queries = require('./Queries');
 class DAOVersion {
 
     constructor() {}
-    
-    version() {
+
+    async version() {
         const consultas = new queries();
-        //console.log('valor del pool' + pool.query);
-        const result = pool.query(consultas.version());
-        //console.log('a la salida del result');
-        /*
-            RESULT ES LO QUE NO ESTA VINIENDO. ESTO ES LO QUE VIENE object Promise
-        */
-        console.log('valor del result' + result); 
-        //console.log('luego');
+        const result = await.pool.query(consultas.version());
+        console.log('valor del result' + result);
         if (result != null) {
             console.log('entro al result');
             return result.id;
         }
         else
             return ('123')
-    } 
+    }        
 
 }
-
 module.exports = DAOVersion;

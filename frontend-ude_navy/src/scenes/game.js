@@ -45,13 +45,13 @@ class Game extends Phaser.Scene {
     this.socket.emit('createGame', name, bandoBarcos, level);
     console.log('voy a obtener la info del back');
     this.socket.on('losJuegos', function (gamePLay) {
-      console.log('gamePLay=>');
+      console.log('Contenido de gamePLay=>');
       console.log(gamePLay);
       console.log('Voy a dibujar el submarino');
       const jugador1 = gamePLay[0];
-      console.log(jugador1);
+      console.log('este es el jugador 1'+jugador1);
       const boatList = jugador1.boatList;
-      console.log(boatList);
+      console.log('esta es la lista de botes' +boatList);
       const submarino = jugador1.boatList[0];
       console.log(submarino);
       const coordenada = {
