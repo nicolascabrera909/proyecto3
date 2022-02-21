@@ -3,17 +3,17 @@ const queries = require('./Queries');
 
 class DAOVersion {
 
-    constructor() {
-        
-    }
-
+    constructor() {}
     
     version() {
         const consultas = new queries();
-        console.log('valor del pool' + pool);
+        //console.log('valor del pool' + pool.query);
         const result = pool.query(consultas.version());
-        console.log('a la salida del result');
-        //console.log(result);
+        //console.log('a la salida del result');
+        /*
+            RESULT ES LO QUE NO ESTA VINIENDO. ESTO ES LO QUE VIENE object Promise
+        */
+        console.log('valor del result' + result); 
         //console.log('luego');
         if (result.length > 0) 
             return result.id;
