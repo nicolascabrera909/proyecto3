@@ -1,5 +1,5 @@
-import DepthCharge from "./DepthCharge";
-import Cannon from "./Cannon.js";
+const DepthCharge = require("./DepthCharge")
+const Cannon = require("./Cannon.js")
 
 class Destructor{
     
@@ -44,6 +44,5 @@ class Destructor{
     return coordenada;
 }
 
-   
-   
 }
+module.exports = Destructor;

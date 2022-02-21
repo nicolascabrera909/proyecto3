@@ -1,57 +1,29 @@
 //importo las clases que necesito
-import Games from './services/Games.js'
-import cors from 'cors';
-import { createServer } from "http";
-import Router from './routes/index.js'
-/*Declaro variables o constantes*/
-// const express = require('express');
-import express from 'express';
-import Pool from './persistence/database.js'
+const Games = require('./services/Games.js');
 
-const app = express();
-const port = 3000;
-
-//import { database } from './config.js';
-//app.use('/', Router);
-//app.use('/version', Router);
-//app.use('/', Pool);
+/*Declaro variables o contantes*/
+const express = require('express')
+const app = express()
+const port = 3000
+const cors = require('cors');
+const { database } = require('./config');
 
 //variables del juego
 const players = {};
 let cantUsers = 0;
 let listaGame = [];
  
-
 /**SOCKET.IO configuracion**/
-import http from 'http';
-import { Server } from "socket.io";
-
-// SERVER EXPRESS
-const httpServer = createServer(app); 
-
-// httpServer.on('request', (request, res) => {
-//   res.writeHead(200, { 'Content-Type': 'application/json' });
-//   res.end(JSON.stringify({
-//     data: 'Hello World!'
-//   }));
-// });
-
-
-// SOCKET SERVER
-const io = new Server(httpServer, {
+const http = require('http');
+const socketIO = require('socket.io');
+const server = http.Server(app);
+const io = socketIO(server, {
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:5500",
   }
 });
 
-
-/*io = socketIO(server, {
-  pingTimeout: 60000,
-  cors: {
-    origin: "http://localhost:5500",
-  }
-});*/
 
 //Obtengo nombre ingresado en el html
 /*let tipoBarco = document.getElementById('tipoBarco');
@@ -102,7 +74,6 @@ io.on('connection', function (socket) {
 
 });
 
-
 /**Metodo de escucha de funcion conectar */
 io.on('nuevaPartida', function (name, boatList, socketId) {
   console.log('Nueva partida');
@@ -127,19 +98,25 @@ app.use(
 let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:5501', 'http://localhost:3000', 'http://127.0.0.1', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501', 'http://127.0.0.1:3000', 'http://proyecto.sysmemories.com', 'http://proyecto.sysmemories.com:5500', 'http://proyecto.sysmemories.com:5501', 'http://proyecto.sysmemories.com:3000'];
 
 //ROUTES
-const root = Router.root;
-app.get('/', () => root);
-//var router = express.Router(); 
-//app.get('/', router);
+app.use(require('./routes/index'));
 
-//app.get('/', (req, res) => {
-//  res.send(Router);
-//})
-
-//LISTEN
-httpServer.listen(port, () => {
-  console.log(`Servidor Express corriendo en el puerto: ${port}`);
-  
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
+// error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
+
+//LISTEN
+server.listen(port, () => {
+  console.log(`Servidor Express corriendo en el puerto: ${port}`);
+})

@@ -1,46 +1,43 @@
-
-import Games from '../services/Games.js';
-import express from 'express';
-import pool from '../persistence/database.js';
-// export const function Router {
-
+const express = require('express');
 const router = express.Router();
-let gameList = [];
-  
+const controller = require('../controllers/Controller'); 
 
-// class Routes {
-//     constructor(){
-//         this.foo = 10
-//     }
+// router.get('/', (req, res) => {
+//     res.send('Bienvenidos a UDE Navy');
+// });
 
-//     Root = (req, res, next) => {
-//         res.json({foo: this.foo});
-//     }
-// }
+// router.get('/version', async (req, res) => {
+//     const version = await pool.query('SELECT version FROM udenavybd.version');
+//     if (version.length > 0) 
+//         res.send(version[0].version);
+//     else
+//         res.send('0');
+// });
 
-// var routes = new Routes();
-// app.get('/', routes.Root);
+router.get('/', controller.index); 
 
+router.get('/version', controller.version);
 
-// export default Router;
-class Router {
+/*buscar coordenadas para submarino*/
+/*
+router.get('/coordenadasSubmarino/:param', async (req, res) => {
+        console.log(req.params);
+        console.log(req.body);
+        //metodo para devolver cordenadas de manera random
+        var nuevoGame= new Game();
+        var lasCoordenadas=nuevoGame.coordenadasBarcos();
+        res.send(lasCoordenadas);
+   
+});
+
+*/
+/*buscar coordenadas para submarino*/
+// router.get('/coordenadas/:param', async (req, res) => {
     
-    constructor(){
-    }
-    
-    root = (req, res, next) => {
-        res.writeHead(200);
-        console.log('Bienvenidos a UDE Navy');
-        res.send('Bienvenidos a UDE Navy');
-    };
+//     var nuevoGame= new Games(gameList);
+//     var lasCoordenadas=nuevoGame.coordenadasSubmarino();
+//     res.send(lasCoordenadas);
 
-    version = ( async (req, res) => {
-        const version = await pool.query('SELECT version FROM udenavybd.version');
-        if (version.length > 0)
-            res.send(version[0].version);
-        else
-            res.send('0');
-    });
-}
+// });
 
-export default Router;
+module.exports = router;

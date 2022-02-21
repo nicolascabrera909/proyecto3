@@ -83,4 +83,4 @@ class Difficulty {
 
 }
 
-export default Difficulty;
+module.exports = Difficulty;

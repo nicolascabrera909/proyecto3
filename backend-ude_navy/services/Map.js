@@ -28,5 +28,6 @@ function getHeight() {
 }
 function getWidth() {
     return this.width
+}
 
-export default Map;
+module.exports = Map;

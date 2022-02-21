@@ -1,4 +1,4 @@
-import Player from "./Player.js";
+const Player = require('./Player.js')
 
 class Players {
 
@@ -61,4 +61,4 @@ class Players {
     }
 }
 
-export default Players;
+module.exports = Players;

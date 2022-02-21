@@ -1,6 +1,5 @@
 class Armament {
 
-
     /*Constructor*/
     constructor(power, distance, cantMunicion) {
         this.power = power;
@@ -28,4 +27,5 @@ class Armament {
         this.cantMunicion = cantMunicion;
     }
 }
-export default Armament;
+
+module.exports = Armament;

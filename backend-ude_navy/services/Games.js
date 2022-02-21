@@ -1,11 +1,10 @@
 //importo las clases que necesito
-// const player = require('./Player.js')
-import Player from './Player.js'
-import Game from './Game.js'
-import Submarine from './Submarine.js'
-import Cannon from './Cannon.js'
-import Torpedo from './Torpedo.js'
-import Difficulty from './Difficulty.js'
+const Player = require('./Player.js')
+const Game = require('./Game.js')
+const Submarine = require('./Submarine.js')
+const Cannon = require('./Cannon.js')
+const Torpedo = require('./Torpedo.js')
+const Difficulty = require('./Difficulty.js')
 
 class Games {
 
@@ -167,8 +166,5 @@ class Games {
 
 
 }
-export default Games; //---> es asi?
 
-
-
-
+module.exports = Games;

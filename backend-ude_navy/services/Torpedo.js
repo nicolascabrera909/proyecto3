@@ -1,4 +1,4 @@
-import Armament from './Armament.js'
+const Armament = require('./Armament.js')
 
 class Torpedo extends Armament {
 
@@ -12,4 +12,4 @@ class Torpedo extends Armament {
 
 }
 
-export default Torpedo;
+module.exports = Torpedo;

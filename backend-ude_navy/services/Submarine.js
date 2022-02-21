@@ -1,8 +1,6 @@
-//import Torpedo from "./Torpedo.js";
-//import Cannon from "./Cannon.js";
-import Cannon from './Cannon.js'
-import Torpedo from'./Torpedo.js'
-import Ship from './Ship.js'
+const Cannon = require('./Cannon.js')
+const Torpedo = require('./Torpedo.js')
+const Ship = require('./Ship.js')
 
 class Submarine {
     
@@ -69,4 +67,4 @@ class Submarine {
 
 }
 
-export default Submarine;
+module.exports = Submarine;

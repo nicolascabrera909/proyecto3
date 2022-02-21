@@ -1,4 +1,4 @@
-import Boat from './Boat.js'
+const Boat = require('./Boat.js')
 
 class Ship extends Boat{
     
@@ -10,4 +10,4 @@ class Ship extends Boat{
    
 }
 
-export default Ship;
+module.exports = Ship;

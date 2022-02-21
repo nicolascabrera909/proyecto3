@@ -1,7 +1,7 @@
 {
   "name": "backend-ude_navy",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
   "scripts": {
     "start": "npx nodemon app.js"
   },
@@ -13,6 +13,5 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.15",
     "socket.io": "^4.4.1"
-  },
-  "type": "module"
+  }
 }

@@ -7,3 +7,4 @@ class Freighters{
         //super();
    }
 }
+module.exports = Freighters;

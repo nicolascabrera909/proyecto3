@@ -45,4 +45,5 @@ class Boat {
     }
 
 }
-export default Boat;
+
+module.exports = Boat;

@@ -1,4 +1,4 @@
-import Armament from './Armament.js'
+const Armament = require('./Armament.js')
 
 class Cannon extends Armament{
     
@@ -9,4 +9,4 @@ class Cannon extends Armament{
 
 }
 
-export default Cannon;
+module.exports = Cannon;
