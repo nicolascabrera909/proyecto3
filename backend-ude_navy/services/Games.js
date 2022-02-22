@@ -10,7 +10,7 @@ class Games {
 
 
     /*Constructor*/
-    constructor(level) {
+    constructor() {
         this.gameList = [];
         
     }
@@ -23,7 +23,7 @@ class Games {
         if (bandoBarcos === 'submarino') {
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
-            var elSubmarino = new Submarine(mapa,difficulty);
+            var elSubmarino = new Submarine();
             //creo la lista de botes y agrego al submarino
             var boatList = [elSubmarino];
             //creo el jugador
@@ -32,11 +32,8 @@ class Games {
             var playerList = [];
             //agrego al jugador a la lista de jugadores
             playerList.push(player);
-            //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
-            var nivel = 1;
-            var mapaId = 1;
             //creo la partida
-            var match = new Game(playerList, mapaId, nivel);
+            var match = new Game(playerList, mapa, difficulty);
             //inserta al final del array
             this.gameList.push(match);
 

@@ -13,7 +13,9 @@ class Game extends Phaser.Scene {
     console.log("Game cargado");
     this.cant_torpedos_enviados = 0;
     this.cant_canones_enviados = 0;
-    this.gameList = [];
+    this.games= {
+        gameList:[],
+    }
   }
 
   preload() {
@@ -44,19 +46,38 @@ class Game extends Phaser.Scene {
     console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
     //valido si la lista de juegos esta vacia o tiene un juego iniciado
-    if (!(this.gameList.length > 0)) {
+    if (!(this.games.gameList.length > 0)) {
       console.log('Inicio Partida');
       //****si la lista tiene datos la partida esta iniciada, entramos aca******/
       //emito los datos al front
-      this.socket.emit('createGame', name, bandoBarcos, level, mapa, dificultad);
+      this.socket.emit('createGame', name, bandoBarcos,  mapa, dificultad);
+      console.log('Emit -> createGame');
       //obtengo la respuesta del socket desde el backend
-      this.socket.on('Los Juegos formato JSON', function (jsonGame) {
+      this.socket.on('listenerCreateGame', function (jsonGame) {
         console.log('Contenido de jsonGame:' + jsonGame);
         //convertir el json de los juegos q obtuve de la respuesta a un objeto que tiene la lista de juegos  
-        this.gameList = JSON.parse(jsonGame);
-        console.log('Los juegos:' + losJuegos[0].playerList[0].name);
+        this.games = JSON.parse(jsonGame);
+        console.log('Converti a objeto el JSON'); 
+        console.log('Los juegos:' + this.games.gameList[0].playerList[0].name);
+        var coordenadas={
+                      x:this.games.gameList[0].playerList[0].boatList[0].positionX,
+                      y:this.games.gameList[0].playerList[0].boatList[0].positionY,
+        }
+        this.submarino.create(coordenadas);
       });
-
+/*
+      {"gameList":[{"playerList":[{"name":"nico",
+                                  "boatList":[{"depth":1,
+                                              "torpedo":{"power":100,"distance":100,"cantMunicion":30},
+                                              "cannon":{"power":100,"distance":100,"cantMunicion":30},
+                                              "positionX":323.5360409903175,
+                                              "positionY":145.63515830844585,
+                                              "boatLife":100,
+                                              "visibility":100}],
+                                  "socketId":"UqBw3d12GguKEkC-AAAB"}],
+                      "idMap":1,
+                      "idDifficulty":1}]}*/
+     
     } else {
       console.log('Me uno a partida');
       this.destructor.create();
@@ -78,7 +99,7 @@ class Game extends Phaser.Scene {
                          , "idMap": 1, 
                          "idDifficulty": 1 }]*/
 
-    this.socket.on('newPlayer', function (playerInfo) {
+    /*this.socket.on('newPlayer', function (playerInfo) {
       addOtherPlayers(self, playerInfo)
     });
 
@@ -88,7 +109,7 @@ class Game extends Phaser.Scene {
           otherPlayer.destroy()
         }
       })
-    });
+    });*/
 
   };
 

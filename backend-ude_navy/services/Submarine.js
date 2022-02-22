@@ -5,7 +5,7 @@ const Ship = require('./Ship.js')
 class Submarine {
     
     /*Constructor*/
-    constructor(mapa, dificultad) {
+    constructor() {
         const Submarine = new Ship;
         //super();
         this.depth=1;// 1 superficie, 2 sumergido y 3 sumergido proufundo
@@ -26,7 +26,6 @@ class Submarine {
         this.positionY = coordenadas.y;
         this.boatLife = 100;
         this.visibility = 100;
-        this.dificultad = dificultad;
 
     }
 

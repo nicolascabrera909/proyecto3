@@ -11,7 +11,7 @@ const { database } = require('./config');
 //variables del juego
 const players = {};
 let cantUsers = 0;
-var gamePlay = new Games(level);
+var gamePlay = new Games();
 
 /**SOCKET.IO configuracion**/
 const http = require('http');
@@ -48,26 +48,18 @@ level -> nivel de dificultad del juego
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected')
-  //valido si la lita esta vacia
-  console.log("luego de la conexion");
-  if (listaGame.length === 0) {
-    console.log('Nueva partida');
-  }
 
-  socket.on('createGame', function (name, bandoBarcos, level, mapa, dificultad) {
-    console.log('Player 1 [' + socket.id + '] connected')
+  //evento de una partida nueva
+  socket.on('createGame', function (name, bandoBarcos, mapa, dificultad) {
+    console.log('Ingrese al createGame')
     //valido si la lita esta vacia
     if (!gamePlay.getGameList().length > 0) {
       console.log('Creo una instancia de juego');
-      var listaGame = gamePLay.createGame(name, bandoBarcos, socket.id, mapa, dificultad);
-      // console.log(gamePLay);
-      console.log(gamePLay.gameList);
-      console.log(socket.id);
+      gamePlay.createGame(name, bandoBarcos, socket.id, mapa, dificultad);
+      var jsonGame = JSON.stringify(gamePlay);
+      console.log('Luego de convertir a JSON: ' + jsonGame);
       //emito datos al frontend
-      console.log('emito los datos al front');
-      var jsonGame = JSON.stringify(gamePLay.gameList);
-      console.log('esto es un json -> ' + jsonGame);
-      io.emit('losJuegos', jsonGame);
+      io.emit('listenerCreateGame', jsonGame);
       console.log('termine de crear la partida y emiti al frontend');
     } else {
       // creo el jugador dos y lo uno a la partida
