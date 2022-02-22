@@ -62,6 +62,7 @@ io.on('connection', function (socket) {
       io.emit('listenerCreateGame', jsonGame);
       console.log('termine de crear la partida y emiti al frontend');
     } else {
+      console.log('En el else. Cantidad de elementos de la lista' + gamePlay.getGameList().length );
       // creo el jugador dos y lo uno a la partida
     }
 

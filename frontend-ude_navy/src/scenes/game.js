@@ -1,5 +1,6 @@
 //imoprto archivos
 import Submarino from "../objects/submarino.js";
+//const Submarino = require('../objects/submarino.js'); 
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
 
@@ -7,6 +8,7 @@ import Destructor from "../objects/destructor.js";
 class Game extends Phaser.Scene {
 
 
+  
   /*Constructor de la clase Game, inicializo la clase*/
   constructor() {
     super('Game');
@@ -16,10 +18,12 @@ class Game extends Phaser.Scene {
     this.games= {
         gameList:[],
     }
+    this.submarino;
+    
   }
 
   preload() {
-    this.submarino = new Submarino(this, 0, 0, 'submarino');
+    
     this.carguero = new Carguero(this, 10, 10, 'carguero');
     this.destructor = new Destructor(this);
     this.loadImages();
@@ -40,85 +44,77 @@ class Game extends Phaser.Scene {
   }
 
   create() {
-    var name = 'nico';///-> esto lo tengo que obtener del menu web
-    var bandoBarcos = 'submarino'; //-->esto tambien tiene q venir de la web 
-    var level = 1;
-    var mapa = 1;
-    var dificultad = 1;
-
+    let self = this;
     //Creo el mapa
     this.showMap();
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
     console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
-    //valido si la lista de juegos esta vacia o tiene un juego iniciado
-    if (!(this.games.gameList.length > 0)) {
-      console.log('Inicio Partida');
-      //****si la lista tiene datos la partida esta iniciada, entramos aca******/
-      //emito los datos al front
-      this.socket.emit('createGame', name, bandoBarcos,  mapa, dificultad);
-      console.log('Emit -> createGame');
-      //obtengo la respuesta del socket desde el backend
-      this.socket.on('listenerCreateGame', function (jsonGame) {
-        console.log('Contenido de jsonGame:' + jsonGame);
-        //convertir el json de los juegos q obtuve de la respuesta a un objeto que tiene la lista de juegos  
-        this.games = JSON.parse(jsonGame);
-        console.log('Converti a objeto el JSON'); 
-        console.log('Los juegos:' + this.games.gameList[0].playerList[0].name);
-        var coordenadas={
-                      x:this.games.gameList[0].playerList[0].boatList[0].positionX,
-                      y:this.games.gameList[0].playerList[0].boatList[0].positionY,
-        }
-        this.submarino.create(coordenadas);
-      });
-/*
-      {"gameList":[{"playerList":[{"name":"nico",
-                                  "boatList":[{"depth":1,
-                                              "torpedo":{"power":100,"distance":100,"cantMunicion":30},
-                                              "cannon":{"power":100,"distance":100,"cantMunicion":30},
-                                              "positionX":323.5360409903175,
-                                              "positionY":145.63515830844585,
-                                              "boatLife":100,
-                                              "visibility":100}],
-                                  "socketId":"UqBw3d12GguKEkC-AAAB"}],
-                      "idMap":1,
-                      "idDifficulty":1}]}*/
-     
-    } else {
-      console.log('Me uno a partida');
-      this.destructor.create();
-      this.carguero.showCargueros();
-      //creo los titulos de la cantidad de disparos realizados
-      this.createTorpedoLabel();
-      this.createCanonLabel();
-    }
-
-    /* [{ "playerList": [{ "name": "nico", 
-                         "boatList": [{ "depth": 1, 
-                                         "torpedo": { "power": 100, "distance": 100, "cantMunicion": 30 }, 
-                                         "cannon": { "power": 100, "distance": 100, "cantMunicion": 30 }, 
-                                         "positionX": 149.24414571461799, "positionY": 296.181080834839, 
-                                         "boatLife": 100, 
-                                         "visibility": 100, 
-                                         "dificultad": 1 }]
-                         , "socketId": "QN0AwoNjq8exrrf7AAAB" }]
-                         , "idMap": 1, 
-                         "idDifficulty": 1 }]*/
-
-    /*this.socket.on('newPlayer', function (playerInfo) {
-      addOtherPlayers(self, playerInfo)
-    });
-
-    this.socket.on('playerDisconnected', function (playerId) {
-      self.otherPlayers.getChildren().forEach(function (otherPlayer) {
-        if (playerId === otherPlayer.playerId) {
-          otherPlayer.destroy()
-        }
-      })
-    });*/
-
+    this.serverSocketHandshake(self);
   };
 
+  serverSocketHandshake(self){
+    if (!(this.games.gameList.length > 0)) {
+      var name = 'nico';///-> esto lo tengo que obtener del menu web
+      var bandoBarcos = 'submarino'; //-->esto tambien tiene q venir de la web 
+      var level = 1;
+      var mapa = 1;
+      var dificultad = 1;
+      this.socket.emit('createGame', name, bandoBarcos,  mapa, dificultad);
+      this.listenForSocketEvents(self);
+    }
+  }
+
+  listenForSocketEvents(self){
+    this.socket.on('listenerCreateGame', function (jsonGame) {
+      this.games = JSON.parse(jsonGame);
+      if (this.games.gameList.length == 1){
+        self.crearSubmarino(self, this.games.gameList);
+        self.crearDestructor(self, this.games.gameList);
+
+      }else{
+        self.crearDestructor(self, this.games.gameList);
+      }
+            
+    });
+  }
+
+  crearSubmarino(self, gameList){
+    var coordenadas={
+      x:gameList[0].playerList[0].boatList[0].positionX,
+      y:gameList[0].playerList[0].boatList[0].positionY,
+    }
+    this.submarino = new Submarino(self, 0, 0, 'submarino');
+    this.submarino.create(coordenadas);
+    //self.addColisiones(self);
+  }
+
+  crearDestructor(self, game){
+    //TODO: TRAER DEL BACJK
+    var coordenadas={
+      x: 500,
+      y: 600,
+    }
+    this.destructor = new Destructor(self, 0, 0, 'destructor');
+    this.destructor.create(coordenadas);
+    //self.addColisiones(self);
+  }
+  crearcargueros(self, game){
+    //TODO: TRAER DEL BACJK
+    var coordenadas={
+      x: 123,
+      y: 600,
+    }
+    this.carguero = new Carguero(self, 0, 0, 'carguero');
+    //this.carguero.create(coordenadas);
+  }
+
+  addColisiones(){
+    //this.physics.add.overlap(this.submarino, this.destructor, function(actual, rival  ) {
+    //  actual.destroy(); 
+    //})
+  };
+    
   
 
   //configuro las coliciones de los elementos entre si y los limites del mapa
@@ -145,7 +141,17 @@ class Game extends Phaser.Scene {
 
 
   update() {
-   // this.background.tilePositionY -= 0.3;
+    if(this.submarino !== undefined ){
+      this.submarino.moveSubmarino();
+    }
+
+    /*
+    if(this.destructor !== undefined ){
+      this.destructor.moveDestructor();
+    }
+    */
+    
+    this.background.tilePositionY -= 0.3;
     //movimientos  de sumarino y destructor
     //this.submarino.moveSubmarino();
     //this.destructor.moveDestructor();
@@ -228,7 +234,7 @@ class Game extends Phaser.Scene {
 
 
   /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
-/*
+
   createTorpedoLabel() {
     this.torpedos_quantity = this.add.text(16, 16, 'Torpedos: ' + this.cant_torpedos_enviados, {
       fontSize: '20px',
@@ -254,7 +260,7 @@ class Game extends Phaser.Scene {
   updateCanonStatics() {
     this.canon_quantity.setText("Cañon: " + this.cant_canones_enviados);
   }
-*/
+
   /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7
 
 
