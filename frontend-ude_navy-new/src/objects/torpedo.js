@@ -20,6 +20,8 @@ class Torpedo extends Phaser.GameObjects.Sprite {
         //this.torpedo.setVelocity(-10, -10);
         this.torpedo.setVisible(false);
 
+        this.torpedo.scale = 10;
+
         this.lifespan = 1000;
 
         this.setActive(true);

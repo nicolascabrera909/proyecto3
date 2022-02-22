@@ -37,13 +37,6 @@ class Game extends Phaser.Scene {
                             
   }*/
 
-
-    //-----> ver que hacer con lo comentado
-    //let users = [];
-    //this.users = this.getUsersName();
-    //this.bullets = new Bullets(this);
-    //this.load.html('nameform', './static/assets/html/loginform.html');
-
   }
 
   create() {
@@ -176,9 +169,9 @@ class Game extends Phaser.Scene {
   /**Cargo la imagenes del juego*/
   loadImages() {
     this.load.image('destructor', './static/assets/img/destructor1.png');
-    this.load.image('submarino', './static/assets/img/submarino1.png');
+    this.load.image('submarino', './static/assets/img/submarino.png');
     this.load.image('carguero', './static/assets/img/carguero1.png');
-    this.load.image('mapa_principal', './static/assets/img/mapa.png');
+    this.load.image('mapa_principal', './static/assets/img/water_background.png');
     this.load.image('torpedo', './static/assets/img/torpedo.png');
     this.load.image('canon', './static/assets/img/cannon.png');
 
