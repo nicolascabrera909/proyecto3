@@ -12,6 +12,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this);
     this.scene = scene;
     this.is_destroyed = false;
+    this.setVisible(false);
   }
   
 
@@ -75,20 +76,20 @@ class Submarino extends Phaser.GameObjects.Sprite {
       }
       if (this.submarino) {
         if (this.cursors.left.isDown) {
-          this.submarino.setAngularVelocity(-100)
+          this.submarino.setAngularVelocity(-50)
         } else if (this.cursors.right.isDown) {
-          this.submarino.setAngularVelocity(100)
+          this.submarino.setAngularVelocity(50)
         } else {
           this.submarino.setAngularVelocity(0)
         }
         const velX = Math.cos((this.submarino.angle - 360) * 0.01745)
         const velY = Math.sin((this.submarino.angle - 360) * 0.01745)
         if (this.cursors.down.isDown) {
-          this.submarino.setVelocityX(200 * velX)
-          this.submarino.setVelocityY(200 * velY)
+          this.submarino.setVelocityX(30 * velX)
+          this.submarino.setVelocityY(30 * velY)
         } else if (this.cursors.up.isDown) {
-          this.submarino.setVelocityX(-100 * velX)
-          this.submarino.setVelocityY(-100 * velY)
+          this.submarino.setVelocityX(-30 * velX)
+          this.submarino.setVelocityY(-30 * velY)
         } else {
           this.submarino.setAcceleration(0)
           this.submarino.setVelocityY(0)
