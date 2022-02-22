@@ -1,10 +1,10 @@
-class Bullet extends Phaser.Physics.Arcade.Sprite {
+class Bullet extends Phaser.Physics.Arcade.Sprite{
 
     constructor(scene, x, y) {
         super(scene, x, y, 'bullet');
     }
 
-    fire (x, y, z, self) {
+    fire (x, y) {
         this.body.reset(x, y);
         this.setActive(true);
         this.setVisible(true);
@@ -19,7 +19,9 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
             self.setActive(false);
             self.setVisible(false);
         }, 300);
+
     }
+
 }
 
 export default Bullet;

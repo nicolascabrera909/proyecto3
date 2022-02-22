@@ -14,17 +14,27 @@ class Canion extends Phaser.GameObjects.Sprite {
         return this.canon;
       }
 
-      createShootTorpedo(){
-        this.canon = this.scene.physics.add.image(this.pos_x, this.pos_y,'canon');
+    createShootCannon(ship, input){
+        this.torpedo = this.scene.physics.add.image(this.pos_x, this.pos_y, 'cannon');
         //this.torpedo.setCollideWorldBounds(true);
-        this.canon.setVelocity(100,0);
-    }
+        //this.torpedo.setVelocity(-10, -10);
+        this.torpedo.setVisible(false);
 
-    create(x,y){
-        this.createShootTorpedo();
-        this.set_quantity();
-    }
+        this.lifespan = 1000;
 
+        this.setActive(true);
+        this.setVisible(true);
+        this.setAngle(ship.body.rotation);
+        this.setPosition(ship.x, ship.y);
+        this.body.reset(ship.x, ship.y);
+        //var angle = Phaser.Math.DegToRad(ship.body.rotation);
+        //var angle = Phaser.Math.Angle.Between(ship.x, ship.y, input.x, input.y); Hay que calcular el x y el y del mouse
+        var angle = Phaser.Math.Angle.Random();
+        console.log(angle);
+        this.scene.physics.velocityFromRotation(angle, this.speed, this.body.velocity);
+        this.body.velocity.x *= -5;
+        this.body.velocity.y *= -5;
+    }
     
     // VER SI VALE LA PENA YA QUE ES UNA VARIABLE QUE HAY EN GAME, SI ES PROLIJO HACERLO ASI
 
