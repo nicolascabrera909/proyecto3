@@ -7,6 +7,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this);
     this.scene = scene;
     this.is_destroyed = false;
+    this.setVisible(false);
   }
 
     create(coordenadas){
