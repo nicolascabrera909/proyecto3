@@ -15,14 +15,14 @@ class Torpedo extends Phaser.GameObjects.Sprite {
         return this.torpedo;
       }
 
-    createShoot(){
+      createShootTorpedo(){
         this.torpedo = this.scene.physics.add.image(this.pos_x, this.pos_y,'torpedo');
         //this.torpedo.setCollideWorldBounds(true);
         this.torpedo.setVelocity(-100,0);
     }
 
     create(x,y){
-        this.createShoot();
+        this.createShootTorpedo();
         this.set_quantity();
     }
 

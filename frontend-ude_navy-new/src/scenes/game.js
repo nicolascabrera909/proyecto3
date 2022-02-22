@@ -7,29 +7,29 @@ import Destructor from "../objects/destructor.js";
 class Game extends Phaser.Scene {
 
 
-  
+
   /*Constructor de la clase Game, inicializo la clase*/
   constructor() {
     super('Game');
     console.log("Game cargado");
     this.cant_torpedos_enviados = 0;
     this.cant_canones_enviados = 0;
-    this.games= {
-        gameList:[],
+    this.games = {
+      gameList: [],
     }
     this.submarino;
     this.queryString = window.location.search;
     this.urlParams = new URLSearchParams(this.queryString);
     this.username = '';
-    
+
   }
 
   preload() {
-    
+
     this.carguero = new Carguero(this, 10, 10, 'carguero');
     this.destructor = new Destructor(this);
     this.loadImages();
-    
+
 
     /*this.games= {   ----> aca hay q crear una escucha para q carge  
       gameList:[],          la lista de juegos del backend, por q sino la lista esa siempre 
@@ -56,9 +56,9 @@ class Game extends Phaser.Scene {
     this.serverSocketHandshake(self);
   };
 
-  serverSocketHandshake(self){
+  serverSocketHandshake(self) {
     if (!(this.games.gameList.length > 0)) {
-     
+
       var level = 1;
       var mapa = 1;
       var dificultad = 1;
@@ -67,39 +67,39 @@ class Game extends Phaser.Scene {
       console.log(username);
       console.log(bandoBarcos);
       this.username = username
-      this.socket.emit('createGame', username, bandoBarcos,  mapa, dificultad);
+      this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
       this.listenForSocketEvents(self);
     }
   }
 
-  listenForSocketEvents(self){
+  listenForSocketEvents(self) {
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
-      if (this.games.gameList.length == 1){
+      if (this.games.gameList.length == 1) {
         self.crearSubmarino(self, this.games.gameList);
         //self.crearDestructor(self, this.games.gameList);
         self.createUsuarioLabel();
 
-      }else{
+      } else {
         self.crearDestructor(self, this.games.gameList);
       }
-            
+
     });
   }
 
-  crearSubmarino(self, gameList){
-    var coordenadas={
-      x:gameList[0].playerList[0].boatList[0].positionX,
-      y:gameList[0].playerList[0].boatList[0].positionY,
+  crearSubmarino(self, gameList) {
+    var coordenadas = {
+      x: gameList[0].playerList[0].boatList[0].positionX,
+      y: gameList[0].playerList[0].boatList[0].positionY,
     }
     this.submarino = new Submarino(self, 0, 0, 'submarino');
     this.submarino.create(coordenadas);
     //self.addColisiones(self);
   }
 
-  crearDestructor(self, game){
+  crearDestructor(self, game) {
     //TODO: TRAER DEL BACJK
-    var coordenadas={
+    var coordenadas = {
       x: 500,
       y: 600,
     }
@@ -107,9 +107,9 @@ class Game extends Phaser.Scene {
     this.destructor.create(coordenadas);
     //self.addColisiones(self);
   }
-  crearcargueros(self, game){
+  crearcargueros(self, game) {
     //TODO: TRAER DEL BACJK
-    var coordenadas={
+    var coordenadas = {
       x: 123,
       y: 600,
     }
@@ -117,13 +117,13 @@ class Game extends Phaser.Scene {
     //this.carguero.create(coordenadas);
   }
 
-  addColisiones(){
+  addColisiones() {
     //this.physics.add.overlap(this.submarino, this.destructor, function(actual, rival  ) {
     //  actual.destroy(); 
     //})
   };
-    
-  
+
+
 
   //configuro las coliciones de los elementos entre si y los limites del mapa
   //this.physics.world.setBoundsCollision(true, true, true, true);
@@ -149,7 +149,7 @@ class Game extends Phaser.Scene {
 
 
   update() {
-    if(this.submarino !== undefined ){
+    if (this.submarino !== undefined) {
       this.submarino.moveSubmarino();
     }
 
@@ -158,7 +158,7 @@ class Game extends Phaser.Scene {
       this.destructor.moveDestructor();
     }
     */
-    
+
     this.background.tilePositionY -= 0.3;
     //movimientos  de sumarino y destructor
     //this.submarino.moveSubmarino();

@@ -14,14 +14,14 @@ class Canion extends Phaser.GameObjects.Sprite {
         return this.canon;
       }
 
-    createShoot(){
+      createShootTorpedo(){
         this.canon = this.scene.physics.add.image(this.pos_x, this.pos_y,'canon');
         //this.torpedo.setCollideWorldBounds(true);
         this.canon.setVelocity(100,0);
     }
 
     create(x,y){
-        this.createShoot();
+        this.createShootTorpedo();
         this.set_quantity();
     }
 
