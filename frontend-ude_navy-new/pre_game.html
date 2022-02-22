@@ -23,26 +23,34 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-6">    
-                <form action="./game.html">   
+                <form action="#">   
                     <div class="form-group">
-                        <label for="player">Ingrese nombre del jugadoor</label>
-                        <input type="name" class="form-control" id="jugador" placeholder="Nombre">
+                        <label for="username">Ingrese nombre del jugadoor</label>
+                        <input type="name" class="form-control" id="username" placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                        <label for="tipo_barcos" class="pregame">Seleccione el tipo de embarcacion:</label>
-                                <select class="form-control" name="tipo_barcos" id="tipoBarco">
+                        <label for="boattype" class="pregame">Seleccione el tipo de embarcacion:</label>
+                                <select class="form-control" name="boattype" id="boattype">
                                     <option value="submarino">Submarino</option>
                                     <option value="destructor">Destructor</option>
                                 </select>
                     </div>
                     <div class="mt-5 justify-content-center" >
-                        <button type="submit" class="btn btn-primary">Comenzar</button>
+                        <button type="button" onclick="iniciar()" class="btn btn-primary">Comenzar</button>
                     </div>
                 </form>
                 </div>
                 </div>
             </div>
 
-    <div id="container"></div>
+    <script>
+       function iniciar(){
+            var username=document.getElementById("username").value;
+            var boattype=document.getElementById("boattype").value;
+            var queryString = "?username=" + username + "&boattype=" + boattype;
+            window.location.href = "game.html" + queryString;
+            }
+    </script>
+    
 </body>
 </html>

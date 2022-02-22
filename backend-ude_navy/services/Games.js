@@ -2,6 +2,7 @@
 const Player = require('./Player.js')
 const Game = require('./Game.js')
 const Submarine = require('./Submarine.js')
+const Destructor = require('./Destructor')
 const Cannon = require('./Cannon.js')
 const Torpedo = require('./Torpedo.js')
 const Difficulty = require('./Difficulty.js')
@@ -38,6 +39,7 @@ class Games {
             this.gameList.push(match);
 
         } else {
+            /*
             var elDestructor = new Destructor();
             //falta crear los cargueros y agregarlos a la lista de botes
 
@@ -58,6 +60,7 @@ class Games {
             var match = new Game(playerList, mapaId, nivel);
             //inserta al final del array
             this.gameList.push(match);
+            */
         }
 
         //creo la lista de botes y se la asigno al jugadores

@@ -2,7 +2,7 @@
     
      /*Constructor*/
      constructor(time, depth) {
-        DepthCharge.prototype = new Armament;
+        //DepthCharge.prototype = new Armament;
 
         //super();
         this.time = time;

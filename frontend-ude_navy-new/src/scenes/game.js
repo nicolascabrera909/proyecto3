@@ -1,6 +1,5 @@
 //imoprto archivos
 import Submarino from "../objects/submarino.js";
-//const Submarino = require('../objects/submarino.js'); 
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
 
@@ -19,6 +18,9 @@ class Game extends Phaser.Scene {
         gameList:[],
     }
     this.submarino;
+    this.queryString = window.location.search;
+    this.urlParams = new URLSearchParams(this.queryString);
+    this.username = '';
     
   }
 
@@ -27,6 +29,7 @@ class Game extends Phaser.Scene {
     this.carguero = new Carguero(this, 10, 10, 'carguero');
     this.destructor = new Destructor(this);
     this.loadImages();
+    
 
     /*this.games= {   ----> aca hay q crear una escucha para q carge  
       gameList:[],          la lista de juegos del backend, por q sino la lista esa siempre 
@@ -55,12 +58,16 @@ class Game extends Phaser.Scene {
 
   serverSocketHandshake(self){
     if (!(this.games.gameList.length > 0)) {
-      var name = 'nico';///-> esto lo tengo que obtener del menu web
-      var bandoBarcos = 'submarino'; //-->esto tambien tiene q venir de la web 
+     
       var level = 1;
       var mapa = 1;
       var dificultad = 1;
-      this.socket.emit('createGame', name, bandoBarcos,  mapa, dificultad);
+      var username = this.urlParams.get('username');
+      var bandoBarcos = this.urlParams.get('boattype');
+      console.log(username);
+      console.log(bandoBarcos);
+      this.username = username
+      this.socket.emit('createGame', username, bandoBarcos,  mapa, dificultad);
       this.listenForSocketEvents(self);
     }
   }
@@ -70,7 +77,8 @@ class Game extends Phaser.Scene {
       this.games = JSON.parse(jsonGame);
       if (this.games.gameList.length == 1){
         self.crearSubmarino(self, this.games.gameList);
-        self.crearDestructor(self, this.games.gameList);
+        //self.crearDestructor(self, this.games.gameList);
+        self.createUsuarioLabel();
 
       }else{
         self.crearDestructor(self, this.games.gameList);
@@ -234,6 +242,15 @@ class Game extends Phaser.Scene {
 
 
   /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
+
+  createUsuarioLabel() {
+    this.username = this.add.text(16, 16, 'Jugador: ' + this.username, {
+      fontSize: '20px',
+      fill: '#fff',
+      fontFamily: 'verdana, arial, sans-serif'
+    });
+
+  }
 
   createTorpedoLabel() {
     this.torpedos_quantity = this.add.text(16, 16, 'Torpedos: ' + this.cant_torpedos_enviados, {

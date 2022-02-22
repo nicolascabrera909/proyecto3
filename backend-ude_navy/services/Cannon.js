@@ -7,6 +7,10 @@ class Cannon extends Armament{
         super();
     }
 
+    setPower(val){
+        return 1;
+    }
+
 }
 
 module.exports = Cannon;

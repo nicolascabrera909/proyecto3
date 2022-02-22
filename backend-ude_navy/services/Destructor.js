@@ -5,8 +5,10 @@ class Destructor{
     
     /*Constructor*/
     constructor(mapa, dificultad) {
-        Destructor.prototype = new Ship;
+        //Destructor.prototype = new Ship();
        //super();
+       /*
+       let depth= 1;
        this.depth = depth;// 1 superficie, 2 sumergido y 3sumergido proufundo
        this.carga = new DepthCharge();
        this.carga.setPower(150);
@@ -18,12 +20,14 @@ class Destructor{
        this.cannon.setDistance(150);
        this.cannon.setPower(500);
        this.cannon.setCantMunicion(30);
+       
        let coordenadas = this.coordenadas(mapa.getWidth(), mapa.getHeight());
        this.positionX = coordenadas.x;
        this.positionY = coordenadas.y;
        this.boatLife.setBoatlife(100);
        this.visibility.setVisibility(100);
        this.dificultad = dificultad;
+       */
    }
 
    /**Este metodo devuelve un arreglo de x e y*/
