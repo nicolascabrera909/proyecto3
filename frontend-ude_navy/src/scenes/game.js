@@ -24,6 +24,12 @@ class Game extends Phaser.Scene {
     this.destructor = new Destructor(this);
     this.loadImages();
 
+    /*this.games= {   ----> aca hay q crear una escucha para q carge  
+      gameList:[],          la lista de juegos del backend, por q sino la lista esa siempre 
+                            queda vacia cada vez q inicia la scena de phaser.
+                            
+  }*/
+
 
     //-----> ver que hacer con lo comentado
     //let users = [];
