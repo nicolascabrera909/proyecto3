@@ -8,16 +8,17 @@ class Carguero extends Phaser.GameObjects.Sprite{
     scene.physics.world.enable(this);
     this.scene = scene;
     }
-    //anterior
-    /*constructor(scene){
-              this.scene = scene;
-    }*/
+    
+
+    create(coordenadas) {
+      this.showCargueros(coordenadas);
+    }
 
 
     showCargueros(){
         var velocidad=2
-        var randomX = Phaser.Math.Between(50, 200);
-        var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
+        var randomX = coordenadas.x;
+        var randomY = coordenadas.y;
         let x=0;
         let y=0;
         let i=0;

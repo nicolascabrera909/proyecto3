@@ -13,6 +13,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.scene = scene;
     this.is_destroyed = false;
   }
+  
+
 
   create(coordenadas) {
     //var resultado=this.obtengoCoordendad();
@@ -22,26 +24,11 @@ class Submarino extends Phaser.GameObjects.Sprite {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
-    this.submarino.setDisplaySize(50, 10);
+    this.submarino.setDisplaySize(30, 10);
     this.submarino.flipX = true;
     this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
   }
-
-  /*
-
-  obtengoCoordendad(){
-    var url = 'http://localhost:3000/coordenadasSubmarino/?nico';
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url); // false for synchronous request
-    //xmlHttp.send(null);
-    xmlHttp.onload =()=>{
-      console.log((xmlHttp.response))   }
-    return xmlHttp.response;
-
-  }
-
-  */
 
   get() {
     return this.submarino;
@@ -72,6 +59,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
 
   moveSubmarino() {
     if (!this.submarino.is_destroyed) {
+      console.log("intento de movimiento");
       this.cursors = this.scene.input.keyboard.createCursorKeys();
       var keyA = this.scene.input.keyboard.addKey('A');
       this.key = this.scene.input.keyboard.addKeys({
@@ -107,6 +95,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
           this.submarino.setVelocityX(0)
         }
       }
+    
     }
   }
 }

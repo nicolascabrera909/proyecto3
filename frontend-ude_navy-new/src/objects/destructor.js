@@ -1,13 +1,17 @@
-class Destructor {
-    constructor(scene){
-        this.scene = scene;
-        
-    }
+class Destructor extends Phaser.GameObjects.Sprite {
 
-    create(){
-      console.log("Inicio crear destructor")
-      var randomX = Phaser.Math.Between(50, 300);
-      var randomY = Phaser.Math.Between(50, this.scene.game.config.height-50);
+
+  constructor(scene, x, y, type) {
+    super(scene, x, y, type);
+    scene.add.existing(this);
+    scene.physics.world.enable(this);
+    this.scene = scene;
+    this.is_destroyed = false;
+  }
+
+    create(coordenadas){
+      var randomX = coordenadas.x;
+      var randomY = coordenadas.y;
       this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
       this.destructor.setBounce(1);
       this.destructor.setDisplaySize(50, 10);

@@ -7,7 +7,7 @@ const config = {
     width: 800,
     height: 600,
     type: Phaser.AUTO,
-    parent: 'container',
+    parent: 'game-screen',
     pixelArt: true,
     physics: {
         default: "arcade",
