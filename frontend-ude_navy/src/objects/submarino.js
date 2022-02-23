@@ -96,9 +96,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
       }
 
     }
-
-
   }
+
 }
 
 export default Submarino;

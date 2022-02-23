@@ -117,6 +117,8 @@ class Game extends Phaser.Scene {
     }
     this.destructor = new Destructor(self, 0, 0, 'destructor');
     this.destructor.create(coordenadas);
+    this.createTorpedoLabel();
+    this.createCanonLabel();
     //self.addColisiones(self);
   }
   crearcargueros(self, gameList) {
@@ -164,7 +166,10 @@ class Game extends Phaser.Scene {
     if (this.submarino !== undefined) {
       this.submarino.moveSubmarino();
     }
-
+    
+    if (this.destructor != undefined) {
+      this.destructor.moveDestructor();
+    }
     /*
     if(this.destructor !== undefined ){
       this.destructor.moveDestructor();
@@ -187,7 +192,7 @@ class Game extends Phaser.Scene {
 
   /**Cargo la imagenes del juego*/
   loadImages() {
-    this.load.image('destructor', './static/assets/img/destructor1.png');
+    this.load.image('destructor', './static/assets/img/destructor.png');
     this.load.image('submarino', './static/assets/img/submarino.png');
     this.load.image('carguero', './static/assets/img/carguero1.png');
     this.load.image('mapa_principal', './static/assets/img/water_background.png');
