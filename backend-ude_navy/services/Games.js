@@ -30,7 +30,10 @@ class Games {
 
 
     createGame(name, boatTeam, socketId, mapa, difficulty) {
+        console.log('Ingrese al createGame')
+
         if (boatTeam === 'submarino') {
+            console.log('Soy submarino')
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
             var theSubmarin = new Submarine();
@@ -41,6 +44,7 @@ class Games {
 
             //valido si hay que crear la partida o agregar a una existente
             if (this.getGameList().length == 0) {
+                console.log('Creo partida con Sumarino')
                 //creo la lista de jugadores de la partida
                 var playerList = [];
                 //agrego al jugador a la lista de jugadores
@@ -50,11 +54,12 @@ class Games {
                 //inserta al final del array
                 this.gameList.push(match);
             } else {
+                console.log('Agrego destructor player')
                 //agrego al jugador a la lista de jugadores de la partida
                 this.gamePlay.getGameList()[0].playerList.push(player);
             }
         } else {
-
+            console.log('Soy Destructor')
             //creo el destructor
             var coordenadaAux = {
                 "x": 0,
@@ -62,7 +67,7 @@ class Games {
             };
             var aux = new Freighters(coordenadaAux);
             //falta crear los cargueros y agregarlos a la lista de botes
-            var listaCoordendas = aux.coordenadasCargueros(800, 600);
+            var listaCoordendas = aux.coordenadasCargueros(800, 600); //// ver las cuentas en la funcion
             var FreightersA = new Freighters(listaCoordendas[0]);
             var FreightersB = new Freighters(listaCoordendas[1]);
             var FreightersC = new Freighters(listaCoordendas[2]);
@@ -76,6 +81,7 @@ class Games {
             //creo el jugador
             var player = new Player(name, socketId, boatList, boatTeam);
             if (this.getGameList().length == 0) {
+                console.log('Creo partida con destructor')
                 //creo la lista de jugadores de la partida
                 var playerList = [];
                 //agrego al jugador a la lista de jugadores
@@ -85,6 +91,7 @@ class Games {
                 //inserta al final del array
                 this.gameList.push(match);
             } else {
+                console.log('Agrego destructor player')
                 //agrego al jugador a la lista de jugadores de la partida
                 this.gamePlay.getGameList()[0].playerList.push(player);
             }

@@ -36,9 +36,7 @@ io.on('connection', function (socket) {
 
   //evento de una partida nueva
   socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
-    console.log('Ingrese al createGame')
-    //valido si tengo una partida iniciada con dos jugadores ingresados
-      console.log('Creo una instancia de juego');
+      console.log('Evento create game ');
       gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
       var jsonGame = JSON.stringify(gamePlay);
       console.log('Luego de convertir a JSON: ' + jsonGame);
