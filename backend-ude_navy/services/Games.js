@@ -70,11 +70,12 @@ class Games {
             var FreightersE = new Freighters(listaCoordendas[4]);
             var FreightersF = new Freighters(listaCoordendas[5]);
             var theDestructor = new Destructor(difficulty);
+            theDestructor.coordenadas(listaCoordendas, 800, 600);
             //creo la lista de botes y agrego al al destructor y los cargueros
             var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             //creo el jugador
             var player = new Player(name, socketId, boatList, boatTeam);
-            if (this.gamePlay.getGameList().length == 0) {
+            if (this.getGameList().length == 0) {
                 //creo la lista de jugadores de la partida
                 var playerList = [];
                 //agrego al jugador a la lista de jugadores
@@ -87,26 +88,7 @@ class Games {
                 //agrego al jugador a la lista de jugadores de la partida
                 this.gamePlay.getGameList()[0].playerList.push(player);
             }
-
-/*
-            //creo la lista de jugadores de la partida
-            var playerList = [];
-            //agrego al jugador a la lista de jugadores
-            playerList.push(player);
-            //creo variable nivel y dificultad, estos datos los podemos definir en la base de datos
-            var nivel = 1;
-            var mapaId = 1;
-            //creo la partida
-            var match = new Game(playerList, mapaId, nivel);
-            //inserta al final del array
-            this.gameList.push(match);*/
-
         }
-
-        //creo la lista de botes y se la asigno al jugadores
-
-        //return this.gameList;
-
     }
     /*
         UnirGame(name, bandoBarcos, socketId,) {
@@ -140,13 +122,13 @@ class Games {
 
 
 
-    saveGame(String) {
+   /* saveGame(String) {
         //guarda la partida 
-    }
+    }*/
 
-    laodGame() {
+    /*laodGame() {
         //carga la partida
-    }
+    }*/
 
 
 

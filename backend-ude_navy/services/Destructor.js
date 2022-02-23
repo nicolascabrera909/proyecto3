@@ -58,17 +58,14 @@ class Destructor extends Ship{
         var mapaMitad = xTotal / 2;
         var noEsIgual = false;
         var contador = 0;
-        var coordenada = {
-            x: 0,
-            y: 0
-        }
+        
         //itero hasta encontrar un par de coordenadas que se diferente a los  cargueros
         while (!noEsIgual) {
-            coordenada.x = Math.random() * (mapaMitad - 0) + 0;
-            coordenada.y = Math.random() * (yTotal - 0) + 0;
+            this.positionX = Math.random() * (mapaMitad - 0) + 0;
+            this.positionY = Math.random() * (yTotal - 0) + 0;
             //recorro la listade cordenadas y comparo los x e y de los cargueros contra las calculadas de forma random
             for (var j = 0; j < listaCoordenadas.length; j++) {
-                if ((coordenada.x == listaCoordenadas[j].x && coordenada.y == listaCoordenadas[j].y)) {
+                if ((this.positionX == listaCoordenadas[j].x &&  this.positionY == listaCoordenadas[j].y)) {
                     contador++;
                 }
             }
@@ -78,7 +75,6 @@ class Destructor extends Ship{
                 contador = 0;
             }
         }
-        return coordenada;
     }
 
 }
