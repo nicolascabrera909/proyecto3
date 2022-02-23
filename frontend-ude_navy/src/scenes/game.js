@@ -64,19 +64,23 @@ class Game extends Phaser.Scene {
       console.log(username);
       console.log(bandoBarcos);
       this.username = username
-      this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
-      this.listenForSocketEvents(self);
+      if(this.games.gameList.length>1){
+        console.log('Lista de jugadores completa')
+      }else{
+        this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
+        this.listenForSocketEvents(self);
+      }
+      
     }
   }
 
   listenForSocketEvents(self) {
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
-      if (this.games.gameList.length == 1) {
+      if (this.games.gameList[0].playerList[0].boatTeam == 'submarino') {
         self.crearSubmarino(self, this.games.gameList);
         //self.crearDestructor(self, this.games.gameList);
         self.createUsuarioLabel();
-
       } else {
         self.crearDestructor(self, this.games.gameList);
       }

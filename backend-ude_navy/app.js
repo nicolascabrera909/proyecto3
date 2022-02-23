@@ -30,7 +30,7 @@ io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected');
 
   //iniciar instancia del juego, Games 
-  console.log(JSON.stringify(gamePlay));
+  console.log('****************************************'+JSON.stringify(gamePlay));
   io.emit('inicioInstancia', JSON.stringify(gamePlay));
 
 
