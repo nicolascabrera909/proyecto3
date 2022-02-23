@@ -6,6 +6,8 @@ router.get('/', controller.index);
 
 router.get('/version', controller.version);
 
+router.get('/partida', controller.partida);
+
 module.exports = router;
 
 // router.get('/', (req, res) => {

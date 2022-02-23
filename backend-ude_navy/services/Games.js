@@ -14,6 +14,12 @@ class Games {
     constructor() {
         this.gameList = [];
         
+        //singleton de la clase
+        if(typeof Games.instance === "object") {
+            return Games.instance;
+        }
+        Games.instance=this;
+        return this;
     }
 
     getGameList() {

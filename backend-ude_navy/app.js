@@ -49,6 +49,9 @@ level -> nivel de dificultad del juego
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected')
 
+//
+
+
   //evento de una partida nueva
   socket.on('createGame', function (name, bandoBarcos, mapa, dificultad) {
     console.log('Ingrese al createGame')
@@ -101,18 +104,18 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+// 404
+app.use(function (req, res, next) {
+  res.status(404).send("Lo siento. No pudimos encontrar eso.")
+});
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
+// Error
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Algo esta roto!')
+});
 
 //LISTEN
 server.listen(port, () => {
   console.log(`Servidor Express corriendo en el puerto: ${port}`);
-})
+});
