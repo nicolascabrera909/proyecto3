@@ -13,12 +13,12 @@ class Games {
     /*Constructor*/
     constructor() {
         this.gameList = [];
-        
+
         //singleton de la clase
-        if(typeof Games.instance === "object") {
+        if (typeof Games.instance === "object") {
             return Games.instance;
         }
-        Games.instance=this;
+        Games.instance = this;
         return this;
     }
 
@@ -26,7 +26,9 @@ class Games {
         return this.gameList;
     }
 
-    createGame(name, bandoBarcos, socketId,mapa,difficulty) {
+
+
+    createGame(name, bandoBarcos, socketId, mapa, difficulty) {
         if (bandoBarcos === 'submarino') {
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
@@ -34,18 +36,23 @@ class Games {
             //creo la lista de botes y agrego al submarino
             var boatList = [elSubmarino];
             //creo el jugador
-            var player = new Player(name, socketId, boatList);
-            //creo la lista de jugadores de la partida
-            var playerList = [];
-            //agrego al jugador a la lista de jugadores
-            playerList.push(player);
-            //creo la partida
-            var match = new Game(playerList, mapa, difficulty);
-            //inserta al final del array
-            this.gameList.push(match);
+            var player = new Player(name, socketId, boatList,boatTeam);
+
+            //valido si hay que crear la partida o agregar a una existente
+            if (gamePlay.getGameList()[0].playerList.length > 0) {
+                //creo la lista de jugadores de la partida
+                var playerList = [];
+                //agrego al jugador a la lista de jugadores
+                playerList.push(player);
+                //creo la partida
+                var match = new Game(playerList, mapa, difficulty);
+                //inserta al final del array
+                this.gameList.push(match);
+            }
+           
 
         } else {
-            
+
             var elDestructor = new Destructor();
             //falta crear los cargueros y agregarlos a la lista de botes
 
@@ -54,7 +61,7 @@ class Games {
             //creo la lista de botes y agrego al al destructor y los cargueros
             var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
             //creo el jugador
-            var player = new Player(name, socketId, boatList);
+            var player = new Player(name, socketId, boatList,boatTeam);
             //creo la lista de jugadores de la partida
             var playerList = [];
             //agrego al jugador a la lista de jugadores
@@ -66,7 +73,7 @@ class Games {
             var match = new Game(playerList, mapaId, nivel);
             //inserta al final del array
             this.gameList.push(match);
-            
+
         }
 
         //creo la lista de botes y se la asigno al jugadores
