@@ -25,31 +25,13 @@ const io = socketIO(server, {
 });
 
 
-//Obtengo nombre ingresado en el html
-/*let tipoBarco = document.getElementById('tipoBarco');
-let send = document.getElementById('send');
-
-
-send.addEventListener('click', function () {
-  console.log(player.value);
-  tipoBarcoSeleccionado = tipoBarco.value;
-});*/
-
-
-//muestra en el log al jugador
-/*
-name -> nombre de usuario
-bandoBarcos -> tipo de barco
-socketId -> id del usuario de socket
-level -> nivel de dificultad del juego
-*/
-//var gamePLay = new Games(10);
-
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
 io.on('connection', function (socket) {
-  console.log('player [' + socket.id + '] connected')
+  console.log('player [' + socket.id + '] connected');
 
-//
+  //iniciar instancia del juego, Games 
+  console.log(JSON.stringify(gamePlay));
+  io.emit('inicioInstancia', JSON.stringify(gamePlay));
 
 
   //evento de una partida nueva
@@ -65,7 +47,7 @@ io.on('connection', function (socket) {
       io.emit('listenerCreateGame', jsonGame);
       console.log('termine de crear la partida y emiti al frontend');
     } else {
-      console.log('En el else. Cantidad de elementos de la lista' + gamePlay.getGameList().length );
+      console.log('En el else. Cantidad de elementos de la lista' + gamePlay.getGameList().length);
       // creo el jugador dos y lo uno a la partida
     }
 

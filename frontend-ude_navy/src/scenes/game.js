@@ -50,6 +50,10 @@ class Game extends Phaser.Scene {
   };
 
   serverSocketHandshake(self) {
+    this.socket.on('inicioInstancia', function (jsonGame) {
+      this.games = JSON.parse(jsonGame);
+    });
+
     if (!(this.games.gameList.length > 0)) {
 
       var level = 1;
@@ -78,6 +82,7 @@ class Game extends Phaser.Scene {
       }
 
     });
+
   }
 
   crearSubmarino(self, gameList) {
