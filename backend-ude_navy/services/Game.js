@@ -1,9 +1,8 @@
 class Game {
 
     /*Constructor*/
-    constructor(playerList, idMap, idDifficulty) {
+    constructor(playerList, idDifficulty) {
         this.playerList = playerList;
-        this.idMap = idMap;
         this.idDifficulty = idDifficulty;
     }
 
@@ -11,9 +10,7 @@ class Game {
     getPlayerList() {
         return this.playerList;
     }
-    getIdMap() {
-        return this.idMap;
-    }
+    
     getIdDifficulty() {
         return this.idDifficulty;
     }
@@ -21,9 +18,7 @@ class Game {
     setPlayerList(playerList) {
         this.playerList = playerList;
     }
-    setIdMap(idMap) {
-        this.idMap = idMap;
-    }
+   
     setIdDifficulty(idDifficulty) {
         this.idDifficulty = idDifficulty;
     }

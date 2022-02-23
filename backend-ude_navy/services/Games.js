@@ -27,127 +27,82 @@ class Games {
         return this.gameList;
     }
 
-
-
-    createGame(name, boatTeam, socketId, mapa, difficulty) {
-        console.log('Ingrese al createGame')
-
-        if (boatTeam === 'submarino') {
-            console.log('Soy submarino')
-            //obtengo coordenadas del submarino y lo creo
-            // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
-            var theSubmarin = new Submarine();
-            //creo la lista de botes y agrego al submarino
-            var boatList = [theSubmarin];
-            //creo el jugador
-            var player = new Player(name, socketId, boatList, boatTeam);
-
-            //valido si hay que crear la partida o agregar a una existente
-            if (this.getGameList().length == 0) {
-                console.log('Creo partida con Sumarino')
-                //creo la lista de jugadores de la partida
-                var playerList = [];
-                //agrego al jugador a la lista de jugadores
-                playerList.push(player);
-                //creo la partida
-                var match = new Game(playerList, mapa, difficulty);
-                //inserta al final del array
-                this.gameList.push(match);
-            } else {
-                console.log('Agrego destructor player')
-                //agrego al jugador a la lista de jugadores de la partida
-                this.getGameList()[0].playerList.push(player);
-            }
-        } else {
-            console.log('Soy Destructor')
-            //creo el destructor
-            var coordenadaAux = {
-                "x": 0,
-                "y": 0
-            };
-            var aux = new Freighters(coordenadaAux);
-            //falta crear los cargueros y agregarlos a la lista de botes
-            var listaCoordendas = aux.coordenadasCargueros(800, 600); //// ver las cuentas en la funcion
-            var FreightersA = new Freighters(listaCoordendas[0]);
-            var FreightersB = new Freighters(listaCoordendas[1]);
-            var FreightersC = new Freighters(listaCoordendas[2]);
-            var FreightersD = new Freighters(listaCoordendas[3]);
-            var FreightersE = new Freighters(listaCoordendas[4]);
-            var FreightersF = new Freighters(listaCoordendas[5]);
-            var theDestructor = new Destructor(difficulty);
-            theDestructor.coordenadas(listaCoordendas, 800, 600);
-            //creo la lista de botes y agrego al al destructor y los cargueros
-            var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
-            //creo el jugador
-            var player = new Player(name, socketId, boatList, boatTeam);
-            if (this.getGameList().length == 0) {
-                console.log('Creo partida con destructor')
-                //creo la lista de jugadores de la partida
-                var playerList = [];
-                //agrego al jugador a la lista de jugadores
-                playerList.push(player);
-                //creo la partida
-                var match = new Game(playerList, mapa, difficulty);
-                //inserta al final del array
-                this.gameList.push(match);
-            } else {
-                console.log('Agrego destructor player')
-                //agrego al jugador a la lista de jugadores de la partida
-                this.gamePlay.getGameList()[0].playerList.push(player);
-            }
-        }
+    logicaSubmarino(){
+        //obtengo coordenadas del submarino y lo creo
+        // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
+        var theSubmarin = new Submarine();
+        //creo la lista de botes y agrego al submarino
+        
+        return [theSubmarin];
     }
-    /*
-        UnirGame(name, bandoBarcos, socketId,) {
-    
-            if (bandoBarcos === 'submarino') {
-                //obtengo coordenadas del submarino y lo creo
-                var coordenadas = this.coordenadasSubmarino();
-                var elSubmarino = new Submarino(coordenadas);
-                //creo la lista de botes y agrego al submarino
-                var boatList = [elSubmarino];
-                //creo el jugador
-                var player2 = new Player(name, socketId, boatList);
-                //agrego al jugador a la lista de jugadores
-                this.getGameList()[0].getPlayerList().push(player2);
-    
-            } else {
-                var elDestructor = new Destructor(coordenadas);
+
+    partidaNueva(player, difficulty){
+        //creo la lista de jugadores de la partida
+        var playerList = [];
+        //agrego al jugador a la lista de jugadores
+        playerList.push(player);
+        //creo la partida
+        var match = new Game(playerList, difficulty);
+        //inserta al final del array
+        this.getGameList().push(match);
+
+        
+    }
+
+    partidaExistente(player){
+        //agrego al jugador a la lista de jugadores de la partida
+        this.getGameList()[0].playerList.push(player);
+    }
+
+    createGame(name, boatTeam, socketId, difficulty) {
+        console.log('Ingrese al createGame. El gameList tiene ' + this.getGameList().length + ' elementos')
+        // como vamos a controlar que no se cren mas de un juego??
+        //if (this.getGameList()[0].playerList.length <= 2){
+            console.log(boatTeam);
+            if (boatTeam === 'submarino') {
+                console.log("*************submarino*************");
+
+                var boatList = this.logicaSubmarino();
+                var player = new Player(name, socketId, boatList, boatTeam);
+
+                //valido si hay que crear la partida o agregar a una existente
+                if (this.getGameList().length == 0) {
+                    this.partidaNueva(player, difficulty)
+                } else {
+                    this.partidaExistente(player)
+                }
+            } else if (boatTeam === 'destructor'){
+                console.log("++++++++++DESTRUCTOR++++++++++");
+                var coordenadaAux = {
+                    "x": 0,
+                    "y": 0
+                };
+                var aux = new Freighters(coordenadaAux);
                 //falta crear los cargueros y agregarlos a la lista de botes
-    
+                var listaCoordendas = aux.coordenadasCargueros(800, 600); //// ver las cuentas en la funcion
+                var FreightersA = new Freighters(listaCoordendas[0]);
+                var FreightersB = new Freighters(listaCoordendas[1]);
+                var FreightersC = new Freighters(listaCoordendas[2]);
+                var FreightersD = new Freighters(listaCoordendas[3]);
+                var FreightersE = new Freighters(listaCoordendas[4]);
+                var FreightersF = new Freighters(listaCoordendas[5]);
+                
+                var theDestructor = new Destructor(difficulty);
+
+                theDestructor.coordenadas(listaCoordendas, 800, 600);
                 //creo la lista de botes y agrego al al destructor y los cargueros
-                var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
-                //creo el jugador
-                var player2 = new Player(name, socketId, boatList);
+                var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
+                var player = new Player(name, socketId, boatList, boatTeam);
+                
+                if (this.getGameList().length == 0) {
+                    this.partidaNueva(player, difficulty);
+                } else {
+                    this.partidaExistente(player);
+                }
             }
-    
-            //creo la lista de botes y se la asigno al jugadores
-    
-    
-    
-        }*/
-
-
-
-   /* saveGame(String) {
-        //guarda la partida 
-    }*/
-
-    /*laodGame() {
-        //carga la partida
-    }*/
-
-
-
-
-
-
-
-
-
-
-
-
+        //}
+    }
+   
 }
 
 module.exports = Games;

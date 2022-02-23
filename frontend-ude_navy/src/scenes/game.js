@@ -62,24 +62,32 @@ class Game extends Phaser.Scene {
       var dificultad = this.urlParams.get('dificultad');
       this.username = username
       if(this.games.gameList.length>1){
-        console.log('Lista de jugadores completa')
+        console.log('***********Lista de jugadores completa ************')
       }else{
         this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
-        this.listenForSocketEvents(self);
+        this.listenForSocketEvents(self, bandoBarcos);
       }
       
     }
   }
 
-  listenForSocketEvents(self) {
+  listenForSocketEvents(self, bandoBarcos) {
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
-      if (this.games.gameList[0].playerList[0].boatTeam == 'submarino') {
+      
+      /*
+        SEGUIR ACA QUE ESTA MAL
+      */ 
+      
+      if (this.games.gameList[0].playerList[0].boatTeam == bandoBarcos) {
         self.crearSubmarino(self, this.games.gameList);
         //self.crearDestructor(self, this.games.gameList);
         self.createUsuarioLabel();
       } else {
+        console.log("***** En el else de listenForSocketEvents *****")
         self.crearDestructor(self, this.games.gameList);
+        self.crearcargueros(self, this.games.gameList);
+        
       }
 
     });
@@ -101,7 +109,7 @@ class Game extends Phaser.Scene {
     //self.addColisiones(self);
   }
 
-  crearDestructor(self, game) {
+  crearDestructor(self, gameList) {
     //TODO: TRAER DEL BACJK
     var coordenadas = {
       x: 500,
@@ -111,7 +119,7 @@ class Game extends Phaser.Scene {
     this.destructor.create(coordenadas);
     //self.addColisiones(self);
   }
-  crearcargueros(self, game) {
+  crearcargueros(self, gameList) {
     //TODO: TRAER DEL BACJK
     var coordenadas = {
       x: 123,

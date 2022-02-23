@@ -70,9 +70,13 @@
                 dataType: 'json',
                 success: function(data, status, xhr)
                 {
-                    if(data.gameList.length > 1){
-                        eliminarOptionTipoBarco(data.gameList[0].playerList[0].boatTeam);
-                        ocultarNivel();
+                    if(data.gameList){
+                        if(data.gameList[0].playerList.length == 1){
+                            eliminarOptionTipoBarco(data.gameList[0].playerList[0].boatTeam);
+                            setearNivelYaPrecargado(data.gameList[0].idDifficulty);
+                            //ocultarNivel();
+
+                        }
                     }
                     console.log(data);
                 },
@@ -88,6 +92,9 @@
             
         }
 
+        function setearNivelYaPrecargado(dificultad){
+            $("#dificultad option[value='" + dificultad +"']").prop('selected', true);
+        }
         function ocultarNivel(){
             $('#dif-div').hide();
         }

@@ -7,6 +7,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this);
     this.scene = scene;
     this.is_destroyed = false;
+    this.setVisible(false);
   }
 
     create(coordenadas){
@@ -18,7 +19,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
       this.destructor.setCollideWorldBounds(true);
       this.destructor.flipX = true;
       this.destructor.setImmovable();
-      console.log("Termino crear destructor")
+      console.log("Termino crear destructor");
+      
     }
 
     get(){

@@ -23,14 +23,14 @@ class Freighters extends Boat {
         var mapaMitad = xTotal / 2;
         var listaCoordenadas = [];
 
-        const coordenada = {
+        let coordenada = {
             "x": parseFloat(Math.random() * (mapaMitad - 0) + 0),
             "y": parseFloat(Math.random() * (yTotal - 0) + 0)
         };
        
         listaCoordenadas.push(coordenada);
         for (var i = 0; i < 5; i++) {
-            const coordenadaAux =coordenada;
+            let coordenadaAux =coordenada;
            
             if (i < 3) {
                 coordenadaAux.y = parseFloat(coordenadaAux.y) +parseFloat(30);

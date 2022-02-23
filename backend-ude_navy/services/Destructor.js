@@ -26,6 +26,8 @@ class Destructor extends Ship{
         this.visibility=100;
         this.dificulty = dificulty;
 
+        
+
     }
 
     getCarga() {
@@ -50,7 +52,7 @@ class Destructor extends Ship{
 
     /**Este metodo devuelve un arreglo de x e y*/
     coordenadas(listaCoordenadas, XMapaSize, YMapaSize) {
-
+        
 
         /// cordenadas del mapa inicial y  mas variables
         var xTotal = XMapaSize;
@@ -58,23 +60,69 @@ class Destructor extends Ship{
         var mapaMitad = xTotal / 2;
         var noEsIgual = false;
         var contador = 0;
+        var repetido = false;
+        var buscarCoordenadas = true;
+
+        var coordenada = {
+            "x": 0,
+            "y": 0
+        };
         
         //itero hasta encontrar un par de coordenadas que se diferente a los  cargueros
-        while (!noEsIgual) {
+        while (buscarCoordenadas) {
             this.positionX = Math.random() * (mapaMitad - 0) + 0;
             this.positionY = Math.random() * (yTotal - 0) + 0;
+           
             //recorro la listade cordenadas y comparo los x e y de los cargueros contra las calculadas de forma random
-            for (var j = 0; j < listaCoordenadas.length; j++) {
-                if ((this.positionX == listaCoordenadas[j].x &&  this.positionY == listaCoordenadas[j].y)) {
+            for (let j = 0; j < listaCoordenadas.length; j++) {
+                if (this.positionX == listaCoordenadas[j].x &&  this.positionY == listaCoordenadas[j].y) {
+                    repetido = True;
+                }
+            }
+            
+            if (!repetido){
+                console.log('no estan repetidas, agrego al listado');
+                coordenada.x = this.positionX;
+                coordenada.y = this.positionY;
+                listaCoordenadas.push(coordenada);
+                buscarCoordenadas = false;
+
+            }else{
+                repetido = false
+            }
+
+            /*
+
+
+                if(j == 0){
+                    console.log('valor de j' + j);
+                    console.log('Largo de la lista' + listaCoordenadas.length);
+                }
+                if (this.positionX == listaCoordenadas[j].x &&  this.positionY == listaCoordenadas[j].y) {
                     contador++;
+                    console.log('valor del contador' + contador);
+                }else{
+                    coordenada.x = this.positionX;
+                    coordenada.y = this.positionY;
+
+                    console.log('que es lo que compare');
+                    console.log('x ' + this.positionX);
+                    console.log('y ' + this.positionY);
+                    console.log('x en lista ' + listaCoordenadas[j].x);
+                    console.log('y ' + listaCoordenadas[j].y);
+                    
                 }
             }
             if (contador == 6) {
+                
                 noEsIgual = true;
             } else {
                 contador = 0;
             }
+
+            */
         }
+        
     }
 
 }
