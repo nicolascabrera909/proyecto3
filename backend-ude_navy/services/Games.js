@@ -28,7 +28,7 @@ class Games {
 
 
 
-    createGame(name, bandoBarcos, socketId, mapa, difficulty) {
+    createGame(name, boatTeam, socketId, mapa, difficulty) {
         if (bandoBarcos === 'submarino') {
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
@@ -39,7 +39,7 @@ class Games {
             var player = new Player(name, socketId, boatList,boatTeam);
 
             //valido si hay que crear la partida o agregar a una existente
-            if (gamePlay.getGameList()[0].playerList.length > 0) {
+            if (this.gamePlay.getGameList()[0].playerList.length > 0) {
                 //creo la lista de jugadores de la partida
                 var playerList = [];
                 //agrego al jugador a la lista de jugadores
@@ -48,6 +48,9 @@ class Games {
                 var match = new Game(playerList, mapa, difficulty);
                 //inserta al final del array
                 this.gameList.push(match);
+            }else{
+                //agrego al jugador a la lista de jugadores de la partida
+                this.gamePlay.getGameList()[0].playerList
             }
            
 

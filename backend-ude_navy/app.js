@@ -40,7 +40,7 @@ io.on('connection', function (socket) {
     //valido si tengo una partida iniciada con dos jugadores ingresados
     if (!gamePlay.getGameList[0].playerList.length > 1) {
       console.log('Creo una instancia de juego');
-      gamePlay.createGame(name, bandoBarcos, socket.id, mapa, dificultad);
+      gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
       var jsonGame = JSON.stringify(gamePlay);
       console.log('Luego de convertir a JSON: ' + jsonGame);
       //emito datos al frontend
