@@ -22,26 +22,49 @@ class Freighters extends Boat {
         var yTotal = YMapaSize;
         var mapaMitad = xTotal / 2;
         var listaCoordenadas = [];
+        var distanciaBarcos = 30;
 
-        let coordenada = {
-            "x": parseFloat(Math.random() * (mapaMitad - 0) + 0),
-            "y": parseFloat(Math.random() * (yTotal - 0) + 0)
-        };
-       
-        listaCoordenadas.push(coordenada);
-        for (var i = 0; i < 5; i++) {
-            let coordenadaAux =coordenada;
-           
-            if (i < 3) {
-                coordenadaAux.y = parseFloat(coordenadaAux.y) +parseFloat(30);
+        /*var coordenada = {
+            "x": Math.round(Math.random() * (mapaMitad - 0) + 0),
+            "y": Math.round(Math.random() * (yTotal - 0) + 0)
+        };*/
+
+
+
+
+        for (var i = 0; i < 6; i++) {
+            if (i == 0) {
+                let x = new Number(Math.round(Math.random() * (mapaMitad - (distanciaBarcos * 3)) - 0) + 0);
+                let y = new Number(Math.round(Math.random() * (yTotal - (distanciaBarcos * 3)) - 0) + 0);
+                let coordenada = {
+                    "x": x,
+                    "y": y
+                };
+                listaCoordenadas.push(coordenada);
             } else {
-                if (i == 3) {
-                    coordenadaAux.x =parseFloat(coordenadaAux.x) + parseFloat(30);
+                let coordenada = {
+                    "x": 0,
+                    "y": 0
+                };
+
+                if (i < 3 && i > 0) {
+                    let y1 = new Number(listaCoordenadas[i - 1].y + distanciaBarcos);
+                    coordenada.y = y1;
+                    coordenada.x = listaCoordenadas[i - 1].x;
+                } else {
+                    if (i == 3) {
+                        let x1 = new Number(listaCoordenadas[i - 1].x + distanciaBarcos);
+                        coordenada.x = x1;
+                        coordenada.y = new Number(listaCoordenadas[i - 1].y - (distanciaBarcos * 2));
+                    }
+                    if (i > 3) {
+                        let y1 = new Number(listaCoordenadas[i - 1].y + distanciaBarcos);
+                        coordenada.y = y1;
+                        coordenada.x = listaCoordenadas[i - 1].x;
+                    }
                 }
-                coordenadaAux.y = parseFloat(coordenadaAux.y) + parseFloat(30);
+                listaCoordenadas.push(coordenada);
             }
-            listaCoordenadas.push(coordenadaAux);
-            coordenada=coordenadaAux;
         }
         return listaCoordenadas;
     }
