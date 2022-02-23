@@ -1,3 +1,5 @@
+const Boat = require('./Boat.js')
+
 class Freighters extends Boat{
     
     /*Constructor*/

@@ -6,6 +6,7 @@ const Destructor = require('./Destructor')
 const Cannon = require('./Cannon.js')
 const Torpedo = require('./Torpedo.js')
 const Difficulty = require('./Difficulty.js')
+const Freighters = require('./Freighters.js')
 
 class Games {
 
@@ -29,7 +30,7 @@ class Games {
 
 
     createGame(name, boatTeam, socketId, mapa, difficulty) {
-        if (bandoBarcos === 'submarino') {
+        if (boatTeam === 'submarino') {
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
             var elSubmarino = new Submarine();
@@ -53,14 +54,14 @@ class Games {
                 this.gamePlay.getGameList()[0].playerList.push(player);
             }
         } else {
-
+            //creo el destructor
             var elDestructor = new Destructor();
             //falta crear los cargueros y agregarlos a la lista de botes
-
+            var FreightersA= new Freighters();
             //creo el jugador
             var player = new Player(name, socketId, boatList);
             //creo la lista de botes y agrego al al destructor y los cargueros
-            var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
+            var boatList = [elSubmarino, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             //creo el jugador
             var player = new Player(name, socketId, boatList, boatTeam);
             //creo la lista de jugadores de la partida

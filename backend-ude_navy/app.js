@@ -35,10 +35,9 @@ io.on('connection', function (socket) {
 
 
   //evento de una partida nueva
-  socket.on('createGame', function (name, bandoBarcos, mapa, dificultad) {
+  socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
     console.log('Ingrese al createGame')
     //valido si tengo una partida iniciada con dos jugadores ingresados
-    if (!gamePlay.getGameList[0].playerList.length > 1) {
       console.log('Creo una instancia de juego');
       gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
       var jsonGame = JSON.stringify(gamePlay);
@@ -46,10 +45,10 @@ io.on('connection', function (socket) {
       //emito datos al frontend
       io.emit('listenerCreateGame', jsonGame);
       console.log('termine de crear la partida y emiti al frontend');
-    } else {
+    /*else {
       console.log('Ya hay una partida en juego, ' + gamePlay.getGameList[0].playerList[0]+' vs '+ gamePlay.getGameList[0].playerList[1]);
       // creo el jugador dos y lo uno a la partida
-    }
+    }*/
 
   });
 
