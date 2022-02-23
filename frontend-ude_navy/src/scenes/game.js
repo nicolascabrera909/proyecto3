@@ -54,7 +54,7 @@ class Game extends Phaser.Scene {
     this.showMap();
 
     this.delayText = this.add.text(400, 16);
-    this.delayedEvent = this.time.delayedCall(60000, this.fin, [], this);
+    this.delayedEvent = this.time.delayedCall(3000, this.tiempoExcedido, [], this);
 
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
     console.log('Me conecto al socket');
@@ -62,9 +62,8 @@ class Game extends Phaser.Scene {
     this.serverSocketHandshake(self);
   };
 
-  fin()
-    {
-      console.log('FIN DEL TIEMPO')
+  tiempoExcedido(){
+    console.log('Aca habria que finalizar el juego');
     }
 
   
