@@ -24,14 +24,7 @@ class Freighters extends Boat {
         var listaCoordenadas = [];
         var distanciaBarcos = 30;
 
-        /*var coordenada = {
-            "x": Math.round(Math.random() * (mapaMitad - 0) + 0),
-            "y": Math.round(Math.random() * (yTotal - 0) + 0)
-        };*/
-
-
-
-
+        
         for (var i = 0; i < 6; i++) {
             if (i == 0) {
                 let x = new Number(Math.round(Math.random() * (mapaMitad - (distanciaBarcos * 3)) - 0) + 0);
