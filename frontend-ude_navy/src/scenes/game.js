@@ -65,16 +65,16 @@ class Game extends Phaser.Scene {
         console.log('***********Lista de jugadores completa ************')
       }else{
         this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
-        this.listenForSocketEvents(self, bandoBarcos);
+        this.listenForSocketEvents(self, bandoBarcos);///--> nose si esta bien que este aca, el emit del back dispara el on listenerCreateGame
       }
       
     }
   }
 
-  listenForSocketEvents(self, bandoBarcos) {
+  listenForSocketEvents(self, /*bandoBarcos*/) {
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
-      
+      var bandoBarcos='submarino'
       /*
         SEGUIR ACA QUE ESTA MAL
       */ 
