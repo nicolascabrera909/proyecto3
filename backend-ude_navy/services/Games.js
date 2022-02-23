@@ -40,7 +40,7 @@ class Games {
             var player = new Player(name, socketId, boatList, boatTeam);
 
             //valido si hay que crear la partida o agregar a una existente
-            if (this.gamePlay.getGameList()[0].playerList.length > 0) {
+            if (this.gamePlay.getGameList().length == 0) {
                 //creo la lista de jugadores de la partida
                 var playerList = [];
                 //agrego al jugador a la lista de jugadores
@@ -70,12 +70,25 @@ class Games {
             var FreightersE = new Freighters(listaCoordendas[4]);
             var FreightersF = new Freighters(listaCoordendas[5]);
             var theDestructor = new Destructor(difficulty);
-            //creo el jugador
-            var player = new Player(name, socketId, boatList);
             //creo la lista de botes y agrego al al destructor y los cargueros
             var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             //creo el jugador
             var player = new Player(name, socketId, boatList, boatTeam);
+            if (this.gamePlay.getGameList().length == 0) {
+                //creo la lista de jugadores de la partida
+                var playerList = [];
+                //agrego al jugador a la lista de jugadores
+                playerList.push(player);
+                //creo la partida
+                var match = new Game(playerList, mapa, difficulty);
+                //inserta al final del array
+                this.gameList.push(match);
+            } else {
+                //agrego al jugador a la lista de jugadores de la partida
+                this.gamePlay.getGameList()[0].playerList.push(player);
+            }
+
+/*
             //creo la lista de jugadores de la partida
             var playerList = [];
             //agrego al jugador a la lista de jugadores
@@ -86,7 +99,7 @@ class Games {
             //creo la partida
             var match = new Game(playerList, mapaId, nivel);
             //inserta al final del array
-            this.gameList.push(match);
+            this.gameList.push(match);*/
 
         }
 
