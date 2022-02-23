@@ -14,6 +14,8 @@ class Game extends Phaser.Scene {
     console.log("Game cargado");
     this.cant_torpedos_enviados = 0;
     this.cant_canones_enviados = 0;
+    this.cant_cargas_enviadas = 0;
+
     this.games = {
       gameList: [],
     }
@@ -21,6 +23,8 @@ class Game extends Phaser.Scene {
     this.queryString = window.location.search;
     this.urlParams = new URLSearchParams(this.queryString);
     this.username = '';
+
+    this.delayText;
 
   }
 
@@ -39,15 +43,31 @@ class Game extends Phaser.Scene {
 
   }
 
+   
+ 
+  
+  
+
   create() {
     let self = this;
     //Creo el mapa
     this.showMap();
+
+    this.delayText = this.add.text(400, 16);
+    this.delayedEvent = this.time.delayedCall(60000, this.fin, [], this);
+
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
     console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
     this.serverSocketHandshake(self);
   };
+
+  fin()
+    {
+      console.log('FIN DEL TIEMPO')
+    }
+
+  
 
   serverSocketHandshake(self) {
     this.socket.on('inicioInstancia', function (jsonGame) {
@@ -78,11 +98,10 @@ class Game extends Phaser.Scene {
       /*
         SEGUIR ACA QUE ESTA MAL
       */ 
-      
+      self.createUsuarioLabel();
       if (this.games.gameList[0].playerList[0].boatTeam == bandoBarcos) {
         self.crearSubmarino(self, this.games.gameList);
         //self.crearDestructor(self, this.games.gameList);
-        self.createUsuarioLabel();
       } else {
         console.log("***** En el else de listenForSocketEvents *****")
         self.crearDestructor(self, this.games.gameList);
@@ -117,7 +136,7 @@ class Game extends Phaser.Scene {
     }
     this.destructor = new Destructor(self, 0, 0, 'destructor');
     this.destructor.create(coordenadas);
-    this.createTorpedoLabel();
+    this.createCargasLabel();
     this.createCanonLabel();
     //self.addColisiones(self);
   }
@@ -177,12 +196,15 @@ class Game extends Phaser.Scene {
     */
 
     this.background.tilePositionY -= 0.3;
-    //movimientos  de sumarino y destructor
-    //this.submarino.moveSubmarino();
-    //this.destructor.moveDestructor();
-    //actualiza los lanzamientos de torpedos y cañones
+
     this.updateTorpedoStatics();
     this.updateCanonStatics();
+    this.updateCargaStatics();
+
+    this.delayText.setText('Tiempo transcurrido: ' + this.delayedEvent.getProgress().toString().substr(0, 4));
+
+   
+    
 
     //----------> ver que hacer con el comentario, se borra
     //this.sys.game.cameras.follow(this.submarino,false); 
@@ -295,7 +317,23 @@ class Game extends Phaser.Scene {
 
   updateCanonStatics() {
     if(this.canon_quantity){
-      this.canon_quantity.setText("Torpedos: " + this.cant_canones_enviados);
+      this.canon_quantity.setText("Cañon: " + this.cant_canones_enviados);
+    }
+    
+  }
+
+  createCargaLabel() {
+    this.carga_quantity = this.add.text(16, 40, 'Carga: ' + this.cant_cargas_enviadas, {
+      fontSize: '20px',
+      fill: '#fff',
+      fontFamily: 'verdana, arial, sans-serif'
+    });
+
+  }
+
+  updateCargaStatics() {
+    if(this.carga_quantity){
+      this.carga_quantity.setText("Carga: " + this.cant_cargas_enviadas);
     }
     
   }
