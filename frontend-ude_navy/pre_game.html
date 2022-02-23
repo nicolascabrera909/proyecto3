@@ -23,7 +23,15 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-6">    
-                <form action="#">   
+                <form action="#">  
+                    <div class="form-group" id="dif-div">
+                        <label for="dificultad" class="pregame">Seleccione la dificultad</label>
+                        <select class="form-control" name="dificultad" id="dificultad">
+                            <option value="1">Principiantes</option>
+                            <option value="2">Medio</option>
+                            <option value="3">Avanzado</option>
+                        </select>
+                    </div> 
                     <div class="form-group">
                         <label for="username">Ingrese nombre del jugadoor</label>
                         <input type="name" class="form-control" id="username" placeholder="Nombre">
@@ -42,14 +50,52 @@
                 </div>
                 </div>
             </div>
-
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        
        function iniciar(){
             var username=document.getElementById("username").value;
             var boattype=document.getElementById("boattype").value;
-            var queryString = "?username=" + username + "&boattype=" + boattype;
+            var dificultad=document.getElementById("dificultad").value;
+
+            var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
             window.location.href = "game.html" + queryString;
-            }
+        }
+        $( document ).ready(function() {
+            mostrarNivel();
+            $.ajax({
+                url: 'http://localhost:3000/partida',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data, status, xhr)
+                {
+                    if(data.gameList.length > 1){
+                        eliminarOptionTipoBarco(data.gameList[0].playerList[0].boatTeam);
+                        ocultarNivel();
+                    }
+                    console.log(data);
+                },
+                error: function(xhr, status, error)
+                {
+                    console.log("Error: " + status + " " + error);
+                }
+            });
+        });
+
+        function eliminarOptionTipoBarco(tipoSeleccionado){
+            $("#boattype option[value='" + tipoSeleccionado + "']").remove();
+            
+        }
+
+        function ocultarNivel(){
+            $('#dif-div').hide();
+        }
+        function mostrarNivel(){
+            $('#dif-div').show();
+        }
+
+       
     </script>
     
 </body>

@@ -56,13 +56,10 @@ class Game extends Phaser.Scene {
 
     if (!(this.games.gameList.length > 0)) {
 
-      var level = 1;
       var mapa = 1;
-      var dificultad = 1;
       var username = this.urlParams.get('username');
       var bandoBarcos = this.urlParams.get('boattype');
-      console.log(username);
-      console.log(bandoBarcos);
+      var dificultad = this.urlParams.get('dificultad');
       this.username = username
       this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
       this.listenForSocketEvents(self);
@@ -92,6 +89,11 @@ class Game extends Phaser.Scene {
     }
     this.submarino = new Submarino(self, 0, 0, 'submarino');
     this.submarino.create(coordenadas);
+    this.createTorpedoLabel();
+    this.createCanonLabel();
+    
+    
+
     //self.addColisiones(self);
   }
 
@@ -162,8 +164,8 @@ class Game extends Phaser.Scene {
     //this.submarino.moveSubmarino();
     //this.destructor.moveDestructor();
     //actualiza los lanzamientos de torpedos y cañones
-    //this.updateTorpedoStatics();
-    //this.updateCanonStatics();
+    this.updateTorpedoStatics();
+    this.updateCanonStatics();
 
     //----------> ver que hacer con el comentario, se borra
     //this.sys.game.cameras.follow(this.submarino,false); 
@@ -251,7 +253,7 @@ class Game extends Phaser.Scene {
   }
 
   createTorpedoLabel() {
-    this.torpedos_quantity = this.add.text(16, 16, 'Torpedos: ' + this.cant_torpedos_enviados, {
+    this.torpedos_quantity = this.add.text(150, 40, 'Torpedos: ' + this.cant_torpedos_enviados, {
       fontSize: '20px',
       fill: '#fff',
       fontFamily: 'verdana, arial, sans-serif'
@@ -260,7 +262,9 @@ class Game extends Phaser.Scene {
   }
 
   updateTorpedoStatics() {
-    this.torpedos_quantity.setText("Torpedos: " + this.cant_torpedos_enviados);
+    if(this.torpedos_quantity){
+      this.torpedos_quantity.setText("Torpedos: " + this.cant_torpedos_enviados);
+    }
   }
 
   createCanonLabel() {
@@ -273,7 +277,10 @@ class Game extends Phaser.Scene {
   }
 
   updateCanonStatics() {
-    this.canon_quantity.setText("Cañon: " + this.cant_canones_enviados);
+    if(this.canon_quantity){
+      this.canon_quantity.setText("Torpedos: " + this.cant_canones_enviados);
+    }
+    
   }
 
   /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7

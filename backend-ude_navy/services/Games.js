@@ -40,7 +40,7 @@ class Games {
             var player = new Player(name, socketId, boatList, boatTeam);
 
             //valido si hay que crear la partida o agregar a una existente
-            if (this.gamePlay.getGameList().length == 0) {
+            if (this.getGameList().length == 0) {
                 //creo la lista de jugadores de la partida
                 var playerList = [];
                 //agrego al jugador a la lista de jugadores
@@ -51,7 +51,7 @@ class Games {
                 this.gameList.push(match);
             } else {
                 //agrego al jugador a la lista de jugadores de la partida
-                this.gamePlay.getGameList()[0].playerList.push(player);
+                this.getGameList()[0].playerList.push(player);
             }
         } else {
 
