@@ -1,10 +1,8 @@
-class Freighters{
+class Freighters extends Boat{
     
     /*Constructor*/
     constructor() {
-        Freighters.prototype = new Boat;
-
-        //super();
+      super();
    }
 }
 module.exports = Freighters;

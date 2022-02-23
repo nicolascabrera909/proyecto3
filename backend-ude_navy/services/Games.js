@@ -36,7 +36,7 @@ class Games {
             //creo la lista de botes y agrego al submarino
             var boatList = [elSubmarino];
             //creo el jugador
-            var player = new Player(name, socketId, boatList,boatTeam);
+            var player = new Player(name, socketId, boatList, boatTeam);
 
             //valido si hay que crear la partida o agregar a una existente
             if (this.gamePlay.getGameList()[0].playerList.length > 0) {
@@ -48,12 +48,10 @@ class Games {
                 var match = new Game(playerList, mapa, difficulty);
                 //inserta al final del array
                 this.gameList.push(match);
-            }else{
+            } else {
                 //agrego al jugador a la lista de jugadores de la partida
-                this.gamePlay.getGameList()[0].playerList
+                this.gamePlay.getGameList()[0].playerList.push(player);
             }
-           
-
         } else {
 
             var elDestructor = new Destructor();
@@ -64,7 +62,7 @@ class Games {
             //creo la lista de botes y agrego al al destructor y los cargueros
             var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
             //creo el jugador
-            var player = new Player(name, socketId, boatList,boatTeam);
+            var player = new Player(name, socketId, boatList, boatTeam);
             //creo la lista de jugadores de la partida
             var playerList = [];
             //agrego al jugador a la lista de jugadores
