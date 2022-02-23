@@ -56,7 +56,7 @@ class Games {
             } else {
                 console.log('Agrego destructor player')
                 //agrego al jugador a la lista de jugadores de la partida
-                this.gamePlay.getGameList()[0].playerList.push(player);
+                this.getGameList()[0].playerList.push(player);
             }
         } else {
             console.log('Soy Destructor')

@@ -34,6 +34,7 @@ class Canion extends Phaser.GameObjects.Sprite {
         this.scene.physics.velocityFromRotation(angle, this.speed, this.body.velocity);
         this.body.velocity.x *= -5;
         this.body.velocity.y *= -5;
+        this.set_quantity();
     }
     
     // VER SI VALE LA PENA YA QUE ES UNA VARIABLE QUE HAY EN GAME, SI ES PROLIJO HACERLO ASI
