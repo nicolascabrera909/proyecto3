@@ -33,9 +33,9 @@ class Games {
         if (boatTeam === 'submarino') {
             //obtengo coordenadas del submarino y lo creo
             // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
-            var elSubmarino = new Submarine();
+            var theSubmarin = new Submarine();
             //creo la lista de botes y agrego al submarino
-            var boatList = [elSubmarino];
+            var boatList = [theSubmarin];
             //creo el jugador
             var player = new Player(name, socketId, boatList, boatTeam);
 
@@ -54,14 +54,26 @@ class Games {
                 this.gamePlay.getGameList()[0].playerList.push(player);
             }
         } else {
+
             //creo el destructor
-            var elDestructor = new Destructor();
+            var coordenadaAux = {
+                "x": 0,
+                "y": 0
+            };
+            var aux = new Freighters(coordenadaAux);
             //falta crear los cargueros y agregarlos a la lista de botes
-            var FreightersA= new Freighters();
+            var listaCoordendas = aux.coordenadasCargueros(800, 600);
+            var FreightersA = new Freighters(listaCoordendas[0]);
+            var FreightersB = new Freighters(listaCoordendas[1]);
+            var FreightersC = new Freighters(listaCoordendas[2]);
+            var FreightersD = new Freighters(listaCoordendas[3]);
+            var FreightersE = new Freighters(listaCoordendas[4]);
+            var FreightersF = new Freighters(listaCoordendas[5]);
+            var theDestructor = new Destructor(difficulty);
             //creo el jugador
             var player = new Player(name, socketId, boatList);
             //creo la lista de botes y agrego al al destructor y los cargueros
-            var boatList = [elSubmarino, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
+            var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             //creo el jugador
             var player = new Player(name, socketId, boatList, boatTeam);
             //creo la lista de jugadores de la partida
@@ -83,36 +95,35 @@ class Games {
         //return this.gameList;
 
     }
-
-    UnirGame(name, bandoBarcos, socketId,) {
-
-        if (bandoBarcos === 'submarino') {
-            //obtengo coordenadas del submarino y lo creo
-            var coordenadas = this.coordenadasSubmarino();
-            var elSubmarino = new Submarino(coordenadas);
-            //creo la lista de botes y agrego al submarino
-            var boatList = [elSubmarino];
-            //creo el jugador
-            var player2 = new Player(name, socketId, boatList);
-            //agrego al jugador a la lista de jugadores
-            this.getGameList()[0].getPlayerList().push(player2);
-
-        } else {
-            var coordenadas = this.coordenadasCargueros();
-            var elDestructor = new Destructor(coordenadas);
-            //falta crear los cargueros y agregarlos a la lista de botes
-
-            //creo la lista de botes y agrego al al destructor y los cargueros
-            var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
-            //creo el jugador
-            var player2 = new Player(name, socketId, boatList);
-        }
-
-        //creo la lista de botes y se la asigno al jugadores
-
-
-
-    }
+    /*
+        UnirGame(name, bandoBarcos, socketId,) {
+    
+            if (bandoBarcos === 'submarino') {
+                //obtengo coordenadas del submarino y lo creo
+                var coordenadas = this.coordenadasSubmarino();
+                var elSubmarino = new Submarino(coordenadas);
+                //creo la lista de botes y agrego al submarino
+                var boatList = [elSubmarino];
+                //creo el jugador
+                var player2 = new Player(name, socketId, boatList);
+                //agrego al jugador a la lista de jugadores
+                this.getGameList()[0].getPlayerList().push(player2);
+    
+            } else {
+                var elDestructor = new Destructor(coordenadas);
+                //falta crear los cargueros y agregarlos a la lista de botes
+    
+                //creo la lista de botes y agrego al al destructor y los cargueros
+                var boatList = [elSubmarino, cargeroA, cargeroB, cargeroC, cargeroD, cargeroE, cargeroF];
+                //creo el jugador
+                var player2 = new Player(name, socketId, boatList);
+            }
+    
+            //creo la lista de botes y se la asigno al jugadores
+    
+    
+    
+        }*/
 
 
 
@@ -127,51 +138,7 @@ class Games {
 
 
 
-    /**Este metodo devuelve un arreglo de x e y*/
-    coordenadasCargueros() {
 
-        /// cordenadas del mapa inicial es  width: 800,    height: 600,
-        var xTotal = 800;
-        var yTotal = 600;
-        var mapaMitad = xTotal / 2;
-        var listaCoordenadas = [];
-
-
-        coordenada = {
-            "x": Math.random() * (mapaMitad - 0) + 0,
-            "y": Math.random() * (yTotal - 0) + 0
-        };
-        listaCoordenadas.push(coordenada);
-        for (var i = 0; i < 5; i++) {
-            if (i < 3) {
-                coordenada.y = y + 10;
-            } else {
-                if (i == 3) {
-                    coordenada.x = x + 10;
-                }
-                coordenada.y = y + 10;
-            }
-            listaCoordenadas.push(coordenada);
-        }
-        var noEsIgual = false;
-        var contador = 0;
-        while (!esIgual) {
-            coordenada.x = Math.random() * (mapaMitad - 0) + 0;
-            coordenada.y = Math.random() * (yTotal - 0) + 0;
-        };
-        for (var j = 0; j < listaCoordenadas.length; j++) {
-            if ((coordenada.x == listaCoordenadas[j].x && coordenada.y == listaCoordenadas[j].y)) {
-                contador++;
-            }
-        }
-        if (contador == 6) {
-            noEsIgual = true;
-            listaCoordenadas.push(coordenada);
-        } else {
-            contador = 0;
-        }
-        return listaCoordenadas;
-    }
 
 
 

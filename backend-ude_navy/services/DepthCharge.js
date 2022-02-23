@@ -1,10 +1,10 @@
- class DepthCharge {
+const Armament = require('./Armament.js')
+ 
+ class DepthCharge extends Armament{
     
      /*Constructor*/
      constructor(time, depth) {
-        //DepthCharge.prototype = new Armament;
-
-        //super();
+        super();
         this.time = time;
         this.depth = depth;
     }
