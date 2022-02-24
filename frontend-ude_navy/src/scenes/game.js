@@ -38,6 +38,7 @@ class Game extends Phaser.Scene {
     this.load.image('torpedo', './static/assets/img/torpedo.png');
     this.load.image('canon', './static/assets/img/cannon.png');
     this.load.image('tiles', './static/assets/map/terrain.png');
+    this.load.image('depth_charge', './static/assets/map/depthcharge.png')
   }
 
   preload() {
