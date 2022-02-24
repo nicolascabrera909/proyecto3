@@ -46,9 +46,9 @@ class Freighters extends Boat {
                     coordenada.x = listaCoordenadas[i - 1].x;
                 } else {
                     if (i == 3) {
-                        let x1 = new Number(listaCoordenadas[i - 1].x + distanciaBarcos);
+                        let x1 = new Number(listaCoordenadas[0].x + distanciaBarcos);
                         coordenada.x = x1;
-                        coordenada.y = new Number(listaCoordenadas[i - 1].y - (distanciaBarcos*2));
+                        coordenada.y = new Number(listaCoordenadas[0].y );
                     }
                     if (i > 3) {
                         let y1 = new Number(listaCoordenadas[i - 1].y + distanciaBarcos);
