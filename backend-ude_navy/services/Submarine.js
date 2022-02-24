@@ -26,6 +26,7 @@ class Submarine {
         this.positionY = coordenadas.y;
         this.boatLife = 100;
         this.visibility = 100;
+        this.type = 'submarino';
 
     }
 
@@ -34,6 +35,9 @@ class Submarine {
         return this.depth;
     }
 
+    getType() {
+        return this.type;
+    }
     setDepth(depth) {
          this.depth=depth;
     }

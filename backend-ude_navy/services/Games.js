@@ -79,7 +79,7 @@ class Games {
             };
             var aux = new Freighters(coordenadaAux);
             //falta crear los cargueros y agregarlos a la lista de botes
-            var listaCoordendas = aux.coordenadasCargueros(800, 600); //// ver las cuentas en la funcion
+            var listaCoordendas = aux.coordenadasCargueros(800, 800); //// ver las cuentas en la funcion
             var FreightersA = new Freighters(listaCoordendas[0]);
             var FreightersB = new Freighters(listaCoordendas[1]);
             var FreightersC = new Freighters(listaCoordendas[2]);

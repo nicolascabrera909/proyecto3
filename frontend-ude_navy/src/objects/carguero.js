@@ -25,12 +25,11 @@ class Carguero extends Phaser.GameObjects.Sprite{
       var velocidad=2
       let indice = 0;
       
-      if(!gameList[0].playerList[0].boattype=='submarino'){
+      if(!gameList[0].playerList[0].boatTeam=='submarino'){
         indice = 1;
       }
       for (var i = 0; i < gameList[0].playerList[indice].boatList.length; i++) {
         if(self.get_type(gameList[0].playerList[indice].boatList[i]) == 'carguero'){
-
           this.carguero=this.scene.physics.add.sprite(gameList[0].playerList[indice].boatList[i].positionX + 100, gameList[0].playerList[indice].boatList[i].positionY + 30, 'carguero');
           this.carguero.setDisplaySize(100, 20)//.setOrigin(gameList[0].playerList[indice].boatList[i].positionX, gameList[0].playerList[indice].boatList[i].positionY);  
           this.carguero.setCollideWorldBounds(true); 

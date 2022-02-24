@@ -23,13 +23,12 @@ class Freighters extends Boat {
         var yTotal = YMapaSize;
         var mapaMitad = xTotal / 2;
         var listaCoordenadas = [];
-        var distanciaBarcos = 30;
-
+        var distanciaBarcos = 150;
         
         for (var i = 0; i < 6; i++) {
             if (i == 0) {
-                let x = new Number(Math.round(Math.random() * (mapaMitad - (distanciaBarcos * 3)) - 0) + 0);
-                let y = new Number(Math.round(Math.random() * (yTotal - (distanciaBarcos * 3)) - 0) + 0);
+                let x = new Number(Math.round(Math.random() * (mapaMitad - (distanciaBarcos )) - 0) + distanciaBarcos);
+                let y = new Number(Math.round(Math.random() * (yTotal - distanciaBarcos) - 0) + 0);
                 let coordenada = {
                     "x": x,
                     "y": y
@@ -42,14 +41,14 @@ class Freighters extends Boat {
                 };
 
                 if (i < 3 && i > 0) {
-                    let y1 = new Number(listaCoordenadas[i - 1].y + distanciaBarcos);
+                    let y1 = new Number(listaCoordenadas[i - 1].y + (distanciaBarcos));
                     coordenada.y = y1;
                     coordenada.x = listaCoordenadas[i - 1].x;
                 } else {
                     if (i == 3) {
                         let x1 = new Number(listaCoordenadas[i - 1].x + distanciaBarcos);
                         coordenada.x = x1;
-                        coordenada.y = new Number(listaCoordenadas[i - 1].y - (distanciaBarcos * 2));
+                        coordenada.y = new Number(listaCoordenadas[i - 1].y - (distanciaBarcos*2));
                     }
                     if (i > 3) {
                         let y1 = new Number(listaCoordenadas[i - 1].y + distanciaBarcos);
