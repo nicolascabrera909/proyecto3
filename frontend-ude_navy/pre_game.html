@@ -74,8 +74,8 @@
                 dataType: 'json',
                 success: function(data, status, xhr)
                 {
-                    if(data.gameList){
-                        if(data.gameList[0].playerList.length > 0){
+                    if(data.gameList.length>0){
+                        if(data.gameList[0].playerList.length> 0){
                             eliminarOptionTipoBarco(data.gameList[0].playerList[0].boatTeam);
                             setearNivelYaPrecargado(data.gameList[0].idDifficulty);
                             //ocultarNivel();
