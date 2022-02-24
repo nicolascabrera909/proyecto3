@@ -58,19 +58,20 @@ io.on('connection', function (socket) {
 
   });
 
-  
+
   socket.on('createGameFinish', function (listo) {
     // aca mando al socket al evento del html pre_game
     io.emit('bothUsers', true);
   });
 
   //desconectar al usuario y modificar la lista de jugadores
-  socket.on('disconnect', function () {
-    console.log('player [' + socket.id + '] disconnected')
-    gamePlay.deletePlayer(socket.id);
-    
-    io.emit('playerDisconnected', socket.id)
-  })
+ /* socket.on('disconnect', function () {
+    if (gamePlay.gameList.length > 0) {
+      console.log('player [' + socket.id + '] disconnected')
+      gamePlay.deletePlayer(socket.id);
+      io.emit('playerDisconnected', socket.id)
+    }
+  })*/
 
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
