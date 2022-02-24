@@ -93,7 +93,7 @@ class Games {
                 //creo la lista de botes y agrego al al destructor y los cargueros
                 var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
                 var player = new Player(name, socketId, boatList, boatTeam);
-                
+                console.log("asdasd");
                 if (this.getGameList().length == 0) {
                     this.partidaNueva(player, difficulty);
                 } else {

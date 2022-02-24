@@ -3,6 +3,7 @@ class Carguero extends Phaser.GameObjects.Sprite{
   
   
   constructor(scene,x,y,type){
+    
     super(scene,x,y,type);    
     scene.add.existing(this);
     scene.physics.world.enable(this);
@@ -12,27 +13,32 @@ class Carguero extends Phaser.GameObjects.Sprite{
     
 
     create(gameList) {
-      this.showCargueros(gameList);
+      let self = this;
+      self.showCargueros(self, gameList);
     }
 
+    get_type(boat){
+      return boat.type;
+    }
 
-    showCargueros(gameList){
+    showCargueros(self, gameList){
       var velocidad=2
       let indice = 0;
       
-      if( gameList[0].playerList[0].boattype=='submarino'){
+      if(!gameList[0].playerList[0].boattype=='submarino'){
         indice = 1;
       }
-      for (var i = 0; i < gameList[0].playerList[indice].boatList.length - 1; i++) {
+      for (var i = 0; i < gameList[0].playerList[indice].boatList.length; i++) {
+        if(self.get_type(gameList[0].playerList[indice].boatList[i]) == 'carguero'){
+
+          this.carguero=this.scene.physics.add.sprite(gameList[0].playerList[indice].boatList[i].positionX + 100, gameList[0].playerList[indice].boatList[i].positionY + 30, 'carguero');
+          this.carguero.setDisplaySize(20, 15)//.setOrigin(gameList[0].playerList[indice].boatList[i].positionX, gameList[0].playerList[indice].boatList[i].positionY);  
+          this.carguero.setCollideWorldBounds(true); 
+          this.carguero.setVelocity(velocidad,0);
+
+        }
         //console.log(gameList[0].playerList[indice].boatList[i].instanceOf))
-        let x;
-        let y;
-        x = gameList[0].playerList[indice].boatList[i].x
-        y = gameList[0].playerList[indice].boatList[i].y
-        this.carguero=this.scene.physics.add.sprite(x, y, 'carguero');
-        this.carguero.setDisplaySize(30, 10).setOrigin(x, y);  
-        this.carguero.setCollideWorldBounds(true); 
-        this.carguero.setVelocity(velocidad,0);
+        
         
       }
     }

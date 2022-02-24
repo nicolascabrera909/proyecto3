@@ -92,7 +92,6 @@ class Game extends Phaser.Scene {
 
     if (!(this.games.gameList.length > 0)) {
 
-      var mapa = 1;
       var username = this.urlParams.get('username');
       var bandoBarcos = this.urlParams.get('boattype');
       var dificultad = this.urlParams.get('dificultad');
@@ -100,7 +99,7 @@ class Game extends Phaser.Scene {
       if (this.games.gameList.length > 1) {
         console.log('***********Lista de jugadores completa ************')
       } else {
-        this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
+        this.socket.emit('createGame', username, bandoBarcos, dificultad);
         this.listenForSocketEvents(self, bandoBarcos);
       }
 
@@ -134,23 +133,13 @@ class Game extends Phaser.Scene {
         self.crearDestructor(self, this.games.gameList);
         self.crearCargueros(self, this.games.gameList);
       }
-      /*
-      if (this.games.gameList[0].playerList[0].boatTeam == bandoBarcos) {
-        self.crearSubmarino(self, this.games.gameList);
-        //self.crearDestructor(self, this.games.gameList);
-      } else {
-        console.log("***** En el else de listenForSocketEvents *****")
-        self.crearDestructor(self, this.games.gameList);
-        self.crearcargueros(self, this.games.gameList);
-      }
-      */
     });
 
   }
 
   crearSubmarino(self, gameList) {
     let indice = 0;
-    if (gameList[0].playerList[0].boattype == 'submarino') {
+    if (!gameList[0].playerList[0].boattype == 'submarino') {
       indice = 1;
     }
     var coordenadas = {
@@ -169,7 +158,7 @@ class Game extends Phaser.Scene {
 
   crearDestructor(self, gameList) {
     let indice = 0;
-    if (gameList[0].playerList[0].boattype == 'submarino') {
+    if (!gameList[0].playerList[0].boattype == 'submarino') {
       indice = 1;
     }
     var coordenadas = {
@@ -193,30 +182,6 @@ class Game extends Phaser.Scene {
     //  actual.destroy(); 
     //})
   };
-
-
-
-  //configuro las coliciones de los elementos entre si y los limites del mapa
-  //this.physics.world.setBoundsCollision(true, true, true, true);
-  //this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.accionColision, null, this);
-  //console.log(this.option);
-
-
-
-  //--------------> ver que hacer con estos comentarios
-  /*
-  console.log("mapa");
-  this.showMap();
-  this.destructor.showDestructor();
-  this.submarino.showSubmarino();
-  this.carguero.showCargueros();
- //this.destructor.moveDestructor();
-  */
-  //this.physics.add.collider(this.torpedo.get(),/ this.destructor.get(), this.algo, null, this);
-  //this.updateCamera();
-  //this.cursors = this.input.keyboard.createCursorKeys();
-  //this.sys.game.cameras.setBounds(0,0, this.sys.game.config.width, this.sys.game.config.height);
-  //this.sys.game.cameras.main.startFollow(this.submarino);
 
 
   update() {
@@ -283,29 +248,11 @@ class Game extends Phaser.Scene {
     this.destructor.destroy();
   }
 
-  /**Obtener usuario, ver si se va a usar.
-   * Ahora esta fijo
-   */
-  getUsersName() {
-    // esto debe venir de la escena previa que es donde cargan sus datos
-    return ['Pepe', 'Maria'];
-  }
 
   /**Cargo el bando que selecciono el usuario */
   init(data) {
     this.option = data.option;
   }
-
-  // camera() {
-  //   // limit camera to map
-  //   this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-  //   this.cameras.main.startFollow(this.player);
-  //   this.cameras.main.roundPixels = true; // avoid tile bleed
-  // }
-
-
-
-
 
   /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
 

@@ -25,6 +25,7 @@ class Destructor extends Ship {
         this.boatLife = 100;
         this.visibility = 100;
         this.dificulty = dificulty;
+        this.type = 'destructor';
     }
 
     getCarga() {
@@ -64,7 +65,7 @@ class Destructor extends Ship {
 
         //itero hasta encontrar un par de coordenadas que se diferente a los  cargueros
         while (itero) {
-            this.positionX = Math.round(Math.random() * ((mapaMitad - distanciaBarcos) - 0) + 0);
+            this.positionX = Math.round(Math.random() * ((mapaMitad - distanciaBarcos) - 100) + 0);
             this.positionY = Math.round(Math.random() * ((yTotal - distanciaBarcos) - (distanciaBarcos)) + 0);
 
             //recorro la listade cordenadas y comparo los x e y de los cargueros contra las calculadas de forma random

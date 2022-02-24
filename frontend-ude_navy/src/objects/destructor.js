@@ -17,7 +17,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
       this.destructor.setBounce(1);
       this.destructor.setDisplaySize(50, 10);
       this.destructor.setCollideWorldBounds(true);
-      this.destructor.flipX = true;
+      this.destructor.flipX = false;
       this.destructor.setImmovable();
       console.log("Termino crear destructor");
       
@@ -58,11 +58,11 @@ class Destructor extends Phaser.GameObjects.Sprite {
         const velX = Math.cos((this.destructor.angle - 360) * 0.01745)
         const velY = Math.sin((this.destructor.angle - 360) * 0.01745)
         if (this.cursors.down.isDown) {
-          this.destructor.setVelocityX(200 * velX)
-          this.destructor.setVelocityY(200 * velY)
+          this.destructor.setVelocityX(-200 * velX)
+          this.destructor.setVelocityY(-200 * velY)
         } else if (this.cursors.up.isDown) {
-          this.destructor.setVelocityX(-100 * velX)
-          this.destructor.setVelocityY(-100 * velY)
+          this.destructor.setVelocityX(100 * velX)
+          this.destructor.setVelocityY(100 * velY)
         } else {
           this.destructor.setAcceleration(0)
           this.destructor.setVelocityY(0)

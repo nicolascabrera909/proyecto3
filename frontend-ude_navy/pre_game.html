@@ -24,6 +24,7 @@
             <div class="row justify-content-center">
                 <div class="col-6">    
                 <form action="#">  
+                    <p  id="dif-seleccionada"></p>
                     <div class="form-group" id="dif-div">
                         <label for="dificultad" class="pregame">Seleccione la dificultad</label>
                         <select class="form-control" name="dificultad" id="dificultad">
@@ -34,7 +35,7 @@
                     </div> 
                     <div class="form-group">
                         <label for="username">Ingrese nombre del jugadoor</label>
-                        <input type="name" class="form-control" id="username" placeholder="Nombre">
+                        <input type="name" class="form-control" id="username" placeholder="Nombre" required>
                     </div>
                     <div class="form-group">
                         <label for="boattype" class="pregame">Seleccione el tipo de embarcacion:</label>
@@ -58,12 +59,15 @@
             var username=document.getElementById("username").value;
             var boattype=document.getElementById("boattype").value;
             var dificultad=document.getElementById("dificultad").value;
-
-            var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
-            window.location.href = "game.html" + queryString;
+            if (username != ''){
+                var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
+                window.location.href = "game.html" + queryString;
+            }else{
+                alert("El nombre de usuario es obligatorio")
+            }
+            
         }
         $( document ).ready(function() {
-            mostrarNivel();
             $.ajax({
                 url: 'http://localhost:3000/partida',
                 type: 'GET',
@@ -71,10 +75,10 @@
                 success: function(data, status, xhr)
                 {
                     if(data.gameList){
-                        if(data.gameList[0].playerList.length == 1){
+                        if(data.gameList[0].playerList.length > 0){
                             eliminarOptionTipoBarco(data.gameList[0].playerList[0].boatTeam);
                             setearNivelYaPrecargado(data.gameList[0].idDifficulty);
-                            ocultarNivel();
+                            //ocultarNivel();
 
                         }
                     }
@@ -94,6 +98,9 @@
 
         function setearNivelYaPrecargado(dificultad){
             $("#dificultad option[value='" + dificultad +"']").prop('selected', true);
+            $("#dificultad").attr('disabled', true);
+
+
         }
         function ocultarNivel(){
             $('#dif-div').hide();
