@@ -40,7 +40,57 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     this.destructor.is_destroyed = true;
   }
 
-  // moveDestructor() {
+  shootDepthCharge() {
+    this.depth_charge = new DepthCharge(this.scene, this.destructor.x, this.destructor.y, 'depth_charge')
+    this.depth_charge.setVisible(false);
+    this.depth_charge.createShootDepthCharge(this.destructor);
+  }
+
+  shootCannon(input) {
+    this.canon = new Canion(this.scene, this.destructor.x, this.destructor.y, 'canon')
+    this.canon.setVisible(false);
+    this.canon.createShootCannon(this.destructor, this.input);
+  }
+
+  moveDestructor(input) {
+    if (this.destructor) {
+      console.log("intento de movimiento destructor");
+      this.cursors = this.scene.input.keyboard.createCursorKeys();
+      if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+        this.shootDepthCharge();
+      }
+      else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
+        this.shootCannon(input);
+      }
+      if (this.destructor) {
+        if (this.cursors.left.isDown) {
+          this.destructor.setAngularVelocity(-120)
+        } else if (this.cursors.right.isDown) {
+          this.destructor.setAngularVelocity(120)
+        } else {
+          this.destructor.setAngularVelocity(0)
+        }
+        const velX = Math.cos((this.destructor.angle - 360) * 0.01745)
+        const velY = Math.sin((this.destructor.angle - 360) * 0.01745)
+        if (this.cursors.down.isDown) {
+          this.destructor.setVelocityX(-100 * velX)
+          this.destructor.setVelocityY(-100 * velY)
+        } else if (this.cursors.up.isDown) {
+          this.destructor.setVelocityX(200 * velX)
+          this.destructor.setVelocityY(200 * velY)
+        } else {
+          this.destructor.setAcceleration(0)
+          this.destructor.setVelocityY(0)
+          this.destructor.setVelocityX(0)
+        }
+      }
+    }
+  }
+}
+
+export default Destructor;
+
+// moveDestructor() {
 
   //   this.cursors = this.scene.input.keyboard.createCursorKeys();
   //   if (this.destructor) {
@@ -65,53 +115,3 @@ class Destructor extends Phaser.Physics.Arcade.Image {
   //       this.destructor.setVelocityX(0)
   //     }
   //   }
-
-  shootDepthCharge() {
-    this.depth_charge = new DepthCharge(this.scene, this.destructor.x, this.destructor.y, 'depth_charge')
-    this.depth_charge.setVisible(false);
-    this.depth_charge.createShootDepthCharge(this.destructor);
-  }
-
-  shootCannon(input) {
-    this.canon = new Canion(this.scene, this.submarino.x, this.submarino.y, 'canon')
-    this.canon.setVisible(false);
-    this.canon.createShootCannon(this.submarino, this.input);
-  }
-
-  moveDestructor(input) {
-    if (this.destructor) {
-      console.log("intento de movimiento destructor");
-      this.cursors = this.scene.input.keyboard.createCursorKeys();
-      if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-        this.shootDepthCharge();
-      }
-      else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
-        this.shootCannon(input);
-      }
-      if (this.destructor) {
-        if (this.cursors.left.isDown) {
-          this.destructor.setAngularVelocity(-120)
-        } else if (this.cursors.right.isDown) {
-          this.destructor.setAngularVelocity(120)
-        } else {
-          this.destructor.setAngularVelocity(0)
-        }
-        const velX = Math.cos((this.destructor.angle - 360) * 0.01745)
-        const velY = Math.sin((this.destructor.angle - 360) * 0.01745)
-        if (this.cursors.down.isDown) {
-          this.destructor.setVelocityX(200 * velX)
-          this.destructor.setVelocityY(200 * velY)
-        } else if (this.cursors.up.isDown) {
-          this.destructor.setVelocityX(-400 * velX)
-          this.destructor.setVelocityY(-400 * velY)
-        } else {
-          this.destructor.setAcceleration(0)
-          this.destructor.setVelocityY(0)
-          this.destructor.setVelocityX(0)
-        }
-      }
-    }
-  }
-}
-
-export default Destructor;

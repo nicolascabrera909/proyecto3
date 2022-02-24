@@ -16,11 +16,11 @@ class DepthCharge extends Phaser.GameObjects.Sprite {
 
     createShootDepthCharge(ship) {
         this.depth_charge = this.scene.physics.add.image(this.pos_x, this.pos_y, 'depth_charge');
-        //this.torpedo.setCollideWorldBounds(true);
-        //this.torpedo.setVelocity(-10, -10);
-        this.torpedo.setVisible(false);
+        //this.depth_charge.setCollideWorldBounds(true);
+        //this.depth_charge.setVelocity(-10, -10);
+        this.depth_charge.setVisible(false);
 
-        this.torpedo.scale = 10;
+        this.depth_charge.scale = 10;
 
         this.lifespan = 1000;
 

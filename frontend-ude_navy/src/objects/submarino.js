@@ -52,10 +52,6 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.canon.createShootCannon(this.submarino, this.input);
   }
 
-  mousePosition() {
-
-  }
-
   moveSubmarino(input) {
     if (!this.submarino.is_destroyed) {
       console.log("intento de movimiento");
@@ -88,10 +84,8 @@ class Submarino extends Phaser.Physics.Arcade.Image {
           this.submarino.setVelocityX(0)
         }
       }
-
     }
   }
-
 }
 
 export default Submarino;

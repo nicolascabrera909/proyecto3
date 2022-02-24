@@ -1,4 +1,4 @@
-class Destructor extends Phaser.GameObjects.Sprite {
+class Destructor extends Phaser.Physics.Arcade.Image {
 
 
   constructor(scene, x, y, type) {
