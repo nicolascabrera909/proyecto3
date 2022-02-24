@@ -1,10 +1,7 @@
 import Torpedo from "./torpedo.js";
 import Canion from "./canon.js";
-import Bullets from "./bullets.js";
 
-
-class Submarino extends Phaser.GameObjects.Sprite {
-
+class Submarino extends Phaser.Physics.Arcade.Image {
 
   constructor(scene, x, y, type) {
     super(scene, x, y, type);
@@ -15,13 +12,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.setVisible(false);
   }
 
-
-
-  create(coordenadas) {
-    //var resultado=this.obtengoCoordendad();
-    //console.log(resultado);
-    //console.log(playerInfo);
-
+  create(coordenadas, self) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
@@ -29,6 +20,12 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.flipX = true;
     this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
+    //self.cameras.main.setBounds(0, 0, 1024, 2048);
+    self.cameras.main.startFollow(this.submarino, true);
+    // this.cameras.main.roundPixels = true;
+
+    self.cameras.main.setZoom(2);
   }
 
   get() {
@@ -53,7 +50,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.canon.createShootCannon(this.submarino, this.input);
   }
 
-  mousePosition (){
+  mousePosition() {
 
   }
 
@@ -61,10 +58,6 @@ class Submarino extends Phaser.GameObjects.Sprite {
     if (!this.submarino.is_destroyed) {
       console.log("intento de movimiento");
       this.cursors = this.scene.input.keyboard.createCursorKeys();
-      var keyA = this.scene.input.keyboard.addKey('A');
-      this.key = this.scene.input.keyboard.addKeys({
-        'A': Phaser.Input.Keyboard.KeyCodes.A
-      });
       if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
         this.shootTorpedo();
       }
@@ -74,20 +67,20 @@ class Submarino extends Phaser.GameObjects.Sprite {
       }
       if (this.submarino) {
         if (this.cursors.left.isDown) {
-          this.submarino.setAngularVelocity(-12)
+          this.submarino.setAngularVelocity(-120)
         } else if (this.cursors.right.isDown) {
-          this.submarino.setAngularVelocity(12)
+          this.submarino.setAngularVelocity(120)
         } else {
           this.submarino.setAngularVelocity(0)
         }
         const velX = Math.cos((this.submarino.angle - 360) * 0.01745)
         const velY = Math.sin((this.submarino.angle - 360) * 0.01745)
         if (this.cursors.down.isDown) {
-          this.submarino.setVelocityX(20 * velX)
-          this.submarino.setVelocityY(20 * velY)
+          this.submarino.setVelocityX(200 * velX)
+          this.submarino.setVelocityY(200 * velY)
         } else if (this.cursors.up.isDown) {
-          this.submarino.setVelocityX(-40 * velX)
-          this.submarino.setVelocityY(-40 * velY)
+          this.submarino.setVelocityX(-400 * velX)
+          this.submarino.setVelocityY(-400 * velY)
         } else {
           this.submarino.setAcceleration(0)
           this.submarino.setVelocityY(0)
