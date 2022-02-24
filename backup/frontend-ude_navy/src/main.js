@@ -9,8 +9,8 @@ import Choose from "./scenes/choose.js";
 // CONFIG BASICA
 const config = {
     title: 'UDE Navy',
-    width: 800,
-    height: 600,
+    width: 3200,
+    height: 1600,
     type: Phaser.AUTO,
     parent: 'container',
     //backgroundColor: '#f9ca24',

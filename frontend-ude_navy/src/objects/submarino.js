@@ -20,12 +20,13 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.submarino.flipX = true;
     this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    //this.submarino.setCollideWorldBounds(true);
 
-    //self.cameras.main.setBounds(0, 0, 1024, 2048);
+    self.cameras.main.setBounds(0, 0, 3200, 1600);
     self.cameras.main.startFollow(this.submarino, true);
     self.cameras.main.roundPixels = true;
 
-    self.cameras.main.setZoom(0.5);
+    self.cameras.main.setZoom(1);
   }
 
   get() {

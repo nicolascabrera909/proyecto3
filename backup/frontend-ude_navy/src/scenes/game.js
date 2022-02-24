@@ -177,7 +177,7 @@ class Game extends Phaser.Scene {
   }
   /**Cargo el mapa */
   showMap() {
-    this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'mapa_principal').setOrigin(0, 0);
+    this.background = this.add.tileSprite(0, 0, 3200, 1600, 'mapa_principal').setOrigin(0, 0);
 
 
     /**Ejemplo

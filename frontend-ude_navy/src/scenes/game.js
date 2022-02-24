@@ -2,6 +2,7 @@
 import Submarino from "../objects/submarino.js";
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
+import Map from "../objects/map.js";
 
 
 class Game extends Phaser.Scene {
@@ -55,14 +56,14 @@ class Game extends Phaser.Scene {
 
   }
 
-  createMap() {
-    this.map = new Map(this, 'map', 'tiles', 'terrain');
+  loadTileMap() {
+    this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
   create() {
     let self = this;
     //Creo el mapa
-    this.showMap();
+    //this.showMap();
 
     this.delayText = this.add.text(400, 16);
     this.delayedEvent = this.time.delayedCall(3000, this.tiempoExcedido, [], this);
@@ -71,12 +72,17 @@ class Game extends Phaser.Scene {
     console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
     this.serverSocketHandshake(self);
+
+    this.createMap();
   };
+
+  createMap() {
+    this.map = new Map(this, 'map', 'tiles', 'terrain');
+  }
 
   tiempoExcedido() {
     console.log('Aca habria que finalizar el juego');
   }
-
 
 
   serverSocketHandshake(self) {
@@ -152,7 +158,7 @@ class Game extends Phaser.Scene {
       y: gameList[0].playerList[indice].boatList[0].positionY,
     }
     this.submarino = new Submarino(self, 0, 0, 'submarino');
-    this.submarino.create(coordenadas);
+    this.submarino.create(coordenadas, self);
     this.createTorpedoLabel();
     this.createCanonLabel();
 
@@ -226,12 +232,6 @@ class Game extends Phaser.Scene {
       this.destructor.moveDestructor();
     }
     */
-
-    this.createMap();
-    loadTileMap() {
-      this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
-    }
-
     this.updateTorpedoStatics();
     this.updateCanonStatics();
     this.updateCargaStatics();
@@ -247,9 +247,11 @@ class Game extends Phaser.Scene {
 
   }
 
+    
+
   /**Cargo el mapa */
   showMap() {
-    this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'mapa_principal').setOrigin(0, 0);
+    this.background = this.add.tileSprite(0, 0, 3200, 1600, 'mapa_principal').setOrigin(0, 0);
 
 
     /**Ejemplo
