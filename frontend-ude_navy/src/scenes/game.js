@@ -54,7 +54,7 @@ class Game extends Phaser.Scene {
                             
   }*/
 
-  }
+  }//test
 
   loadTileMap() {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
