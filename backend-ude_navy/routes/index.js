@@ -8,6 +8,8 @@ router.get('/version', controller.version);
 
 router.get('/partida', controller.partida);
 
+router.get('/ready', controller.ready);
+
 module.exports = router;
 
 // router.get('/', (req, res) => {

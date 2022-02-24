@@ -29,8 +29,8 @@ class Game extends Phaser.Scene {
 
   }
 
-   /**Cargo la imagenes del juego*/
-   loadImages() {
+  /**Cargo la imagenes del juego*/
+  loadImages() {
     this.load.image('destructor', './static/assets/img/destructor.png');
     this.load.image('submarino', './static/assets/img/submarino.png');
     this.load.image('carguero', './static/assets/img/carguero1.png');
@@ -48,17 +48,9 @@ class Game extends Phaser.Scene {
 
     this.loadTileMap();
 
-    /*this.games= {   ----> aca hay q crear una escucha para q carge  
-      gameList:[],          la lista de juegos del backend, por q sino la lista esa siempre 
-                            queda vacia cada vez q inicia la scena de phaser.
-                            
-  }*/
-
-  }//test
-
-  loadTileMap() {
-    this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
+
+
 
   create() {
     let self = this;
@@ -76,14 +68,37 @@ class Game extends Phaser.Scene {
     this.createMap();
   };
 
-  createMap() {
-    this.map = new Map(this, 'map', 'tiles', 'terrain');
+
+  update() {
+    if (this.submarino !== undefined) {
+      this.submarino.moveSubmarino();
+    }
+
+    if (this.destructor != undefined) {
+      this.destructor.moveDestructor();
+    }
+    /*
+    if(this.destructor !== undefined ){
+      this.destructor.moveDestructor();
+    }
+    */
+    this.updateTorpedoStatics();
+    this.updateCanonStatics();
+    this.updateCargaStatics();
+
+    this.delayText.setText('Tiempo transcurrido: ' + this.delayedEvent.getProgress().toString().substr(0, 4));
+
+
+
+
+    //----------> ver que hacer con el comentario, se borra
+    //this.sys.game.cameras.follow(this.submarino,false); 
+
+
   }
 
-  tiempoExcedido() {
-    console.log('Aca habria que finalizar el juego');
-  }
 
+  //////////////////////////////////////////////////  Socket metodos  //////////////////////////////////////////////////////////////
 
   serverSocketHandshake(self) {
     this.socket.on('inicioInstancia', function (jsonGame) {
@@ -106,26 +121,14 @@ class Game extends Phaser.Scene {
     }
   }
 
-  buscarBandoConectado(nuevoBando, jugadores) {
-    let bando;
-    let i = 0;
-    let encontre = false;
-    while (i < jugadores.length && !encontre) {
-      if (jugadores[i].boatTeam == nuevoBando) {
-        encontre = true;
-        bando = jugadores[i].boatTeam;
-      }
-      i++;
-    }
-
-    return bando
-  }
 
   listenForSocketEvents(self, bandoBarcos) {
+    
+    //Espero por confirmacion de inicio de juego por parte del backend
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
       self.createUsuarioLabel();
-      //let equipoConectado = this.buscarBandoConectado(bandoBarcos, this.games.gameList[0].playerList);
+      
 
       if (bandoBarcos == 'submarino') {
         self.crearSubmarino(self, this.games.gameList);
@@ -133,10 +136,33 @@ class Game extends Phaser.Scene {
         self.crearDestructor(self, this.games.gameList);
         self.crearCargueros(self, this.games.gameList);
       }
+
+      //valido si hay dos usuarios, si hay envio al backend para que notifique por rest al html
+      if(this.games.gameList[0].playerList.length==2){
+        this.socket.emit('bothUsers', true);
+      }
+      
     });
+
+
+
+
 
   }
 
+
+
+
+  //////////////////////////////////////////////////  Cargo elementos en el mapa y config del mismo  //////////////////////////////////////////////////////////////
+  loadTileMap() {
+    this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
+  }
+  createMap() {
+    this.map = new Map(this, 'map', 'tiles', 'terrain');
+  }
+  tiempoExcedido() {
+    console.log('Aca habria que finalizar el juego');
+  }
   crearSubmarino(self, gameList) {
     let indice = 0;
     if (!gameList[0].playerList[0].boattype == 'submarino') {
@@ -176,85 +202,65 @@ class Game extends Phaser.Scene {
     this.carguero = new Carguero(self, 0, 0, 'carguero');
     this.carguero.create(gameList);
   }
+  /**Cargo el mapa */
+  showMap() {
+    this.background = this.add.tileSprite(0, 0, 3200, 1600, 'mapa_principal').setOrigin(0, 0);
+  }
+  /**Cargo el bando que selecciono el usuario */
+  init(data) {
+    this.option = data.option;
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+  /////////////////////////////////////////////////////////  Metodos complementarios  /////////////////////////////////////////
+  //hoy no se usa, si mas adelante no se usa lo borramos
+  buscarBandoConectado(nuevoBando, jugadores) {
+    let bando;
+    let i = 0;
+    let encontre = false;
+    while (i < jugadores.length && !encontre) {
+      if (jugadores[i].boatTeam == nuevoBando) {
+        encontre = true;
+        bando = jugadores[i].boatTeam;
+      }
+      i++;
+    }
+
+    return bando
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+  //////////////////////////////////////////////////  fisicas del juego   //////////////////////////////////////////////////////////////
 
   addColisiones() {
     //this.physics.add.overlap(this.submarino, this.destructor, function(actual, rival  ) {
     //  actual.destroy(); 
     //})
-  };
-
-
-  update() {
-    if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino();
-    }
-
-    if (this.destructor != undefined) {
-      this.destructor.moveDestructor();
-    }
-    /*
-    if(this.destructor !== undefined ){
-      this.destructor.moveDestructor();
-    }
-    */
-    this.updateTorpedoStatics();
-    this.updateCanonStatics();
-    this.updateCargaStatics();
-
-    this.delayText.setText('Tiempo transcurrido: ' + this.delayedEvent.getProgress().toString().substr(0, 4));
-
-
-
-
-    //----------> ver que hacer con el comentario, se borra
-    //this.sys.game.cameras.follow(this.submarino,false); 
-
-
   }
-
-    
-
-  /**Cargo el mapa */
-  showMap() {
-    this.background = this.add.tileSprite(0, 0, 3200, 1600, 'mapa_principal').setOrigin(0, 0);
-
-
-    /**Ejemplo
-  
-    // create the map
-    this.map = this.make.tilemap({
-      key: 'map'
-    });
-  
-    // first parameter is the name of the tilemap in tiled
-    var tiles = this.map.addTilesetImage('spritesheet', 'tiles', 16, 16, 1, 2);
-  
-    // creating the layers
-    this.map.createStaticLayer('Grass', tiles, 0, 0);
-    this.map.createStaticLayer('Obstacles', tiles, 0, 0);
-  
-    // don't go out of the map
-    this.physics.world.bounds.width = this.map.widthInPixels;
-    this.physics.world.bounds.height = this.map.heightInPixels;
-  
-    //Fin Ejemplo*/
-
-  }
-
   /**Accion a tomar en caso de colicion de destructor y submarino */
   accionColision() {
     console.log('pego');
     this.submarino.destroy();
     this.destructor.destroy();
   }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  /**Cargo el bando que selecciono el usuario */
-  init(data) {
-    this.option = data.option;
-  }
 
-  /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
+
+
+
+  /////////////////////////////////////////////  PARA LAS ESTADISTICAS DEL JUEGO  ////////////////////////////////////////////////
 
   createUsuarioLabel() {
     this.username = this.add.text(16, 16, 'Jugador: ' + this.username, {
@@ -312,7 +318,7 @@ class Game extends Phaser.Scene {
 
   }
 
-  /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
 
 
 }
