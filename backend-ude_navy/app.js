@@ -67,7 +67,7 @@ io.on('connection', function (socket) {
   //desconectar al usuario y modificar la lista de jugadores
   socket.on('disconnect', function () {
     console.log('player [' + socket.id + '] disconnected')
-    deletePlayer(socket.id);
+    gamePlay.deletePlayer(socket.id);
     
     io.emit('playerDisconnected', socket.id)
   })
