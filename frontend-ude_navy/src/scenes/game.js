@@ -141,10 +141,13 @@ class Game extends Phaser.Scene {
       if(this.games.gameList[0].playerList.length==2){
         this.socket.emit('bothUsers', true);
       }
+
+    });
+    // espero evento de desconexion de usuario por parte del backend
+    this.socket.on('playerDisconnected', function (jsonGame) {
+     
       
     });
-
-
 
 
 

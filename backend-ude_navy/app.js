@@ -58,6 +58,13 @@ io.on('connection', function (socket) {
     // aca tendria q mandar algo al html
   });
 
+  //desconectar al usuario y modificar la lista de jugadores
+  socket.on('disconnect', function () {
+    console.log('player [' + socket.id + '] disconnected')
+    delete players[socket.id]
+    io.emit('playerDisconnected', socket.id)
+  })
+
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
