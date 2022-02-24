@@ -54,7 +54,7 @@ class Destructor extends Phaser.Physics.Arcade.Image {
 
   moveDestructor(input) {
     if (this.destructor) {
-      console.log("intento de movimiento destructor");
+      //console.log("intento de movimiento destructor");
       this.cursors = this.scene.input.keyboard.createCursorKeys();
       if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
         this.shootDepthCharge();
@@ -65,6 +65,8 @@ class Destructor extends Phaser.Physics.Arcade.Image {
       if (this.destructor) {
         if (this.cursors.left.isDown) {
           this.destructor.setAngularVelocity(-120)
+          socket.emit('movimientoDestructor');
+
         } else if (this.cursors.right.isDown) {
           this.destructor.setAngularVelocity(120)
         } else {

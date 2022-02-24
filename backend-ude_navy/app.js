@@ -64,6 +64,13 @@ io.on('connection', function (socket) {
     io.emit('bothUsers', true);
   });
 
+  socket.on('movimientoSubmarino', () =>{
+    socket.broadcast.emit('movimientoDetectadoSubmarino');
+  });
+  socket.on('movimientoDestructor', () =>{
+    socket.broadcast.emit('movimientoDetectadoDestructor');
+  });
+
   //desconectar al usuario y modificar la lista de jugadores
  /* socket.on('disconnect', function () {
     if (gamePlay.gameList.length > 0) {

@@ -52,9 +52,9 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.canon.createShootCannon(this.submarino, this.input);
   }
 
-  moveSubmarino(input) {
+  moveSubmarino(input, socket) {
     if (!this.submarino.is_destroyed) {
-      console.log("intento de movimiento");
+      //console.log("intento de movimiento");
       this.cursors = this.scene.input.keyboard.createCursorKeys();
       if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
         this.shootTorpedo();
@@ -65,6 +65,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       if (this.submarino) {
         if (this.cursors.left.isDown) {
           this.submarino.setAngularVelocity(-120)
+          socket.emit('movimientoSubmarino');
         } else if (this.cursors.right.isDown) {
           this.submarino.setAngularVelocity(120)
         } else {
@@ -83,6 +84,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
           this.submarino.setVelocityY(0)
           this.submarino.setVelocityX(0)
         }
+        
       }
     }
   }

@@ -26,6 +26,7 @@ class Game extends Phaser.Scene {
     this.username = '';
 
     this.delayText;
+    this.input;
 
   }
 
@@ -63,18 +64,19 @@ class Game extends Phaser.Scene {
     console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
     this.serverSocketHandshake(self);
-
     this.createMap();
   }
 
 
   update() {
     if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino();
+      this.submarino.moveSubmarino(this.input, this.socket);
+      
     }
 
     if (this.destructor != undefined) {
       this.destructor.moveDestructor();
+      //this.socket.emit('movimientoDestructor');
     }
     /*
     if(this.destructor !== undefined ){
@@ -103,6 +105,8 @@ class Game extends Phaser.Scene {
     this.socket.on('inicioInstancia', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
     });
+
+    
 
     if (!(this.games.gameList.length > 0)) {
 
@@ -138,15 +142,26 @@ class Game extends Phaser.Scene {
 
       //valido si hay dos usuarios, si hay envio al backend para que notifique por rest al html
       if(this.games.gameList[0].playerList.length==2){
-        this.socket.emit('createGameFinish', true);
+        //this.socket.emit('createGameFinish', true);
       }
 
     });
+
+    this.socket.on('movimientoDetectadoSubmarino', () => {
+      console.log('Submarino en movimiento ---------');
+    });
+
+    this.socket.on('movimientoDetectadoDestructor', () => {
+      console.log('Destructor en movimiento!!!!!!!!!');
+    });
+
     // espero evento de desconexion de usuario por parte del backend
     this.socket.on('playerDisconnected', function (jsonGame) {
      
       
     });
+
+    
 
 
 
