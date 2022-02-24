@@ -25,7 +25,11 @@ const io = socketIO(server, {
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:5500",
-  }
+  },
+  /*reconnection: true,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+  reconnectionAttempts: 99999*/
 });
 
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
@@ -39,13 +43,13 @@ io.on('connection', function (socket) {
 
   //evento de una partida nueva
   socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
-      //console.log('Evento create game ');
-      gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
-      var jsonGame = JSON.stringify(gamePlay);
-      //console.log('Luego de convertir a JSON: ' + jsonGame);
-      //emito datos al frontend
-      io.emit('listenerCreateGame', jsonGame);
-      //console.log('termine de crear la partida y emiti al frontend');
+    //console.log('Evento create game ');
+    gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
+    var jsonGame = JSON.stringify(gamePlay);
+    //console.log('Luego de convertir a JSON: ' + jsonGame);
+    //emito datos al frontend
+    io.emit('listenerCreateGame', jsonGame);
+    //console.log('termine de crear la partida y emiti al frontend');
     /*else {
       console.log('Ya hay una partida en juego, ' + gamePlay.getGameList[0].playerList[0]+' vs '+ gamePlay.getGameList[0].playerList[1]);
       // creo el jugador dos y lo uno a la partida
@@ -53,9 +57,10 @@ io.on('connection', function (socket) {
 
   });
 
-  //evento para saber si ambos jugadores iniciarion partidaNueva
-  socket.on('bothUsers', function (listo) {
-    // aca tendria q mandar algo al html
+  
+  socket.on('createGameFinish', function (listo) {
+    // aca mando al socket al evento del html pre_game
+    this.socket.emit('bothUsers', true);
   });
 
   //desconectar al usuario y modificar la lista de jugadores

@@ -122,6 +122,13 @@
 
     </script>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect("http://localhost:3000");
+        this.socket.on('bothUsers', function (jsonGame) {
+           // recibo del backend el true, cargar en variable
+        });
+    </script>
 </body>
 
 </html>

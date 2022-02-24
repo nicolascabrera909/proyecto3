@@ -45,7 +45,6 @@ class Game extends Phaser.Scene {
     this.carguero = new Carguero(this, 10, 10, 'carguero');
     this.destructor = new Destructor(this);
     this.loadImages();
-
     this.loadTileMap();
 
   }
@@ -66,7 +65,7 @@ class Game extends Phaser.Scene {
     this.serverSocketHandshake(self);
 
     this.createMap();
-  };
+  }
 
 
   update() {
@@ -139,7 +138,7 @@ class Game extends Phaser.Scene {
 
       //valido si hay dos usuarios, si hay envio al backend para que notifique por rest al html
       if(this.games.gameList[0].playerList.length==2){
-        this.socket.emit('bothUsers', true);
+        this.socket.emit('createGameFinish', true);
       }
 
     });
