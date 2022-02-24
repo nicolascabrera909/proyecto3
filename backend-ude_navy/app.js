@@ -18,18 +18,19 @@ var gamePlay = new Games();
 /////////////////////////////////////////////////////// Socket config ///////////////////////////////////////////////////////
 
 /**SOCKET.IO configuracion**/
+console.log("Creo y levanto el socket");
 const http = require('http');
 const socketIO = require('socket.io');
 const server = http.Server(app);
 const io = socketIO(server, {
-  pingTimeout: 60000,
+  pingTimeout: 80000,
   cors: {
     origin: "http://localhost:5500",
   },
-  /*reconnection: true,
-  reconnectionDelay: 1000,
-  reconnectionDelayMax: 5000,
-  reconnectionAttempts: 99999*/
+  reconnection: true,
+  reconnectionDelay: 3000,
+  reconnectionDelayMax: 6000,
+  reconnectionAttempts: 99999
 });
 
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
@@ -60,13 +61,14 @@ io.on('connection', function (socket) {
   
   socket.on('createGameFinish', function (listo) {
     // aca mando al socket al evento del html pre_game
-    this.socket.emit('bothUsers', true);
+    io.emit('bothUsers', true);
   });
 
   //desconectar al usuario y modificar la lista de jugadores
   socket.on('disconnect', function () {
     console.log('player [' + socket.id + '] disconnected')
-    delete players[socket.id]
+    deletePlayer(socket.id);
+    
     io.emit('playerDisconnected', socket.id)
   })
 

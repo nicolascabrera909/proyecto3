@@ -66,12 +66,12 @@
             //var startButton = document.getElementById("startButton").value;
             if (username != '') {
                 //valido la cantidad e elementos de la lista si es menor a la variable entro sino voy al else
-               /*if () {*/
-                    var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
-                    window.location.href = "game.html" + queryString;
-               /* }else{
-                    //muestro que la partida ya esta en juego y vuelvo al menu inicial
-                }*/
+                /*if () {*/
+                var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
+                window.location.href = "game.html" + queryString;
+                /* }else{
+                     //muestro que la partida ya esta en juego y vuelvo al menu inicial
+                 }*/
 
             } else {
                 alert("El nombre de usuario es obligatorio")
@@ -122,11 +122,14 @@
 
     </script>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+        integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+        crossorigin="anonymous"></script>
     <script>
-        var socket = io.connect("http://localhost:3000");
-        this.socket.on('bothUsers', function (jsonGame) {
-           // recibo del backend el true, cargar en variable
+        console.log('Me conecto al socket');
+        var socket = io("http://localhost:3000");
+        socket.on('bothUsers', function (listo) {
+            // recibo del backend el true, cargar en variable
         });
     </script>
 </body>

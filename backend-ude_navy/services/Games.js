@@ -102,6 +102,11 @@ class Games {
             }
         //}
     }
+
+    deletePlayer(socketId) {
+        //bus
+        
+    }
    
 }
 
