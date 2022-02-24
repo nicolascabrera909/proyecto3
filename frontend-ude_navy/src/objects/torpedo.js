@@ -45,8 +45,6 @@ class Torpedo extends Phaser.GameObjects.Sprite {
     get_quantity() {
         return this.scene.cant_torpedos_enviados;
     }
-
-
 }
 
 export default Torpedo;
