@@ -28,12 +28,24 @@ class Game extends Phaser.Scene {
 
   }
 
+   /**Cargo la imagenes del juego*/
+   loadImages() {
+    this.load.image('destructor', './static/assets/img/destructor.png');
+    this.load.image('submarino', './static/assets/img/submarino.png');
+    this.load.image('carguero', './static/assets/img/carguero1.png');
+    this.load.image('mapa_principal', './static/assets/img/water_background.png');
+    this.load.image('torpedo', './static/assets/img/torpedo.png');
+    this.load.image('canon', './static/assets/img/cannon.png');
+    this.load.image('tiles', './static/assets/map/terrain.png');
+  }
+
   preload() {
 
     this.carguero = new Carguero(this, 10, 10, 'carguero');
     this.destructor = new Destructor(this);
     this.loadImages();
 
+    this.loadTileMap();
 
     /*this.games= {   ----> aca hay q crear una escucha para q carge  
       gameList:[],          la lista de juegos del backend, por q sino la lista esa siempre 
@@ -41,6 +53,10 @@ class Game extends Phaser.Scene {
                             
   }*/
 
+  }
+
+  createMap() {
+    this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
   create() {
@@ -57,11 +73,11 @@ class Game extends Phaser.Scene {
     this.serverSocketHandshake(self);
   };
 
-  tiempoExcedido(){
+  tiempoExcedido() {
     console.log('Aca habria que finalizar el juego');
-    }
+  }
 
-  
+
 
   serverSocketHandshake(self) {
     this.socket.on('inicioInstancia', function (jsonGame) {
@@ -75,28 +91,28 @@ class Game extends Phaser.Scene {
       var bandoBarcos = this.urlParams.get('boattype');
       var dificultad = this.urlParams.get('dificultad');
       this.username = username
-      if(this.games.gameList.length>1){
+      if (this.games.gameList.length > 1) {
         console.log('***********Lista de jugadores completa ************')
-      }else{
+      } else {
         this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
         this.listenForSocketEvents(self, bandoBarcos);
       }
-      
+
     }
   }
 
-  buscarBandoConectado(nuevoBando, jugadores){
+  buscarBandoConectado(nuevoBando, jugadores) {
     let bando;
     let i = 0;
     let encontre = false;
-    while(i < jugadores.length && !encontre){
-      if(jugadores[i].boatTeam == nuevoBando){
+    while (i < jugadores.length && !encontre) {
+      if (jugadores[i].boatTeam == nuevoBando) {
         encontre = true;
         bando = jugadores[i].boatTeam;
       }
-      i ++;
+      i++;
     }
-    
+
     return bando
   }
 
@@ -105,10 +121,10 @@ class Game extends Phaser.Scene {
       this.games = JSON.parse(jsonGame);
       self.createUsuarioLabel();
       //let equipoConectado = this.buscarBandoConectado(bandoBarcos, this.games.gameList[0].playerList);
-      
-      if(bandoBarcos == 'submarino'){
+
+      if (bandoBarcos == 'submarino') {
         self.crearSubmarino(self, this.games.gameList);
-      }else{
+      } else {
         self.crearDestructor(self, this.games.gameList);
         self.crearCargueros(self, this.games.gameList);
       }
@@ -128,7 +144,7 @@ class Game extends Phaser.Scene {
 
   crearSubmarino(self, gameList) {
     let indice = 0;
-    if( gameList[0].playerList[0].boattype=='submarino'){
+    if (gameList[0].playerList[0].boattype == 'submarino') {
       indice = 1;
     }
     var coordenadas = {
@@ -139,22 +155,22 @@ class Game extends Phaser.Scene {
     this.submarino.create(coordenadas);
     this.createTorpedoLabel();
     this.createCanonLabel();
-    
-    
+
+
 
     //self.addColisiones(self);
   }
 
   crearDestructor(self, gameList) {
     let indice = 0;
-    if( gameList[0].playerList[0].boattype=='submarino'){
+    if (gameList[0].playerList[0].boattype == 'submarino') {
       indice = 1;
     }
     var coordenadas = {
       x: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionX,
       y: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionY,
     }
-    
+
     this.destructor = new Destructor(self, 0, 0, 'destructor');
     this.destructor.create(coordenadas);
     //this.createCargasLabel();
@@ -201,7 +217,7 @@ class Game extends Phaser.Scene {
     if (this.submarino !== undefined) {
       this.submarino.moveSubmarino();
     }
-    
+
     if (this.destructor != undefined) {
       this.destructor.moveDestructor();
     }
@@ -211,7 +227,10 @@ class Game extends Phaser.Scene {
     }
     */
 
-    this.background.tilePositionY -= 0.3;
+    this.createMap();
+    loadTileMap() {
+      this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
+    }
 
     this.updateTorpedoStatics();
     this.updateCanonStatics();
@@ -219,8 +238,8 @@ class Game extends Phaser.Scene {
 
     this.delayText.setText('Tiempo transcurrido: ' + this.delayedEvent.getProgress().toString().substr(0, 4));
 
-   
-    
+
+
 
     //----------> ver que hacer con el comentario, se borra
     //this.sys.game.cameras.follow(this.submarino,false); 
@@ -228,16 +247,6 @@ class Game extends Phaser.Scene {
 
   }
 
-  /**Cargo la imagenes del juego*/
-  loadImages() {
-    this.load.image('destructor', './static/assets/img/destructor.png');
-    this.load.image('submarino', './static/assets/img/submarino.png');
-    this.load.image('carguero', './static/assets/img/carguero1.png');
-    this.load.image('mapa_principal', './static/assets/img/water_background.png');
-    this.load.image('torpedo', './static/assets/img/torpedo.png');
-    this.load.image('canon', './static/assets/img/cannon.png');
-
-  }
   /**Cargo el mapa */
   showMap() {
     this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'mapa_principal').setOrigin(0, 0);
@@ -317,7 +326,7 @@ class Game extends Phaser.Scene {
   }
 
   updateTorpedoStatics() {
-    if(this.torpedos_quantity){
+    if (this.torpedos_quantity) {
       this.torpedos_quantity.setText("Torpedos: " + this.cant_torpedos_enviados);
     }
   }
@@ -332,10 +341,10 @@ class Game extends Phaser.Scene {
   }
 
   updateCanonStatics() {
-    if(this.canon_quantity){
+    if (this.canon_quantity) {
       this.canon_quantity.setText("Cañon: " + this.cant_canones_enviados);
     }
-    
+
   }
 
   createCargaLabel() {
@@ -348,10 +357,10 @@ class Game extends Phaser.Scene {
   }
 
   updateCargaStatics() {
-    if(this.carga_quantity){
+    if (this.carga_quantity) {
       this.carga_quantity.setText("Carga: " + this.cant_cargas_enviadas);
     }
-    
+
   }
 
   /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7

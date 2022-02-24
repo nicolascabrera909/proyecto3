@@ -23,9 +23,9 @@ class Submarino extends Phaser.Physics.Arcade.Image {
 
     //self.cameras.main.setBounds(0, 0, 1024, 2048);
     self.cameras.main.startFollow(this.submarino, true);
-    // this.cameras.main.roundPixels = true;
+    self.cameras.main.roundPixels = true;
 
-    self.cameras.main.setZoom(2);
+    self.cameras.main.setZoom(0.5);
   }
 
   get() {
