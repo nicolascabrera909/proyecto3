@@ -43,11 +43,6 @@ class Game extends Phaser.Scene {
 
   }
 
-   
- 
-  
-  
-
   create() {
     let self = this;
     //Creo el mapa
@@ -84,20 +79,40 @@ class Game extends Phaser.Scene {
         console.log('***********Lista de jugadores completa ************')
       }else{
         this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
-        this.listenForSocketEvents(self, bandoBarcos);///--> nose si esta bien que este aca, el emit del back dispara el on listenerCreateGame
+        this.listenForSocketEvents(self, bandoBarcos);
       }
       
     }
   }
 
-  listenForSocketEvents(self, /*bandoBarcos*/) {
+  buscarBandoConectado(nuevoBando, jugadores){
+    let bando;
+    let i = 0;
+    let encontre = false;
+    while(i < jugadores.length && !encontre){
+      if(jugadores[i].boatTeam == nuevoBando){
+        encontre = true;
+        bando = jugadores[i].boatTeam;
+      }
+      i ++;
+    }
+    
+    return bando
+  }
+
+  listenForSocketEvents(self, bandoBarcos) {
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
-      var bandoBarcos='submarino'
-      /*
-        SEGUIR ACA QUE ESTA MAL
-      */ 
       self.createUsuarioLabel();
+      //let equipoConectado = this.buscarBandoConectado(bandoBarcos, this.games.gameList[0].playerList);
+      
+      if(bandoBarcos == 'submarino'){
+        self.crearSubmarino(self, this.games.gameList);
+      }else{
+        self.crearDestructor(self, this.games.gameList);
+        self.crearCargueros(self, this.games.gameList);
+      }
+      /*
       if (this.games.gameList[0].playerList[0].boatTeam == bandoBarcos) {
         self.crearSubmarino(self, this.games.gameList);
         //self.crearDestructor(self, this.games.gameList);
@@ -105,17 +120,20 @@ class Game extends Phaser.Scene {
         console.log("***** En el else de listenForSocketEvents *****")
         self.crearDestructor(self, this.games.gameList);
         self.crearcargueros(self, this.games.gameList);
-        
       }
-
+      */
     });
 
   }
 
   crearSubmarino(self, gameList) {
+    let indice = 0;
+    if( gameList[0].playerList[0].boattype=='submarino'){
+      indice = 1;
+    }
     var coordenadas = {
-      x: gameList[0].playerList[0].boatList[0].positionX,
-      y: gameList[0].playerList[0].boatList[0].positionY,
+      x: gameList[0].playerList[indice].boatList[0].positionX,
+      y: gameList[0].playerList[indice].boatList[0].positionY,
     }
     this.submarino = new Submarino(self, 0, 0, 'submarino');
     this.submarino.create(coordenadas);
@@ -128,25 +146,24 @@ class Game extends Phaser.Scene {
   }
 
   crearDestructor(self, gameList) {
-    //TODO: TRAER DEL BACJK
-    var coordenadas = {
-      x: 500,
-      y: 600,
+    let indice = 0;
+    if( gameList[0].playerList[0].boattype=='submarino'){
+      indice = 1;
     }
+    var coordenadas = {
+      x: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionX,
+      y: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionY,
+    }
+    
     this.destructor = new Destructor(self, 0, 0, 'destructor');
     this.destructor.create(coordenadas);
-    this.createCargasLabel();
-    this.createCanonLabel();
+    //this.createCargasLabel();
+    //this.createCanonLabel();
     //self.addColisiones(self);
   }
-  crearcargueros(self, gameList) {
-    //TODO: TRAER DEL BACJK
-    var coordenadas = {
-      x: 123,
-      y: 600,
-    }
+  crearCargueros(self, gameList) {
     this.carguero = new Carguero(self, 0, 0, 'carguero');
-    //this.carguero.create(coordenadas);
+    this.carguero.create(gameList);
   }
 
   addColisiones() {
