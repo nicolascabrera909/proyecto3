@@ -10,8 +10,12 @@ const { database } = require('./config');
 
 //variables del juego
 const players = {};
-let cantUsers = 0;
+let gameRedy = false;
 var gamePlay = new Games();
+
+
+
+/////////////////////////////////////////////////////// Socket config ///////////////////////////////////////////////////////
 
 /**SOCKET.IO configuracion**/
 const http = require('http');
@@ -23,7 +27,6 @@ const io = socketIO(server, {
     origin: "http://localhost:5500",
   }
 });
-
 
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
 io.on('connection', function (socket) {
@@ -50,16 +53,21 @@ io.on('connection', function (socket) {
 
   });
 
-});
+  //evento para saber si ambos jugadores iniciarion partidaNueva
+  socket.on('bothUsers', function (listo) {
+    // aca tendria q mandar algo al html
+  });
 
-/**Metodo de escucha de funcion conectar */
-io.on('nuevaPartida', function (name, boatList, socketId) {
-  console.log('Nueva partida');
-  var gamePLay = new Games();
-  gamePLay.createGame(name, socketId);
 });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//CORS
+
+
+
+
+
+
+///////////////////////////////////////////////////////  CORS  ///////////////////////////////////////////////////////
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -74,8 +82,15 @@ app.use(
   })
 );
 let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:5501', 'http://localhost:3000', 'http://127.0.0.1', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501', 'http://127.0.0.1:3000', 'http://proyecto.sysmemories.com', 'http://proyecto.sysmemories.com:5500', 'http://proyecto.sysmemories.com:5501', 'http://proyecto.sysmemories.com:3000'];
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//ROUTES
+
+
+
+
+
+
+/////////////////////////////////////////////////////////  ROUTES  ///////////////////////////////////////////////////////
 app.use(require('./routes/index'));
 
 // catch 404 and forward to error handler
@@ -93,8 +108,16 @@ app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(500).send('Algo esta roto!')
 });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//LISTEN
+
+
+
+
+
+
+///////////////////////////////////////////////////////  LISTEN  ////////////////////////////////////////////////////////////////////////////////////////////////////
 server.listen(port, () => {
   console.log(`Servidor Express corriendo en el puerto: ${port}`);
 });
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////

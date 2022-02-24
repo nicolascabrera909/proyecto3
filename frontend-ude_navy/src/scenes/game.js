@@ -29,8 +29,8 @@ class Game extends Phaser.Scene {
 
   }
 
-   /**Cargo la imagenes del juego*/
-   loadImages() {
+  /**Cargo la imagenes del juego*/
+  loadImages() {
     this.load.image('destructor', './static/assets/img/destructor.png');
     this.load.image('submarino', './static/assets/img/submarino.png');
     this.load.image('carguero', './static/assets/img/carguero1.png');
@@ -48,17 +48,9 @@ class Game extends Phaser.Scene {
 
     this.loadTileMap();
 
-    /*this.games= {   ----> aca hay q crear una escucha para q carge  
-      gameList:[],          la lista de juegos del backend, por q sino la lista esa siempre 
-                            queda vacia cada vez q inicia la scena de phaser.
-                            
-  }*/
-
-  }//test
-
-  loadTileMap() {
-    this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
+
+
 
   create() {
     let self = this;
@@ -75,148 +67,6 @@ class Game extends Phaser.Scene {
 
     this.createMap();
   };
-
-  createMap() {
-    this.map = new Map(this, 'map', 'tiles', 'terrain');
-  }
-
-  tiempoExcedido() {
-    console.log('Aca habria que finalizar el juego');
-  }
-
-
-  serverSocketHandshake(self) {
-    this.socket.on('inicioInstancia', function (jsonGame) {
-      this.games = JSON.parse(jsonGame);
-    });
-
-    if (!(this.games.gameList.length > 0)) {
-
-      var mapa = 1;
-      var username = this.urlParams.get('username');
-      var bandoBarcos = this.urlParams.get('boattype');
-      var dificultad = this.urlParams.get('dificultad');
-      this.username = username
-      if (this.games.gameList.length > 1) {
-        console.log('***********Lista de jugadores completa ************')
-      } else {
-        this.socket.emit('createGame', username, bandoBarcos, mapa, dificultad);
-        this.listenForSocketEvents(self, bandoBarcos);
-      }
-
-    }
-  }
-
-  buscarBandoConectado(nuevoBando, jugadores) {
-    let bando;
-    let i = 0;
-    let encontre = false;
-    while (i < jugadores.length && !encontre) {
-      if (jugadores[i].boatTeam == nuevoBando) {
-        encontre = true;
-        bando = jugadores[i].boatTeam;
-      }
-      i++;
-    }
-
-    return bando
-  }
-
-  listenForSocketEvents(self, bandoBarcos) {
-    this.socket.on('listenerCreateGame', function (jsonGame) {
-      this.games = JSON.parse(jsonGame);
-      self.createUsuarioLabel();
-      //let equipoConectado = this.buscarBandoConectado(bandoBarcos, this.games.gameList[0].playerList);
-
-      if (bandoBarcos == 'submarino') {
-        self.crearSubmarino(self, this.games.gameList);
-      } else {
-        self.crearDestructor(self, this.games.gameList);
-        self.crearCargueros(self, this.games.gameList);
-      }
-      /*
-      if (this.games.gameList[0].playerList[0].boatTeam == bandoBarcos) {
-        self.crearSubmarino(self, this.games.gameList);
-        //self.crearDestructor(self, this.games.gameList);
-      } else {
-        console.log("***** En el else de listenForSocketEvents *****")
-        self.crearDestructor(self, this.games.gameList);
-        self.crearcargueros(self, this.games.gameList);
-      }
-      */
-    });
-
-  }
-
-  crearSubmarino(self, gameList) {
-    let indice = 0;
-    if (gameList[0].playerList[0].boattype == 'submarino') {
-      indice = 1;
-    }
-    var coordenadas = {
-      x: gameList[0].playerList[indice].boatList[0].positionX,
-      y: gameList[0].playerList[indice].boatList[0].positionY,
-    }
-    this.submarino = new Submarino(self, 0, 0, 'submarino');
-    this.submarino.create(coordenadas, self);
-    this.createTorpedoLabel();
-    this.createCanonLabel();
-
-
-
-    //self.addColisiones(self);
-  }
-
-  crearDestructor(self, gameList) {
-    let indice = 0;
-    if (gameList[0].playerList[0].boattype == 'submarino') {
-      indice = 1;
-    }
-    var coordenadas = {
-      x: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionX,
-      y: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionY,
-    }
-
-    this.destructor = new Destructor(self, 0, 0, 'destructor');
-    this.destructor.create(coordenadas);
-    //this.createCargasLabel();
-    //this.createCanonLabel();
-    //self.addColisiones(self);
-  }
-  crearCargueros(self, gameList) {
-    this.carguero = new Carguero(self, 0, 0, 'carguero');
-    this.carguero.create(gameList);
-  }
-
-  addColisiones() {
-    //this.physics.add.overlap(this.submarino, this.destructor, function(actual, rival  ) {
-    //  actual.destroy(); 
-    //})
-  };
-
-
-
-  //configuro las coliciones de los elementos entre si y los limites del mapa
-  //this.physics.world.setBoundsCollision(true, true, true, true);
-  //this.physics.add.collider(this.submarino.get(), this.destructor.get(), this.accionColision, null, this);
-  //console.log(this.option);
-
-
-
-  //--------------> ver que hacer con estos comentarios
-  /*
-  console.log("mapa");
-  this.showMap();
-  this.destructor.showDestructor();
-  this.submarino.showSubmarino();
-  this.carguero.showCargueros();
- //this.destructor.moveDestructor();
-  */
-  //this.physics.add.collider(this.torpedo.get(),/ this.destructor.get(), this.algo, null, this);
-  //this.updateCamera();
-  //this.cursors = this.input.keyboard.createCursorKeys();
-  //this.sys.game.cameras.setBounds(0,0, this.sys.game.config.width, this.sys.game.config.height);
-  //this.sys.game.cameras.main.startFollow(this.submarino);
 
 
   update() {
@@ -247,67 +97,170 @@ class Game extends Phaser.Scene {
 
   }
 
-    
 
-  /**Cargo el mapa */
-  showMap() {
-    this.background = this.add.tileSprite(0, 0, 3200, 1600, 'mapa_principal').setOrigin(0, 0);
+  //////////////////////////////////////////////////  Socket metodos  //////////////////////////////////////////////////////////////
 
-
-    /**Ejemplo
-  
-    // create the map
-    this.map = this.make.tilemap({
-      key: 'map'
+  serverSocketHandshake(self) {
+    this.socket.on('inicioInstancia', function (jsonGame) {
+      this.games = JSON.parse(jsonGame);
     });
-  
-    // first parameter is the name of the tilemap in tiled
-    var tiles = this.map.addTilesetImage('spritesheet', 'tiles', 16, 16, 1, 2);
-  
-    // creating the layers
-    this.map.createStaticLayer('Grass', tiles, 0, 0);
-    this.map.createStaticLayer('Obstacles', tiles, 0, 0);
-  
-    // don't go out of the map
-    this.physics.world.bounds.width = this.map.widthInPixels;
-    this.physics.world.bounds.height = this.map.heightInPixels;
-  
-    //Fin Ejemplo*/
+
+    if (!(this.games.gameList.length > 0)) {
+
+      var username = this.urlParams.get('username');
+      var bandoBarcos = this.urlParams.get('boattype');
+      var dificultad = this.urlParams.get('dificultad');
+      this.username = username
+      if (this.games.gameList.length > 1) {
+        console.log('***********Lista de jugadores completa ************')
+      } else {
+        this.socket.emit('createGame', username, bandoBarcos, dificultad);
+        this.listenForSocketEvents(self, bandoBarcos);
+      }
+
+    }
+  }
+
+
+  listenForSocketEvents(self, bandoBarcos) {
+    
+    //Espero por confirmacion de inicio de juego por parte del backend
+    this.socket.on('listenerCreateGame', function (jsonGame) {
+      this.games = JSON.parse(jsonGame);
+      self.createUsuarioLabel();
+      
+
+      if (bandoBarcos == 'submarino') {
+        self.crearSubmarino(self, this.games.gameList);
+      } else {
+        self.crearDestructor(self, this.games.gameList);
+        self.crearCargueros(self, this.games.gameList);
+      }
+
+      //valido si hay dos usuarios, si hay envio al backend para que notifique por rest al html
+      if(this.games.gameList[0].playerList.length==2){
+        this.socket.emit('bothUsers', true);
+      }
+      
+    });
+
+
+
+
 
   }
 
+
+
+
+  //////////////////////////////////////////////////  Cargo elementos en el mapa y config del mismo  //////////////////////////////////////////////////////////////
+  loadTileMap() {
+    this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
+  }
+  createMap() {
+    this.map = new Map(this, 'map', 'tiles', 'terrain');
+  }
+  tiempoExcedido() {
+    console.log('Aca habria que finalizar el juego');
+  }
+  crearSubmarino(self, gameList) {
+    let indice = 0;
+    if (!gameList[0].playerList[0].boattype == 'submarino') {
+      indice = 1;
+    }
+    var coordenadas = {
+      x: gameList[0].playerList[indice].boatList[0].positionX,
+      y: gameList[0].playerList[indice].boatList[0].positionY,
+    }
+    this.submarino = new Submarino(self, 0, 0, 'submarino');
+    this.submarino.create(coordenadas, self);
+    this.createTorpedoLabel();
+    this.createCanonLabel();
+
+
+
+    //self.addColisiones(self);
+  }
+
+  crearDestructor(self, gameList) {
+    let indice = 0;
+    if (!gameList[0].playerList[0].boattype == 'submarino') {
+      indice = 1;
+    }
+    var coordenadas = {
+      x: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionX,
+      y: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionY,
+    }
+
+    this.destructor = new Destructor(self, 0, 0, 'destructor');
+    this.destructor.create(coordenadas);
+    //this.createCargasLabel();
+    //this.createCanonLabel();
+    //self.addColisiones(self);
+  }
+  crearCargueros(self, gameList) {
+    this.carguero = new Carguero(self, 0, 0, 'carguero');
+    this.carguero.create(gameList);
+  }
+  /**Cargo el mapa */
+  showMap() {
+    this.background = this.add.tileSprite(0, 0, 3200, 1600, 'mapa_principal').setOrigin(0, 0);
+  }
+  /**Cargo el bando que selecciono el usuario */
+  init(data) {
+    this.option = data.option;
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+  /////////////////////////////////////////////////////////  Metodos complementarios  /////////////////////////////////////////
+  //hoy no se usa, si mas adelante no se usa lo borramos
+  buscarBandoConectado(nuevoBando, jugadores) {
+    let bando;
+    let i = 0;
+    let encontre = false;
+    while (i < jugadores.length && !encontre) {
+      if (jugadores[i].boatTeam == nuevoBando) {
+        encontre = true;
+        bando = jugadores[i].boatTeam;
+      }
+      i++;
+    }
+
+    return bando
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+  //////////////////////////////////////////////////  fisicas del juego   //////////////////////////////////////////////////////////////
+
+  addColisiones() {
+    //this.physics.add.overlap(this.submarino, this.destructor, function(actual, rival  ) {
+    //  actual.destroy(); 
+    //})
+  }
   /**Accion a tomar en caso de colicion de destructor y submarino */
   accionColision() {
     console.log('pego');
     this.submarino.destroy();
     this.destructor.destroy();
   }
-
-  /**Obtener usuario, ver si se va a usar.
-   * Ahora esta fijo
-   */
-  getUsersName() {
-    // esto debe venir de la escena previa que es donde cargan sus datos
-    return ['Pepe', 'Maria'];
-  }
-
-  /**Cargo el bando que selecciono el usuario */
-  init(data) {
-    this.option = data.option;
-  }
-
-  // camera() {
-  //   // limit camera to map
-  //   this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-  //   this.cameras.main.startFollow(this.player);
-  //   this.cameras.main.roundPixels = true; // avoid tile bleed
-  // }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
 
 
-  /////////////////////////////7 PARA LAS ESTADISTICAS DEL JUEGO ///////////////////////////
+
+  /////////////////////////////////////////////  PARA LAS ESTADISTICAS DEL JUEGO  ////////////////////////////////////////////////
 
   createUsuarioLabel() {
     this.username = this.add.text(16, 16, 'Jugador: ' + this.username, {
@@ -365,7 +318,7 @@ class Game extends Phaser.Scene {
 
   }
 
-  /////////////////////FIN PARA LAS ESTADISTICAS ///////////////////////////7
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
 
 
 }

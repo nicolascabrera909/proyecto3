@@ -10,6 +10,7 @@ class Freighters extends Boat {
         this.positionY = coordenadas.y;
         this.boatLife = 100;
         this.visibility = 100;
+        this.type = 'carguero';
 
     }
 
