@@ -108,16 +108,15 @@ class Games {
         var i = 0;
         var encontre = false;
         var pos = 0;
-        while (i < this.getGameList[0].playerList.length && !encontre) {
-            if (this.getGameList[0].playerList[i].socketId == socketId) {
+        while (i < this.gameList[0].playerList.length && !encontre) {
+            if (this.gameList[0].playerList[i].socketId == socketId) {
                 encontre = true;
                 pos = i;
             }
             i++;
         }
-        var newArray = this.getGameList[0].playerList.slice(pos, pos + 1);
-        console.log(newArray);
-        this.getGameList[0].playerList = newArray;
+        this.gameList[0].playerList.splice(pos, 1);
+        
     }
 
 

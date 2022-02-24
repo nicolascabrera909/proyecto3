@@ -28,8 +28,8 @@ const io = socketIO(server, {
     origin: "http://localhost:5500",
   },
   reconnection: true,
-  reconnectionDelay: 3000,
-  reconnectionDelayMax: 6000,
+  reconnectionDelay: 5000,
+  reconnectionDelayMax: 10000,
   reconnectionAttempts: 99999
 });
 
@@ -65,13 +65,13 @@ io.on('connection', function (socket) {
   });
 
   //desconectar al usuario y modificar la lista de jugadores
- /* socket.on('disconnect', function () {
+  socket.on('disconnect', function () {
     if (gamePlay.gameList.length > 0) {
       console.log('player [' + socket.id + '] disconnected')
       gamePlay.deletePlayer(socket.id);
       io.emit('playerDisconnected', socket.id)
     }
-  })*/
+  })
 
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
