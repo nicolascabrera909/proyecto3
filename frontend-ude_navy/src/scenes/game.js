@@ -196,7 +196,7 @@ class Game extends Phaser.Scene {
     }
 
     this.destructor = new Destructor(self, 0, 0, 'destructor');
-    this.destructor.create(coordenadas);
+    this.destructor.create(coordenadas, self);
     //this.createCargasLabel();
     //this.createCanonLabel();
     //self.addColisiones(self);

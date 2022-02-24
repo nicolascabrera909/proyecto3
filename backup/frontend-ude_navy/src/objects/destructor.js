@@ -10,11 +10,11 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.setVisible(false);
   }
 
-    create(coordenadas){
+    create(coordenadas, self){
       var randomX = coordenadas.x;
       var randomY = coordenadas.y;
       this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
-      this.destructor.setDisplaySize(180, 30);
+      this.destructor.setDisplaySize(180, 40);
       this.destructor.flipX = true;
       console.log("Termino crear destructor")
       this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -22,6 +22,12 @@ class Destructor extends Phaser.GameObjects.Sprite {
       //this.destructor.setImmovable();
       //this.destructor.setCollideWorldBounds(true);
             //this.destructor.setBounce(1);
+
+      self.cameras.main.setBounds(0, 0, 3200, 1600);
+      self.cameras.main.startFollow(this.destructor, true);
+      self.cameras.main.roundPixels = true;
+
+      self.cameras.main.setZoom(1);
     }
 
     get(){
