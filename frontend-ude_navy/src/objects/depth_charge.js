@@ -14,7 +14,7 @@ class DepthCharge extends Phaser.GameObjects.Sprite {
         return this.depth_charge;
     }
 
-    createShootTorpedo(ship) {
+    createShootDepthCharge(ship) {
         this.depth_charge = this.scene.physics.add.image(this.pos_x, this.pos_y, 'depth_charge');
         //this.torpedo.setCollideWorldBounds(true);
         //this.torpedo.setVelocity(-10, -10);
@@ -26,25 +26,18 @@ class DepthCharge extends Phaser.GameObjects.Sprite {
 
         this.setActive(true);
         this.setVisible(true);
-        this.setAngle(ship.body.rotation);
         this.setPosition(ship.x, ship.y);
         this.body.reset(ship.x, ship.y);
-        var angle = Phaser.Math.DegToRad(ship.body.rotation);
-        this.scene.physics.velocityFromRotation(angle, this.speed, this.body.velocity);
-        this.body.velocity.x *= -5;
-        this.body.velocity.y *= -5;
         this.set_quantity();
     }
 
-    // VER SI VALE LA PENA YA QUE ES UNA VARIABLE QUE HAY EN GAME, SI ES PROLIJO HACERLO ASI
-
     set_quantity() {
-        this.scene.cant_torpedos_enviados += 1;
+        this.scene.cant_depthcharge += 1;
     }
 
     get_quantity() {
-        return this.scene.cant_torpedos_enviados;
+        return this.scene.cant_depthcharge;
     }
 }
 
-export default Torpedo;
+export default DepthCharge;

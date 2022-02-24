@@ -33,12 +33,11 @@ class Game extends Phaser.Scene {
   loadImages() {
     this.load.image('destructor', './static/assets/img/destructor.png');
     this.load.image('submarino', './static/assets/img/submarino.png');
-    this.load.image('carguero', './static/assets/img/carguero1.png');
-    this.load.image('mapa_principal', './static/assets/img/water_background.png');
+    this.load.image('carguero', './static/assets/img/freighters.png');
     this.load.image('torpedo', './static/assets/img/torpedo.png');
     this.load.image('canon', './static/assets/img/cannon.png');
     this.load.image('tiles', './static/assets/map/terrain.png');
-    this.load.image('depth_charge', './static/assets/map/depthcharge.png')
+    this.load.image('depth_charge', './static/assets/img/depthcharge.png')
   }
 
   preload() {
@@ -205,10 +204,7 @@ class Game extends Phaser.Scene {
     this.carguero = new Carguero(self, 0, 0, 'carguero');
     this.carguero.create(gameList);
   }
-  /**Cargo el mapa */
-  showMap() {
-    this.background = this.add.tileSprite(0, 0, 3200, 1600, 'mapa_principal').setOrigin(0, 0);
-  }
+  
   /**Cargo el bando que selecciono el usuario */
   init(data) {
     this.option = data.option;
