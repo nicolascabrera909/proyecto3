@@ -2,17 +2,10 @@ class Map {
 
     /*Constructor*/
     constructor() {
-        this.width = 800;
-        this.height = 600;
+        this.width = 3200;
+        this.height = 1600;
     }
 
-    /*Getters and setters*/
-   /* getHeight() {
-        return this.heigh
-    }
-    getWidth() {
-        return this.width
-    }*/
     setHeight(height) {
         this.height = height;
     }
@@ -20,14 +13,12 @@ class Map {
         this.width = width;
     }
 
-
-}
-
-function getHeight() {
-    return this.heigh
-}
-function getWidth() {
-    return this.width
+    getHeight() {
+        return this.height;
+    }
+    getWidth() {
+        return this.width;
+    }
 }
 
 module.exports = Map;

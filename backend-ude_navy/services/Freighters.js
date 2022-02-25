@@ -18,16 +18,15 @@ class Freighters extends Boat {
     /**Este metodo devuelve un arreglo de x e y*/
     coordenadasCargueros(XMapaSize, YMapaSize) {
 
-        /// cordenadas del mapa inicial es  width: 800,    height: 600,
         var xTotal = XMapaSize;
         var yTotal = YMapaSize;
-        var mapaMitad = xTotal / 2;
+        var mapaMitad = xTotal / 3;
         var listaCoordenadas = [];
         var distanciaBarcos = 150;
         
         for (var i = 0; i < 6; i++) {
             if (i == 0) {
-                let x = new Number(Math.round(Math.random() * (mapaMitad - (distanciaBarcos )) - 0) + distanciaBarcos);
+                let x = new Number(Math.round(Math.random() * (mapaMitad - (distanciaBarcos )) - 0) + distanciaBarcos*2);
                 let y = new Number(Math.round(Math.random() * (yTotal - distanciaBarcos) - 0) + 0);
                 let coordenada = {
                     "x": x,

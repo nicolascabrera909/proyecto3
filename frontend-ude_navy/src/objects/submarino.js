@@ -65,7 +65,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       if (this.submarino) {
         if (this.cursors.left.isDown) {
           this.submarino.setAngularVelocity(-120)
-          socket.emit('movimientoSubmarino');
+         // socket.emit('movimientoSubmarino');
         } else if (this.cursors.right.isDown) {
           this.submarino.setAngularVelocity(120)
         } else {

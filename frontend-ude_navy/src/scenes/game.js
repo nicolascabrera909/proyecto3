@@ -65,13 +65,14 @@ class Game extends Phaser.Scene {
     this.socket = io("http://localhost:3000");
     this.serverSocketHandshake(self);
     this.createMap();
+    this.socket.emit('mapSize', 3200, 1600);
   }
 
 
   update() {
     if (this.submarino !== undefined) {
       this.submarino.moveSubmarino(this.input, this.socket);
-      
+
     }
 
     if (this.destructor != undefined) {
@@ -106,8 +107,6 @@ class Game extends Phaser.Scene {
       this.games = JSON.parse(jsonGame);
     });
 
-    
-
     if (!(this.games.gameList.length > 0)) {
 
       var username = this.urlParams.get('username');
@@ -126,12 +125,14 @@ class Game extends Phaser.Scene {
 
 
   listenForSocketEvents(self, bandoBarcos) {
+
+
     
     //Espero por confirmacion de inicio de juego por parte del backend
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
       self.createUsuarioLabel();
-      
+
 
       if (bandoBarcos == 'submarino') {
         self.crearSubmarino(self, this.games.gameList);
@@ -141,9 +142,11 @@ class Game extends Phaser.Scene {
       }
 
       //valido si hay dos usuarios, si hay envio al backend para que notifique por rest al html
-      if(this.games.gameList[0].playerList.length==2){
+      if (this.games.gameList[0].playerList.length == 2) {
         //this.socket.emit('createGameFinish', true);
       }
+
+
 
     });
 
@@ -157,11 +160,11 @@ class Game extends Phaser.Scene {
 
     // espero evento de desconexion de usuario por parte del backend
     this.socket.on('playerDisconnected', function (jsonGame) {
-     
-      
+
+
     });
 
-    
+
 
 
 
@@ -182,7 +185,7 @@ class Game extends Phaser.Scene {
   }
   crearSubmarino(self, gameList) {
     let indice = 0;
-    if (!gameList[0].playerList[0].boattype == 'submarino') {
+    if (!gameList[0].playerList[0].boatTeam == 'submarino') {
       indice = 1;
     }
     var coordenadas = {
@@ -201,15 +204,24 @@ class Game extends Phaser.Scene {
 
   crearDestructor(self, gameList) {
     let indice = 0;
-    if (!gameList[0].playerList[0].boattype == 'submarino') {
+    if (!gameList[0].playerList[0].boatTeam == 'submarino') {
       indice = 1;
     }
+    var i = 0;
+    var encontre = false;
     var coordenadas = {
-      x: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionX,
-      y: gameList[0].playerList[indice].boatList[gameList[0].playerList[indice].boatList.length - 1].positionY,
+      x: 0,
+      y: 0
     }
-
-    this.destructor = new Destructor(self, 0, 0, 'destructor');
+    while (i < gameList[0].playerList[indice].boatList.length && !encontre) {
+      if (gameList[0].playerList[indice].boatList[i].type == 'destructor') {
+        coordenadas.x = gameList[0].playerList[indice].boatList[i].positionX;
+        coordenadas.y = gameList[0].playerList[indice].boatList[i].positionY;
+        encontre = true;
+      }
+      i++;
+    }
+    //this.destructor = new Destructor(self, 0, 0, 'destructor');
     this.destructor.create(coordenadas, self);
     //this.createCargasLabel();
     //this.createCanonLabel();
@@ -219,7 +231,7 @@ class Game extends Phaser.Scene {
     this.carguero = new Carguero(self, 0, 0, 'carguero');
     this.carguero.create(gameList);
   }
-  
+
   /**Cargo el bando que selecciono el usuario */
   init(data) {
     this.option = data.option;

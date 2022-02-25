@@ -58,6 +58,11 @@ io.on('connection', function (socket) {
 
   });
 
+  socket.on('mapSize', function (width, height){
+    gamePlay.map.setWidth(width);
+    gamePlay.map.setHeight(height);
+  });
+
 
   socket.on('createGameFinish', function (listo) {
     // aca mando al socket al evento del html pre_game

@@ -5,8 +5,8 @@ import GameOver from "./scenes/game_over.js";
 // CONFIG BASICA
 const config = {
     title: 'UDE Navy',
-    width: 800,
-    height: 600,
+    width: 1360,
+    height: 720,
     type: Phaser.AUTO,
     parent: 'game-screen',
     pixelArt: true,

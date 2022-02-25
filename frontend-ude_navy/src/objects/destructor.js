@@ -65,7 +65,7 @@ class Destructor extends Phaser.Physics.Arcade.Image {
       if (this.destructor) {
         if (this.cursors.left.isDown) {
           this.destructor.setAngularVelocity(-120)
-          socket.emit('movimientoDestructor');
+         // socket.emit('movimientoDestructor');
 
         } else if (this.cursors.right.isDown) {
           this.destructor.setAngularVelocity(120)

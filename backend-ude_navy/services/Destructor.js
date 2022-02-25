@@ -51,37 +51,32 @@ class Destructor extends Ship {
     coordenadas(listaCoordenadas, XMapaSize, YMapaSize) {
 
         /// cordenadas del mapa inicial y  mas variables
-        var xTotal = XMapaSize;
-        var yTotal = YMapaSize;
-        var mapaMitad = xTotal / 2;
-        var repetido = false;
-        var itero = true;
-        var distanciaBarcos = 200;
+        var distanciaBarcos = 400;
 
-        var x=new Number(listaCoordenadas[listaCoordenadas.length - 1].x + distanciaBarcos);
-        var y =new Number(listaCoordenadas[listaCoordenadas.length - 2].y);
-        this.positionX=x;
-        this.positionY=y;
+        var x = new Number(listaCoordenadas[listaCoordenadas.length - 2].x + distanciaBarcos);
+        var y = new Number(listaCoordenadas[listaCoordenadas.length - 2].y);
+        this.positionX = x;
+        this.positionY = y;
 
 
         //itero hasta encontrar un par de coordenadas que se diferente a los  cargueros
-       /* while (itero) {
-            this.positionX = Math.round(Math.random() * ((mapaMitad - distanciaBarcos) - 100) + 0);
-            this.positionY = Math.round(Math.random() * ((yTotal - distanciaBarcos) - (distanciaBarcos)) + 0);
-
-            //recorro la listade cordenadas y comparo los x e y de los cargueros contra las calculadas de forma random
-            for (let j = 0; j < listaCoordenadas.length; j++) {
-                if (this.positionX == listaCoordenadas[j].x && this.positionY == listaCoordenadas[j].y) {
-                    repetido = True;
-                }
-            }
-
-            if (!repetido) {
-                console.log('no estan repetidas, me quedo con las coordendas');
-                itero = false;
-            }
-
-        }*/
+        /* while (itero) {
+             this.positionX = Math.round(Math.random() * ((mapaMitad - distanciaBarcos) - 100) + 0);
+             this.positionY = Math.round(Math.random() * ((yTotal - distanciaBarcos) - (distanciaBarcos)) + 0);
+ 
+             //recorro la listade cordenadas y comparo los x e y de los cargueros contra las calculadas de forma random
+             for (let j = 0; j < listaCoordenadas.length; j++) {
+                 if (this.positionX == listaCoordenadas[j].x && this.positionY == listaCoordenadas[j].y) {
+                     repetido = True;
+                 }
+             }
+ 
+             if (!repetido) {
+                 console.log('no estan repetidas, me quedo con las coordendas');
+                 itero = false;
+             }
+ 
+         }*/
 
     }
 }

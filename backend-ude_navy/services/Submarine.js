@@ -5,7 +5,7 @@ const Ship = require('./Ship.js')
 class Submarine {
     
     /*Constructor*/
-    constructor() {
+    constructor(map) {
         const Submarine = new Ship;
         //super();
         this.depth=1;// 1 superficie, 2 sumergido y 3 sumergido proufundo
@@ -21,7 +21,7 @@ class Submarine {
         this.cannon.cantMunicion = 30;
         
         /*mapa.getWidth(), mapa.getHeight()*/
-        const coordenadas = this.coordenadasSubmarino(800,600);
+        const coordenadas = this.coordenadasSubmarino(map.getWidth(), map.getHeight());
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
         this.boatLife = 100;
@@ -46,13 +46,14 @@ class Submarine {
     coordenadasSubmarino(tamañoXMapa, tamañoYmapa) {
 
         /// cordenadas del mapa inicial es  width: 800,    height: 600,
-        const xTotal = tamañoXMapa ;
-        const yTotal = tamañoYmapa ;
+        const xTotal = tamañoXMapa;
+        const yTotal = tamañoYmapa;
         const mapaMitad = xTotal / 2;
+        const rangoBordes=150;
 
         //calculo numero ramdom
-        const x1 = Math.random() * (mapaMitad - xTotal) + mapaMitad;
-        const y1 = Math.random() * (yTotal - 0) + 0;
+        const x1 = new Number (Math.round(Math.random() * (xTotal - rangoBordes - mapaMitad) + (mapaMitad)));
+        const y1 = new Number (Math.round(Math.random() * (yTotal - rangoBordes) + rangoBordes));
         const coordenada = {
             "x": x1,
             "y": y1

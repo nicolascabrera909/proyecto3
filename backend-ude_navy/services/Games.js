@@ -7,6 +7,7 @@ const Cannon = require('./Cannon.js')
 const Torpedo = require('./Torpedo.js')
 const Difficulty = require('./Difficulty.js')
 const Freighters = require('./Freighters.js')
+const Map = require('./Map')
 
 class Games {
 
@@ -14,6 +15,7 @@ class Games {
     /*Constructor*/
     constructor() {
         this.gameList = [];
+        this.map = new Map();
 
         //singleton de la clase
         if (typeof Games.instance === "object") {
@@ -23,14 +25,15 @@ class Games {
         return this;
     }
 
+
     getGameList() {
         return this.gameList;
     }
 
-    logicaSubmarino() {
+    logicaSubmarino(map) {
         //obtengo coordenadas del submarino y lo creo
         // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
-        var theSubmarin = new Submarine();
+        var theSubmarin = new Submarine(map);
         //creo la lista de botes y agrego al submarino
 
         return [theSubmarin];
@@ -61,8 +64,7 @@ class Games {
         console.log(boatTeam);
         if (boatTeam === 'submarino') {
             console.log("*************submarino*************");
-
-            var boatList = this.logicaSubmarino();
+            var boatList = this.logicaSubmarino(this.map);
             var player = new Player(name, socketId, boatList, boatTeam);
 
             //valido si hay que crear la partida o agregar a una existente
@@ -79,7 +81,7 @@ class Games {
             };
             var aux = new Freighters(coordenadaAux);
             //falta crear los cargueros y agregarlos a la lista de botes
-            var listaCoordendas = aux.coordenadasCargueros(800, 600); //// ver las cuentas en la funcion
+            var listaCoordendas = aux.coordenadasCargueros(this.map.getWidth, this.map.getHeight); 
             var FreightersA = new Freighters(listaCoordendas[0]);
             var FreightersB = new Freighters(listaCoordendas[1]);
             var FreightersC = new Freighters(listaCoordendas[2]);
@@ -89,7 +91,7 @@ class Games {
 
             var theDestructor = new Destructor(difficulty);
 
-            theDestructor.coordenadas(listaCoordendas, 800, 600);
+            theDestructor.coordenadas(listaCoordendas);
             //creo la lista de botes y agrego al al destructor y los cargueros
             var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             var player = new Player(name, socketId, boatList, boatTeam);
@@ -116,7 +118,7 @@ class Games {
             i++;
         }
         this.gameList[0].playerList.splice(pos, 1);
-        
+
     }
 
 
