@@ -53,7 +53,6 @@ class Game extends Phaser.Scene {
 
 
   create() {
-    this.prueba();
     let self = this;
     //Creo el mapa
     //this.showMap();
@@ -155,8 +154,8 @@ class Game extends Phaser.Scene {
 
     });
 
-    this.socket.on('playerDisconnected', function () {
-        console.log('Rival disconnected')
+    this.socket.on('playerDisconnected', function (socketID) {
+        console.log('Rival disconnected' +socketID);
       
       
     });
