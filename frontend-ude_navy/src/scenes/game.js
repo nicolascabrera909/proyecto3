@@ -20,6 +20,7 @@ class Game extends Phaser.Scene {
     this.games = {
       gameList: [],
     }
+    
     this.submarino;
     this.queryString = window.location.search;
     this.urlParams = new URLSearchParams(this.queryString);

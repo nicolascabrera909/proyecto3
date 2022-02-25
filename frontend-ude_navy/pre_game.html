@@ -23,7 +23,7 @@
         </div>
         </div>
     </nav>
-    <input  id="cant_players" name="cant_players" value="">
+    <input  id="cant_players" name="cant_players" value='' disabled="disabled"> <!--type="hidden"-->
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-6">
@@ -70,11 +70,12 @@
             if (username != '') {
                 //valido la cantidad e elementos de la lista si es menor a la variable entro sino voy al else
                 /*if () {*/
-                if (cant_players <= 2){
+                if ( cant_players < 2){
                     var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
                     window.location.href = "game.html" + queryString;
                 }else{
-                    alert('muestro que la partida ya esta en juego y vuelvo al menu inicial');
+                    alert('Existe una partida en juego intente mas tarde');
+                    window.location.href = "index.html"
                 }
                
 
