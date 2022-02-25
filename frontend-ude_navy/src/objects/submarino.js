@@ -18,7 +18,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     var randomY = coordenadas.y;
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
     this.submarino.setDisplaySize(180, 30);
-    this.submarino.setAlpha(1.5, 1.5, 0, 0);
+    this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
     this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -70,7 +70,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     return 3
   }
   surface(input, self) {
-    this.submarino.setAlpha(10, 10, 0, 0);
+    this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     self.cameras.main.setZoom(1.5);
     return 1;
   }
