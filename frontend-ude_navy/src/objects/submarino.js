@@ -10,6 +10,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.scene = scene;
     this.is_destroyed = false;
     this.setVisible(false);
+
   }
 
   create(coordenadas, self) {
@@ -23,7 +24,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.a = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.s = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.d = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    
+
     //this.submarino.setCollideWorldBounds(true);
 
 
@@ -58,15 +59,27 @@ class Submarino extends Phaser.Physics.Arcade.Image {
 
   immerse(input) {
     this.submarino.setAlpha(1, 1, 0, 0);
+    return 2;
   }
   deepImmerse(input) {
-    this.submarino.setAlpha(0.5, 0, 0, );
+    this.submarino.setAlpha(0.5, 0, 0,);
+    return 3
   }
   surface(input) {
     this.submarino.setAlpha(3, 3, 3, 1);
+    return 1;
   }
 
-  moveSubmarino(input, socket) {
+  deepLevel(self, nivel) {
+    var indice = 0;
+    if (!self.gameList[0].playerList[0].boatTeam == 'submarino') {
+      indice = 1;
+    }
+    self.gameList[0].playerList[indice].boatList[0].depth = nivel;
+  }
+
+  moveSubmarino(input, socket, self) {
+    let nivel;
     if (!this.submarino.is_destroyed) {
       //console.log("intento de movimiento");
       this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -75,20 +88,24 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       }
       else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
         this.shootCannon(input);
+
       }
       else if (Phaser.Input.Keyboard.JustDown(this.s)) {
-        this.immerse(input);
+        nivel = this.immerse(input);
+        //deepLevel(self,nivel);
       }
       else if (Phaser.Input.Keyboard.JustDown(this.a)) {
-        this.deepImmerse(input);
+        nivel = this.deepImmerse(input);
+        //deepLevel(self,nivel);
       }
       else if (Phaser.Input.Keyboard.JustDown(this.d)) {
-        this.surface(input);
+        nivel = this.surface(input);
+        deepLevel(self, nivel);
       }
       if (this.submarino) {
         if (this.cursors.left.isDown) {
           this.submarino.setAngularVelocity(-120)
-         // socket.emit('movimientoSubmarino');
+          // socket.emit('movimientoSubmarino');
         } else if (this.cursors.right.isDown) {
           this.submarino.setAngularVelocity(120)
         } else {
@@ -107,7 +124,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
           this.submarino.setVelocityY(0)
           this.submarino.setVelocityX(0)
         }
-        
+
       }
     }
   }

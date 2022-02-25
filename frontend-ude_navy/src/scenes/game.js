@@ -71,10 +71,9 @@ class Game extends Phaser.Scene {
 
   update() {
     if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino(this.input, this.socket);
+      this.submarino.moveSubmarino(this.input, this.socket,this.games);
 
     }
-
     if (this.destructor != undefined) {
       this.destructor.moveDestructor();
       //this.socket.emit('movimientoDestructor');
