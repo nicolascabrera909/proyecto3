@@ -20,7 +20,7 @@ class Game extends Phaser.Scene {
     this.games = {
       gameList: [],
     }
-    
+
     this.submarino;
     this.queryString = window.location.search;
     this.urlParams = new URLSearchParams(this.queryString);
@@ -40,6 +40,7 @@ class Game extends Phaser.Scene {
     this.load.image('canon', './static/assets/img/cannon.png');
     this.load.image('tiles', './static/assets/map/terrain.png');
     this.load.image('depth_charge', './static/assets/img/depthcharge.png')
+    this.load.image('logo', './static/assets/img/logo.jpeg');
   }
 
   preload() {
@@ -55,9 +56,6 @@ class Game extends Phaser.Scene {
 
   create() {
     let self = this;
-    //Creo el mapa
-    //this.showMap();
-
     this.delayText = this.add.text(400, 16);
     this.delayedEvent = this.time.delayedCall(3000, this.tiempoExcedido, [], this);
 
@@ -67,12 +65,6 @@ class Game extends Phaser.Scene {
     this.serverSocketHandshake(self);
     this.createMap();
     this.socket.emit('mapSize', 3200, 1600);
-
-
-
-
-
-
 
   }
 
@@ -134,31 +126,34 @@ class Game extends Phaser.Scene {
 
   listenForSocketEvents(self, bandoBarcos) {
 
-    
-    
+
+
     //Espero por confirmacion de inicio de juego por parte del backend
     this.socket.on('listenerCreateGame', function (jsonGame) {
+      
       this.games = JSON.parse(jsonGame);
-      self.createUsuarioLabel();
-      if (bandoBarcos == 'submarino') {
-        self.crearSubmarino(self, this.games.gameList);
-      } else {
-        self.crearDestructor(self, this.games.gameList);
-        self.crearCargueros(self, this.games.gameList);
+      //valido si si la partida esta completa, si no entro
+      if ( this.games.gameList.length > 0) {
+        self.createUsuarioLabel();
+        if (bandoBarcos == 'submarino') {
+          self.crearSubmarino(self, this.games.gameList);
+        } else {
+          self.crearDestructor(self, this.games.gameList);
+          self.crearCargueros(self, this.games.gameList);
+        }
+      }else{
+        backButton();
       }
 
-      //valido si hay dos usuarios, si hay envio al backend para que notifique por rest al html
-      if (this.games.gameList[0].playerList.length == 2) {
-        //this.socket.emit('createGameFinish', true);
-      }
+
 
 
     });
 
     this.socket.on('playerDisconnected', function (socketID) {
-        console.log('Rival disconnected' +socketID);
-      
-      
+      console.log('Rival disconnected' + socketID);
+
+
     });
 
     this.socket.on('movimientoDetectadoSubmarino', () => {
@@ -247,6 +242,11 @@ class Game extends Phaser.Scene {
   init(data) {
     this.option = data.option;
   }
+
+  backButton(){
+    var button = this.add.image(400, 300, 'logo').setInteractive();
+    button.on('pointerup', openExternalLink(), this);
+  }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -257,20 +257,25 @@ class Game extends Phaser.Scene {
 
   /////////////////////////////////////////////////////////  Metodos complementarios  /////////////////////////////////////////
   //hoy no se usa, si mas adelante no se usa lo borramos
-  buscarBandoConectado(nuevoBando, jugadores) {
-    let bando;
-    let i = 0;
-    let encontre = false;
-    while (i < jugadores.length && !encontre) {
-      if (jugadores[i].boatTeam == nuevoBando) {
-        encontre = true;
-        bando = jugadores[i].boatTeam;
-      }
-      i++;
-    }
+  
+ openExternalLink ()
+{
+    var tweet = 'I am testing a button from within a Phaser example';
 
-    return bando
-  }
+    var url = 'http://localhost:5500/frontend-ude_navy/index.html';
+
+    var s = window.open(url, '_blank');
+
+    if (s && s.focus)
+    {
+        s.focus();
+    }
+    else if (!s)
+    {
+        window.location.href = url;
+    }
+}
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

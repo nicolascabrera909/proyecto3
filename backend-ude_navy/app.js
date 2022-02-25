@@ -46,7 +46,8 @@ io.on('connection', function (socket) {
 
   //evento de una partida nueva
   socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
-    //console.log('Evento create game ');
+    if(gamePlay.gameList.length<2){
+      //console.log('Evento create game ');
     gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
     var jsonGame = JSON.stringify(gamePlay);
     //console.log('Luego de convertir a JSON: ' + jsonGame);
@@ -57,6 +58,14 @@ io.on('connection', function (socket) {
       console.log('Ya hay una partida en juego, ' + gamePlay.getGameList[0].playerList[0]+' vs '+ gamePlay.getGameList[0].playerList[1]);
       // creo el jugador dos y lo uno a la partida
     }*/
+    }else{
+      nullGame = {
+        gameList: [],
+      }
+      var nullJson = JSON.stringify(nullGame);
+      io.emit('listenerCreateGame', nullJson);
+    }
+    
 
   });
 
