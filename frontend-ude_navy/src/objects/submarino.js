@@ -28,12 +28,13 @@ class Submarino extends Phaser.Physics.Arcade.Image {
 
     //this.submarino.setCollideWorldBounds(true);
 
+    this.selfSubmarino = self;
 
     self.cameras.main.setBounds(0, 0, 3200, 1600);
     self.cameras.main.startFollow(this.submarino, true);
     self.cameras.main.roundPixels = true;
 
-    self.cameras.main.setZoom(1);
+    self.cameras.main.setZoom(1.5);
   }
 
   get() {
@@ -58,16 +59,19 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.canon.createShootCannon(this.submarino, this.input);
   }
 
-  immerse(input) {
+  immerse(input, self) {
     this.submarino.setAlpha(0.7, 0.7, 0, 0);
+    self.cameras.main.setZoom(2);
     return 2;
   }
-  deepImmerse(input) {
+  deepImmerse(input, self) {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
+    self.cameras.main.setZoom(3);
     return 3
   }
-  surface(input) {
-    this.submarino.setAlpha(1, 1, 0, 0);
+  surface(input, self) {
+    this.submarino.setAlpha(10, 10, 0, 0);
+    self.cameras.main.setZoom(1.5);
     return 1;
   }
 
@@ -92,17 +96,17 @@ class Submarino extends Phaser.Physics.Arcade.Image {
 
       }
       else if (Phaser.Input.Keyboard.JustDown(this.s)) {
-        nivel = this.immerse(input);
+        nivel = this.immerse(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
         console.log(socket.games.gameList[0].playerList[0].boatList[0].depth);
       }
       else if (Phaser.Input.Keyboard.JustDown(this.a)) {
-        nivel = this.deepImmerse(input);
+        nivel = this.deepImmerse(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
         console.log(socket.games.gameList[0].playerList[0].boatList[0].depth);
       }
       else if (Phaser.Input.Keyboard.JustDown(this.d)) {
-        nivel = this.surface(input);
+        nivel = this.surface(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
         console.log(socket.games.gameList[0].playerList[0].boatList[0].depth);
       }
