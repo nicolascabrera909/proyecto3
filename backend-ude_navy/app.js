@@ -23,10 +23,16 @@ const http = require('http');
 const socketIO = require('socket.io');
 const server = http.Server(app);
 const io = socketIO(server, {
-  pingTimeout: 80000,
+  pingTimeout: 8000,
   cors: {
     origin: "http://localhost:5500",
   },
+  cookie: {
+    name: "my-cookie",
+    httpOnly: true,
+    sameSite: "strict",
+    maxAge: 86400
+  }
 });
 
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
@@ -77,7 +83,7 @@ io.on('connection', function (socket) {
     if (gamePlay.gameList.length > 0) {
       console.log('player [' + socket.id + '] disconnected')
       gamePlay.deletePlayer(socket.id);
-      io.emit('playerDisconnected', socket.id)
+      socket.broadcast.emit('playerDisconnected', socket.id)
     }
   })
 

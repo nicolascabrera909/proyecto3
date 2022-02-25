@@ -53,6 +53,7 @@ class Game extends Phaser.Scene {
 
 
   create() {
+    this.prueba();
     let self = this;
     //Creo el mapa
     //this.showMap();
@@ -66,6 +67,13 @@ class Game extends Phaser.Scene {
     this.serverSocketHandshake(self);
     this.createMap();
     this.socket.emit('mapSize', 3200, 1600);
+
+
+
+
+
+
+
   }
 
 
@@ -145,6 +153,12 @@ class Game extends Phaser.Scene {
       }
 
 
+    });
+
+    this.socket.on('playerDisconnected', function () {
+        console.log('Rival disconnected')
+      
+      
     });
 
     this.socket.on('movimientoDetectadoSubmarino', () => {
