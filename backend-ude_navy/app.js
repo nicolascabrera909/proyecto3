@@ -27,10 +27,6 @@ const io = socketIO(server, {
   cors: {
     origin: "http://localhost:5500",
   },
-  reconnection: true,
-  reconnectionDelay: 5000,
-  reconnectionDelayMax: 10000,
-  reconnectionAttempts: 99999
 });
 
 //io.on('connection', function (name, bandoBarcos, socketId, level) {
@@ -38,7 +34,7 @@ io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected');
 
   //iniciar instancia del juego, Games 
-  //console.log('****************************************'+JSON.stringify(gamePlay));
+  //console.log('****'+JSON.stringify(gamePlay));
   io.emit('inicioInstancia', JSON.stringify(gamePlay));
 
 
@@ -77,13 +73,13 @@ io.on('connection', function (socket) {
   });
 
   //desconectar al usuario y modificar la lista de jugadores
-  /*socket.on('disconnect', function () {
+  socket.on('disconnect', function () {
     if (gamePlay.gameList.length > 0) {
       console.log('player [' + socket.id + '] disconnected')
       gamePlay.deletePlayer(socket.id);
       io.emit('playerDisconnected', socket.id)
     }
-  })*/
+  })
 
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

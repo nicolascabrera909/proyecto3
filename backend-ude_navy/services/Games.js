@@ -58,7 +58,7 @@ class Games {
     }
 
     createGame(name, boatTeam, socketId, difficulty) {
-        console.log('Ingrese al createGame. El gameList tiene ' + this.getGameList().length + ' elementos')
+        console.log('Ingrese al createGame. El gameList tiene ' + this.gameList.length + ' elementos')
         // como vamos a controlar que no se cren mas de un juego??
         //if (this.getGameList()[0].playerList.length <= 2){
         console.log(boatTeam);
@@ -81,7 +81,7 @@ class Games {
             };
             var aux = new Freighters(coordenadaAux);
             //falta crear los cargueros y agregarlos a la lista de botes
-            var listaCoordendas = aux.coordenadasCargueros(this.map.getWidth, this.map.getHeight); 
+            var listaCoordendas = aux.coordenadasCargueros(this.map.width, this.map.height);
             var FreightersA = new Freighters(listaCoordendas[0]);
             var FreightersB = new Freighters(listaCoordendas[1]);
             var FreightersC = new Freighters(listaCoordendas[2]);

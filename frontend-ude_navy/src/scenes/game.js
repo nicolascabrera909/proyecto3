@@ -126,14 +126,12 @@ class Game extends Phaser.Scene {
 
   listenForSocketEvents(self, bandoBarcos) {
 
-
+    
     
     //Espero por confirmacion de inicio de juego por parte del backend
     this.socket.on('listenerCreateGame', function (jsonGame) {
       this.games = JSON.parse(jsonGame);
       self.createUsuarioLabel();
-
-
       if (bandoBarcos == 'submarino') {
         self.crearSubmarino(self, this.games.gameList);
       } else {
@@ -145,7 +143,6 @@ class Game extends Phaser.Scene {
       if (this.games.gameList[0].playerList.length == 2) {
         //this.socket.emit('createGameFinish', true);
       }
-
 
 
     });
@@ -204,7 +201,7 @@ class Game extends Phaser.Scene {
 
   crearDestructor(self, gameList) {
     let indice = 0;
-    if (!gameList[0].playerList[0].boatTeam == 'submarino') {
+    if (gameList[0].playerList[0].boatTeam == 'submarino') {
       indice = 1;
     }
     var i = 0;
