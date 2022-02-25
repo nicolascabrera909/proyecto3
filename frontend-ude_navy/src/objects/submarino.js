@@ -20,6 +20,10 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.submarino.flipX = true;
     this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.a = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.s = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.d = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    
     //this.submarino.setCollideWorldBounds(true);
 
 
@@ -52,6 +56,16 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.canon.createShootCannon(this.submarino, this.input);
   }
 
+  immerse(input) {
+    this.submarino.setAlpha(1, 1, 0, 0);
+  }
+  deepImmerse(input) {
+    this.submarino.setAlpha(0.5, 0, 0, );
+  }
+  surface(input) {
+    this.submarino.setAlpha(3, 3, 3, 1);
+  }
+
   moveSubmarino(input, socket) {
     if (!this.submarino.is_destroyed) {
       //console.log("intento de movimiento");
@@ -61,6 +75,15 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       }
       else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
         this.shootCannon(input);
+      }
+      else if (Phaser.Input.Keyboard.JustDown(this.s)) {
+        this.immerse(input);
+      }
+      else if (Phaser.Input.Keyboard.JustDown(this.a)) {
+        this.deepImmerse(input);
+      }
+      else if (Phaser.Input.Keyboard.JustDown(this.d)) {
+        this.surface(input);
       }
       if (this.submarino) {
         if (this.cursors.left.isDown) {
