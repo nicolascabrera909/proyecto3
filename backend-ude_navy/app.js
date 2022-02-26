@@ -46,30 +46,30 @@ io.on('connection', function (socket) {
 
   //evento de una partida nueva
   socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
-    if(gamePlay.gameList.length<2){
+    if (gamePlay.gameList.length < 2) {
       //console.log('Evento create game ');
-    gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
-    var jsonGame = JSON.stringify(gamePlay);
-    //console.log('Luego de convertir a JSON: ' + jsonGame);
-    //emito datos al frontend
-    io.emit('listenerCreateGame', jsonGame);
-    //console.log('termine de crear la partida y emiti al frontend');
-    /*else {
-      console.log('Ya hay una partida en juego, ' + gamePlay.getGameList[0].playerList[0]+' vs '+ gamePlay.getGameList[0].playerList[1]);
-      // creo el jugador dos y lo uno a la partida
-    }*/
-    }else{
+      gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
+      //var jsonGame = JSON.stringify(gamePlay);
+      //console.log('Luego de convertir a JSON: ' + jsonGame);
+      //emito datos al frontend
+      socket.emit('currentPlayers', gamePlay);
+      //console.log('termine de crear la partida y emiti al frontend');
+      /*else {
+        console.log('Ya hay una partida en juego, ' + gamePlay.getGameList[0].playerList[0]+' vs '+ gamePlay.getGameList[0].playerList[1]);
+        // creo el jugador dos y lo uno a la partida
+      }*/
+      socket.broadcast.emit('otherPlayer', gamePlay);
+
+    } else {
       nullGame = {
         gameList: [],
       }
       var nullJson = JSON.stringify(nullGame);
-      io.emit('listenerCreateGame', nullJson);
+      io.emit('currentPlayers', nullJson);
     }
-    
-
   });
 
-  socket.on('mapSize', function (width, height){
+  socket.on('mapSize', function (width, height) {
     gamePlay.map.setWidth(width);
     gamePlay.map.setHeight(height);
   });
@@ -80,10 +80,10 @@ io.on('connection', function (socket) {
     io.emit('bothUsers', true);
   });
 
-  socket.on('movimientoSubmarino', () =>{
+  socket.on('movimientoSubmarino', () => {
     socket.broadcast.emit('movimientoDetectadoSubmarino');
   });
-  socket.on('movimientoDestructor', () =>{
+  socket.on('movimientoDestructor', () => {
     socket.broadcast.emit('movimientoDetectadoDestructor');
   });
 
