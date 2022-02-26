@@ -97,30 +97,35 @@ class Submarino extends Phaser.Physics.Arcade.Image {
 
   moveSubmarino(input, socket) {
     let nivel;
+
+    
     if (!this.submarino.is_destroyed) {
-      //console.log("intento de movimiento");
+      
+      //acciones del submarino
       if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
         this.shootTorpedo();
       }
       else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
         this.shootCannon(input);
-
       }
       else if (Phaser.Input.Keyboard.JustDown(this.s)) {
         nivel = this.immerse(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
-        console.log(socket.games.gameList[0].playerList[0].boatList[0].depth);
+        console.log('    -Profundidad submarino'+socket.games.gameList[0].playerList[0].boatList[0].depth);
       }
       else if (Phaser.Input.Keyboard.JustDown(this.a)) {
         nivel = this.deepImmerse(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
-        console.log(socket.games.gameList[0].playerList[0].boatList[0].depth);
+        console.log('    -Profundidad submarino'+socket.games.gameList[0].playerList[0].boatList[0].depth);
       }
       else if (Phaser.Input.Keyboard.JustDown(this.d)) {
         nivel = this.surface(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
-        console.log(socket.games.gameList[0].playerList[0].boatList[0].depth);
+        console.log('    -Profundidad submarino'+socket.games.gameList[0].playerList[0].boatList[0].depth);
       }
+
+
+      //Movimientos sumarino
       if (this.submarino) {
         if (this.cursors.left.isDown) {
           this.submarino.setAngularVelocity(-120)
@@ -130,6 +135,8 @@ class Submarino extends Phaser.Physics.Arcade.Image {
         } else {
           this.submarino.setAngularVelocity(0)
         }
+
+
         const velX = Math.cos((this.submarino.angle - 360) * 0.01745)
         const velY = Math.sin((this.submarino.angle - 360) * 0.01745)
         if (this.cursors.down.isDown) {

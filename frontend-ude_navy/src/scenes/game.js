@@ -14,12 +14,12 @@ class Game extends Phaser.Scene {
     this.cant_torpedos_enviados = 0;
     this.cant_canones_enviados = 0;
     this.cant_cargas_enviadas = 0;
-
+    
     this.games = {
       gameList: [],
     }
 
-    this.submarino;
+    //this.submarino;
     this.queryString = window.location.search;
     this.urlParams = new URLSearchParams(this.queryString);
     this.username = '';
@@ -29,17 +29,7 @@ class Game extends Phaser.Scene {
 
   }
 
-  /**Cargo la imagenes del juego*/
-  loadImages() {
-    this.load.image('destructor', './static/assets/img/destructor.png');
-    this.load.image('submarino', './static/assets/img/submarino.png');
-    this.load.image('carguero', './static/assets/img/freighters.png');
-    this.load.image('torpedo', './static/assets/img/torpedo.png');
-    this.load.image('canon', './static/assets/img/cannon.png');
-    this.load.image('tiles', './static/assets/map/terrain.png');
-    this.load.image('depth_charge', './static/assets/img/depthcharge.png')
-    this.load.image('logo', './static/assets/img/logo.jpeg');
-  }
+  
 
   preload() {
     this.loadImages();
@@ -51,7 +41,7 @@ class Game extends Phaser.Scene {
     this.delayText = this.add.text(400, 16);
     this.delayedEvent = this.time.delayedCall(3000, this.tiempoExcedido, [], this);
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
-    console.log('Me conecto al socket');
+    console.log('  -Me conecto al socket');
     this.socket = io("http://localhost:3000");
     this.serverSocketHandshake(self);
     this.createMap();
@@ -77,11 +67,13 @@ class Game extends Phaser.Scene {
 
   serverSocketHandshake(self) {
     this.socket.on('inicioInstancia', function (jsonGame) {
+      console.log('    -Evento inicioInstancia');
       this.games = JSON.parse(jsonGame);
     });
 
+    //obtengo los parametros del html y se los paso al create
     if (!(this.games.gameList.length > 0)) {
-
+      console.log('    -Obtengo datos pre-game.html');
       var username = this.urlParams.get('username');
       var bandoBarcos = this.urlParams.get('boattype');
       var dificultad = this.urlParams.get('dificultad');
@@ -89,6 +81,7 @@ class Game extends Phaser.Scene {
       if (this.games.gameList.length > 1) {
         console.log('***********Lista de jugadores completa ************')
       } else {
+        console.log('    -Emito createGame');
         this.socket.emit('createGame', username, bandoBarcos, dificultad);
         this.listenForSocketEvents(self, bandoBarcos);
       }
@@ -114,19 +107,16 @@ class Game extends Phaser.Scene {
      });*/
 
     this.socket.on('currentPlayers', function (game) {
+      console.log('    -Evento currentPlayers');
+
       //valido si si la partida esta completa, si no entro
-      if (game.gameList.length > 0) {
+      if (game.gameList[0].playerList.length < 3) {
         //busco el jugador
         for (let i = 0; i < game.gameList[0].playerList.length; i++) {
           if (game.gameList[0].playerList[i].socketId == self.socket.id) {
             self.createUsuarioLabel();
-            //valido de a que equipo pertenece 
-            if (game.gameList[0].playerList[i].boatTeam == 'submarino') {
-              self.crearSubmarino(self, game.gameList);
-            } else {
-              self.crearDestructor(self, game.gameList);
-              self.crearCargueros(self, game.gameList);
-            }
+            //creo los jugadores, le paso el jugador al metodo
+            createCurrentPlayer(self, game.gameList[0].playerList[i]);
           }
         }
 
@@ -136,26 +126,36 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('otherPlayer', function (game) {
-      console.log('no se que hago pero llegue');
+      console.log('    -Evento otherPlayer');
+
     });
 
 
     this.socket.on('playerDisconnected', function (socketID) {
-      console.log('Rival disconnected' + socketID);
+      console.log('    -Evento playerDisconnected'+socketID );
     });
 
     this.socket.on('movimientoDetectadoSubmarino', () => {
-      console.log('Submarino en movimiento ---------');
+      console.log('    -Evento movimientoDetectadoSubmarino');
     });
 
     this.socket.on('movimientoDetectadoDestructor', () => {
-      console.log('Destructor en movimiento!!!!!!!!!');
+      console.log('    -Evento movimientoDetectadoDestructor');
     });
 
     // espero evento de desconexion de usuario por parte del backend
     this.socket.on('playerDisconnected', function (jsonGame) {
+      console.log('  -Evento playerDisconnected');
+
     });
   }
+
+ 
+
+
+  //Cargo elementos en el mapa y config del mismo 
+  
+  /**Cargo la imagenes del juego*/
 
   createCurrentPlayer(self, player) {
     if (player.boatTeam == 'submarino') {
@@ -167,7 +167,17 @@ class Game extends Phaser.Scene {
   }
 
 
-  //Cargo elementos en el mapa y config del mismo 
+  loadImages() {
+    this.load.image('destructor', './static/assets/img/destructor.png');
+    this.load.image('submarino', './static/assets/img/submarino.png');
+    this.load.image('carguero', './static/assets/img/freighters.png');
+    this.load.image('torpedo', './static/assets/img/torpedo.png');
+    this.load.image('canon', './static/assets/img/cannon.png');
+    this.load.image('tiles', './static/assets/map/terrain.png');
+    this.load.image('depth_charge', './static/assets/img/depthcharge.png')
+    this.load.image('logo', './static/assets/img/logo.jpeg');
+  }
+
   loadTileMap() {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
