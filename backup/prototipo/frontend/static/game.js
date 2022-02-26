@@ -22,18 +22,20 @@ var game = new Phaser.Game(config)
 
 function preload() {
   this.load.image('destructor', 'static/assets/destructor.png')
+  this.load.image('car', 'static/assets/car.png')
 }
 
 function create() {
   var self = this
   this.socket = io("http://localhost:3000")
+  this.otherPlayers = this.physics.add.group()
 
   this.socket.on('currentPlayers', function (players) {
-    Object.keys(players).forEach(function (i) {
-      if (players[i].playerId === self.socket.id) {
-        addPlayer(self, players[i])
+    Object.keys(players).forEach(function (id) {
+      if (players[id].playerId === self.socket.id) {
+        addPlayer(self, players[id])
       } else {
-        addOtherPlayers(self, players[i])
+        addOtherPlayers(self, players[id])
       }
     })
   })
@@ -73,11 +75,11 @@ function addPlayer(self, playerInfo) {
 }
 
 function addOtherPlayers(self, playerInfo) {
-  const otherPlayer = self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
+  const otherPlayer = self.physics.add.image(playerInfo.x, playerInfo.y, 'car')
     .setOrigin(0.5, 0.5)
     .setDisplaySize(150, 50)
     .setRotation(playerInfo.rotation)
-    
+
   otherPlayer.playerId = playerInfo.playerId
   otherPlayer.setTint(playerInfo.color)
   self.otherPlayers.add(otherPlayer)
