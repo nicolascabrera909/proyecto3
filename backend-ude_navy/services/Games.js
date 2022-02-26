@@ -58,7 +58,7 @@ class Games {
     }
 
     createGame(name, boatTeam, socketId, difficulty) {
-        console.log('Ingrese al createGame. El gameList tiene ' + this.gameList.length + ' elementos')
+        //console.log('Ingrese al createGame. El gameList tiene ' + this.gameList.length + ' elementos')
         // como vamos a controlar que no se cren mas de un juego??
         //if (this.getGameList()[0].playerList.length <= 2){
         console.log(boatTeam);

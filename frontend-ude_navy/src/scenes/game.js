@@ -63,6 +63,19 @@ class Game extends Phaser.Scene {
     this.delayText.setText('Tiempo transcurrido: ' + this.delayedEvent.getProgress().toString().substr(0, 4));
   }
 
+  //Cargo elementos en el mapa y config del mismo 
+  
+  /**Cargo la imagenes del juego*/
+
+  createCurrentPlayer(self, player, gameList) {
+    if (player.boatTeam == 'submarino') {
+      self.crearSubmarino(self, gameList);
+    } else {
+      self.crearDestructor(self, gameList);
+      self.crearCargueros(self, gameList);
+    }
+  }
+
   //Socket metodos  
 
   serverSocketHandshake(self) {
@@ -116,7 +129,8 @@ class Game extends Phaser.Scene {
           if (game.gameList[0].playerList[i].socketId == self.socket.id) {
             self.createUsuarioLabel();
             //creo los jugadores, le paso el jugador al metodo
-            createCurrentPlayer(self, game.gameList[0].playerList[i]);
+            console.log('PLAYER LIST:' + JSON.stringify(game.gameList[0].playerList));
+            self.createCurrentPlayer(self, game.gameList[0].playerList[i], game.gameList[0] );
           }
         }
 
@@ -125,9 +139,32 @@ class Game extends Phaser.Scene {
       }
     });
 
-    this.socket.on('otherPlayer', function (game) {
-      console.log('    -Evento otherPlayer');
+    // Genera el oponente
+    this.socket.on('otherPlayer', function (game, boatTeam) {
+      let aux = false;
+      for (let i = 0; i < game.gameList[0].playerList.length; i++) {
+        if (game.gameList[0].playerList[i].boatTeam == 'submarino') {
+          aux = true;
+        }
+      }
+      if(game.gameList[0].playerList.length == 2){
 
+        let indice = 0;
+        if (game.gameList[0].playerList[indice].boatTeam == boatTeam){
+          indice = 1;
+        }
+        self.createCurrentPlayer(self, game.gameList[0].playerList[indice], game.gameList[0]);
+      }
+      
+    });
+
+    // Se genera a si mismo en la pantalla del oponente
+    this.socket.on('newPlayer', function (game, boatTeam) {
+      let indice = 0
+      if (!game.gameList[0].playerList[indice].boatTeam == boatTeam){
+        indice = 1
+      }
+      self.createCurrentPlayer(self, game.gameList[0].playerList[indice], game.gameList[0]);
     });
 
 
@@ -153,18 +190,7 @@ class Game extends Phaser.Scene {
  
 
 
-  //Cargo elementos en el mapa y config del mismo 
   
-  /**Cargo la imagenes del juego*/
-
-  createCurrentPlayer(self, player) {
-    if (player.boatTeam == 'submarino') {
-      self.crearSubmarino(self, this.games.gameList);
-    } else {
-      self.crearDestructor(self, this.games.gameList);
-      self.crearCargueros(self, this.games.gameList);
-    }
-  }
 
 
   loadImages() {
@@ -189,12 +215,12 @@ class Game extends Phaser.Scene {
   }
   crearSubmarino(self, gameList) {
     let indice = 0;
-    if (!gameList[0].playerList[0].boatTeam == 'submarino') {
+    if (!gameList.playerList[0].boatTeam == 'submarino') {
       indice = 1;
     }
     var coordenadas = {
-      x: gameList[0].playerList[indice].boatList[0].positionX,
-      y: gameList[0].playerList[indice].boatList[0].positionY,
+      x: gameList.playerList[indice].boatList[0].positionX,
+      y: gameList.playerList[indice].boatList[0].positionY,
     }
     this.submarino = new Submarino(self, 0, 0, 'submarino');
     this.submarino.create(coordenadas, self);
@@ -205,8 +231,7 @@ class Game extends Phaser.Scene {
   crearDestructor(self, gameList) {
     let indice = 0;
     this.destructor = new Destructor(this);
-
-    if (gameList[0].playerList[0].boatTeam == 'submarino') {
+    if (gameList.playerList[0].boatTeam == 'submarino') {
       indice = 1;
     }
     var i = 0;
@@ -215,10 +240,10 @@ class Game extends Phaser.Scene {
       x: 0,
       y: 0
     }
-    while (i < gameList[0].playerList[indice].boatList.length && !encontre) {
-      if (gameList[0].playerList[indice].boatList[i].type == 'destructor') {
-        coordenadas.x = gameList[0].playerList[indice].boatList[i].positionX;
-        coordenadas.y = gameList[0].playerList[indice].boatList[i].positionY;
+    while (i < gameList.playerList[indice].boatList.length && !encontre) {
+      if (gameList.playerList[indice].boatList[i].type == 'destructor') {
+        coordenadas.x = gameList.playerList[indice].boatList[i].positionX;
+        coordenadas.y = gameList.playerList[indice].boatList[i].positionY;
         encontre = true;
       }
       i++;
