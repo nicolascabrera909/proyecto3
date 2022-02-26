@@ -35,7 +35,6 @@ var players = {}
 //mustra en el log al jugador
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected')
-
   players[socket.id] = {
     rotation: 0,
     x: 30,
@@ -43,6 +42,7 @@ io.on('connection', function (socket) {
     playerId: socket.id,
     color: getRandomColor()
   }
+  
   socket.emit('currentPlayers', players)
   socket.broadcast.emit('newPlayer', players[socket.id])
  

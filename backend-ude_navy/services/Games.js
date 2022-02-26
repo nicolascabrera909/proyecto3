@@ -8,6 +8,7 @@ const Torpedo = require('./Torpedo.js')
 const Difficulty = require('./Difficulty.js')
 const Freighters = require('./Freighters.js')
 const Map = require('./Map')
+const { prependListener } = require('../data/Database.js')
 
 class Games {
 
@@ -51,12 +52,64 @@ class Games {
 
 
     }
-
+  
     partidaExistente(player) {
         //agrego al jugador a la lista de jugadores de la partida
         this.getGameList()[0].playerList.push(player);
     }
 
+    createGame(playerSelected, socketId, difficulty) {
+        //console.log('Ingrese al createGame. El gameList tiene ' + this.gameList.length + ' elementos')
+        // como vamos a controlar que no se cren mas de un juego??
+        //if (this.getGameList()[0].playerList.length <= 2){
+        
+        //console.log('Jugador recibido' + playerSelected.boatTeam);
+        if (playerSelected.boatTeam === 'submarino') {
+            console.log("*************submarino*************");
+            var boatList = this.logicaSubmarino(this.map);
+            
+            var player = new Player(playerSelected.name, playerSelected.socketId, boatList, playerSelected.boatTeam);
+
+            //valido si hay que crear la partida o agregar a una existente
+            if (this.getGameList().length == 0) {
+                this.partidaNueva(player, difficulty)
+            } else {
+                this.partidaExistente(player)
+            }
+        } else if (playerSelected.boatTeam === 'destructor') {
+            console.log("++++++++++DESTRUCTOR++++++++++");
+            var coordenadaAux = {
+                "x": 0,
+                "y": 0
+            };
+            var aux = new Freighters(coordenadaAux);
+            //falta crear los cargueros y agregarlos a la lista de botes
+            var listaCoordendas = aux.coordenadasCargueros(this.map.width, this.map.height);
+            var FreightersA = new Freighters(listaCoordendas[0]);
+            var FreightersB = new Freighters(listaCoordendas[1]);
+            var FreightersC = new Freighters(listaCoordendas[2]);
+            var FreightersD = new Freighters(listaCoordendas[3]);
+            var FreightersE = new Freighters(listaCoordendas[4]);
+            var FreightersF = new Freighters(listaCoordendas[5]);
+
+            var theDestructor = new Destructor(difficulty);
+
+            theDestructor.coordenadas(listaCoordendas);
+            //creo la lista de botes y agrego al al destructor y los cargueros
+            var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
+            var player = new Player(playerSelected.name, playerSelected.socketId, boatList, playerSelected.boatTeam);
+            console.log("termine de crear al jugador, valido si existe partida");
+            if (this.getGameList().length == 0) {
+                this.partidaNueva(player, difficulty);
+            } else {
+                this.partidaExistente(player);
+            }
+        }
+        //}
+    }
+
+    /*
+    
     createGame(name, boatTeam, socketId, difficulty) {
         //console.log('Ingrese al createGame. El gameList tiene ' + this.gameList.length + ' elementos')
         // como vamos a controlar que no se cren mas de un juego??
@@ -104,6 +157,8 @@ class Games {
         }
         //}
     }
+    
+    */
 
     deletePlayer(socketId) {
         //busco el indice del arreglo del

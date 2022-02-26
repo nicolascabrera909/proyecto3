@@ -13,41 +13,29 @@ class Submarino extends Phaser.Physics.Arcade.Image {
 
   }
 
-  create(coordenadas, self) {
+  create(coordenadas, self, cursor) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
     this.submarino.setDisplaySize(180, 30);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
-    this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.a = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.s = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.d = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.cursors = this.scene.input.keyboard.createCursorKeys();
-    //this.submarino.setColliderBound(0, 0, 3200, 1600);
-    this.selfSubmarino = self;
-    self.cameras.main.setBounds(0, 0, 3200, 1600);
-    self.cameras.main.startFollow(this.submarino, true);
-    self.cameras.main.roundPixels = true;
-    self.cameras.main.setZoom(1.5);
+    if (cursor){
+      this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+      this.a = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+      this.s = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+      this.d = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+      this.cursors = this.scene.input.keyboard.createCursorKeys();
+      //this.submarino.setColliderBound(0, 0, 3200, 1600);
+      this.selfSubmarino = self;
+      self.cameras.main.setBounds(0, 0, 3200, 1600);
+      self.cameras.main.startFollow(this.submarino, true);
+      self.cameras.main.roundPixels = true;
+      self.cameras.main.setZoom(1.5);
+    }
+    
   }
-
-  createOpponent(coordenadas, self) {
-    var randomX = coordenadas.x;
-    var randomY = coordenadas.y;
-    this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
-    this.submarino.setDisplaySize(180, 30);
-    this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
-    this.submarino.flipX = true;
-       //this.submarino.setCollideWorldBounds(true);
-    this.selfSubmarino = self;
-    self.cameras.main.setBounds(0, 0, 3200, 1600);
-   self.cameras.main.roundPixels = true;
-    self.cameras.main.setZoom(1.5);
-  }
-
 
   get() {
     return this.submarino;
@@ -99,7 +87,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     let nivel;
 
     
-    if (!this.submarino.is_destroyed) {
+    if (!this.is_destroyed) {
       
       //acciones del submarino
       if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {

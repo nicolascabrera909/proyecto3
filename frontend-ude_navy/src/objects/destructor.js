@@ -12,21 +12,24 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     this.setVisible(false);
   }
 
-  create(coordenadas, self) {
+  create(coordenadas, self, cursor) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
     this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
     this.destructor.setDisplaySize(180, 30);
     this.destructor.flipX = false;
-    this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.cursors = this.scene.input.keyboard.createCursorKeys();
-    //this.destructor.setCollideWorldBounds(true);
-    console.log("Termino crear destructor");
-    self.cameras.main.setBounds(0, 0, 3200, 1600);
-    self.cameras.main.startFollow(this.destructor, true);
-    self.cameras.main.roundPixels = true;
-    self.cameras.main.setZoom(1);
+    if(cursor){
+      this.spacebar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      this.enter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+      this.cursors = this.scene.input.keyboard.createCursorKeys();
+      //this.destructor.setCollideWorldBounds(true);
+      console.log("Termino crear destructor");
+      self.cameras.main.setBounds(0, 0, 3200, 1600);
+      self.cameras.main.startFollow(this.destructor, true);
+      self.cameras.main.roundPixels = true;
+      self.cameras.main.setZoom(1);
+    }
+    
   }
 
   
