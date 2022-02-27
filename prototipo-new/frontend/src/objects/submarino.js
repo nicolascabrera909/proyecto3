@@ -82,7 +82,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     self.gameList[0].playerList[indice].boatList[0].depth = nivel;
   }
 
-  moveSubmarino(cursors) {
+  moveSubmarino(cursors, socket) {
     let nivel;
 
     if (!this.is_destroyed) {  
@@ -133,7 +133,18 @@ class Submarino extends Phaser.Physics.Arcade.Image {
           this.submarino.setVelocityY(0)
           this.submarino.setVelocityX(0)
         }
+          var x = this.submarino.x
+          var y = this.submarino.y
+          var r = this.submarino.rotation
+          if (this.submarino.oldPosition && (x !== this.submarino.oldPosition.x || y !== this.submarino.oldPosition.y || r !== this.submarino.oldPosition.rotation)) {
+            socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation })
+          }
 
+          this.submarino.oldPosition = {
+            x: this.submarino.x,
+            y: this.submarino.y,
+            rotation: this.submarino.rotation
+          }
       }
     }
   }

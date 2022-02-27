@@ -129,16 +129,16 @@ addPlayer(self, playerInfo) {
     // this.object=this.submarino;
   } else {
     //Creo destructor
-  //   playerInfo.boat='destructor'
-  //   console.log(playerInfo.boat)
+    playerInfo.boat='destructor'
+    console.log(playerInfo.boat)
 
-  //   var coordinates = {
-  //     x: 60,
-  //     y: 60,
-  //  }
+    var coordinates = {
+      x: 60,
+      y: 60,
+   }
 
-  //  this.object = new Destructor(self, 0, 0, 'destructor');
-  //  this.object.create(coordinates, self, true);
+   this.destructor = new Destructor(self, 0, 0, 'destructor');
+   this.destructor.create(coordinates, self, true);
 
     // self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
     // .setDisplaySize(90, 15)
@@ -166,11 +166,13 @@ addOtherPlayers(self, playerInfo) {
 }
 
 update() {
-
   if (this.submarino !== undefined) {
-    this.submarino.moveSubmarino(this.cursors);
+    this.submarino.moveSubmarino(this.cursors,this.socket);
   }
 
+  if (this.destructor !== undefined) {
+    this.destructor.moveDestructor(this.cursors, this.socket);
+  }
   
   // if (this.object) {
     // if (this.cursors.left.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {

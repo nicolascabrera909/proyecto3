@@ -56,31 +56,31 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     this.canon.createShootCannon(this.destructor, this.input);
   }
 
-  moveDestructor(input) {
-    if (this.destructor) {
+  moveDestructor(cursors, socket) {
+    // if (this.destructor) {
       //console.log("intento de movimiento destructor");
-      if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-        this.shootDepthCharge();
-      }
-      else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
-        this.shootCannon(input);
-      }
+      // if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+      //   this.shootDepthCharge();
+      // }
+      // else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
+      //   this.shootCannon(input);
+      // }
       if (this.destructor) {
-        if (this.cursors.left.isDown) {
+        if (cursors.left.isDown) {
           this.destructor.setAngularVelocity(-120)
          // socket.emit('movimientoDestructor');
 
-        } else if (this.cursors.right.isDown) {
+        } else if (cursors.right.isDown) {
           this.destructor.setAngularVelocity(120)
         } else {
           this.destructor.setAngularVelocity(0)
         }
         const velX = Math.cos((this.destructor.angle - 360) * 0.01745)
         const velY = Math.sin((this.destructor.angle - 360) * 0.01745)
-        if (this.cursors.down.isDown) {
+        if (cursors.down.isDown) {
           this.destructor.setVelocityX(-100 * velX)
           this.destructor.setVelocityY(-100 * velY)
-        } else if (this.cursors.up.isDown) {
+        } else if (cursors.up.isDown) {
           this.destructor.setVelocityX(200 * velX)
           this.destructor.setVelocityY(200 * velY)
         } else {
@@ -88,9 +88,20 @@ class Destructor extends Phaser.Physics.Arcade.Image {
           this.destructor.setVelocityY(0)
           this.destructor.setVelocityX(0)
         }
+        var x = this.destructor.x
+        var y = this.destructor.y
+        var r = this.destructor.rotation
+        if (this.destructor.oldPosition && (x !== this.destructor.oldPosition.x || y !== this.destructor.oldPosition.y || r !== this.destructor.oldPosition.rotation)) {
+          socket.emit('playerMovement', { x: this.destructor.x, y: this.destructor.y, rotation: this.destructor.rotation })
+        }
+
+        this.destructor.oldPosition = {
+          x: this.destructor.x,
+          y: this.destructor.y,
+          rotation: this.destructor.rotation
+        }
       }
     }
-  }
 }
 
 export default Destructor;
