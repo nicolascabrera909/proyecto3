@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////// CLASES ///////////////////////////////////////////////////////
-// const Games = require('./services/Games.js');
+const Games = require('./services/Games.js');
 
 /////////////////////////////////////////////////////// IMPORTS ///////////////////////////////////////////////////////
 const express = require('express')
@@ -10,8 +10,9 @@ const { database } = require('./config');
 
 /////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////
 var players = {};
-var cantidad =0;
-var boat = 'boat';
+var gamePlay = new Games();
+// var cantidad =0;
+// var boat = 'boat';
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ////////////////////////////////////////////////
 console.log("Creo y levanto el socket");
@@ -52,15 +53,31 @@ let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:
 /////////////////////////////////////////////////////// SOCKET ///////////////////////////////////////////////////////
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected')
-  players[socket.id] = {
-    rotation: 0,
-    x: 30,
-    y: 30,
-    boat: boat,
-    cant: cantidad,
-    playerId: socket.id
+  // players[socket.id] = {
+  //   rotation: 0,
+  //   x: 30,
+  //   y: 30,
+  //   boat: boat,
+  //   cant: cantidad,
+  //   playerId: socket.id
+  // }
+  // cantidad++;
+
+  socket.emit('inicioInstancia', JSON.stringify(gamePlay));
+
+  //evento de una partida nueva
+  socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
+
+  var player = {};
+  player[socket.id] = {'name': name,
+    'boatList': [],
+    'socketId': socket.id,
+    'boatTeam': boatTeam
   }
-  cantidad++;
+
+
+
+  
   socket.emit('currentPlayers', players)
   socket.broadcast.emit('newPlayer', players[socket.id])
  

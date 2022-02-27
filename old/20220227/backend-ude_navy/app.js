@@ -51,7 +51,7 @@ io.on('connection', function (socket) {
                          'boatList': [],
                          'socketId': socket.id,
                          'boatTeam': boatTeam
-                         }
+    }
                   
 
     //console.log('player' + JSON.stringify(player));

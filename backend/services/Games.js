@@ -15,7 +15,7 @@ class Games {
 
     /*Constructor*/
     constructor() {
-        this.gameList = [];
+        this.game;
         this.map = new Map();
 
         //singleton de la clase
@@ -27,8 +27,8 @@ class Games {
     }
 
 
-    getGameList() {
-        return this.gameList;
+    getGame() {
+        return this.game;
     }
 
     logicaSubmarino(map) {
@@ -36,7 +36,6 @@ class Games {
         // esta linea la cambiaria -- >var coordenadas = this.coordenadasSubmarino();
         var theSubmarin = new Submarine(map);
         //creo la lista de botes y agrego al submarino
-
         return [theSubmarin];
     }
 
@@ -46,11 +45,7 @@ class Games {
         //agrego al jugador a la lista de jugadores
         playerList.push(player);
         //creo la partida
-        var match = new Game(playerList, difficulty);
-        //inserta al final del array
-        this.getGameList().push(match);
-
-
+        this.game = new Game(playerList, difficulty);
     }
   
     partidaExistente(player) {
