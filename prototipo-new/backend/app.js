@@ -78,11 +78,6 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('playerMoved', players[socket.id])
   })
 
-  socket.on('mapSize', function (width, height) {
-    map.setWidth(width);
-    setHeight(height);
-  })
-
 })
 
 
