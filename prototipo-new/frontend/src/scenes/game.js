@@ -1,5 +1,5 @@
 //imoprto archivos
-// import Submarino from "../objects/submarino.js";
+import Submarino from "../objects/submarino.js";
 // import Carguero from "../objects/carguero.js";
 // import Destructor from "../objects/destructor.js";
 import Map from "../objects/map.js";
@@ -7,30 +7,52 @@ import Map from "../objects/map.js";
 // import GameOver from "./scenes/game_over.js";
 
 // CONFIG BASICA
-const config = {
-    title: 'UDE Navy',
-    width: 800,
-    height: 600,
-    type: Phaser.AUTO,
-    parent: 'game-screen',
-    pixelArt: true,
-    physics: {
-        default: "arcade",
-        arcade: {
-            debug: true
-          }
-    },
-    title: '1.0',
-    scene: {
-      preload: preload,
-      create: create,
-      update: update
+// const config = {
+//     title: 'UDE Navy',
+//     width: 800,
+//     height: 600,
+//     type: Phaser.AUTO,
+//     parent: 'game-screen',
+//     pixelArt: true,
+//     physics: {
+//         default: "arcade",
+//         arcade: {
+//             debug: true
+//           }
+//     },
+//     title: '1.0',
+//     scene: {
+//       preload: preload,
+//       create: create,
+//       update: update
+//     }
+// }
+
+// const game = new Phaser.Game(config)
+
+
+class Game extends Phaser.Scene {
+  /*Constructor de la clase Game, inicializo la clase*/
+  constructor() {
+    super('Game');
+    console.log("Game cargado");
+    this.cant_torpedos_enviados = 0;
+    this.cant_canones_enviados = 0;
+    this.cant_cargas_enviadas = 0;
+    this.games = {
+      gameList: [],
     }
-}
+    this.queryString = window.location.search;
+    this.urlParams = new URLSearchParams(this.queryString);
+    this.username = '';
+    this.timedEvent;
+    this.input;
+    this.initialTime;
+  }
 
-const game = new Phaser.Game(config)
 
-function preload() {
+
+preload() {
     this.load.image('destructor', './static/assets/img/destructor.png');
     this.load.image('submarino', './static/assets/img/submarino.png');
     this.load.image('carguero', './static/assets/img/freighters.png');
@@ -42,7 +64,7 @@ function preload() {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
 }
 
-function create() {
+create() {
   var self = this
   
   this.socket = io("http://localhost:3000")
@@ -51,15 +73,15 @@ function create() {
   this.socket.on('currentPlayers', function (players) {
     Object.keys(players).forEach(function (id) {
       if (players[id].playerId === self.socket.id) {
-        addPlayer(self, players[id])
+        self.addPlayer(self, players[id])
       } else {
-        addOtherPlayers(self, players[id])
+        self.addOtherPlayers(self, players[id])
       }
     })
   })
 
   this.socket.on('newPlayer', function (playerInfo) {
-    addOtherPlayers(self, playerInfo)
+    self.addOtherPlayers(self, playerInfo)
   })
 
   this.socket.on('playerDisconnected', function (playerId) {
@@ -84,13 +106,22 @@ function create() {
   this.map = new Map(this, 'map', 'tiles', 'terrain');
 }
 
-function addPlayer(self, playerInfo) {
+addPlayer(self, playerInfo) {
   console.log(playerInfo.cant)
   console.log(playerInfo.boat)
   if(playerInfo.cant==0){
     //Creo submarino
     playerInfo.boat='submarino'
     console.log(playerInfo.boat)
+
+    // var coordinates = {
+    //   x: 30,
+    //   y: 30,
+    // }
+
+    // this.submarino = new Submarino(self, 0, 0, 'submarino');
+    // this.submarino.create(coordinates, self, cursor);
+
     self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'submarino')
     .setDisplaySize(90, 15)
     .setAlpha(0.9, 0.9, 0.9, 0.9)
@@ -108,7 +139,7 @@ function addPlayer(self, playerInfo) {
     self.cameras.main.roundPixels = true
   }
 
-function addOtherPlayers(self, playerInfo) {
+addOtherPlayers(self, playerInfo) {
     var otherPlayer=null;
     if(playerInfo.cant==1){
     otherPlayer=self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
@@ -124,7 +155,7 @@ function addOtherPlayers(self, playerInfo) {
     console.log('creo other player destructor')
 }
 
-function update() {
+update() {
   if (this.object) {
     if (this.cursors.left.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {
       this.object.setAngularVelocity(-100)
@@ -161,3 +192,6 @@ function update() {
     }
   }
 }
+}
+
+export default Game;
