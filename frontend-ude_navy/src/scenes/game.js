@@ -6,7 +6,6 @@ import Map from "../objects/map.js";
 
 
 class Game extends Phaser.Scene {
-
   /*Constructor de la clase Game, inicializo la clase*/
   constructor() {
     super('Game');
@@ -14,22 +13,16 @@ class Game extends Phaser.Scene {
     this.cant_torpedos_enviados = 0;
     this.cant_canones_enviados = 0;
     this.cant_cargas_enviadas = 0;
-    
     this.games = {
       gameList: [],
     }
-
-    //this.submarino;
     this.queryString = window.location.search;
     this.urlParams = new URLSearchParams(this.queryString);
     this.username = '';
-
-    this.delayText;
+    this.timedEvent;
     this.input;
-
+    this.initialTime;
   }
-
-  
 
   preload() {
     this.loadImages();
@@ -38,20 +31,51 @@ class Game extends Phaser.Scene {
 
   create() {
     let self = this;
-    this.delayText = this.add.text(400, 16);
-    this.delayedEvent = this.time.delayedCall(3000, this.tiempoExcedido, [], this);
+
+    console.log('***********************************+');
+    
+
+
     /*Seteo donde va a escuchar el socket, tambien obtengo el id del soket*/
-    console.log('  -Me conecto al socket');
+    console.log('Me conecto al socket');
     this.socket = io("http://localhost:3000");
     this.serverSocketHandshake(self);
     this.createMap();
     this.socket.emit('mapSize', 3200, 1600);
+    this.createCountDown(1);
+
   }
+
+  createCountDown(difficulty){
+    this.initialTime = 300000;
+
+    this.text = this.add.text(16, 300, 'Countdown: ' + this.formatTime(this.initialTime),  { font: "64px Arial", fill: "#ffffff", align: "center" });
+    // Each 1000 ms call onEvent
+    this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
+    
+  }
+
+  formatTime(seconds){
+    // Minutes
+    var minutes = Math.floor(seconds/60);
+    // Seconds
+    var partInSeconds = seconds%60;
+    // Adds left zeros to seconds
+    partInSeconds = partInSeconds.toString().padStart(2,'0');
+    // Returns formated time
+    return `${minutes}:${partInSeconds}`;
+}
+
+
+onEvent ()
+{
+    this.initialTime -= 1; // One second
+    this.text.setText(16, 300, 'Countdown: ' + this.formatTime(this.initialTime), { font: "64px Arial", fill: "#ffffff", align: "center" });
+}
 
   update() {
     if (this.submarino !== undefined) {
       //this.submarino.moveSubmarino(this.socket);
-
     }
     if (this.destructor != undefined) {
       this.destructor.moveDestructor();
@@ -60,13 +84,71 @@ class Game extends Phaser.Scene {
     this.updateCanonStatics();
     this.updateCargaStatics();
 
-    this.delayText.setText('Tiempo transcurrido: ' + this.delayedEvent.getProgress().toString().substr(0, 4));
+  
+    //this.delayText.setText('Tiempo transcurrido: ' + this.delayedEvent.getProgress().toString().substr(0, 4));
   }
 
-  //Cargo elementos en el mapa y config del mismo 
-  
-  /**Cargo la imagenes del juego*/
+  //Socket metodos  
+  serverSocketHandshake(self) {
+    this.socket.on('inicioInstancia', function (jsonGame) {
+      console.log('Evento inicioInstancia');
+      this.games = JSON.parse(jsonGame);
+    });
 
+    //obtengo los parametros del html y se los paso al create
+    if (!(this.games.gameList.length > 0)) {
+      console.log('Obtengo datos pre-game.html');
+      var username = this.urlParams.get('username');
+      var boatType = this.urlParams.get('boattype');
+      var difficulty = this.urlParams.get('dificultad');
+      this.username = username
+      if (this.games.gameList.length > 1) {
+        console.log('***********Lista de jugadores completa ************')
+      } else {
+        console.log('Emito createGame');
+        this.socket.emit('createGame', username, boatType, difficulty);
+        this.listenForSocketEvents(self);
+      }
+      
+    }
+  }
+
+  listenForSocketEvents(self) {
+    this.socket.on('currentPlayers', function (game, players) {
+      console.log('Evento currentPlayers');
+      for(let i = 0; i < players.length; i++){
+        if (players[i].socketId === self.socket.id) {
+          self.createCurrentPlayer(self, game.gameList[0], players[i]);
+        } else {
+          self.createOtherPlayer(self, game.gameList[0], players[i] );
+        }
+      }
+    });
+
+    // Se genera a si mismo en la pantalla del oponente
+    this.socket.on('newPlayer', function (game, player) {
+      self.createOtherPlayer(self, game.gameList[0], player );
+    });
+
+    this.socket.on('playerDisconnected', function (socketID) {
+      console.log('Evento playerDisconnected'+socketID );
+    });
+
+    this.socket.on('movimientoDetectadoSubmarino', () => {
+      console.log('Evento movimientoDetectadoSubmarino');
+    });
+
+    this.socket.on('movimientoDetectadoDestructor', () => {
+      console.log('Evento movimientoDetectadoDestructor');
+    });
+
+    this.socket.on('playerDisconnected', function (jsonGame) {
+      console.log('Evento playerDisconnected');
+    });
+  }
+
+  /*
+  teniamos dos veces esta funcion con distinto orden de parametros
   createCurrentPlayer(self, player, gameList) {
     if (player.boatTeam == 'submarino') {
       self.crearSubmarino(self, gameList);
@@ -75,94 +157,7 @@ class Game extends Phaser.Scene {
       self.crearCargueros(self, gameList);
     }
   }
-
-  //Socket metodos  
-
-  serverSocketHandshake(self) {
-    this.socket.on('inicioInstancia', function (jsonGame) {
-      console.log('    -Evento inicioInstancia');
-      this.games = JSON.parse(jsonGame);
-    });
-
-    //obtengo los parametros del html y se los paso al create
-    if (!(this.games.gameList.length > 0)) {
-      console.log('    -Obtengo datos pre-game.html');
-      var username = this.urlParams.get('username');
-      var bandoBarcos = this.urlParams.get('boattype');
-      var dificultad = this.urlParams.get('dificultad');
-      this.username = username
-      if (this.games.gameList.length > 1) {
-        console.log('***********Lista de jugadores completa ************')
-      } else {
-        console.log('    -Emito createGame');
-        this.socket.emit('createGame', username, bandoBarcos, dificultad);
-        this.listenForSocketEvents(self, bandoBarcos);
-      }
-    }
-  }
-
-  listenForSocketEvents(self, bandoBarcos) {
-    /* //Espero por confirmacion de inicio de juego por parte del backend
-     this.socket.on('listenerCreateGame', function (game) {
-       // this.games = JSON.parse(jsonGame);
-       //valido si si la partida esta completa, si no entro
-       if (game.gameList.length > 0) {
-         self.createUsuarioLabel();
-         if (bandoBarcos == 'submarino') {
-           self.crearSubmarino(self, game.gameList);
-         } else {
-           self.crearDestructor(self, game.gameList);
-           self.crearCargueros(self, game.gameList);
-         }
-       } else {
-         backButton();
-       }
-     });*/
-
-
-    
-    this.socket.on('currentPlayers', function (game, players) {
-      console.log('    -Evento currentPlayers');
-      for(let i = 0; i < players.length; i++){
-        if (players[i].socketId === self.socket.id) {
-          console.log('En if createplayer');
-          self.createCurrentPlayer(self, game.gameList[0], players[i]);
-        } else {
-          console.log('En else createplayer');
-          self.createOtherPlayer(self, game.gameList[0], players[i] );
-        }
-      }
-
-
-    
-
-    });
-
-    // Se genera a si mismo en la pantalla del oponente
-    this.socket.on('newPlayer', function (game, player) {
-      console.log('En new player');
-      self.createOtherPlayer(self, game.gameList[0], player );
-    });
-
-
-    this.socket.on('playerDisconnected', function (socketID) {
-      console.log('    -Evento playerDisconnected'+socketID );
-    });
-
-    this.socket.on('movimientoDetectadoSubmarino', () => {
-      console.log('    -Evento movimientoDetectadoSubmarino');
-    });
-
-    this.socket.on('movimientoDetectadoDestructor', () => {
-      console.log('    -Evento movimientoDetectadoDestructor');
-    });
-
-    // espero evento de desconexion de usuario por parte del backend
-    this.socket.on('playerDisconnected', function (jsonGame) {
-      console.log('  -Evento playerDisconnected');
-
-    });
-  }
+  */
 
   createCurrentPlayer(self, gameList, player) {
     let cursor = true;
@@ -183,10 +178,6 @@ class Game extends Phaser.Scene {
       self.crearCargueros(self, gameList);
     }
   }
-
-
-  
-
 
   loadImages() {
     this.load.image('destructor', './static/assets/img/destructor.png');
@@ -209,44 +200,44 @@ class Game extends Phaser.Scene {
     console.log('Aca habria que finalizar el juego');
   }
   crearSubmarino(self, gameList, cursor) {
-    let indice = 0;
+    let index = 0;
     if (!gameList.playerList[0].boatTeam == 'submarino') {
-      indice = 1;
+      index = 1;
     }
-    var coordenadas = {
-      x: gameList.playerList[indice].boatList[0].positionX,
-      y: gameList.playerList[indice].boatList[0].positionY,
+    var coordinates = {
+      x: gameList.playerList[index].boatList[0].positionX,
+      y: gameList.playerList[index].boatList[0].positionY,
     }
     this.submarino = new Submarino(self, 0, 0, 'submarino');
-    this.submarino.create(coordenadas, self, cursor);
+    this.submarino.create(coordinates, self, cursor);
     this.createTorpedoLabel();
     this.createCanonLabel();
   }
 
   crearDestructor(self, gameList, cursor) {
-    let indice = 0;
+    let index = 0;
     this.destructor = new Destructor(this);
     if (gameList.playerList[0].boatTeam == 'submarino') {
-      indice = 1;
+      index = 1;
     }
     var i = 0;
     var encontre = false;
-    var coordenadas = {
+    var coordinates = {
       x: 0,
       y: 0
     }
-    while (i < gameList.playerList[indice].boatList.length && !encontre) {
-      if (gameList.playerList[indice].boatList[i].type == 'destructor') {
-        coordenadas.x = gameList.playerList[indice].boatList[i].positionX;
-        coordenadas.y = gameList.playerList[indice].boatList[i].positionY;
+    while (i < gameList.playerList[index].boatList.length && !encontre) {
+      if (gameList.playerList[index].boatList[i].type == 'destructor') {
+        coordinates.x = gameList.playerList[index].boatList[i].positionX;
+        coordinates.y = gameList.playerList[index].boatList[i].positionY;
         encontre = true;
       }
       i++;
     }
-    //this.destructor = new Destructor(self, 0, 0, 'destructor');
-    this.destructor.create(coordenadas, self, cursor);
-    //this.createCargasLabel();
-    //this.createCanonLabel();
+    this.destructor.create(coordinates, self, cursor);
+    self.createUsuarioLabel()
+    self.createCargaLabel();
+    self.createCanonLabel();
     //self.addColisiones(self);
   }
 
@@ -293,12 +284,15 @@ class Game extends Phaser.Scene {
 
   //  PARA LAS ESTADISTICAS DEL JUEGO 
 
+  
+
   createUsuarioLabel() {
     this.username = this.add.text(16, 16, 'Jugador: ' + this.username, {
       fontSize: '20px',
       fill: '#fff',
       fontFamily: 'verdana, arial, sans-serif'
     });
+      
 
   }
 
@@ -331,7 +325,7 @@ class Game extends Phaser.Scene {
   }
 
   createCargaLabel() {
-    this.carga_quantity = this.add.text(16, 40, 'Carga: ' + this.cant_cargas_enviadas, {
+    this.carga_quantity = this.add.text(150, 40, 'Carga: ' + this.cant_cargas_enviadas, {
       fontSize: '20px',
       fill: '#fff',
       fontFamily: 'verdana, arial, sans-serif'
