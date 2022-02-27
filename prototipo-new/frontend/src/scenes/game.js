@@ -1,7 +1,7 @@
 //imoprto archivos
 import Submarino from "../objects/submarino.js";
 // import Carguero from "../objects/carguero.js";
-// import Destructor from "../objects/destructor.js";
+import Destructor from "../objects/destructor.js";
 import Map from "../objects/map.js";
 // import Game from "./scenes/game.js";
 // import GameOver from "./scenes/game_over.js";
@@ -121,23 +121,32 @@ addPlayer(self, playerInfo) {
 
     this.submarino = new Submarino(self, 0, 0, 'submarino');
     this.submarino.create(coordinates, self, true);
-
-    // self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'submarino')
+    
+    // this.object2 = self.physics.add.image(playerInfo.x, playerInfo.y, 'submarino')
     // .setDisplaySize(90, 15)
     // .setAlpha(0.9, 0.9, 0.9, 0.9)
-    // self.object.flipX = true
+    // self.object2.flipX = true
+    // this.object=this.submarino;
   } else {
     //Creo destructor
-    playerInfo.boat='destructor'
-    console.log(playerInfo.boat)
-    self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
-    .setDisplaySize(90, 15)
-    .setCollideWorldBounds(true)
+  //   playerInfo.boat='destructor'
+  //   console.log(playerInfo.boat)
+
+  //   var coordinates = {
+  //     x: 60,
+  //     y: 60,
+  //  }
+
+  //  this.object = new Destructor(self, 0, 0, 'destructor');
+  //  this.object.create(coordinates, self, true);
+
+    // self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
+    // .setDisplaySize(90, 15)
+    // .setCollideWorldBounds(true)
     }
-    
-    self.cameras.main.setBounds(0, 0, 3200, 1600)
-    self.cameras.main.startFollow(self.object, true)
-    self.cameras.main.roundPixels = true
+    // self.cameras.main.setBounds(0, 0, 3200, 1600)
+    // self.cameras.main.startFollow(self.object, true)
+    // self.cameras.main.roundPixels = true
   }
 
 addOtherPlayers(self, playerInfo) {
@@ -157,41 +166,47 @@ addOtherPlayers(self, playerInfo) {
 }
 
 update() {
-  if (this.object) {
-    if (this.cursors.left.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {
-      this.object.setAngularVelocity(-100)
-    } else if (this.cursors.right.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {
-      this.object.setAngularVelocity(100)
-    } else {
-      this.object.setAngularVelocity(0)
-    }
-    const velX = Math.cos((this.object.angle - 360) * 0.01745)
-    const velY = Math.sin((this.object.angle - 360) * 0.01745)
-    if (this.cursors.up.isDown) {
-      this.object.setVelocityX(200 * velX)
-      this.object.setVelocityY(200 * velY)
-    } else if (this.cursors.down.isDown) {
-      this.object.setVelocityX(-100 * velX)
-      this.object.setVelocityY(-100 * velY)
-    } else {
-      this.object.setAcceleration(0)
-      this.object.setVelocityX(0)
-      this.object.setVelocityY(0)
-    }
 
-    var x = this.object.x
-    var y = this.object.y
-    var r = this.object.rotation
-    if (this.object.oldPosition && (x !== this.object.oldPosition.x || y !== this.object.oldPosition.y || r !== this.object.oldPosition.rotation)) {
-      this.socket.emit('playerMovement', { x: this.object.x, y: this.object.y, rotation: this.object.rotation })
-    }
-
-    this.object.oldPosition = {
-      x: this.object.x,
-      y: this.object.y,
-      rotation: this.object.rotation
-    }
+  if (this.submarino !== undefined) {
+    this.submarino.moveSubmarino(this.cursors);
   }
+
+  
+  // if (this.object) {
+    // if (this.cursors.left.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {
+    //   this.object.setAngularVelocity(-100)
+    // } else if (this.cursors.right.isDown && (this.cursors.up.isDown || this.cursors.down.isDown)) {
+    //   this.object.setAngularVelocity(100)
+    // } else {
+    //   this.object.setAngularVelocity(0)
+    // }
+    // const velX = Math.cos((this.object.angle - 360) * 0.01745)
+    // const velY = Math.sin((this.object.angle - 360) * 0.01745)
+    // if (this.cursors.up.isDown) {
+    //   this.object.setVelocityX(200 * velX)
+    //   this.object.setVelocityY(200 * velY)
+    // } else if (this.cursors.down.isDown) {
+    //   this.object.setVelocityX(-100 * velX)
+    //   this.object.setVelocityY(-100 * velY)
+    // } else {
+    //   this.object.setAcceleration(0)
+    //   this.object.setVelocityX(0)
+    //   this.object.setVelocityY(0)
+    // }
+
+    // var x = this.object.x
+    // var y = this.object.y
+    // var r = this.object.rotation
+    // if (this.object.oldPosition && (x !== this.object.oldPosition.x || y !== this.object.oldPosition.y || r !== this.object.oldPosition.rotation)) {
+    //   this.socket.emit('playerMovement', { x: this.object.x, y: this.object.y, rotation: this.object.rotation })
+    // }
+
+    // this.object.oldPosition = {
+    //   x: this.object.x,
+    //   y: this.object.y,
+    //   rotation: this.object.rotation
+    // }
+  // }
 }
 }
 
