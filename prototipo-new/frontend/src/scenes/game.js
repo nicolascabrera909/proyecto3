@@ -114,26 +114,27 @@ addPlayer(self, playerInfo) {
     playerInfo.boat='submarino'
     console.log(playerInfo.boat)
 
-    // var coordinates = {
-    //   x: 30,
-    //   y: 30,
-    // }
+    var coordinates = {
+       x: 30,
+       y: 30,
+    }
 
-    // this.submarino = new Submarino(self, 0, 0, 'submarino');
-    // this.submarino.create(coordinates, self, cursor);
+    this.submarino = new Submarino(self, 0, 0, 'submarino');
+    this.submarino.create(coordinates, self, true);
 
-    self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'submarino')
-    .setDisplaySize(90, 15)
-    .setAlpha(0.9, 0.9, 0.9, 0.9)
-    self.object.flipX = true
+    // self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'submarino')
+    // .setDisplaySize(90, 15)
+    // .setAlpha(0.9, 0.9, 0.9, 0.9)
+    // self.object.flipX = true
   } else {
     //Creo destructor
     playerInfo.boat='destructor'
     console.log(playerInfo.boat)
     self.object = self.physics.add.image(playerInfo.x, playerInfo.y, 'destructor')
-    .setDisplaySize(90, 15);
+    .setDisplaySize(90, 15)
+    .setCollideWorldBounds(true)
     }
-    self.object.setCollideWorldBounds(true)
+    
     self.cameras.main.setBounds(0, 0, 3200, 1600)
     self.cameras.main.startFollow(self.object, true)
     self.cameras.main.roundPixels = true
