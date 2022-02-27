@@ -40,6 +40,28 @@ create() {
   this.socket = io("http://localhost:3000")
   this.otherPlayers = this.physics.add.group()
 
+  this.socket.on('inicioInstancia', function (backGame) {
+      console.log('Evento inicioInstancia');
+      this.games=backGame;
+    });
+
+    //obtengo los parametros del html y se los paso al create
+    
+      console.log('Obtengo datos pre-game.html');
+      var username = this.urlParams.get('username');
+      var boatType = this.urlParams.get('boattype');
+      var difficulty = this.urlParams.get('dificultad');
+      this.username = username
+      if (this.games.gameList.length > 1) {
+        console.log('***********Lista de jugadores completa ************')
+      } else {
+        console.log('Emito createGame');
+        this.socket.emit('createGame', username, boatType, difficulty);
+        this.listenForSocketEvents(self);
+      }
+      
+    
+
   this.socket.on('currentPlayers', function (players) {
     Object.keys(players).forEach(function (id) {
       if (players[id].playerId === self.socket.id) {

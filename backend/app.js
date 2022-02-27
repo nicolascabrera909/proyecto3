@@ -9,7 +9,7 @@ const cors = require('cors');
 const { database } = require('./config');
 
 /////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////
-var players = {};
+// var players = {};
 var gamePlay = new Games();
 // var cantidad =0;
 // var boat = 'boat';
@@ -68,19 +68,29 @@ io.on('connection', function (socket) {
   //evento de una partida nueva
   socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
 
-  var player = {};
-  player[socket.id] = {'name': name,
-    'boatList': [],
-    'socketId': socket.id,
-    'boatTeam': boatTeam
-  }
+    var player = {};
+    player[socket.id] = {
+      'name': name,
+      'boatList': [],
+      'socketId': socket.id,
+      'boatTeam': boatTeam
+    }
+/*
+    if (gamePlay.gameList.length < 2) {
+      gamePlay.createGame(player[socket.id], socket.id, mapa, difficulty);
+      //var jsonGame = JSON.stringify(gamePlay);
+    }
+    for (let i = 0; i < gamePlay.game.playerList.length; i++) {
+      if (gamePlay.game.playerList[i].socketId == socket.id) {
+        socket.emit('currentPlayers', gamePlay.game.playerList[i])
+        socket.broadcast.emit('newPlayer', gamePlay.game.playerList[i])
+      }
+    }*/
+    //version original
+    socket.emit('currentPlayers', players);
+    socket.broadcast.emit('newPlayer', players[socket.id]);
+  });
 
-
-
-  
-  socket.emit('currentPlayers', players)
-  socket.broadcast.emit('newPlayer', players[socket.id])
- 
   socket.on('disconnect', function () {
     console.log('player [' + socket.id + '] disconnected')
     delete players[socket.id]
