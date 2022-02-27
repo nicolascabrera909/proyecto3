@@ -10,6 +10,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.scene = scene;
     this.is_destroyed = false;
     this.setVisible(false);
+
   }
 
   create(coordenadas, self, cursor) {
@@ -19,6 +20,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.submarino.setDisplaySize(180, 30);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
+    //this.submarino.setRotation(playerInfo.rotation)
     if (cursor){
       this.selfSubmarino = self;
       self.cameras.main.setBounds(0, 0, 3200, 1600);

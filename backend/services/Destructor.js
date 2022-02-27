@@ -22,6 +22,7 @@ class Destructor extends Ship {
         //let coordenadas = this.coordenadas(mapa.getWidth(), mapa.getHeight());
         this.positionX = 0
         this.positionY = 0
+        this.rotation =180;
         this.boatLife = 100;
         this.visibility = 100;
         this.dificulty = dificulty;

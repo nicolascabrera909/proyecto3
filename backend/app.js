@@ -21,7 +21,7 @@ const socketIO = require('socket.io');
 const { type } = require('os');
 const server = http.Server(app);
 const io = socketIO(server, {
-  pingTimeout: 8000,
+  pingTimeout: 300000,
   cors: {
     origin: "http://localhost:5500",
   },
@@ -63,10 +63,11 @@ io.on('connection', function (socket) {
   // }
   // cantidad++;
 
-  socket.emit('inicioInstancia', JSON.stringify(gamePlay));
+  socket.emit('inicioInstancia', gamePlay);
+
 
   //evento de una partida nueva
-  socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
+  socket.on('createGame', function (name, boatTeam, difficulty) {
 
     var player = {};
     player[socket.id] = {
@@ -75,34 +76,41 @@ io.on('connection', function (socket) {
       'socketId': socket.id,
       'boatTeam': boatTeam
     }
-/*
-    if (gamePlay.gameList.length < 2) {
-      gamePlay.createGame(player[socket.id], socket.id, mapa, difficulty);
-      //var jsonGame = JSON.stringify(gamePlay);
-    }
+    //creo el juego con su jugador y barcos
+    gamePlay.createGame(player[socket.id], difficulty);
     for (let i = 0; i < gamePlay.game.playerList.length; i++) {
       if (gamePlay.game.playerList[i].socketId == socket.id) {
-        socket.emit('currentPlayers', gamePlay.game.playerList[i])
-        socket.broadcast.emit('newPlayer', gamePlay.game.playerList[i])
+        console.log('Emito currentPlayers');
+        console.log('Emito broadcast newPlayer');
+        socket.emit('currentPlayers', gamePlay.game.playerList[i]);
+        socket.broadcast.emit('newPlayer', gamePlay.game.playerList[i]);
       }
-    }*/
+    }
     //version original
-    socket.emit('currentPlayers', players);
-    socket.broadcast.emit('newPlayer', players[socket.id]);
+    /*  socket.emit('currentPlayers', players);
+      socket.broadcast.emit('newPlayer', players[socket.id]);*/
   });
 
   socket.on('disconnect', function () {
     console.log('player [' + socket.id + '] disconnected')
-    delete players[socket.id]
+    gamePlay.deletePlayer(socket.id)
     io.emit('playerDisconnected', socket.id)
   })
 
   socket.on('playerMovement', function (movementData) {
-    players[socket.id].x = movementData.x
+    /*players[socket.id].x = movementData.x
     players[socket.id].y = movementData.y
-    players[socket.id].rotation = movementData.rotation
+    players[socket.id].rotation = movementData.rotation*/
+    for (let i = 0; i < gamePlay.game.playerList.length; i++) {
+      if (gamePlay.game.playerList[i].socketId == socket.id) {
+        gamePlay.game.playerList[i].positionX = movementData.x;
+        gamePlay.game.playerList[i].positionY= movementData.y;
+        gamePlay.game.playerList[i].rotation = movementData.rotation;
+        socket.broadcast.emit('playerMoved', gamePlay.game.playerList[i]);
+      }
+    }
 
-    socket.broadcast.emit('playerMoved', players[socket.id])
+    
   })
 
 })

@@ -13,7 +13,7 @@ const Map = require('./Map')
 class Games {
     /*Constructor*/
     constructor() {
-        this.game=null;
+        this.game = null;
         this.map = new Map();
 
         //singleton de la clase
@@ -43,21 +43,20 @@ class Games {
         //creo la partida
         this.game = new Game(playerList, difficulty);
     }
-  
+
     partidaExistente(player) {
         //agrego al jugador a la lista de jugadores de la partida
         this.game.playerList.push(player);
     }
 
-    createGame(playerSelected, socketId, difficulty) {
+    createGame(playerSelected, difficulty) {
         if (playerSelected.boatTeam === 'submarino') {
             console.log("*************submarino*************");
-            var boatList = this.logicaSubmarino(this.map);
-            
+            let boatList = this.logicaSubmarino(this.map);
             var player = new Player(playerSelected.name, playerSelected.socketId, boatList, playerSelected.boatTeam);
 
             //valido si hay que crear la partida o agregar a una existente
-            if (this.game==null) {
+            if (this.game == null) {
                 this.partidaNueva(player, difficulty)
             } else {
                 this.partidaExistente(player)
@@ -85,7 +84,7 @@ class Games {
             var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             var player = new Player(playerSelected.name, playerSelected.socketId, boatList, playerSelected.boatTeam);
             console.log("termine de crear al jugador, valido si existe partida");
-            if (this.game==null) {
+            if (this.game == null) {
                 this.partidaNueva(player, difficulty);
             } else {
                 this.partidaExistente(player);
@@ -98,14 +97,17 @@ class Games {
         var i = 0;
         var encontre = false;
         var pos = 0;
-        while (i < this.game.playerList.length && !encontre) {
-            if (this.game.playerList[i].socketId == socketId) {
-                encontre = true;
-                pos = i;
+        if (!this.game == null) {
+            while (i < this.game.playerList.length && !encontre) {
+                if (this.game.playerList[i].socketId == socketId) {
+                    encontre = true;
+                    pos = i;
+                }
+                i++;
             }
-            i++;
+            this.game.playerList.splice(pos, 1);
         }
-        this.game.playerList.splice(pos, 1);
+
     }
 }
 

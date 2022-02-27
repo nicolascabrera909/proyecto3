@@ -4,6 +4,7 @@ class Boat {
     constructor() {
         this.positionX;
         this.positionY;
+        this.rotation
         this.boatLife;
         this.visibility;
     }

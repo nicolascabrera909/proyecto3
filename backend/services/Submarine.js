@@ -22,6 +22,7 @@ class Submarine {
         
         /*mapa.getWidth(), mapa.getHeight()*/
         const coordenadas = this.coordenadasSubmarino(map.getWidth(), map.getHeight());
+        this.rotation =180;
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
         this.boatLife = 100;
