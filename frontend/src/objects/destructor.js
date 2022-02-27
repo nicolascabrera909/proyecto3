@@ -26,6 +26,8 @@ class Destructor extends Phaser.Physics.Arcade.Image {
       self.cameras.main.roundPixels = true;
       self.cameras.main.setZoom(1);
     }
+
+    return this.destructor;
     
   }
 

@@ -136,7 +136,7 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
-    var otherPlayer = null;
+    var otherPlayerDestructor = null;
     if (playerInfo.boatTeam == 'destructor') {
       /* otherPlayer = self.physics.add.image(playerInfo.boatList[0].positionX, playerInfo.boatList[0].positionY, 'destructor')
          .setDisplaySize(180, 30)
@@ -150,7 +150,7 @@ class Game extends Phaser.Scene {
             x: playerInfo.boatList[i].positionX,
             y: playerInfo.boatList[i].positionY,
           };
-          this.destructor2.create(coordD2, self, false);
+          otherPlayerDestructor= this.destructor2.create(coordD2, self, false);
         } else {
           console.log('Dibujo carguero secundario');
           this.carguero2.create(playerInfo.boatList[i]);
@@ -168,7 +168,7 @@ class Game extends Phaser.Scene {
       this.submarino2 = new Submarino(self, 0, 0, 'submarino');
       this.submarino2.create(coordS2, self, false);
     }
-    otherPlayer.playerId = playerInfo.socketId
+    otherPlayer.playerId = playerInfo.socketId;
     self.otherPlayers.add(otherPlayer)
     console.log('creo other player destructor')
   }
