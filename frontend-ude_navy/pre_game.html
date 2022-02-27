@@ -23,8 +23,11 @@
         </div>
         </div>
     </nav>
-    <input  id="cant_players" name="cant_players" value='' disabled="disabled"> <!--type="hidden"-->
-    <div class="container py-5">
+    <h2 class="mt-5" style="text-align:center">Cantida de jugadores en linea </br>
+        <input style="color: green;text-align: center;width:50px;margin-top: 10px;" id="cant_players" name="cant_players" value='0' disabled="disabled"></input>
+    </h2>
+     <!--type="hidden"-->
+    <div class="container py-2">
         <div class="row justify-content-center">
             <div class="col-6">
                 <form action="#">
@@ -48,8 +51,8 @@
                             <option value="destructor">Destructor</option>
                         </select>
                     </div>
-                    <div class="mt-5 justify-content-center">
-                        <button type="button" id="startButton" onclick="iniciar()"
+                    <div class="mt-5" style="text-align: center">
+                        <button style="font-size: 25px;width: 50%;" type="button" id="startButton" onclick="iniciar()"
                             class="btn btn-primary">Comenzar</button>
                     </div>
                 </form>
@@ -66,10 +69,8 @@
             var dificultad = document.getElementById("dificultad").value;
             var cant_players = document.getElementById("cant_players").value;
 
-            //var startButton = document.getElementById("startButton").value;
             if (username != '') {
-                //valido la cantidad e elementos de la lista si es menor a la variable entro sino voy al else
-                /*if () {*/
+                
                 if ( cant_players < 2){
                     var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
                     window.location.href = "game.html" + queryString;
@@ -80,27 +81,28 @@
                
 
             } else {
-                alert("El nombre de usuario es obligatorio")
+                alert("El nombre de usuario es obligatorio.")
             }
 
         }
         $(document).ready(function () {
-            $('#cant_players').val(0);
+            let cant_jugadores = $('#cant_players').val();
             $.ajax({
                 url: 'http://localhost:3000/partida',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data, status, xhr) {
                     if (data.gameList.length > 0) {
+                        if(cant_jugadores){
+                            $('#startButton').html('Unirse');
+                        }
                         $('#cant_players').val(data.gameList[0].playerList.length);
                         if (data.gameList[0].playerList.length <= 2) {
                             eliminarOptionTipoBarco(data.gameList[0].playerList[0].boatTeam);
                             setearNivelYaPrecargado(data.gameList[0].idDifficulty);
-                            //ocultarNivel();
 
                         } else {
                             alert('Juego lleno, actualmente ya hay conectado ' + $('#cant_players').val() + 'jugadores');
-                            //gameComplete(data.gameList[0].playerList.length);
                         }
                     }
                     console.log(data);

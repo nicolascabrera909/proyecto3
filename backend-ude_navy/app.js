@@ -35,8 +35,7 @@ const io = socketIO(server, {
   }
 });
 
-//io.on('connection', function (name, bandoBarcos, socketId, level) {
-  // SOCKET NODO
+
 io.on('connection', function (socket) {
   console.log('player [' + socket.id + '] connected');
 
@@ -47,8 +46,6 @@ io.on('connection', function (socket) {
   //evento de una partida nueva
   socket.on('createGame', function (name, boatTeam, mapa, difficulty) {
 
-    let sock = socket.id;
-    console.log(sock);
     var player = {};
     player[socket.id] = {'name': name,
                          'boatList': [],
@@ -59,11 +56,9 @@ io.on('connection', function (socket) {
 
     //console.log('player' + JSON.stringify(player));
     if (gamePlay.gameList.length < 2) {
-      //console.log('Evento create game ');
-      //gamePlay.createGame(name, boatTeam, socket.id, mapa, difficulty);
       gamePlay.createGame(player[socket.id], socket.id, mapa, difficulty);
       var jsonGame = JSON.stringify(gamePlay);
-      console.log('Luego de convertir a JSON: ' + jsonGame);
+      //console.log('Luego de convertir a JSON: ' + jsonGame);
       //emito datos al frontend
       socket.emit('currentPlayers', gamePlay, gamePlay.gameList[0].playerList);
       let newJugador;
