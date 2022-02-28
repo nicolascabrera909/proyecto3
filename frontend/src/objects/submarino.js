@@ -132,15 +132,19 @@ class Submarino extends Phaser.Physics.Arcade.Image {
           var x = this.submarino.x
           var y = this.submarino.y
           var r = this.submarino.rotation
-          if (this.submarino.oldPosition && (x !== this.submarino.oldPosition.x || y !== this.submarino.oldPosition.y || r !== this.submarino.oldPosition.rotation)) {
+         /* if (this.submarino.oldPosition && (x !== this.submarino.oldPosition.x || y !== this.submarino.oldPosition.y || r !== this.submarino.oldPosition.rotation)) {
             socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation })
-          }
-
+          }*/
+/*
           this.submarino.oldPosition = {
             x: this.submarino.x,
             y: this.submarino.y,
             rotation: this.submarino.rotation
-          }
+          }*///////////
+          console.log('pos inicial submarino x:'+ this.submarino.x+ 'y:'+ this.submarino.y+' rotacion:'+this.submarino.rotation);
+
+          socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation })
+
       }
     }
   }

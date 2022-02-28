@@ -72,11 +72,11 @@ class Destructor extends Phaser.Physics.Arcade.Image {
         const velX = Math.cos((this.destructor.angle - 360) * 0.01745)
         const velY = Math.sin((this.destructor.angle - 360) * 0.01745)
         if (cursors.down.isDown) {
-          this.destructor.setVelocityX(-100 * velX)
-          this.destructor.setVelocityY(-100 * velY)
+          this.destructor.setVelocityX(-300 * velX)
+          this.destructor.setVelocityY(-300 * velY)
         } else if (cursors.up.isDown) {
-          this.destructor.setVelocityX(200 * velX)
-          this.destructor.setVelocityY(200 * velY)
+          this.destructor.setVelocityX(300 * velX)
+          this.destructor.setVelocityY(300 * velY)
         } else {
           this.destructor.setAcceleration(0)
           this.destructor.setVelocityY(0)
