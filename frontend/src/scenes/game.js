@@ -98,9 +98,13 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('opponentShoot', shoot => {
+      console.log('id en shoot' + shoot.socketId);
+      console.log('id en self' + self.socket.id);
       if (shoot.socketId !== self.socket.id) {
+        
         console.log('disparo on');
-        self.moveSubmarino(this.cursors, this.socket, this.input);
+        
+        //self.moveSubmarino(this.cursors, this.socket, this.input);
       }
     });
 

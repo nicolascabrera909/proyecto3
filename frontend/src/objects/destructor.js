@@ -10,6 +10,7 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     this.scene = scene;
     this.is_destroyed = false;
     this.setVisible(false);
+    
   }
 
   create(coordenadas, self, cursor) {
@@ -28,6 +29,9 @@ class Destructor extends Phaser.Physics.Arcade.Image {
       this.keySPACEBAR = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
+
+    this.destructor.setCollideWorldBounds(true);
+    this.destructor.setImmovable(true);
 
     return this.destructor;
     
