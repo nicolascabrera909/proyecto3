@@ -19,6 +19,7 @@ class Game extends Phaser.Scene {
     this.timedEvent;
     this.input;
     this.initialTime;
+    this.FreightersList = [];
   }
 
   preload() {
@@ -45,7 +46,7 @@ class Game extends Phaser.Scene {
     var difficulty = this.urlParams.get('dificultad');
     this.username = username;
 
-    self.socket.on('inicioInstancia', function (backGame) {
+    this.socket.on('inicioInstancia', function (backGame) {
       console.log('Evento inicioInstancia');
       this.games = backGame;
       console.log('Emito createGame');
@@ -54,7 +55,7 @@ class Game extends Phaser.Scene {
 
     });
 
-    self.socket.on('currentPlayers', function (players) {
+    this.socket.on('currentPlayers', function (players) {
       /* Object.keys(players).forEach(function (id) {
          if (players[id].playerId === self.socket.id) {
            self.addPlayer(self, players[id])
@@ -62,19 +63,22 @@ class Game extends Phaser.Scene {
            self.addOtherPlayers(self, players[id])
          }
        })*/
-      if (players.socketId === self.socket.id) {
-        self.addPlayer(self, players)
-      } else {
-        self.addOtherPlayers(self, players)
+      for (let i = 0; i < players.length; i++) {
+        if (players[i].socketId === self.socket.id) {
+          self.addPlayer(self, players[i])
+        } else {
+          self.addOtherPlayers(self, players[i])
+        }
       }
+
 
     })
 
-    self.socket.on('newPlayer', function (playerInfo) {
+    this.socket.on('newPlayer', function (playerInfo) {
       self.addOtherPlayers(self, playerInfo)
     })
 
-    self.socket.on('playerDisconnected', function (playerId) {
+    this.socket.on('playerDisconnected', function (playerId) {
       self.otherPlayers.getChildren().forEach(function (otherPlayer) {
         if (playerId === otherPlayer.playerId) {
           otherPlayer.destroy()
@@ -82,32 +86,43 @@ class Game extends Phaser.Scene {
       })
     })
 
-    self.cursors = this.input.keyboard.createCursorKeys()
-    self.socket.on('playerMoved', function (playerInfo) {
-      self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.socket.on('playerMoved', function (playerInfo) {
+      /*self.otherPlayers.getChildren().forEach(function (otherPlayer) {
         /*if (playerInfo.playerId === otherPlayer.playerId) {
           otherPlayer.setRotation(playerInfo.rotation)
           otherPlayer.setPosition(playerInfo.x, playerInfo.y)
         }*/
-        if (playerInfo.socketId == otherPlayer.socketId) {
-          for (let i = 0; i < playerInfo.boatList.length; i++) {
-            if(!otherPlayer.texture.key=='carguero'){
-              if (otherPlayer.texture.key == playerInfo.boatList[i].type) {
-                console.log('muevo '+otherPlayer.texture.key)
-                otherPlayer.setRotation(playerInfo.boatList[i].rotation);
-                otherPlayer.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY);
+        for(let i=0;i<self.otherPlayers.children.entries.length;i++){
+          if (playerInfo.socketId == self.otherPlayers.children.entries[i].socketId) {
+            for (let j = 0; j < playerInfo.boatList.length; j++) {
+              if (! (self.otherPlayers.children.entries[i].texture.key == 'carguero')) {
+                if (self.otherPlayers.children.entries[i].texture.key == playerInfo.boatList[j].type) {
+                  console.log('muevo ' + self.otherPlayers.children.entries[i].texture.key)
+                  self.otherPlayers.children.entries[i].setRotation(playerInfo.boatList[j].rotation);
+                  self.otherPlayers.children.entries[i].setPosition(playerInfo.boatList[j].positionX, playerInfo.boatList[j].positionY);
+                }
               }
-  
             }
-            
-
           }
         }
+       /* self.otherPlayers.getChildren().getEntries().forEach(function (otherPlayer) {
+          if (playerInfo.socketId == otherPlayer.socketId) {
+            for (let i = 0; i < playerInfo.boatList.length; i++) {
+              if (!otherPlayer.texture.key == 'carguero') {
+                if (otherPlayer.texture.key == playerInfo.boatList[i].type) {
+                  console.log('muevo ' + otherPlayer.texture.key)
+                  otherPlayer.setRotation(playerInfo.boatList[i].rotation);
+                  otherPlayer.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY);
+                }
+              }
+            }
+          }
+        });*/
+      
+    });
 
-      })
-    })
-
-    self.map = new Map(this, 'map', 'tiles', 'terrain');
+    this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
   addPlayer(self, playerInfo) {
@@ -134,10 +149,11 @@ class Game extends Phaser.Scene {
             y: playerInfo.boatList[i].positionY,
           };
           this.destructor.create(coordD, self, true);
-        } else {
+        }/* else {
           console.log('Dibujo carguero');
           this.carguero.create(playerInfo.boatList[i]);
-        }
+          this.FreightersList.add(this.carguero);
+        }*/
       }
     }
   }
@@ -162,14 +178,15 @@ class Game extends Phaser.Scene {
           otherPlayer.socketId = playerInfo.socketId;
           self.otherPlayers.add(otherPlayer)
           console.log('creo other player destructor')
-        } else {
+        } /*else {
           console.log('Dibujo carguero secundario');
           otherPlayer = this.carguero2.create(playerInfo.boatList[i]);
           otherPlayer.socketId = playerInfo.socketId;
           self.otherPlayers.add(otherPlayer)
           console.log('creo other player destructor')
-        }
+        }*/
       }
+
     } else {
       let otherPlayer = null;
       /*otherPlayer = self.physics.add.image(playerInfo.x, playerInfo.y, 'submarino')
@@ -197,6 +214,10 @@ class Game extends Phaser.Scene {
     if (this.destructor !== undefined) {
       this.destructor.moveDestructor(this.cursors, this.socket);
     }
+
+    /*if (this.submarino !== undefined) {
+      this.submarino.moveSubmarino(this.cursors, this.socket);
+    }*/
   }
 }
 

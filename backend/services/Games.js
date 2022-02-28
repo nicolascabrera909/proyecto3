@@ -49,11 +49,11 @@ class Games {
         this.game.playerList.push(player);
     }
 
-    createGame(playerSelected, difficulty) {
-        if (playerSelected.boatTeam === 'submarino') {
+    createGame(socketId,name,boatTeam, difficulty) {
+        if (boatTeam == 'submarino') {
             console.log("*************submarino*************");
             let boatList = this.logicaSubmarino(this.map);
-            var player = new Player(playerSelected.name, playerSelected.socketId, boatList, playerSelected.boatTeam);
+            var player = new Player(name, socketId, boatList, boatTeam);
 
             //valido si hay que crear la partida o agregar a una existente
             if (this.game == null) {
@@ -61,7 +61,7 @@ class Games {
             } else {
                 this.partidaExistente(player)
             }
-        } else if (playerSelected.boatTeam === 'destructor') {
+        } else {
             console.log("++++++++++DESTRUCTOR++++++++++");
             var coordenadaAux = {
                 "x": 0,
@@ -82,7 +82,7 @@ class Games {
             theDestructor.coordenadas(listaCoordendas);
             //creo la lista de botes y agrego al al destructor y los cargueros
             var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
-            var player = new Player(playerSelected.name, playerSelected.socketId, boatList, playerSelected.boatTeam);
+            var player = new Player(name, socketId, boatList, boatTeam);
             console.log("termine de crear al jugador, valido si existe partida");
             if (this.game == null) {
                 this.partidaNueva(player, difficulty);

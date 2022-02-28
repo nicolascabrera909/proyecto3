@@ -69,23 +69,17 @@ io.on('connection', function (socket) {
   //evento de una partida nueva
   socket.on('createGame', function (name, boatTeam, difficulty) {
 
-    var player = {};
-    player[socket.id] = {
-      'name': name,
-      'boatList': [],
-      'socketId': socket.id,
-      'boatTeam': boatTeam
-    }
     //creo el juego con su jugador y barcos
-    gamePlay.createGame(player[socket.id], difficulty);
-    for (let i = 0; i < gamePlay.game.playerList.length; i++) {
-      if (gamePlay.game.playerList[i].socketId == socket.id) {
-        console.log('Emito currentPlayers');
-        console.log('Emito broadcast newPlayer');
-        socket.emit('currentPlayers', gamePlay.game.playerList[i]);
-        socket.broadcast.emit('newPlayer', gamePlay.game.playerList[i]);
-      }
+    gamePlay.createGame(socket.id, name, boatTeam, difficulty);
+    console.log('Emito currentPlayers');
+    console.log('Emito broadcast newPlayer');
+    socket.emit('currentPlayers', gamePlay.game.playerList);
+    if(gamePlay.game.playerList[0].socketId==socket.id){
+      socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
+    }else{
+      socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
+
     //version original
     /*  socket.emit('currentPlayers', players);
       socket.broadcast.emit('newPlayer', players[socket.id]);*/
@@ -104,13 +98,13 @@ io.on('connection', function (socket) {
     for (let i = 0; i < gamePlay.game.playerList.length; i++) {
       if (gamePlay.game.playerList[i].socketId == socket.id) {
         gamePlay.game.playerList[i].positionX = movementData.x;
-        gamePlay.game.playerList[i].positionY= movementData.y;
+        gamePlay.game.playerList[i].positionY = movementData.y;
         gamePlay.game.playerList[i].rotation = movementData.rotation;
         socket.broadcast.emit('playerMoved', gamePlay.game.playerList[i]);
       }
     }
 
-    
+
   })
 
 })
