@@ -34,10 +34,10 @@ class Carguero extends Phaser.GameObjects.Sprite {
   }
   //console.log(gameList[0].playerList[indice].boatList[i].instanceOf))
 
-  update(){
+  moveCarguero(){
     var velocidad = 2
     this.carguero.setVelocity(velocidad, 0);
-    socket.emit('playerMovement', { x: this.carguero.x, y: this.carguero.y, rotation: this.carguero.rotation })
+    socket.emit('playerMovementCarguero', { x: this.carguero.x, y: this.carguero.y, rotation: this.carguero.rotation })
   }
 
 }

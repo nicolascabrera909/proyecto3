@@ -112,6 +112,29 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1]);
       }
   });
+
+  socket.on('playerMovementCarguero', function (movementData) {
+    if (gamePlay.game.playerList[0].socketId == socket.id) {
+        gamePlay.game.playerList[0].positionX = movementData.x;
+        gamePlay.game.playerList[0].positionY = movementData.y;
+        gamePlay.game.playerList[0].rotation = movementData.rotation;
+        console.log('playerMovedApp 0')
+        console.log(gamePlay.game.playerList[0])
+        console.log(gamePlay.game.playerList[0].positionX)
+        console.log(gamePlay.game.playerList[0].positionY)
+        socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0]);
+      } else {
+        gamePlay.game.playerList[1].positionX = movementData.x;
+        gamePlay.game.playerList[1].positionY = movementData.y;
+        gamePlay.game.playerList[1].rotation = movementData.rotation;
+        console.log('playerMovedApp 1')
+        console.log(gamePlay.game.playerList[1])
+        console.log(gamePlay.game.playerList[1].positionX)
+        console.log(gamePlay.game.playerList[1].positionY)
+        socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1]);
+      }
+  });
+
 })
 
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
