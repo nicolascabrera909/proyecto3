@@ -87,25 +87,34 @@ class Game extends Phaser.Scene {
     })
 
     this.cursors = this.input.keyboard.createCursorKeys();
+
     this.socket.on('playerMoved', function (playerInfo) {
       /*self.otherPlayers.getChildren().forEach(function (otherPlayer) {
         /*if (playerInfo.playerId === otherPlayer.playerId) {
           otherPlayer.setRotation(playerInfo.rotation)
           otherPlayer.setPosition(playerInfo.x, playerInfo.y)
         }*/
-        for(let i=0;i<self.otherPlayers.children.entries.length;i++){
-          if (playerInfo.socketId == self.otherPlayers.children.entries[i].socketId) {
-            for (let j = 0; j < playerInfo.boatList.length; j++) {
-              if (! (self.otherPlayers.children.entries[i].texture.key == 'carguero')) {
-                if (self.otherPlayers.children.entries[i].texture.key == playerInfo.boatList[j].type) {
-                  console.log('muevo ' + self.otherPlayers.children.entries[i].texture.key)
-                  self.otherPlayers.children.entries[i].setRotation(playerInfo.boatList[j].rotation);
-                  self.otherPlayers.children.entries[i].setPosition(playerInfo.boatList[j].positionX, playerInfo.boatList[j].positionY);
-                }
+        self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+        if (playerInfo.socketId === otherPlayer.socketId) {
+          otherPlayer.setRotation(playerInfo.rotation)
+          otherPlayer.setPosition(playerInfo.positionX, playerInfo.positionY)
+        // for(let i=0;i<self.otherPlayers.children.entries.length;i++){
+          // if (playerInfo.socketId == self.otherPlayers.children.entries[i].socketId) {
+            // for (let j = 0; j < playerInfo.boatList.length; j++) {
+              // if (! (self.otherPlayers.children.entries[i].texture.key == 'carguero')) {
+                // if (self.otherPlayers.children.entries[i].texture.key == playerInfo.boatList[j].type) {
+                  // console.log('muevo ' + self.otherPlayers.children.entries[i].texture.key)
+                  // self.otherPlayers.children.entries[i].setRotation(playerInfo.boatList[j].rotation);
+                  // self.otherPlayers.children.entries[i].setPosition(playerInfo.boatList[j].positionX, playerInfo.boatList[j].positionY);
+                  console.log('playerMovedGame')
+                  console.log(playerInfo.positionX)
+                  console.log(playerInfo.positionY)
+                  console.log(playerInfo.rotation)
+                // }
               }
-            }
-          }
-        }
+            });
+
+
        /* self.otherPlayers.getChildren().getEntries().forEach(function (otherPlayer) {
           if (playerInfo.socketId == otherPlayer.socketId) {
             for (let i = 0; i < playerInfo.boatList.length; i++) {
@@ -213,7 +222,7 @@ class Game extends Phaser.Scene {
       this.submarino.moveSubmarino(this.cursors, this.socket);
     }
 
-    if (this.destructor !== undefined) {
+    if (this.destructor) {
       this.destructor.moveDestructor(this.cursors, this.socket);
     }
 
