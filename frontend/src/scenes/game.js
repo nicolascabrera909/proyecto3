@@ -99,8 +99,12 @@ class Game extends Phaser.Scene {
               if (! (self.otherPlayers.children.entries[i].texture.key == 'carguero')) {
                 if (self.otherPlayers.children.entries[i].texture.key == playerInfo.boatList[j].type) {
                   console.log('muevo ' + self.otherPlayers.children.entries[i].texture.key)
-                  self.otherPlayers.children.entries[i].setRotation(playerInfo.boatList[j].rotation);
-                  self.otherPlayers.children.entries[i].setPosition(playerInfo.boatList[j].positionX, playerInfo.boatList[j].positionY);
+                  //self.otherPlayers.children.entries[i].setRotation(playerInfo.boatList[j].rotation);
+                  //self.otherPlayers.children.entries[i].setPosition(playerInfo.boatList[j].positionX, playerInfo.boatList[j].positionY);
+                  self.otherPlayers.children.entries[i].rotation=playerInfo.boatList[j].rotation;
+                  self.otherPlayers.children.entries[i].x=playerInfo.boatList[j].positionX;
+                  self.otherPlayers.children.entries[i].y=playerInfo.boatList[j].positionY;
+                  console.log('pos '+self.otherPlayers.children.entries[i].texture.key +' x  ' +self.otherPlayers.children.entries[i].x+' y '+self.otherPlayers.children.entries[i].y +' '+self.otherPlayers.children.entries[i].rotation);
                 }
               }
             }
