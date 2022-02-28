@@ -28,6 +28,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       self.cameras.main.roundPixels = true;
       self.cameras.main.setZoom(1.5);
     }
+    return this.submarino;
   }
 
   get() {

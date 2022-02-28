@@ -14,7 +14,8 @@ class Carguero extends Phaser.GameObjects.Sprite {
 
   create(boat) {
     let self = this;
-    self.showCargueros(self, boat);
+     return self.showCargueros(self, boat);
+    
   }
 
   get_type(boat) {
@@ -30,7 +31,7 @@ class Carguero extends Phaser.GameObjects.Sprite {
     this.carguero.setDisplaySize(100, 20)//.setOrigin();  
     //this.carguero.setCollideWorldBounds(true); 
     this.carguero.setVelocity(velocidad, 0);
-
+    return this.carguero;
   }
   //console.log(gameList[0].playerList[indice].boatList[i].instanceOf))
 
