@@ -160,7 +160,7 @@ class Game extends Phaser.Scene {
           };
           this.destructor.create(coordD, self, true);
           console.log('pos inicial destructor x:'+coordD.x+ 'y:'+ coordD.y+' rotacion:'+this.destructor.rotation);
-        }/* else {
+        } /*else {
           console.log('Dibujo carguero');
           this.carguero.create(playerInfo.boatList[i]);
           this.FreightersList.add(this.carguero);
@@ -170,7 +170,6 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
-
     if (playerInfo.boatTeam == 'destructor') {
       /* otherPlayer = self.physics.add.image(playerInfo.boatList[0].positionX, playerInfo.boatList[0].positionY, 'destructor')
          .setDisplaySize(180, 30)
@@ -219,11 +218,11 @@ class Game extends Phaser.Scene {
 
   update() {
     if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino(this.cursors, this.socket);
+      this.submarino.moveSubmarino(this.cursors, this.socket, this.input);
     }
 
     if (this.destructor) {
-      this.destructor.moveDestructor(this.cursors, this.socket);
+      this.destructor.moveDestructor(this.cursors, this.socket, this.input);
     }
 
     /*if (this.submarino !== undefined) {

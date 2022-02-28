@@ -25,6 +25,8 @@ class Destructor extends Phaser.Physics.Arcade.Image {
       self.cameras.main.startFollow(this.destructor, true);
       self.cameras.main.roundPixels = true;
       self.cameras.main.setZoom(1);
+      this.keySPACEBAR = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 
     return this.destructor;
@@ -52,7 +54,7 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     this.canon.createShootCannon(this.destructor, this.input);
   }
 
-  moveDestructor(cursors, socket) {
+  moveDestructor(cursors, socket, input) {
     // if (this.destructor) {
       //console.log("intento de movimiento destructor");
       // if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
@@ -77,6 +79,10 @@ class Destructor extends Phaser.Physics.Arcade.Image {
         } else if (cursors.up.isDown) {
           this.destructor.setVelocityX(300 * velX)
           this.destructor.setVelocityY(300 * velY)
+        } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
+          this.shootCannon(input);
+        } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
+          this.shootDepthCharge();
         } else {
           this.destructor.setAcceleration(0)
           this.destructor.setVelocityY(0)
