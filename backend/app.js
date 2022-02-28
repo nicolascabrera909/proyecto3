@@ -103,10 +103,7 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('playerMoved', gamePlay.game.playerList[i]);
       }
     }
-
-
-  })
-
+  });
 })
 
 

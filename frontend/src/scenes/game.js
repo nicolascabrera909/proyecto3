@@ -136,6 +136,7 @@ class Game extends Phaser.Scene {
       }
       this.submarino = new Submarino(self, 0, 0, 'submarino');
       this.submarino.create(coordS, self, true);
+      console.log('pos inicial submarino x:'+coordS.x+ 'y:'+ coordS.y+' rotacion:'+this.submarino.rotation);
 
     } else {
       //Creo destructor y cargueros
@@ -149,6 +150,7 @@ class Game extends Phaser.Scene {
             y: playerInfo.boatList[i].positionY,
           };
           this.destructor.create(coordD, self, true);
+          console.log('pos inicial destructor x:'+coordD.x+ 'y:'+ coordD.y+' rotacion:'+this.destructor.rotation);
         }/* else {
           console.log('Dibujo carguero');
           this.carguero.create(playerInfo.boatList[i]);
