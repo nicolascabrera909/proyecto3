@@ -1,7 +1,7 @@
 import DepthCharge from "./depth_charge.js";
 import Canion from "./canon.js";
 
-class Destructor extends Phaser.Physics.Arcade.Image {
+class Destructor extends Phaser.GameObjects.Sprite {
 
   constructor(scene, x, y, type) {
     super(scene, x, y, type);
@@ -18,7 +18,7 @@ class Destructor extends Phaser.Physics.Arcade.Image {
   create(coordenadas, self, cursor) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
-    this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
+    this.destructor = this.scene.physics.add.sprite(randomX, randomY, 'destructor');
     this.destructor.setDisplaySize(180, 30);
     this.destructor.flipX = false;
     //this.destructor.setRotation(playerInfo.rotation)

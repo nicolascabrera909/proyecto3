@@ -40,7 +40,9 @@ class Game extends Phaser.Scene {
     this.socket = io("http://localhost:3000")
     this.otherPlayers = this.physics.add.group();
     this.otherPlayersCargueros = this.physics.add.group();
-    this.physics.add.collider(this.otherPlayers, this.otherPlayersCargueros);
+    this.currentPlayers = this.physics.add.group();
+
+    
 
     console.log('Obtengo datos pre-game.html');
     var username = this.urlParams.get('username');
@@ -94,19 +96,19 @@ class Game extends Phaser.Scene {
         if (playerInfo.socketId === otherPlayer.socketId) {
           otherPlayer.setRotation(playerInfo.boatList[i].rotation)
           otherPlayer.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
-         /* if (otherPlayer.texture.key == 'submarino') {
-            switch (playerInfo.boatList[0].depth) {
-              case 1:
-                otherPlayer.setAlpha(0.9, 0.9, 0.9, 0.9);
-                break;
-              case 2:
-                otherPlayer.setAlpha(0.7, 0.7, 0, 0);
-                break;
-              case 3:
-                otherPlayer.setAlpha(0.4, 0.4, 0, 0);
-                break;
-            }
-          }*/
+          /* if (otherPlayer.texture.key == 'submarino') {
+             switch (playerInfo.boatList[0].depth) {
+               case 1:
+                 otherPlayer.setAlpha(0.9, 0.9, 0.9, 0.9);
+                 break;
+               case 2:
+                 otherPlayer.setAlpha(0.7, 0.7, 0, 0);
+                 break;
+               case 3:
+                 otherPlayer.setAlpha(0.4, 0.4, 0, 0);
+                 break;
+             }
+           }*/
 
           // otherPlayer.setAlpha(0.4, 0.4, 0, 0);
           /*console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
@@ -177,6 +179,7 @@ class Game extends Phaser.Scene {
 
   addPlayer(self, playerInfo) {
     console.log(playerInfo)
+    let currentPlayer = null;
     if (playerInfo.boatTeam == 'submarino') {
       //Creo submarino
       console.log('Dibujo submarino')
@@ -186,6 +189,9 @@ class Game extends Phaser.Scene {
       }
       this.submarino = new Submarino(self, 0, 0, 'submarino');
       this.submarino.create(coordS, self, true);
+      currentPlayer = this.submarino;
+      currentPlayer.socketId = playerInfo.socketId;
+      this.currentPlayers.add(currentPlayer);
       console.log('pos inicial submarino x:' + coordS.x + 'y:' + coordS.y + ' rotacion:' + this.submarino.rotation);
     } else {
       //Creo destructor y cargueros
@@ -199,13 +205,19 @@ class Game extends Phaser.Scene {
             y: playerInfo.boatList[i].positionY,
           };
           this.destructor.create(coordD, self, true);
+          currentPlayer = this.destructor;
+          currentPlayer.socketId = playerInfo.socketId;
+          this.currentPlayers.add(currentPlayer);
           console.log('pos inicial destructor x:' + coordD.x + 'y:' + coordD.y + ' rotacion:' + this.destructor.rotation);
         } else {
-          console.log('Dibujo carguero');
-          id++;
-          this.carguero = new Carguero(self, 0, 0, 'carguero', id);
-          this.FreightersList.push(this.carguero);
-          this.carguero.create(playerInfo.boatList[i])
+            console.log('Dibujo carguero');
+            id++;
+            this.carguero = new Carguero(self, 0, 0, 'carguero', id);
+            currentPlayer=this.carguero;
+            currentPlayer.socketId = playerInfo.socketId;
+            this.currentPlayers.add(currentPlayer);
+            this.FreightersList.push(this.carguero);
+            this.carguero.create(playerInfo.boatList[i])
         }
       }
     }
@@ -239,7 +251,6 @@ class Game extends Phaser.Scene {
           console.log('creo other player destructor');
         }
       }
-
     } else {
       let otherPlayer = null;
       /*otherPlayer = self.physics.add.image(playerInfo.x, playerInfo.y, 'submarino')
@@ -256,9 +267,18 @@ class Game extends Phaser.Scene {
       self.otherPlayers.add(otherPlayer)
       console.log('creo other player submarino')
     }
-
+    
+    this.physics.add.collider(this.currentPlayers, this.otherPlayers,this.prueba());
+    this.physics.add.collider(this.currentPlayers, this.otherPlayersCargueros,this.prueba2());
   }
 
+
+  prueba(){
+    console.log('prueba choque si');
+  }
+  prueba2(){
+    console.log('prueba choque carguero');
+  }
   /*
   collisions(){
     this.physics.add.overlap(this.submarino, this.destructor, function(submarino, destructor){

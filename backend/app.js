@@ -21,7 +21,7 @@ const socketIO = require('socket.io');
 const { type } = require('os');
 const server = http.Server(app);
 const io = socketIO(server, {
-  pingTimeout: 5000,
+  pingTimeout: 500000,
   cors: {
     origin: "http://localhost:5500",
   },

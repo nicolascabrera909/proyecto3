@@ -1,7 +1,7 @@
 import Torpedo from "./torpedo.js";
 import Canion from "./canon.js";
 
-class Submarino extends Phaser.Physics.Arcade.Image {
+class Submarino extends Phaser.GameObjects.Sprite {
 
   constructor(scene, x, y, type) {
     super(scene, x, y, type);
@@ -20,7 +20,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
   create(coordenadas, self, cursor) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
-    this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
+    this.submarino = this.scene.physics.add.sprite(randomX, randomY, "submarino");
     this.submarino.setDisplaySize(180, 30);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
