@@ -1,0 +1,23 @@
+article {
+    width: 600px;
+    text-align: center;
+    background-color: #000000;
+    border-radius: 10px;
+    margin: 10px auto 20px;
+    padding: 5px;
+    overflow: hidden;
+    box-shadow: 3px 3px 10px #ccc;
+}
+
+article h4 {
+    color: #fff;
+}
+article .count {
+    padding: 5px;
+}
+article #timer{
+    padding: 5px;
+    color: crimson;
+    background-color: aliceblue;
+    border-radius: 2px;
+}
