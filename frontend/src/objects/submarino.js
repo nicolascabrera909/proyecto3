@@ -89,12 +89,13 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     return 1;
   }
 
+
   deepLevel(self, nivel) {
     var indice = 0;
-    if (!self.gameList[0].playerList[0].boatTeam == 'submarino') {
+    if (!self.game.playerList[0].boatTeam == 'submarino') {
       indice = 1;
     }
-    self.gameList[0].playerList[indice].boatList[0].depth = nivel;
+    self.game.playerList[indice].boatList[0].depth = nivel;
   }
 
   moveSubmarino(cursors, socket, input) {
@@ -123,15 +124,15 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
         this.shootCannon(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
-        nivel = this.surface(input, this.selfSubmarino);
+        nivel = this.deepImmerse(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyS)) {
         nivel = this.immerse(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
-        nivel = this.deepImmerse(input, this.selfSubmarino);
-        this.deepLevel(socket.games, nivel);
-      } else {
+       nivel = this.surface(input, this.selfSubmarino);
+       this.deepLevel(socket.games, nivel);
+      }else {
         this.submarino.setAcceleration(0)
         this.submarino.setVelocityY(0)
         this.submarino.setVelocityX(0)
