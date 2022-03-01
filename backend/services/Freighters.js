@@ -21,15 +21,17 @@ class Freighters extends Boat {
     coordenadasCargueros(XMapaSize, YMapaSize) {
 
         var xTotal = XMapaSize;
-        var yTotal = YMapaSize;
-        var mapaMitad = xTotal / 3;
+        var yTotal = YMapaSize-350;
+        var mapaMitad = (xTotal / 5)*2;
         var listaCoordenadas = [];
         var distanciaBarcos = 150;
+        var Xminimo= 450;
+        var Yminimo= 100;
         
         for (var i = 0; i < 6; i++) {
             if (i == 0) {
-                let x = new Number(Math.round(Math.random() * (mapaMitad - (distanciaBarcos )) - 0) + distanciaBarcos*2);
-                let y = new Number(Math.round(Math.random() * (yTotal - distanciaBarcos) - 0) + 0);
+                let x = new Number(Math.round(Math.random() * (mapaMitad -Xminimo ) + Xminimo));
+                let y = new Number(Math.round(Math.random() * (yTotal -  Yminimo) + Yminimo));
                 let coordenada = {
                     "x": x,
                     "y": y

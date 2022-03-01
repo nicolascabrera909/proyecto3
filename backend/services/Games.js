@@ -97,7 +97,8 @@ class Games {
         var i = 0;
         var encontre = false;
         var pos = 0;
-        if (!this.game == null) {
+        if (!(this.game == null)) {
+
             while (i < this.game.playerList.length && !encontre) {
                 if (this.game.playerList[i].socketId == socketId) {
                     encontre = true;
@@ -105,7 +106,12 @@ class Games {
                 }
                 i++;
             }
-            this.game.playerList.splice(pos, 1);
+            if(pos==0 && this.game!=null){
+                this.game=null;
+            }else{
+                this.game.playerList.splice(pos, 1);
+            }
+            
         }
 
     }

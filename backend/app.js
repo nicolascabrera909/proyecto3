@@ -21,7 +21,7 @@ const socketIO = require('socket.io');
 const { type } = require('os');
 const server = http.Server(app);
 const io = socketIO(server, {
-  pingTimeout: 300000,
+  pingTimeout: 5000,
   cors: {
     origin: "http://localhost:5500",
   },
@@ -96,19 +96,18 @@ io.on('connection', function (socket) {
       gamePlay.game.playerList[0].boatList[0].positionX = movementData.x;
       gamePlay.game.playerList[0].boatList[0].positionY = movementData.y;
       gamePlay.game.playerList[0].boatList[0].rotation = movementData.rotation;
-      console.log('playerMovedApp 0')
-      console.log(gamePlay.game.playerList[0])
-      console.log(gamePlay.game.playerList[0].boatList[0].positionX)
-      console.log(gamePlay.game.playerList[0].boatList[0].positionY)
+      if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
+        gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
+      }
+
       socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0]);
     } else {
       gamePlay.game.playerList[1].boatList[0].positionX = movementData.x;
       gamePlay.game.playerList[1].boatList[0].positionY = movementData.y;
       gamePlay.game.playerList[1].boatList[0].rotation = movementData.rotation;
-      console.log('playerMovedApp 1')
-      console.log(gamePlay.game.playerList[1])
-      console.log(gamePlay.game.playerList[1].boatList[0].positionX)
-      console.log(gamePlay.game.playerList[1].boatList[0].positionY)
+      if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
+        gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
+      }
       socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1]);
     }
   });
@@ -119,22 +118,46 @@ io.on('connection', function (socket) {
       if (gamePlay.game.playerList[d].socketId == socket.id) {
         for (var i = 0; i < gamePlay.game.playerList[d].boatList.length; i++) {
           if (gamePlay.game.playerList[d].boatList[i].type == 'carguero' &&
-              gamePlay.game.playerList[d].boatList[i].id == id) {
+            gamePlay.game.playerList[d].boatList[i].id == id) {
 
             gamePlay.game.playerList[d].boatList[i].positionX = movementData.x;
             gamePlay.game.playerList[d].boatList[i].positionY = movementData.y;
-           // gamePlay.game.playerList[d].boatList[i].rotation = movementData.rotation;
-            socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d],id);
+            // gamePlay.game.playerList[d].boatList[i].rotation = movementData.rotation;
+            socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d], id);
           }
         }
       }
     }
   });
+  socket.on('shooting', function (info) {
+    socket.broadcast.emit('other_shot', info)
+  });
+
+  socket.on('shootingCannon', function (info) {
+    socket.broadcast.emit('other_shotCannon', info)
+  });
+
+  socket.on('shootingCannonDestructor', function (info) {
+    socket.broadcast.emit('other_shotCannonDestructor', info)
+  });
+
+  socket.on('shootingDepthCharge', function (info) {
+    socket.broadcast.emit('other_shotDepthCharge', info)
+  });
+
+  socket.on('surface', function (info) {
+    socket.broadcast.emit('other_surface', info)
+  });
+
+  socket.on('immerse', function (info) {
+    socket.broadcast.emit('other_immerse', info)
+  });
+
+  socket.on('deepImmerse', function (info) {
+    socket.broadcast.emit('other_deepImmerse', info)
+  });
 
 });
-
-
-
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));
 
