@@ -273,6 +273,15 @@ class Game extends Phaser.Scene {
 
   }
 
+  /*
+  collisions(){
+    this.physics.add.overlap(this.submarino, this.destructor, function(submarino, destructor){
+      this.submarino.destroy();
+      this.destructor.destroy();
+
+    })
+  }*/
+
   update() {
     if (this.submarino !== undefined) {
       this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self);
