@@ -6,6 +6,7 @@
     	
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     	<link rel="icon" href="./static/assets/img/favicon.ico">
+		<link href="./static/assets/css/base.css" rel="stylesheet">
     	<title>UDE Navy</title>
 	</head>
   	<body >
@@ -23,6 +24,15 @@
 		<div class="container"></div>
 		
 		<div class="row">
+			<div>
+				<article class="clock" id="model3">
+					<h4></h4>
+				  
+					<div class="count">
+					  <div id="timer"></div>
+					</div>
+				  </article>
+			</div>
 			<div class="col-1"></div>
 			<div class="col-8">
 				<div id="game-screen"></div>
@@ -33,7 +43,52 @@
 		</div>
 		  
 	
-	
+	<script>
+
+var h3 = document.getElementsByTagName("h4");
+h3[0].innerHTML = "Tiempo de juego";
+
+var sec         = 300,
+    countDiv    = document.getElementById("timer"),
+    secpass,
+    countDown   = setInterval(function () {
+        'use strict';
+        
+        secpass();
+    }, 1000);
+
+function secpass() {
+    'use strict';
+    
+    var min     = Math.floor(sec / 60),
+        remSec  = sec % 60;
+    
+    if (remSec < 10) {
+        
+        remSec = '0' + remSec;
+    
+    }
+    if (min < 10) {
+        
+        min = '0' + min;
+    
+    }
+    countDiv.innerHTML = min + ":" + remSec;
+    
+    if (sec > 0) {
+        
+        sec = sec - 1;
+        
+    } else {
+        
+        clearInterval(countDown);
+		window.location.href = "index.html"
+
+        
+    }
+}
+
+	</script>
     <script src="./src/phaser.min.js"></script>
     <script src="./src/main.js" type="module"></script>
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>

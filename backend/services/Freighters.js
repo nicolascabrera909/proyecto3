@@ -3,7 +3,7 @@ const Boat = require('./Boat.js')
 class Freighters extends Boat {
 
     /*Constructor*/
-    constructor(coordenadas) {
+    constructor(coordenadas,id) {
         super();
         const Freighters = new Boat;
         this.positionX = coordenadas.x;
@@ -12,6 +12,7 @@ class Freighters extends Boat {
         this.boatLife = 100;
         this.visibility = 100;
         this.type = 'carguero';
+        this.id=id;
 
     }
 
