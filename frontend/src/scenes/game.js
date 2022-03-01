@@ -112,14 +112,14 @@ class Game extends Phaser.Scene {
       });
     });
 
-   
+
     this.socket.on('playerMovedCarguero', function (playerInfo) {
 
       let i = 0;
       if (playerInfo.boatList[i].type == 'destructor') {
         i = 1;
       }
-      
+
       self.otherPlayersCargueros.getChildren().forEach(function (otherPlayersCargueros) {
         if (playerInfo.socketId === otherPlayersCargueros.socketId) {
           if (playerInfo.boatList[i].type == 'carguero') {
@@ -134,23 +134,35 @@ class Game extends Phaser.Scene {
         i++;
       });
     });
-    
-    this.socket.on('other_shot', function(info) {
+
+    this.socket.on('other_shot', function (info) {
       // const submarinoVisual = self.otherPlayers.getChildren().find((submarino) => submarino.socketId === info.socketId);
       // const submarino = new Submarino(self, submarinoVisual.x, submarinoVisual.x, 'submarino');
       // if (submarino){
-        console.log('holaaaaa',self.submarino2, self)
-        // otherPlayer = this.submarino2.create(coordS2, self, false);
-        // otherPlayer.socketId = playerInfo.socketId;
-        // self.otherPlayers.add(otherPlayer)
-        console.log('creo other player submarino')
+      console.log('holaaaaa', self.submarino2, self)
+      // otherPlayer = this.submarino2.create(coordS2, self, false);
+      // otherPlayer.socketId = playerInfo.socketId;
+      // self.otherPlayers.add(otherPlayer)
+      console.log('creo other player submarino')
 
-        self.submarino2.shootTorpedo();
-        // this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
-        // this.torpedo.setVisible(false);
-        // this.torpedo.createShootTorpedo(this.submarino);
+      self.submarino2.shootTorpedo();
+      // this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
+      // this.torpedo.setVisible(false);
+      // this.torpedo.createShootTorpedo(this.submarino);
 
       // }
+    });
+
+    this.socket.on('other_shotCannon', function (info) {
+      self.submarino2.shootCannon();
+    });
+
+    this.socket.on('other_shotCannonDestructor', function (info) {
+      self.destructor2.shootCannon();
+    });
+
+    this.socket.on('other_shotDepthCharge', function (info) {
+      self.destructor2.shootDepthCharge();
     });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');

@@ -65,10 +65,9 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.canon = new Canion(this.scene, this.submarino.x, this.submarino.y, 'canon')
     this.canon.setVisible(false);
     this.canon.createShootCannon(this.submarino, input, socket);
-    socket.emit('shooting', {
-      x: this.submarino.x, y: this.submarino.y,
-      socketId : socket.id
-  });
+    if(socket){
+      socket.emit('shootingCannon', {socketId: socket.id});
+    }
   }
 
   immerse(input, self) {

@@ -48,16 +48,22 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     this.destructor.is_destroyed = true;
   }
 
-  shootDepthCharge() {
+  shootDepthCharge(socket) {
     this.depth_charge = new DepthCharge(this.scene, this.destructor.x, this.destructor.y, 'depth_charge')
     this.depth_charge.setVisible(false);
     this.depth_charge.createShootDepthCharge(this.destructor);
+    if(socket){
+      socket.emit('shootingDepthCharge', {socketId: socket.id});
+    }
   }
 
-  shootCannon(input) {
+  shootCannon(input, socket) {
     this.canon = new Canion(this.scene, this.destructor.x, this.destructor.y, 'canon')
     this.canon.setVisible(false);
-    this.canon.createShootCannon(this.destructor, this.input);
+    this.canon.createShootCannon(this.destructor, input, socket);
+    if(socket){
+      socket.emit('shootingCannonDestructor', {socketId: socket.id});
+    }
   }
 
   moveDestructor(cursors, socket, input) {
@@ -86,9 +92,9 @@ class Destructor extends Phaser.Physics.Arcade.Image {
         this.destructor.setVelocityX(300 * velX)
         this.destructor.setVelocityY(300 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        this.shootCannon(input);
+        this.shootCannon(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        this.shootDepthCharge();
+        this.shootDepthCharge(socket);
       } else {
         this.destructor.setAcceleration(0)
         this.destructor.setVelocityY(0)
