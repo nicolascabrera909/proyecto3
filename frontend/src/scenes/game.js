@@ -38,8 +38,9 @@ class Game extends Phaser.Scene {
   create() {
     var self = this
     this.socket = io("http://localhost:3000")
-    this.otherPlayers = this.physics.add.group()
-    this.otherPlayersCargueros = this.physics.add.group()
+    this.otherPlayers = this.physics.add.group();
+    this.otherPlayersCargueros = this.physics.add.group();
+    this.physics.add.collider(this.otherPlayers, this.otherPlayersCargueros);
 
     console.log('Obtengo datos pre-game.html');
     var username = this.urlParams.get('username');
@@ -70,21 +71,19 @@ class Game extends Phaser.Scene {
           self.addOtherPlayers(self, players[i])
         }
       }
-
-
-    })
+    });
 
     this.socket.on('newPlayer', function (playerInfo) {
       self.addOtherPlayers(self, playerInfo)
-    })
+    });
 
     this.socket.on('playerDisconnected', function (playerId) {
       self.otherPlayers.getChildren().forEach(function (otherPlayer) {
         if (playerId === otherPlayer.playerId) {
           otherPlayer.destroy()
         }
-      })
-    })
+      });
+    });
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
