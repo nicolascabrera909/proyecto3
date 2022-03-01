@@ -130,11 +130,10 @@ io.on('connection', function (socket) {
       }
     }
   });
-    
-    socket.on('shooting', function () {
-      socket.broadcast.emit('other_shot')
+    socket.on('shooting', function (info) {
+      socket.broadcast.emit('other_shot',info)
     });
-
+  });
 
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));

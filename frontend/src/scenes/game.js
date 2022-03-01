@@ -135,8 +135,22 @@ class Game extends Phaser.Scene {
       });
     });
     
-    this.socket.on('other_shot', function() {
-      console.log('holaaaaa')
+    this.socket.on('other_shot', function(info) {
+      // const submarinoVisual = self.otherPlayers.getChildren().find((submarino) => submarino.socketId === info.socketId);
+      // const submarino = new Submarino(self, submarinoVisual.x, submarinoVisual.x, 'submarino');
+      // if (submarino){
+        console.log('holaaaaa',self.submarino2, self)
+        // otherPlayer = this.submarino2.create(coordS2, self, false);
+        // otherPlayer.socketId = playerInfo.socketId;
+        // self.otherPlayers.add(otherPlayer)
+        console.log('creo other player submarino')
+
+        self.submarino2.shootTorpedo();
+        // this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
+        // this.torpedo.setVisible(false);
+        // this.torpedo.createShootTorpedo(this.submarino);
+
+      // }
     });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
@@ -182,7 +196,6 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
-
     if (playerInfo.boatTeam == 'destructor') {
       /* otherPlayer = self.physics.add.image(playerInfo.boatList[0].positionX, playerInfo.boatList[0].positionY, 'destructor')
          .setDisplaySize(180, 30)
@@ -230,9 +243,6 @@ class Game extends Phaser.Scene {
 
   }
 
-
-
-
   update() {
     if (this.submarino !== undefined) {
       this.submarino.moveSubmarino(this.cursors, this.socket);
@@ -253,4 +263,5 @@ class Game extends Phaser.Scene {
 
   }
 }
+
 export default Game;

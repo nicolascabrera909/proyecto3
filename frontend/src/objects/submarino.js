@@ -55,7 +55,10 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
     this.torpedo.setVisible(false);
     this.torpedo.createShootTorpedo(this.submarino);
-    socket.emit('shooting');
+    console.log('shootTorpedo submarino',this.submarino.x, this.submarino.y)
+    if(socket){
+      socket.emit('shooting', {socketId: socket.id});
+    }
   }
 
   shootCannon(input, socket) {
