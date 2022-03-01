@@ -36,6 +36,8 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
       this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
+    this.submarino.setCollideWorldBounds(true);
+    this.submarino.setImmovable(true);
     return this.submarino;
   }
 
@@ -49,16 +51,24 @@ class Submarino extends Phaser.Physics.Arcade.Image {
 
   }
 
-  shootTorpedo() {
+  shootTorpedo(socket) {
     this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
     this.torpedo.setVisible(false);
     this.torpedo.createShootTorpedo(this.submarino);
+    socket.emit('shooting', {
+      x: this.submarino.x, y: this.submarino.y,
+      socketId : socket.id
+  });
   }
 
-  shootCannon(input) {
+  shootCannon(input, socket) {
     this.canon = new Canion(this.scene, this.submarino.x, this.submarino.y, 'canon')
     this.canon.setVisible(false);
-    this.canon.createShootCannon(this.submarino, this.input);
+    this.canon.createShootCannon(this.submarino, this.input, socket);
+    socket.emit('shooting', {
+      x: this.submarino.x, y: this.submarino.y,
+      socketId : socket.id
+  });
   }
 
   immerse(input, self) {
@@ -109,9 +119,9 @@ class Submarino extends Phaser.Physics.Arcade.Image {
         this.submarino.setVelocityX(-400 * velX)
         this.submarino.setVelocityY(-400 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        this.shootTorpedo();
+        this.shootTorpedo(socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        this.shootCannon(input);
+        this.shootCannon(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
         nivel = this.surface(input, this.selfSubmarino);
         this.deepLevel(socket.games, nivel);
@@ -129,15 +139,6 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       var x = this.submarino.x
       var y = this.submarino.y
       var r = this.submarino.rotation
-      /* if (this.submarino.oldPosition && (x !== this.submarino.oldPosition.x || y !== this.submarino.oldPosition.y || r !== this.submarino.oldPosition.rotation)) {
-         socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation })
-       }
-       this.submarino.oldPosition = {
-         x: this.submarino.x,
-         y: this.submarino.y,
-         rotation: this.submarino.rotation
-       }*/
-      console.log('pos inicial submarino x:' + this.submarino.x + 'y:' + this.submarino.y + ' rotacion:' + this.submarino.rotation);
 
       /*socket.emit('playerMovement', {
         x: this.submarino.x,
@@ -158,10 +159,19 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     }
   }
 
-  setNewPosition(playerPosition) {
-    this.setAngle(playerPosition.rotation);
-    this.setPosition(playerPosition.x, playerPosition.y);
+  /*
+  shootSubmarino(input, socket){
+    if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
+      this.shootTorpedo();
+    } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
+      this.shootCannon(input);
+    }
+    socket.emit('shooting', {
+      x: this.submarino.x, y: this.submarino.y,
+      socketId : socket.id,
   }
+  }*/
+  
 }
 
 export default Submarino;

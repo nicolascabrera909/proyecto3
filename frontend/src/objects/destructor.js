@@ -32,6 +32,9 @@ class Destructor extends Phaser.Physics.Arcade.Image {
       this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 
+    this.destructor.setCollideWorldBounds(true);
+    this.destructor.setImmovable(true);
+
     return this.destructor;
 
   }
