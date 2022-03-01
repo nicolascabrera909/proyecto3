@@ -119,23 +119,23 @@ io.on('connection', function (socket) {
       if (gamePlay.game.playerList[d].socketId == socket.id) {
         for (var i = 0; i < gamePlay.game.playerList[d].boatList.length; i++) {
           if (gamePlay.game.playerList[d].boatList[i].type == 'carguero' &&
-              gamePlay.game.playerList[d].boatList[i].id == id) {
+            gamePlay.game.playerList[d].boatList[i].id == id) {
 
             gamePlay.game.playerList[d].boatList[i].positionX = movementData.x;
             gamePlay.game.playerList[d].boatList[i].positionY = movementData.y;
-           // gamePlay.game.playerList[d].boatList[i].rotation = movementData.rotation;
-            socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d],id);
+            // gamePlay.game.playerList[d].boatList[i].rotation = movementData.rotation;
+            socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d], id);
           }
         }
       }
     }
   });
-    
-    socket.on('shooting', function () {
-      socket.broadcast.emit('other_shot')
-    });
 
+  socket.on('shooting', function () {
+    socket.broadcast.emit('other_shot')
+  });
 
+});
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));
 
