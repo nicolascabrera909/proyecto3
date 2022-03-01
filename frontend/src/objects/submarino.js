@@ -70,27 +70,51 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     }
   }
 
-  surface(input, self, socket) {
+  surface(input, socket) {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
-    self.cameras.main.setZoom(1.5);
+    this.selfSubmarino.cameras.main.setZoom(1.5);
     if (socket) {
       socket.emit('surface', { socketId: socket.id });
     }
     return 1;
   }
 
-  immerse(input, self, socket) {
+  immerse(input, socket) {
     this.submarino.setAlpha(0.7, 0.7, 0, 0);
-    self.cameras.main.setZoom(2);
+    this.selfSubmarino.cameras.main.setZoom(2);
     if (socket) {
       socket.emit('immerse', { socketId: socket.id });
     }
     return 2;
   }
 
-  deepImmerse(input, self, socket) {
+  deepImmerse(input, socket) {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
-    self.cameras.main.setZoom(3);
+    this.selfSubmarino.cameras.main.setZoom(3);
+    if (socket) {
+      socket.emit('deepImmerse', { socketId: socket.id });
+    }
+    return 3
+  }
+
+  surfaceOpponent(input, socket) {
+    this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
+    if (socket) {
+      socket.emit('surface', { socketId: socket.id });
+    }
+    return 1;
+  }
+
+  immerseOpponent(input, socket) {
+    this.submarino.setAlpha(0.7, 0.7, 0, 0);
+    if (socket) {
+      socket.emit('immerse', { socketId: socket.id });
+    }
+    return 2;
+  }
+
+  deepImmerseOpponent(input, socket) {
+    this.submarino.setAlpha(0.4, 0.4, 0, 0);
     if (socket) {
       socket.emit('deepImmerse', { socketId: socket.id });
     }
@@ -133,15 +157,15 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
         //nivel = this.deepImmerse(input, this.selfSubmarino);
         //this.deepLevel(socket.games, nivel, socket);
-        this.surface(input, this.selfSubmarino, socket);
+        this.surface(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyS)) {
         //nivel = this.immerse(input, this.selfSubmarino);
         //this.deepLevel(socket.games, nivel, socket);
-        this.immerse(input, this.selfSubmarino, socket);
+        this.immerse(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
         //nivel = this.surface(input, this.selfSubmarino);
         //this.deepLevel(socket.games, nivel, socket);
-        this.deepImmerse(input, this.selfSubmarino, socket);
+        this.deepImmerse(input, socket);
       } else {
         this.submarino.setAcceleration(0)
         this.submarino.setVelocityY(0)

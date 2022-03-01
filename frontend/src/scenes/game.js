@@ -53,7 +53,6 @@ class Game extends Phaser.Scene {
       console.log('Emito createGame');
       self.socket.emit('createGame', username, boatType, difficulty);
       //this.listenForSocketEvents(self);
-
     });
 
     this.socket.on('currentPlayers', function (players) {
@@ -136,21 +135,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('other_shot', function (info) {
-      // const submarinoVisual = self.otherPlayers.getChildren().find((submarino) => submarino.socketId === info.socketId);
-      // const submarino = new Submarino(self, submarinoVisual.x, submarinoVisual.x, 'submarino');
-      // if (submarino){
-      console.log('holaaaaa', self.submarino2, self)
-      // otherPlayer = this.submarino2.create(coordS2, self, false);
-      // otherPlayer.socketId = playerInfo.socketId;
-      // self.otherPlayers.add(otherPlayer)
-      console.log('creo other player submarino')
-
       self.submarino2.shootTorpedo();
-      // this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
-      // this.torpedo.setVisible(false);
-      // this.torpedo.createShootTorpedo(this.submarino);
-
-      // }
     });
 
     this.socket.on('other_shotCannon', function (info) {
@@ -167,20 +152,17 @@ class Game extends Phaser.Scene {
 
     this.socket.on('other_surface', function (info) {
       console.log('submarino en superficie');
-      //VER COMO MOSTRARSELO AL DESTRUCTOR
-      //self.submarino2.surface(info);
+      self.submarino2.surfaceOpponent();
     });
 
     this.socket.on('other_immerse', function (info) {
       console.log('submarino sumergido');
-      //VER COMO MOSTRARSELO AL DESTRUCTOR
-      //self.submarino2.immerse(info);
+      self.submarino2.immerseOpponent();
     });
 
     this.socket.on('other_deepImmerse', function (info) {
       console.log('submarino sumergido profundo');
-      //VER COMO MOSTRARSELO AL DESTRUCTOR
-      //self.submarino2.deepImmerse(info);
+      self.submarino2.deepImmerseOpponent(info);
     });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
@@ -198,7 +180,6 @@ class Game extends Phaser.Scene {
       this.submarino = new Submarino(self, 0, 0, 'submarino');
       this.submarino.create(coordS, self, true);
       console.log('pos inicial submarino x:' + coordS.x + 'y:' + coordS.y + ' rotacion:' + this.submarino.rotation);
-
     } else {
       //Creo destructor y cargueros
       this.destructor = new Destructor(self, 0, 0, 'destructor');
@@ -220,8 +201,6 @@ class Game extends Phaser.Scene {
           this.carguero.create(playerInfo.boatList[i])
         }
       }
-
-
     }
   }
 
@@ -278,7 +257,6 @@ class Game extends Phaser.Scene {
     this.physics.add.overlap(this.submarino, this.destructor, function(submarino, destructor){
       this.submarino.destroy();
       this.destructor.destroy();
-
     })
   }*/
 
@@ -301,7 +279,7 @@ class Game extends Phaser.Scene {
     }*/
 
     if(this.submarino && this.destructor){
-      this.physics.add.collider(this.submarino && this.destructor);
+      this.physics.add.collider(this.submarino2 && this.destructor2);
     }
 
   }
