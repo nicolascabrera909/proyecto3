@@ -10,9 +10,9 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.scene = scene;
     this.is_destroyed = false;
     this.setVisible(false);
-    this.coodOriginalX=0;
-    this.coodOriginalY=0;
-    this.rotationOriginal=0;
+    this.coodOriginalX = 0;
+    this.coodOriginalY = 0;
+    this.rotationOriginal = 0;
 
   }
 
@@ -55,9 +55,9 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
     this.torpedo.setVisible(false);
     this.torpedo.createShootTorpedo(this.submarino);
-    console.log('shootTorpedo submarino',this.submarino.x, this.submarino.y)
-    if(socket){
-      socket.emit('shooting', {socketId: socket.id});
+    console.log('shootTorpedo submarino', this.submarino.x, this.submarino.y)
+    if (socket) {
+      socket.emit('shooting', { socketId: socket.id });
     }
   }
 
@@ -65,31 +65,39 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     this.canon = new Canion(this.scene, this.submarino.x, this.submarino.y, 'canon')
     this.canon.setVisible(false);
     this.canon.createShootCannon(this.submarino, input, socket);
-    if(socket){
-      socket.emit('shootingCannon', {socketId: socket.id});
+    if (socket) {
+      socket.emit('shootingCannon', { socketId: socket.id });
     }
   }
 
-  immerse(input, self) {
-    this.submarino.setAlpha(0.7, 0.7, 0, 0);
-    self.cameras.main.setZoom(2);
-    return 2;
-  }
-
-  deepImmerse(input, self) {
-    this.submarino.setAlpha(0.4, 0.4, 0, 0);
-    self.cameras.main.setZoom(3);
-    return 3
-  }
-
-  surface(input, self) {
+  surface(input, self, socket) {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     self.cameras.main.setZoom(1.5);
+    if (socket) {
+      socket.emit('surface', { socketId: socket.id });
+    }
     return 1;
   }
 
+  immerse(input, self, socket) {
+    this.submarino.setAlpha(0.7, 0.7, 0, 0);
+    self.cameras.main.setZoom(2);
+    if (socket) {
+      socket.emit('immerse', { socketId: socket.id });
+    }
+    return 2;
+  }
 
-  deepLevel(self, nivel) {
+  deepImmerse(input, self, socket) {
+    this.submarino.setAlpha(0.4, 0.4, 0, 0);
+    self.cameras.main.setZoom(3);
+    if (socket) {
+      socket.emit('deepImmerse', { socketId: socket.id });
+    }
+    return 3
+  }
+
+  deepLevel(self, nivel, socket) {
     var indice = 0;
     if (!self.game.playerList[0].boatTeam == 'submarino') {
       indice = 1;
@@ -97,7 +105,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     self.game.playerList[indice].boatList[0].depth = nivel;
   }
 
-  moveSubmarino(cursors, socket, input) {
+  moveSubmarino(cursors, socket, input, self) {
     let nivel;
 
     //Movimientos sumarino
@@ -123,15 +131,18 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
         this.shootCannon(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
-        nivel = this.deepImmerse(input, this.selfSubmarino);
-        this.deepLevel(socket.games, nivel);
+        //nivel = this.deepImmerse(input, this.selfSubmarino);
+        //this.deepLevel(socket.games, nivel, socket);
+        this.surface(input, this.selfSubmarino, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyS)) {
-        nivel = this.immerse(input, this.selfSubmarino);
-        this.deepLevel(socket.games, nivel);
+        //nivel = this.immerse(input, this.selfSubmarino);
+        //this.deepLevel(socket.games, nivel, socket);
+        this.immerse(input, this.selfSubmarino, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
-       nivel = this.surface(input, this.selfSubmarino);
-       this.deepLevel(socket.games, nivel);
-      }else {
+        //nivel = this.surface(input, this.selfSubmarino);
+        //this.deepLevel(socket.games, nivel, socket);
+        this.deepImmerse(input, this.selfSubmarino, socket);
+      } else {
         this.submarino.setAcceleration(0)
         this.submarino.setVelocityY(0)
         this.submarino.setVelocityX(0)
@@ -149,8 +160,8 @@ class Submarino extends Phaser.Physics.Arcade.Image {
         this.submarino.coodOriginalY == this.submarino.x &&
         this.submarino.rotationOriginal == this.submarino.rotation)) {
         socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation })
-        this.submarino.coodOriginalX = x ;
-        this.submarino.coodOriginalY = y ;
+        this.submarino.coodOriginalX = x;
+        this.submarino.coodOriginalY = y;
         this.submarino.rotationOriginal = r;
       }
 
@@ -171,7 +182,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       socketId : socket.id,
   }
   }*/
-  
+
 }
 
 export default Submarino;

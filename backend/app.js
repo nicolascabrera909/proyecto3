@@ -146,6 +146,18 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('other_shotDepthCharge',info)
     });
 
+    socket.on('surface', function (info) {
+      socket.broadcast.emit('other_surface',info)
+    });
+
+    socket.on('immerse', function (info) {
+      socket.broadcast.emit('other_immerse',info)
+    });
+
+    socket.on('deepImmerse', function (info) {
+      socket.broadcast.emit('other_deepImmerse',info)
+    });
+
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));

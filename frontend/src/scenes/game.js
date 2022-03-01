@@ -165,6 +165,24 @@ class Game extends Phaser.Scene {
       self.destructor2.shootDepthCharge();
     });
 
+    this.socket.on('other_surface', function (info) {
+      console.log('submarino en superficie');
+      //VER COMO MOSTRARSELO AL DESTRUCTOR
+      //self.submarino2.surface(info);
+    });
+
+    this.socket.on('other_immerse', function (info) {
+      console.log('submarino sumergido');
+      //VER COMO MOSTRARSELO AL DESTRUCTOR
+      //self.submarino2.immerse(info);
+    });
+
+    this.socket.on('other_deepImmerse', function (info) {
+      console.log('submarino sumergido profundo');
+      //VER COMO MOSTRARSELO AL DESTRUCTOR
+      //self.submarino2.deepImmerse(info);
+    });
+
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
@@ -257,7 +275,7 @@ class Game extends Phaser.Scene {
 
   update() {
     if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino(this.cursors, this.socket);
+      this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self);
     }
 
     if (this.destructor) {
@@ -272,6 +290,10 @@ class Game extends Phaser.Scene {
     /*if (this.submarino !== undefined) {
       this.submarino.moveSubmarino(this.cursors, this.socket);
     }*/
+
+    if(this.submarino && this.destructor){
+      this.physics.add.collider(this.submarino && this.destructor);
+    }
 
   }
 }
