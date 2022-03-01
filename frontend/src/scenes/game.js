@@ -97,13 +97,10 @@ class Game extends Phaser.Scene {
       });
     });
 
-    this.socket.on('opponentShoot', shoot => {
-      if (shoot.socketId !== self.socket.id) {
-        console.log('disparo on');
-        self.moveSubmarino(this.cursors, this.socket, this.input);
-      }
+    this.socket.on('other_shot', function() {
+      console.log('holaaaaa')
     });
-
+    
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
@@ -201,6 +198,7 @@ class Game extends Phaser.Scene {
     /*if (this.submarino !== undefined) {
       this.submarino.moveSubmarino(this.cursors, this.socket);
     }*/
+
   }
 }
 

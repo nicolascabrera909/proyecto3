@@ -134,11 +134,10 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1]);
     }
   });
-
-  socket.on('shooting', function (shoot) {
-    console.log('entro al shooting');
-    socket.broadcast.emit('opponentShoot', shoot);
-  });
+    
+    socket.on('shooting', function () {
+      socket.broadcast.emit('other_shot')
+    });
 
 })
 
