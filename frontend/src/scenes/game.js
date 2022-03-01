@@ -102,10 +102,10 @@ class Game extends Phaser.Scene {
           //otherPlayer.setPosition(playerInfo.positionX, playerInfo.positionY)
           otherPlayer.setRotation(playerInfo.boatList[i].rotation)
           otherPlayer.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
-          console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
+          /*console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
           console.log(otherPlayers.x)
           console.log(otherPlayers.y)
-          console.log(otherPlayers.rotation)
+          console.log(otherPlayers.rotation)*/
           // }
         }
         i++;
@@ -124,10 +124,10 @@ class Game extends Phaser.Scene {
           if (playerInfo.boatList[i].type == 'carguero') {
             //otherPlayersCargueros.setRotation(playerInfo.boatList[i].rotation)
             otherPlayersCargueros.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
-            console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
+            /*console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
             console.log(otherPlayersCargueros.x)
             console.log(otherPlayersCargueros.y)
-            console.log(otherPlayersCargueros.rotation)
+            console.log(otherPlayersCargueros.rotation)*/
           }
         }
         i++;

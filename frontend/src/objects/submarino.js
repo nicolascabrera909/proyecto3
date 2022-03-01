@@ -36,7 +36,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
       this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
       this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
-    this.submarino.setCollideWorldBounds(true);
+    //this.submarino.setCollideWorldBounds(true);
     this.submarino.setImmovable(true);
     return this.submarino;
   }
