@@ -8,7 +8,6 @@ class Submarine {
     constructor(map) {
         const Submarine = new Ship;
         //super();
-        this.depth=1;// 1 superficie, 2 sumergido y 3 sumergido proufundo
         
         this.torpedo = new Torpedo();
         this.torpedo.power=100;
@@ -28,6 +27,8 @@ class Submarine {
         this.boatLife = 100;
         this.visibility = 100;
         this.type = 'submarino';
+        this.depth=1;// 1 superficie, 2 sumergido y 3 sumergido proufundo
+
 
     }
 

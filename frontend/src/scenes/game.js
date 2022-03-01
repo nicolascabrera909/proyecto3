@@ -88,18 +88,27 @@ class Game extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.socket.on('playerMoved', function (playerInfo) {
-      /*self.otherPlayers.getChildren().forEach(function (otherPlayer) {
-        /*if (playerInfo.playerId === otherPlayer.playerId) {
-          otherPlayer.setRotation(playerInfo.rotation)
-          otherPlayer.setPosition(playerInfo.x, playerInfo.y)
-        }*/
+
       let i = 0;
       self.otherPlayers.getChildren().forEach(function (otherPlayer) {
         if (playerInfo.socketId === otherPlayer.socketId) {
-          // otherPlayer.setRotation(playerInfo.rotation)
-          //otherPlayer.setPosition(playerInfo.positionX, playerInfo.positionY)
           otherPlayer.setRotation(playerInfo.boatList[i].rotation)
           otherPlayer.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
+         /* if (otherPlayer.texture.key == 'submarino') {
+            switch (playerInfo.boatList[0].depth) {
+              case 1:
+                otherPlayer.setAlpha(0.9, 0.9, 0.9, 0.9);
+                break;
+              case 2:
+                otherPlayer.setAlpha(0.7, 0.7, 0, 0);
+                break;
+              case 3:
+                otherPlayer.setAlpha(0.4, 0.4, 0, 0);
+                break;
+            }
+          }*/
+
+          // otherPlayer.setAlpha(0.4, 0.4, 0, 0);
           /*console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
           console.log(otherPlayers.x)
           console.log(otherPlayers.y)
@@ -121,7 +130,6 @@ class Game extends Phaser.Scene {
       self.otherPlayersCargueros.getChildren().forEach(function (otherPlayersCargueros) {
         if (playerInfo.socketId === otherPlayersCargueros.socketId) {
           if (playerInfo.boatList[i].type == 'carguero') {
-            //otherPlayersCargueros.setRotation(playerInfo.boatList[i].rotation)
             otherPlayersCargueros.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
             /*console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
             console.log(otherPlayersCargueros.x)
@@ -277,7 +285,7 @@ class Game extends Phaser.Scene {
       this.submarino.moveSubmarino(this.cursors, this.socket);
     }*/
 
-    if(this.submarino && this.destructor){
+    if (this.submarino && this.destructor) {
       this.physics.add.collider(this.submarino2 && this.destructor2);
     }
 

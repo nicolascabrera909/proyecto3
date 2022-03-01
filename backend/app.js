@@ -96,19 +96,18 @@ io.on('connection', function (socket) {
       gamePlay.game.playerList[0].boatList[0].positionX = movementData.x;
       gamePlay.game.playerList[0].boatList[0].positionY = movementData.y;
       gamePlay.game.playerList[0].boatList[0].rotation = movementData.rotation;
-      /*console.log('playerMovedApp 0')
-      console.log(gamePlay.game.playerList[0])
-      console.log(gamePlay.game.playerList[0].boatList[0].positionX)
-      console.log(gamePlay.game.playerList[0].boatList[0].positionY)*/
+      if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
+        gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
+      }
+
       socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0]);
     } else {
       gamePlay.game.playerList[1].boatList[0].positionX = movementData.x;
       gamePlay.game.playerList[1].boatList[0].positionY = movementData.y;
       gamePlay.game.playerList[1].boatList[0].rotation = movementData.rotation;
-      /*console.log('playerMovedApp 1')
-      console.log(gamePlay.game.playerList[1])
-      console.log(gamePlay.game.playerList[1].boatList[0].positionX)
-      console.log(gamePlay.game.playerList[1].boatList[0].positionY)*/
+      if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
+        gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
+      }
       socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1]);
     }
   });
@@ -130,33 +129,33 @@ io.on('connection', function (socket) {
       }
     }
   });
-    socket.on('shooting', function (info) {
-      socket.broadcast.emit('other_shot',info)
-    });
+  socket.on('shooting', function (info) {
+    socket.broadcast.emit('other_shot', info)
+  });
 
-    socket.on('shootingCannon', function (info) {
-      socket.broadcast.emit('other_shotCannon',info)
-    });
+  socket.on('shootingCannon', function (info) {
+    socket.broadcast.emit('other_shotCannon', info)
+  });
 
-    socket.on('shootingCannonDestructor', function (info) {
-      socket.broadcast.emit('other_shotCannonDestructor',info)
-    });
+  socket.on('shootingCannonDestructor', function (info) {
+    socket.broadcast.emit('other_shotCannonDestructor', info)
+  });
 
-    socket.on('shootingDepthCharge', function (info) {
-      socket.broadcast.emit('other_shotDepthCharge',info)
-    });
+  socket.on('shootingDepthCharge', function (info) {
+    socket.broadcast.emit('other_shotDepthCharge', info)
+  });
 
-    socket.on('surface', function (info) {
-      socket.broadcast.emit('other_surface',info)
-    });
+  socket.on('surface', function (info) {
+    socket.broadcast.emit('other_surface', info)
+  });
 
-    socket.on('immerse', function (info) {
-      socket.broadcast.emit('other_immerse',info)
-    });
+  socket.on('immerse', function (info) {
+    socket.broadcast.emit('other_immerse', info)
+  });
 
-    socket.on('deepImmerse', function (info) {
-      socket.broadcast.emit('other_deepImmerse',info)
-    });
+  socket.on('deepImmerse', function (info) {
+    socket.broadcast.emit('other_deepImmerse', info)
+  });
 
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
