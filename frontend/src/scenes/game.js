@@ -73,7 +73,7 @@ class Game extends Phaser.Scene {
       }
 
       if (this.destructor) {
-        this.physics.add.overlap(this.destructor.destructor,  this.submarino2.submarino, () => console.log('overlapping'));
+        this.physics.add.overlap(this.destructor.destructor,  this.submarino2.submarino, () => this.choque(this.destructor,  this.submarino2));
       }
       
       window.game = this;
@@ -82,7 +82,9 @@ class Game extends Phaser.Scene {
     this.socket.on('newPlayer', (playerInfo) => {
       this.addOtherPlayers(this, playerInfo);
       if (this.submarino) {
-        this.physics.add.overlap(this.submarino.submarino,  this.destructor2.destructor, () => console.log('overlapping'));
+        this.physics.add.overlap(this.submarino.submarino,  this.destructor2.destructor, () => 
+        this.choque(this.submarino,  this.destructor2)
+        );
       }
 
       // self.physics.add.collider(self.otherPlayersCargueros, this.destructor || this.submarino);
@@ -151,6 +153,14 @@ class Game extends Phaser.Scene {
       });
     });
 
+    this.socket.on('other_destroy_submarino', (info) => {
+      this.submarino2.destroy();
+    });
+
+    this.socket.on('other_destroy_destructor', (info) => {
+      this.destructor.destroy();
+    });
+
     this.socket.on('other_shot', function (info) {
       self.submarino2.shootTorpedo();
     });
@@ -184,6 +194,12 @@ class Game extends Phaser.Scene {
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
+
+  choque(nave1, nave2) {
+    nave1.destroy(this.socket);
+    nave2.destroy(this.socket);
+  }
+
 
   addPlayer(self, playerInfo) {
     console.log(playerInfo)

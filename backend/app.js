@@ -129,6 +129,15 @@ io.on('connection', function (socket) {
       }
     }
   });
+
+  socket.on('destroy_submarino', function (info) {
+    socket.broadcast.emit('other_destroy_submarino', info)
+  });
+
+  socket.on('destroy_destructor', function (info) {
+    socket.broadcast.emit('other_destroy_destructor', info)
+  });
+
   socket.on('shooting', function (info) {
     socket.broadcast.emit('other_shot', info)
   });

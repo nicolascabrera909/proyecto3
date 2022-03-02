@@ -47,10 +47,12 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     return this.submarino;
   }
 
-  destroy() {
+  destroy(socket) {
     this.submarino.destroy();
     this.submarino.is_destroyed = true;
-
+    if (socket) {
+      socket.emit('destroy_submarino', { socketId: socket.id });
+    }
   }
 
   shootTorpedo(socket) {
@@ -128,8 +130,8 @@ class Submarino extends Phaser.Physics.Arcade.Image {
   moveSubmarino(cursors, socket, input, self) {
     let nivel;
 
-    //Movimientos sumarino
-    if (this.submarino) {
+    //Movimientos sumarino)
+    if (!this.submarino.is_destroyed) {
       if (cursors.left.isDown) {
         this.submarino.setAngularVelocity(-120)
       } else if (cursors.right.isDown) {

@@ -44,9 +44,12 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     return this.destructor;
   }
 
-  destroy() {
+  destroy(socket) {
     this.destructor.destroy();
     this.destructor.is_destroyed = true;
+    if (socket) {
+      socket.emit('destroy_destructor', { socketId: socket.id });
+    }
   }
 
   shootDepthCharge(socket) {
@@ -76,7 +79,7 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     // else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
     //   this.shootCannon(input);
     // }
-    if (this.destructor) {
+    if (!this.destructor.is_destroyed) {
       if (cursors.left.isDown) {
         this.destructor.setAngularVelocity(-120)
       } else if (cursors.right.isDown) {
