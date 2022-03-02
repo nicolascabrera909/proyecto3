@@ -1,0 +1,13 @@
+/*@font-face {
+    font-family: 'MyWebFont';
+    src: url("../font/game_over.ttf") format('ttf'),;
+}
+*/
+
+.custom_h1 {
+    /*font-family: MyWebFont;*/
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 200px;
+    margin-top: 15%;
+}
