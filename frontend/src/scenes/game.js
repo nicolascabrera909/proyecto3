@@ -73,7 +73,9 @@ class Game extends Phaser.Scene {
       }
 
       if (this.destructor) {
-        this.physics.add.overlap(this.destructor.destructor,  this.submarino2.submarino, () => this.choque(this.destructor,  this.submarino2));
+        this.physics.add.overlap(this.destructor.destructor,  this.submarino2.submarino, () => 
+        this.choque(this.destructor,  this.submarino2)
+        );
       }
       
       window.game = this;
@@ -199,7 +201,6 @@ class Game extends Phaser.Scene {
     nave1.destroy(this.socket);
     nave2.destroy(this.socket);
   }
-
 
   addPlayer(self, playerInfo) {
     console.log(playerInfo)
