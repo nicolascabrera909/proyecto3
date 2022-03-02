@@ -21,8 +21,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
   create(coordenadas, self, cursor) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
-    this.submarino = this.scene.physics.add.sprite(randomX, randomY, "submarino");
-    this.submarino.setDisplaySize(180, 30);
+    this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
+    // this.submarino.setDisplaySize(180, 30);
+    // this.submarino.setSize(1100, 200);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
     //this.submarino.setRotation(playerInfo.rotation)
@@ -46,10 +47,12 @@ class Submarino extends Phaser.GameObjects.Sprite {
     return this.submarino;
   }
 
-  destroy() {
+  destroy(socket) {
     this.submarino.destroy();
     this.submarino.is_destroyed = true;
-
+    if (socket) {
+      socket.emit('destroy_submarino', { socketId: socket.id });
+    }
   }
 
   shootTorpedo(socket) {
@@ -130,8 +133,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
   moveSubmarino(cursors, socket, input, self) {
     let nivel;
 
-    //Movimientos sumarino
-    if (this.submarino) {
+    //Movimientos sumarino)
+    if (!this.submarino.is_destroyed) {
       if (cursors.left.isDown) {
         this.submarino.setAngularVelocity(-120)
       } else if (cursors.right.isDown) {

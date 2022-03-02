@@ -128,6 +128,15 @@ io.on('connection', function (socket) {
       }
     }
   });
+
+  socket.on('destroy_submarino', function (info) {
+    socket.broadcast.emit('other_destroy_submarino', info)
+  });
+
+  socket.on('destroy_destructor', function (info) {
+    socket.broadcast.emit('other_destroy_destructor', info)
+  });
+
   socket.on('shooting', function (info) {
     socket.broadcast.emit('other_shot', info)
   });
@@ -155,6 +164,11 @@ io.on('connection', function (socket) {
   socket.on('deepImmerse', function (info) {
     socket.broadcast.emit('other_deepImmerse', info)
   });
+
+  socket.on('depthChargeThrowing', function(info){
+    console.log('envio al otro jugador info de la deep');
+    socket.broadcast.emit('opponentThrowDepthCharge', info);
+});
 
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////

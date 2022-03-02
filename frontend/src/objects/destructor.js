@@ -13,13 +13,18 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.coodOriginalX = 0;
     this.coodOriginalY = 0;
     this.rotationOriginal = 0;
+    this.body.position.x = x;
+    this.body.position.y = y;
+    this.depthCharge = new DepthCharge(scene, x, y);
+    //this.depthCharge.available = depthCharge;
   }
 
   create(coordenadas, self, cursor) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
-    this.destructor = this.scene.physics.add.sprite(randomX, randomY, 'destructor');
-    this.destructor.setDisplaySize(180, 30);
+    this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
+    // this.destructor.setDisplaySize(180, 30);
+    // this.destructor.setSize(1400, 200);
     this.destructor.flipX = false;
     //this.destructor.setRotation(playerInfo.rotation)
     if (cursor) {
@@ -43,9 +48,12 @@ class Destructor extends Phaser.GameObjects.Sprite {
     return this.destructor;
   }
 
-  destroy() {
+  destroy(socket) {
     this.destructor.destroy();
     this.destructor.is_destroyed = true;
+    if (socket) {
+      socket.emit('destroy_destructor', { socketId: socket.id });
+    }
   }
 
   shootDepthCharge(socket) {
@@ -66,16 +74,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
     }
   }
 
-  moveDestructor(cursors, socket, input) {
-    // if (this.destructor) {
-    //console.log("intento de movimiento destructor");
-    // if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-    //   this.shootDepthCharge();
-    // }
-    // else if (Phaser.Input.Keyboard.JustDown(this.enter)) {
-    //   this.shootCannon(input);
-    // }
-    if (this.destructor) {
+  moveDestructor(cursors, socket, input, self) {
+    if (!this.destructor.is_destroyed) {
       if (cursors.left.isDown) {
         this.destructor.setAngularVelocity(-120)
       } else if (cursors.right.isDown) {
@@ -94,7 +94,9 @@ class Destructor extends Phaser.GameObjects.Sprite {
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
         this.shootCannon(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        this.shootDepthCharge(socket);
+        this.depthCharge.fireDepthCharge(this.destructor.x, this.destructor.y, socket, self);
+        
+        //this.shootDepthCharge(socket);
       } else {
         this.destructor.setAcceleration(0)
         this.destructor.setVelocityY(0)
