@@ -102,6 +102,7 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino2, this.destructor.depthCharge)
         );
       }
+
       this.sea_water.play();
         // window.game = this;
     });
@@ -120,6 +121,13 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
         );
       }
+
+      if (this.submarino) {
+        this.physics.add.overlap(this.destructor2.destructor, this.submarino.torpedos, () =>
+          this.collisionShipArmy(this.destructor2.destructor, this.submarino.torpedos)
+        );
+      }
+
       //this.start_game.play();
       this.sea_water.play();
     });
@@ -194,6 +202,10 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('other_destroy_depthCharge', (info) => {
+      this.destructor.depthCharge.destroy();
+    });
+
+    this.socket.on('other_destroy_torpedo', (info) => {
       this.destructor.depthCharge.destroy();
     });
 
