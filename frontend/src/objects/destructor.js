@@ -20,6 +20,7 @@ class Destructor extends Phaser.Physics.Arcade.Image {
     var randomY = coordenadas.y;
     this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
     this.destructor.setDisplaySize(180, 30);
+    this.destructor.setSize(180, 30);
     this.destructor.flipX = false;
     //this.destructor.setRotation(playerInfo.rotation)
     if (cursor) {

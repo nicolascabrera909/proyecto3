@@ -105,6 +105,11 @@
                             alert('Juego lleno, actualmente ya hay conectado ' + $('#cant_players').val() + 'jugadores');
                         }
                     }
+
+                    // for debug
+                    $(username).val(`${Math.floor(Math.random() * 10000) + 1}`);
+                    iniciar();
+                    // end for debug
                     console.log(data);
                 },
                 error: function (xhr, status, error) {

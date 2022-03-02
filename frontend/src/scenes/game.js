@@ -56,7 +56,7 @@ class Game extends Phaser.Scene {
       //this.listenForSocketEvents(self);
     });
 
-    this.socket.on('currentPlayers', function (players) {
+    this.socket.on('currentPlayers', (players) => {
       /* Object.keys(players).forEach(function (id) {
          if (players[id].playerId === self.socket.id) {
            self.addPlayer(self, players[id])
@@ -64,17 +64,28 @@ class Game extends Phaser.Scene {
            self.addOtherPlayers(self, players[id])
          }
        })*/
-      for (let i = 0; i < players.length; i++) {
-        if (players[i].socketId === self.socket.id) {
-          self.addPlayer(self, players[i])
+      for (let i = 0; i < players.length; i++) { 
+        if (players[i].socketId === this.socket.id) {
+          this.addPlayer(this, players[i])
         } else {
-          self.addOtherPlayers(self, players[i])
+          this.addOtherPlayers(this, players[i])
         }
       }
+
+      if (this.destructor) {
+        this.physics.add.overlap(this.destructor.destructor,  this.submarino2.submarino, () => console.log('overlapping'));
+      }
+      
+      window.game = this;
     });
 
-    this.socket.on('newPlayer', function (playerInfo) {
-      self.addOtherPlayers(self, playerInfo)
+    this.socket.on('newPlayer', (playerInfo) => {
+      this.addOtherPlayers(this, playerInfo);
+      if (this.submarino) {
+        this.physics.add.overlap(this.submarino.submarino,  this.destructor2.destructor, () => console.log('overlapping'));
+      }
+
+      // self.physics.add.collider(self.otherPlayersCargueros, this.destructor || this.submarino);
     });
 
     this.socket.on('playerDisconnected', function (playerId) {
@@ -118,7 +129,6 @@ class Game extends Phaser.Scene {
         i++;
       });
     });
-
 
     this.socket.on('playerMovedCarguero', function (playerInfo) {
 
@@ -217,6 +227,7 @@ class Game extends Phaser.Scene {
          .setDisplaySize(180, 30)
          .setRotation(playerInfo.rotation)*/
       this.destructor2 = new Destructor(self, 0, 0, 'destructor');
+
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         let otherPlayer = null;
         let otherPlayersCarguero = null;
@@ -229,7 +240,9 @@ class Game extends Phaser.Scene {
           otherPlayer = this.destructor2.create(coordD2, self, false);
           otherPlayer.socketId = playerInfo.socketId;
           self.otherPlayers.add(otherPlayer);
+          
           console.log('creo other player destructor')
+        
         } else {
           console.log('Dibujo carguero secundario');
           this.carguero2 = new Carguero(self, 0, 0, 'carguero');
@@ -254,6 +267,8 @@ class Game extends Phaser.Scene {
       otherPlayer = this.submarino2.create(coordS2, self, false);
       otherPlayer.socketId = playerInfo.socketId;
       self.otherPlayers.add(otherPlayer)
+
+
       console.log('creo other player submarino')
     }
 
