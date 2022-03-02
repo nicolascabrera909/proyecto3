@@ -264,11 +264,7 @@ class Game extends Phaser.Scene {
         this.FreightersList[i].moveCarguero(this.socket);
       }
     }
-
-    if (this.submarino && this.destructor) {
-      this.physics.add.collider(this.submarino2 && this.destructor2);
-    }
-
+    
   }
 }
 
