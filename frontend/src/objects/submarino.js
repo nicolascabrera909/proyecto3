@@ -1,4 +1,4 @@
-import Torpedo from "./torpedo.js";
+import Torpedos from "./torpedos.js";
 import Canion from "./canon.js";
 
 class Submarino extends Phaser.GameObjects.Sprite {
@@ -15,7 +15,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.depthOriginal = 1;
     this.rotationOriginal = 0;
     this.depth=1;
-
+    this.torpedos = new Torpedos(scene);
   }
 
   create(coordenadas, self, cursor) {
@@ -154,7 +154,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.setVelocityX(-400 * velX)
         this.submarino.setVelocityY(-400 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        this.shootTorpedo(socket);
+        //this.shootTorpedo(socket);
+        console.log("entro al spacebar de torpedo");
+        this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, self);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
         this.shootCannon(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {

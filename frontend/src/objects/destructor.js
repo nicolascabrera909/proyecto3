@@ -16,7 +16,6 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.body.position.x = x;
     this.body.position.y = y;
     this.depthCharge = new DepthCharge(scene, x, y);
-    //this.depthCharge.available = depthCharge;
   }
 
   create(coordenadas, self, cursor) {
