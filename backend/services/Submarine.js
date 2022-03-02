@@ -3,31 +3,31 @@ const Torpedo = require('./Torpedo.js')
 const Ship = require('./Ship.js')
 
 class Submarine {
-    
+
     /*Constructor*/
     constructor(map) {
         const Submarine = new Ship;
         //super();
-        
+
         this.torpedo = new Torpedo();
-        this.torpedo.power=100;
-        this.torpedo.distance=100;
-        this.torpedo.cantMunicion=30;
+        this.torpedo.power = 100;
+        this.torpedo.distance = 100;
+        this.torpedo.cantMunicion = 30;
 
         this.cannon = new Cannon();
         this.cannon.power = 100;
         this.cannon.distance = 100;
         this.cannon.cantMunicion = 30;
-        
+
         /*mapa.getWidth(), mapa.getHeight()*/
         const coordenadas = this.coordenadasSubmarino(map.getWidth(), map.getHeight());
-        this.rotation =180;
+        this.rotation = 180;
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
         this.boatLife = 100;
         this.visibility = 100;
         this.type = 'submarino';
-        this.depth=1;// 1 superficie, 2 sumergido y 3 sumergido proufundo
+        this.depth = 1;    // 1 superficie, 2 sumergido y 3 sumergido proufundo
 
 
     }
@@ -41,21 +41,21 @@ class Submarine {
         return this.type;
     }
     setDepth(depth) {
-         this.depth=depth;
+        this.depth = depth;
     }
 
     /**Este metodo devuelve un arreglo de x e y*/
     coordenadasSubmarino(tamañoXMapa, tamañoYmapa) {
 
         /// cordenadas del mapa inicial es  width: 800,    height: 600,
-        const xTotal = tamañoXMapa-500;
-        const yTotal = tamañoYmapa-100;
-        const mapaMitad = (xTotal / 4)*3;
-        const rangoBordes=100;
+        const xTotal = tamañoXMapa - 500;
+        const yTotal = tamañoYmapa - 100;
+        const mapaMitad = (xTotal / 4) * 3;
+        const rangoBordes = 100;
 
         //calculo numero ramdom
-        const x1 = new Number (Math.round(Math.random() * (xTotal -  mapaMitad) + (mapaMitad)));
-        const y1 = new Number (Math.round(Math.random() * (yTotal - rangoBordes) + rangoBordes));
+        const x1 = new Number(Math.round(Math.random() * (xTotal - mapaMitad) + (mapaMitad)));
+        const y1 = new Number(Math.round(Math.random() * (yTotal - rangoBordes) + rangoBordes));
         const coordenada = {
             "x": x1,
             "y": y1
@@ -64,11 +64,11 @@ class Submarine {
     }
 
     //Crea submarino con el armamento y recibe las coordenadas por parametros
-    
-    createSubmarine (coorX, coorY){
-        
+
+    createSubmarine(coorX, coorY) {
+
     }
-    
+
 
 
 }

@@ -12,6 +12,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.setVisible(false);
     this.coodOriginalX = 0;
     this.coodOriginalY = 0;
+    this.depthOriginal = 1;
     this.rotationOriginal = 0;
     this.depth=1;
 
@@ -37,7 +38,6 @@ class Submarino extends Phaser.GameObjects.Sprite {
       this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
       this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
-    //this.submarino.setCollideWorldBounds(true);
     this.submarino.setImmovable(true);
     return this.submarino;
   }
@@ -77,7 +77,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     if (socket) {
       socket.emit('surface', { socketId: socket.id });
     }
-    return 1;
+    this.submarino.depth=1;
+   // return 1;
   }
 
   immerse(input, socket) {
@@ -86,7 +87,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     if (socket) {
       socket.emit('immerse', { socketId: socket.id });
     }
-    return 2;
+    this.submarino.depth=2;
+   // return 2;
   }
 
   deepImmerse(input, socket) {
@@ -95,10 +97,11 @@ class Submarino extends Phaser.GameObjects.Sprite {
     if (socket) {
       socket.emit('deepImmerse', { socketId: socket.id });
     }
-    return 3
+    this.submarino.depth=3;
+    //return 3
   }
 
-  surfaceOpponent(input, socket) {
+  /*surfaceOpponent(input, socket) {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     if (socket) {
       socket.emit('surface', { socketId: socket.id });
@@ -120,7 +123,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
       socket.emit('deepImmerse', { socketId: socket.id });
     }
     return 3
-  }
+  }*/
 
  
 
@@ -175,13 +178,18 @@ class Submarino extends Phaser.GameObjects.Sprite {
         y: this.submarino.y,
         rotation: this.submarino.rotation
       });*/
+    
+
       if (!(this.submarino.coodOriginalX == this.submarino.x &&
         this.submarino.coodOriginalY == this.submarino.x &&
-        this.submarino.rotationOriginal == this.submarino.rotation)) {
-        socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation ,depth:this.submarino.nivel})
+        this.submarino.rotationOriginal == this.submarino.rotation &&
+        this.submarino.depthOriginal==this.submarino.depth ) )
+        {
+        socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation ,depth: this.submarino.depth})
         this.submarino.coodOriginalX = x;
         this.submarino.coodOriginalY = y;
         this.submarino.rotationOriginal = r;
+        this.submarino.depthOriginal=this.submarino.depth;
         
         
       }

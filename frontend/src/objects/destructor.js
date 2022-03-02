@@ -30,8 +30,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
       self.cameras.main.setZoom(1);
       this.keySPACEBAR = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+      
     }
-
     //this.destructor.setCollideWorldBounds(true);
     this.destructor.setImmovable(true);
 

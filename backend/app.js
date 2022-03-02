@@ -99,7 +99,6 @@ io.on('connection', function (socket) {
       if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
         gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
       }
-
       socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0]);
     } else {
       gamePlay.game.playerList[1].boatList[0].positionX = movementData.x;

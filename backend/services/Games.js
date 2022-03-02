@@ -81,13 +81,13 @@ class Games {
 
             theDestructor.coordenadas(listaCoordendas);
             //creo la lista de botes y agrego al al destructor y los cargueros
-            var boatList = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
-            var player = new Player(name, socketId, boatList, boatTeam);
+            let boatList2 = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
+            let player2 = new Player(name, socketId, boatList2, boatTeam);
             console.log("termine de crear al jugador, valido si existe partida");
             if (this.game == null) {
-                this.partidaNueva(player, difficulty);
+                this.partidaNueva(player2, difficulty);
             } else {
-                this.partidaExistente(player);
+                this.partidaExistente(player2);
             }
         }
     }
