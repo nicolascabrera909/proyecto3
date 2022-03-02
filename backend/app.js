@@ -166,6 +166,11 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_deepImmerse', info)
   });
 
+  socket.on('depthChargeThrowing', function(info){
+    console.log('envio al otro jugador info de la deep');
+    socket.broadcast.emit('opponentThrowDepthCharge', info);
+});
+
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));
