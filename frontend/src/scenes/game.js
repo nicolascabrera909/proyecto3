@@ -22,7 +22,9 @@ class Game extends Phaser.Scene {
     this.FreightersList = [];
   }
 
-  preload() {
+  
+
+  loadImages(){
     this.load.image('destructor', './static/assets/img/destructor_small.png');
     this.load.image('submarino', './static/assets/img/submarino_small.png');
     this.load.image('carguero', './static/assets/img/freighters_small.png');
@@ -32,8 +34,32 @@ class Game extends Phaser.Scene {
     this.load.image('depth_charge', './static/assets/img/depthcharge.png')
     this.load.image('logo', './static/assets/img/logo.jpeg');
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
-
   }
+
+  loadAudio(){
+    this.load.audio('cannon_sound','./static/assets/audio/cannon_sound.mp3')
+    .audio('torpedo_sound',['./static/assets/audio/torpedo_sound.mp3'])
+    .audio('start_game',['./static/assets/audio/start_game.mp3'])
+    .audio('sea_water',['./static/assets/audio/sea_water.mp3'])
+  }
+
+  loadAudioVariables(){
+    // aca poner la musca que se use de fondo
+    this.sea_water = this.sound.add('sea_water');
+    this.sea_water.loop = true;
+    this.start_game = this.sound.add('start_game');
+    this.cannon_sound = this.sound.add('cannon_sound');
+    this.torpedo_sound = this.sound.add('torpedo_sound');
+    this.ship_collision_sound;
+    this.depth_charge_sound;
+    this.bg_sound;
+  }
+
+  preload() {
+    this.loadImages();
+    this.loadAudio();
+  }
+
 
   create() {
     var self = this
@@ -41,6 +67,7 @@ class Game extends Phaser.Scene {
     this.otherPlayers = this.physics.add.group();
     this.otherPlayersCargueros = this.physics.add.group();
     this.currentPlayers = this.physics.add.group();
+    this.loadAudioVariables();
 
     console.log('Obtengo datos pre-game.html');
     var username = this.urlParams.get('username');
@@ -75,6 +102,7 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino2, this.destructor.depthCharge)
         );
       }
+      this.sea_water.play();
         // window.game = this;
     });
 
@@ -92,6 +120,8 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
         );
       }
+      //this.start_game.play();
+      this.sea_water.play();
     });
 
     this.socket.on('playerDisconnected', (playerId) => {

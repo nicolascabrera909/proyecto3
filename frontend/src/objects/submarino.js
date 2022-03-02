@@ -60,6 +60,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.torpedo.setVisible(false);
     this.torpedo.createShootTorpedo(this.submarino);
     console.log('shootTorpedo submarino', this.submarino.x, this.submarino.y)
+    this.scene.torpedo_sound.play();
     if (socket) {
       socket.emit('shooting', { socketId: socket.id });
     }
@@ -69,6 +70,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.canon = new Canion(this.scene, this.submarino.x, this.submarino.y, 'canon')
     this.canon.setVisible(false);
     this.canon.createShootCannon(this.submarino, input, socket);
+    this.scene.cannon_sound.play();
     if (socket) {
       socket.emit('shootingCannon', { socketId: socket.id });
     }

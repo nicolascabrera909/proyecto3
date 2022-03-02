@@ -69,6 +69,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.canon = new Canion(this.scene, this.destructor.x, this.destructor.y, 'canon')
     this.canon.setVisible(false);
     this.canon.createShootCannon(this.destructor, input, socket);
+    this.scene.cannon_sound.play();
     if(socket){
       socket.emit('shootingCannonDestructor', {socketId: socket.id});
     }
