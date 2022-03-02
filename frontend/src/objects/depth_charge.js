@@ -1,4 +1,4 @@
-class DepthCharge extends Phaser.Physics.Arcade.Image {
+class DepthCharge extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene, x, y) {
         super(scene, x, y, 'depth_charge', 1);
@@ -60,6 +60,17 @@ class DepthCharge extends Phaser.Physics.Arcade.Image {
             this.setVisible(false);
         }
     }
+
+    destroy(socket) {
+        if(this.available){
+            this.available = false;
+            this.setVisible(false);
+            if (socket) {
+            socket.emit('destroy_depthCharge', { socketId: socket.id });
+            }
+        }
+    }
+
 
     /*bombEmitDamage(self, sender, id){
         if(this.available){

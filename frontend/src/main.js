@@ -13,7 +13,7 @@ const config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true
+            debug: false
           }
     },
     title: '1.0',

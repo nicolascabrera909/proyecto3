@@ -107,8 +107,8 @@
                     }
 
                     // for debug
-                    $(username).val(`${Math.floor(Math.random() * 10000) + 1}`);
-                    iniciar();
+                    // $(username).val(`${Math.floor(Math.random() * 10000) + 1}`);
+                    // iniciar();
                     // end for debug
                     console.log(data);
                 },
@@ -118,9 +118,6 @@
             });
         });
 
-        /*function gameComplete(cantidad) {
-           
-        }*/
         function eliminarOptionTipoBarco(tipoSeleccionado) {
             $("#boattype option[value='" + tipoSeleccionado + "']").remove();
         }
@@ -137,16 +134,6 @@
 
 
     </script>
-
-    <!--<script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
-        integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
-        crossorigin="anonymous"></script>
-    <script>
-     console.log('Me conecto al socket desde ');
-        var socket = io("http://localhost:3000");
-        socket.on('bothUsers', function (listo) {
-            // recibo del backend el true, cargar en variable
-        });-->
     </script>
 </body>
 

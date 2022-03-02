@@ -41,9 +41,6 @@ class Game extends Phaser.Scene {
     this.otherPlayers = this.physics.add.group();
     this.otherPlayersCargueros = this.physics.add.group();
     this.currentPlayers = this.physics.add.group();
-   
- 
-    
 
     console.log('Obtengo datos pre-game.html');
     var username = this.urlParams.get('username');
@@ -78,7 +75,7 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino2, this.destructor.depthCharge)
         );
       }
-        window.game = this;
+        // window.game = this;
     });
 
     this.socket.on('newPlayer', (playerInfo) => {
@@ -95,7 +92,6 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
         );
       }
-      // self.physics.add.collider(self.otherPlayersCargueros, this.destructor || this.submarino);
     });
 
     this.socket.on('playerDisconnected', (playerId) => {
@@ -128,13 +124,6 @@ class Game extends Phaser.Scene {
                  break;
              }
            }
-
-          // otherPlayer.setAlpha(0.4, 0.4, 0, 0);
-          /*console.log('playerMovedGame ' + playerInfo.boatList[i].type + ' iteracion '+ i)
-          console.log(otherPlayers.x)
-          console.log(otherPlayers.y)
-          console.log(otherPlayers.rotation)*/
-          // }
         }
         i++;
       });
@@ -158,11 +147,24 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('other_destroy_submarino', (info) => {
-      this.submarino2.destroy();
+      if(this.submarino) {
+        this.submarino.destroy();
+      }
+      else {
+        this.submarino2.destroy();
+      }
     });
 
     this.socket.on('other_destroy_destructor', (info) => {
-      this.destructor.destroy();
+      if(this.destructor) {
+        this.destructor.destroy();
+      } else {
+        this.destructor2.destroy();
+      }
+    });
+
+    this.socket.on('other_destroy_depthCharge', (info) => {
+      this.destructor.depthCharge.destroy();
     });
 
     this.socket.on('other_shot', (info) => {
@@ -209,9 +211,9 @@ class Game extends Phaser.Scene {
   }
 
   collisionShipArmy(objectShip, objectArmy) {
+    objectArmy.destroy(this.socket);
     objectShip.destroy(this.socket);
     //REDUCIR VIDA NO DESTRUIR VER!!!
-    objectArmy.destroy(this.socket);
   }
 
   addPlayer(self, playerInfo) {
