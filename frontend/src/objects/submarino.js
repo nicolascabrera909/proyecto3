@@ -22,7 +22,7 @@ class Submarino extends Phaser.Physics.Arcade.Image {
     var randomY = coordenadas.y;
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
     this.submarino.setDisplaySize(180, 30);
-    this.submarino.setSize(180, 30);
+    this.submarino.setSize(1100, 200);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
     //this.submarino.setRotation(playerInfo.rotation)
