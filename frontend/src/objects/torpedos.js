@@ -1,4 +1,4 @@
-import Torpedo from "./Torpedo.js"
+import Torpedo from "./torpedo.js"
 
 class Torpedos extends Phaser.Physics.Arcade.Group {
 
@@ -14,11 +14,11 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
         this.available = true;
     }
 
-    fireTorpedos (x, y, socket) {
+    fireTorpedos (x, y, socket, angle) {
         let bullet = this.getFirstDead(false);
         if (bullet) {
             this.disable(this);
-            bullet.fire(x, y, this);
+            bullet.fire(x, y, this, angle);
         }/*
         if(socket){
             socket.emit('shooting', {

@@ -156,7 +156,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
         //this.shootTorpedo(socket);
         console.log("entro al spacebar de torpedo");
-        this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, self);
+        var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
+        this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, self, angle);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
         this.shootCannon(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {

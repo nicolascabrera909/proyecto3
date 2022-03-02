@@ -4,14 +4,12 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
         super(scene, x, y, 'torpedo');
     }
 
-    fire (x, y, self) {
+    fire (x, y, self, angle) {
         this.body.reset(x, y);
         this.setActive(true);
         this.setVisible(true);
-        this.setScale(0.1);
-        this.setAngle(Phaser.Math.RadToDeg(x));
-        self.scene.physics.velocityFromRotation(x - (Math.PI/2), 600, this.body.velocity);
-        this.disable(this);
+        this.setAngle(Phaser.Math.RadToDeg(angle));
+        self.scene.physics.velocityFromRotation(angle, -300, this.body.velocity);
     }
 
     disable(self) {
