@@ -7,7 +7,7 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         this.name = "bomb";
         this.available = true;
-        this.setVisible(true);
+        this.setVisible(false);
         this.depth;
     }
 
@@ -30,9 +30,9 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    fireDepthChargeOpponent(x, y, self) {
+    fireDepthChargeOpponent(x, y, self, socket) {
         this.fire(x, y, this);
-        this.disable(self);
+        this.disable(self, socket);
     }
 
     disable(self, socket) {
@@ -46,80 +46,19 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
             this.depth = 2;
         }, 4000);
         setTimeout(function () {
-            if (socket) {
-                socket.emit('destroy_depthCharge', { socketId: socket.id });
-            }
-            self.anims.create(self.explosionConfig);
-            self.add.sprite(selfDepthCharge.x, selfDepthCharge.y, 'explosion').play('explodeAnimation');
-            selfDepthCharge.destroy();
+            selfDepthCharge.available = false;
+            selfDepthCharge.setVisible(false);
         }, 5000);
     }
 
-
     bombDestructor(self) {
         if (this.available) {
-            //self.anims.create(self.explosionConfig);
-            //self.add.sprite(this.x, this.y, 'explosion').play('explodeAnimation');
+            self.anims.create(self.explosionConfig);
+            self.add.sprite(this.x, this.y, 'explosion').play('explodeAnimation');
             this.available = false;
             this.setVisible(false);
         }
     }
-
-    /*
-    destroy(socket) {
-        if(this.available){
-            this.available = false;
-            this.setVisible(false);
-            this.destroy();
-            if (socket) {
-            socket.emit('destroy_depthCharge', { socketId: socket.id });
-            }
-        }
-    }*/
-
-
-    /*bombEmitDamage(self, sender, id){
-        if(this.available){
-            if(sender){
-                self.socket.emit('bombThrowing', {
-                    socket_id : self.socket.id
-                });
-            }
-        }
-    }*/
-
-
-    /* METODOS VIEJOS
-
-    get() {
-        return this.depth_charge;
-    }
-
-    createShootDepthCharge(ship) {
-        this.depth_charge = this.scene.physics.add.sprite(this.pos_x, this.pos_y, 'depth_charge');
-        //this.depth_charge.setCollideWorldBounds(true);
-        //this.depth_charge.setVelocity(-10, -10);
-        this.depth_charge.setVisible(false);
-        this.depth_charge.scale = 10;
-        this.lifespan = 1000;
-        this.setActive(true);
-        this.setVisible(true);
-        this.setPosition(ship.x, ship.y);
-        this.body.reset(ship.x, ship.y);
-        this.set_quantity();
-    }
-
-    countDown(){
-
-    }
-
-    set_quantity() {
-        this.scene.cant_depthcharge += 1;
-    }
-
-    get_quantity() {
-        return this.scene.cant_depthcharge;
-    }*/
 }
 
 export default DepthCharge;
