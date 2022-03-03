@@ -1,6 +1,5 @@
 //IMPORTS
 import Game from "./scenes/game.js";
-import GameOver from "./scenes/game_over.js";
 
 // CONFIG BASICA
 const config = {
@@ -13,11 +12,11 @@ const config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: false
+            debug: true
           }
     },
     title: '1.0',
-    scene: [Game, GameOver],
+    scene: [Game],
 }
 
 new Phaser.Game(config);

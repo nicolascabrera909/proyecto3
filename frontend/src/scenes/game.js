@@ -3,6 +3,7 @@ import Submarino from "../objects/submarino.js";
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
 import Map from "../objects/map.js";
+import LateralCamera from "../objects/lateral_camera.js";
 
 class Game extends Phaser.Scene {
   /*Constructor de la clase Game, inicializo la clase*/
@@ -225,7 +226,7 @@ class Game extends Phaser.Scene {
       this.destructor2.shootDepthCharge();
     });
 
-    this.socket.on('other_surface', (info) => {
+   /* this.socket.on('other_surface', (info) => {
       console.log('submarino en superficie');
       this.submarino2.surfaceOpponent();
     });
@@ -238,7 +239,7 @@ class Game extends Phaser.Scene {
     this.socket.on('other_deepImmerse', (info) => {
       console.log('submarino sumergido profundo');
       this.submarino2.deepImmerseOpponent(info);
-    });
+    });*/
 
     this.socket.on('opponentThrowDepthCharge', function (info) {
       self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self);
@@ -250,12 +251,25 @@ class Game extends Phaser.Scene {
   choque(nave1, nave2) {
     nave1.destroy(this.socket);
     nave2.destroy(this.socket);
+    this.choqueScena(nave1,self);
+
   }
 
   collisionShipArmy(objectShip, objectArmy) {
     objectArmy.destroy(this.socket);
     objectShip.destroy(this.socket);
+    this.choqueScena(objectShip,self);
     //REDUCIR VIDA NO DESTRUIR VER!!!
+  }
+
+  choqueScena(nave,self){
+    //this.lateralCamera = new LateralCamera(this,nave.x,nave.y, 'choque');
+   // this.lateralCamera.create(nave.x,nave.y,self);
+   var lateralCamera = this.add.image(nave.x, nave.y, 'logo');
+   this.input.once('pointerdown', function (){
+     lateralCamera.destroy();
+     lateralCamera=null
+   });
   }
 
   addPlayer(self, playerInfo) {
@@ -366,5 +380,6 @@ class Game extends Phaser.Scene {
     }
   }
 }
+
 
 export default Game;
