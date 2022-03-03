@@ -22,9 +22,9 @@ class Game extends Phaser.Scene {
     this.FreightersList = [];
   }
 
-  
 
-  loadImages(){
+
+  loadImages() {
     this.load.image('destructor', './static/assets/img/destructor_small.png');
     this.load.image('submarino', './static/assets/img/submarino_small.png');
     this.load.image('carguero', './static/assets/img/freighters_small.png');
@@ -36,14 +36,14 @@ class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
-  loadAudio(){
-    this.load.audio('cannon_sound','./static/assets/audio/cannon_sound.mp3')
-    .audio('torpedo_sound',['./static/assets/audio/torpedo_sound.mp3'])
-    .audio('start_game',['./static/assets/audio/start_game.mp3'])
-    .audio('sea_water',['./static/assets/audio/sea_water.mp3'])
+  loadAudio() {
+    this.load.audio('cannon_sound', './static/assets/audio/cannon_sound.mp3')
+      .audio('torpedo_sound', ['./static/assets/audio/torpedo_sound.mp3'])
+      .audio('start_game', ['./static/assets/audio/start_game.mp3'])
+      .audio('sea_water', ['./static/assets/audio/sea_water.mp3'])
   }
 
-  loadAudioVariables(){
+  loadAudioVariables() {
     // aca poner la musca que se use de fondo
     this.sea_water = this.sound.add('sea_water');
     this.sea_water.loop = true;
@@ -83,7 +83,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('currentPlayers', (players) => {
-      for (let i = 0; i < players.length; i++) { 
+      for (let i = 0; i < players.length; i++) {
         if (players[i].socketId === this.socket.id) {
           this.addPlayer(this, players[i])
         } else {
@@ -103,8 +103,14 @@ class Game extends Phaser.Scene {
         );
       }
 
+      if (this.destructor) {
+        this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () =>
+          this.collisionShipArmy(this.destructor, this.submarino2.torpedos)
+        );
+      }
+
       this.sea_water.play();
-        // window.game = this;
+      // window.game = this;
     });
 
     this.socket.on('newPlayer', (playerInfo) => {
@@ -117,14 +123,14 @@ class Game extends Phaser.Scene {
       }
 
       if (this.submarino) {
-        this.physics.add.overlap(this.submarino.submarino,this.destructor2.depthCharge, () =>
+        this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>
           this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
         );
       }
 
       if (this.submarino) {
-        this.physics.add.overlap(this.destructor2.destructor, this.submarino.torpedos, () =>
-          this.collisionShipArmy(this.destructor2.destructor, this.submarino.torpedos)
+        this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () =>
+          this.collisionShipArmy(this.destructor2, this.submarino.torpedos)
         );
       }
 
@@ -145,23 +151,23 @@ class Game extends Phaser.Scene {
     this.socket.on('playerMoved', (playerInfo) => {
 
       let i = 0;
-      this.otherPlayers.getChildren().forEach( (otherPlayer) => {
+      this.otherPlayers.getChildren().forEach((otherPlayer) => {
         if (playerInfo.socketId === otherPlayer.socketId) {
           otherPlayer.setRotation(playerInfo.boatList[i].rotation)
           otherPlayer.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
-           if (otherPlayer.texture.key == 'submarino') {
-             switch (playerInfo.boatList[0].depth) {
-               case 1:
-                 otherPlayer.setAlpha(0.9, 0.9, 0.9, 0.9);
-                 break;
-               case 2:
-                 otherPlayer.setAlpha(0.7, 0.7, 0, 0);
-                 break;
-               case 3:
-                 otherPlayer.setAlpha(0.4, 0.4, 0, 0);
-                 break;
-             }
-           }
+          if (otherPlayer.texture.key == 'submarino') {
+            switch (playerInfo.boatList[0].depth) {
+              case 1:
+                otherPlayer.setAlpha(0.9, 0.9, 0.9, 0.9);
+                break;
+              case 2:
+                otherPlayer.setAlpha(0.7, 0.7, 0, 0);
+                break;
+              case 3:
+                otherPlayer.setAlpha(0.4, 0.4, 0, 0);
+                break;
+            }
+          }
         }
         i++;
       });
@@ -185,7 +191,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('other_destroy_submarino', (info) => {
-      if(this.submarino) {
+      if (this.submarino) {
         this.submarino.destroy();
       }
       else {
@@ -194,7 +200,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('other_destroy_destructor', (info) => {
-      if(this.destructor) {
+      if (this.destructor) {
         this.destructor.destroy();
       } else {
         this.destructor2.destroy();
@@ -242,7 +248,7 @@ class Game extends Phaser.Scene {
 
     this.socket.on('opponentThrowDepthCharge', function (info) {
       self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self);
-  });
+    });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
@@ -291,14 +297,14 @@ class Game extends Phaser.Scene {
           this.currentPlayers.add(currentPlayer);
           console.log('pos inicial destructor x:' + coordD.x + 'y:' + coordD.y + ' rotacion:' + this.destructor.rotation);
         } else {
-            console.log('Dibujo carguero');
-            id++;
-            this.carguero = new Carguero(self, 0, 0, 'carguero', id);
-            currentPlayer=this.carguero;
-            currentPlayer.socketId = playerInfo.socketId;
-            this.currentPlayers.add(currentPlayer);
-            this.FreightersList.push(this.carguero);
-            this.carguero.create(playerInfo.boatList[i])
+          console.log('Dibujo carguero');
+          id++;
+          this.carguero = new Carguero(self, 0, 0, 'carguero', id);
+          currentPlayer = this.carguero;
+          currentPlayer.socketId = playerInfo.socketId;
+          this.currentPlayers.add(currentPlayer);
+          this.FreightersList.push(this.carguero);
+          this.carguero.create(playerInfo.boatList[i])
         }
       }
     }
@@ -320,7 +326,7 @@ class Game extends Phaser.Scene {
           otherPlayer = this.destructor2.create(coordD2, self, false);
           otherPlayer.socketId = playerInfo.socketId;
           this.otherPlayers.add(otherPlayer);
-          
+
           console.log('creo other player destructor')
 
         } else {
@@ -347,8 +353,31 @@ class Game extends Phaser.Scene {
 
       console.log('creo other player submarino')
     }
-    
-   
+
+
+  }
+
+  addCollisions() {
+    //Colisiones entre barcos
+    this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () =>
+      this.choque(this.submarino, this.destructor2));
+
+    this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>
+      this.choque(this.destructor, this.submarino2));
+
+    //Colisiones entre submarino y carga de profundidad
+    this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>
+      this.collisionShipArmy(this.submarino, this.destructor2.depthCharge));
+
+    this.physics.add.overlap(this.destructor.depthCharge, this.submarino2.submarino, () =>
+      this.collisionShipArmy(this.submarino2, this.destructor.depthCharge));
+
+    //Colision entre barcos y torpedos
+    this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () =>
+      this.collisionShipArmy(this.destructor, this.submarino2.torpedos));
+
+    this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () =>
+      this.collisionShipArmy(this.destructor2, this.submarino.torpedos));
   }
 
   update() {
