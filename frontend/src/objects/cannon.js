@@ -1,7 +1,7 @@
-class Torpedo extends Phaser.Physics.Arcade.Sprite{
+class Cannon extends Phaser.Physics.Arcade.Sprite{
 
     constructor(scene, x, y) {
-        super(scene, x, y, 'torpedo');
+        super(scene, x, y, 'cannon');
     }
 
     fire (x, y, self, angle) {
@@ -14,11 +14,11 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
     }
 
     disable(self) {
-        let selfTorpedo = this;
+        let selfCannon = this;
         setTimeout(function (){
-            selfTorpedo.destroy();
+            selfCannon.destroy();
         }, 5000);
     }
 }
 
-export default Torpedo;
+export default Cannon;

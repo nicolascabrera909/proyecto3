@@ -1,5 +1,5 @@
 import Torpedos from "./torpedos.js";
-import Canion from "./canon.js";
+import Cannons from "./cannons.js";
 
 class Submarino extends Phaser.GameObjects.Sprite {
 
@@ -16,6 +16,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.rotationOriginal = 0;
     this.depth=1;
     this.torpedos = new Torpedos(scene);
+    this.cannons = new Cannons(scene);
   }
 
   create(coordenadas, self, cursor) {
@@ -154,23 +155,16 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.setVelocityX(-400 * velX)
         this.submarino.setVelocityY(-400 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        //this.shootTorpedo(socket);
-        console.log("entro al spacebar de torpedo");
         var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
         this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, self, angle);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        this.shootCannon(input, socket);
+        var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
+        this.cannons.fireCannons(this.submarino.x, this.submarino.y, self, angle);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
-        //nivel = this.deepImmerse(input, this.selfSubmarino);
-        //this.deepLevel(socket.games, nivel, socket);
         this.surface(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyS)) {
-        //nivel = this.immerse(input, this.selfSubmarino);
-        //this.deepLevel(socket.games, nivel, socket);
         this.immerse(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
-        //nivel = this.surface(input, this.selfSubmarino);
-        //this.deepLevel(socket.games, nivel, socket);
         this.deepImmerse(input, socket);
       } else {
         this.submarino.setAcceleration(0)

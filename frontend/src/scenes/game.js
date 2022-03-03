@@ -29,7 +29,7 @@ class Game extends Phaser.Scene {
     this.load.image('submarino', './static/assets/img/submarino_small.png');
     this.load.image('carguero', './static/assets/img/freighters_small.png');
     this.load.image('torpedo', './static/assets/img/torpedo.png');
-    this.load.image('canon', './static/assets/img/cannon.png');
+    this.load.image('cannon', './static/assets/img/cannon.png');
     this.load.image('tiles', './static/assets/map/terrain.png');
     this.load.image('depth_charge', './static/assets/img/depthcharge.png')
     this.load.image('logo', './static/assets/img/logo.jpeg');
@@ -109,6 +109,16 @@ class Game extends Phaser.Scene {
         );
       }
 
+      if (this.destructor) {
+        this.physics.add.overlap(this.destructor.destructor, this.submarino2.cannons, () =>
+          this.collisionShipArmy(this.destructor, this.submarino2.cannons));
+      }
+
+      if (this.destructor) {
+        this.physics.add.overlap(this.destructor.cannons, this.submarino2.submarino, () =>
+          this.collisionShipArmy(this.submarino2, this.destructor.cannons));
+      }
+
       this.sea_water.play();
       // window.game = this;
     });
@@ -132,6 +142,16 @@ class Game extends Phaser.Scene {
         this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () =>
           this.collisionShipArmy(this.destructor2, this.submarino.torpedos)
         );
+      }
+
+      if (this.submarino) {
+        this.physics.add.overlap(this.submarino.submarino, this.destructor2.cannons, () =>
+          this.collisionShipArmy(this.submarino, this.destructor2.cannons));
+      }
+
+      if (this.submarino) {
+        this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () =>
+          this.collisionShipArmy(this.destructor2, this.submarino.cannons));
       }
 
       //this.start_game.play();
@@ -378,6 +398,19 @@ class Game extends Phaser.Scene {
 
     this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () =>
       this.collisionShipArmy(this.destructor2, this.submarino.torpedos));
+
+    //Colision entre barcos y cañones
+    this.physics.add.overlap(this.destructor.destructor, this.submarino2.cannons, () =>
+      this.collisionShipArmy(this.destructor, this.submarino2.cannons));
+
+    this.physics.add.overlap(this.destructor.cannons, this.submarino2.submarino, () =>
+      this.collisionShipArmy(this.submarino2, this.destructor.cannons));
+
+    this.physics.add.overlap(this.submarino.submarino, this.destructor2.cannons, () =>
+      this.collisionShipArmy(this.submarino, this.destructor2.cannons));
+
+    this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () =>
+      this.collisionShipArmy(this.destructor2, this.submarino.cannons));
   }
 
   update() {
