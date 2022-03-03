@@ -134,7 +134,7 @@ class Game extends Phaser.Scene {
 
       if (this.submarino) {
         this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>
-          this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
+          this.collisionShipArmy(this.submarino, this.destructor2.depthCharge) 
         );
       }
 
