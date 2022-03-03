@@ -36,6 +36,14 @@ class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
+  loadSpritesheet(){
+    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', { 
+      frameWidth: 64, 
+      frameHeight: 64,
+      endFrame: 23 
+    });
+  }
+
   loadAudio() {
     this.load.audio('cannon_sound', './static/assets/audio/cannon_sound.mp3')
       .audio('torpedo_sound', ['./static/assets/audio/torpedo_sound.mp3'])
@@ -58,6 +66,7 @@ class Game extends Phaser.Scene {
   preload() {
     this.loadImages();
     this.loadAudio();
+    this.loadSpritesheet();
   }
 
 
@@ -74,6 +83,17 @@ class Game extends Phaser.Scene {
     var boatType = this.urlParams.get('boattype');
     var difficulty = this.urlParams.get('dificultad');
     this.username = username;
+
+    this.explosionConfig = { 
+      key: 'explodeAnimation',  
+      frames: this.anims.generateFrameNumbers('explosion', { 
+        start: 0, 
+        end: 23, 
+        first: 23 
+      }), 
+      frameRate: 20, 
+      repeat: 0 
+    };
 
     this.socket.on('inicioInstancia', (backGame) => {
       console.log('Evento inicioInstancia');
@@ -274,6 +294,8 @@ class Game extends Phaser.Scene {
   }
 
   choque(nave1, nave2) {
+    this.anims.create(this.explosionConfig);
+    this.add.sprite(nave1.body.positionX, nave1.body.positionY, 'explosion').play('explodeAnimation');
     nave1.destroy(this.socket);
     nave2.destroy(this.socket);
   }
