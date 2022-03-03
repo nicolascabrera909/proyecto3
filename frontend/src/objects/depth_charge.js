@@ -49,8 +49,8 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
             if (socket) {
                 socket.emit('destroy_depthCharge', { socketId: socket.id });
             }
-            //self.anims.create(self.explosionConfig);
-            //self.add.sprite(selfDepthCharge.x, selfDepthCharge.y, 'explosion').play('explodeAnimation');
+            self.anims.create(self.explosionConfig);
+            self.add.sprite(selfDepthCharge.x, selfDepthCharge.y, 'explosion').play('explodeAnimation');
             selfDepthCharge.destroy();
         }, 5000);
     }
