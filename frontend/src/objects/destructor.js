@@ -1,5 +1,5 @@
 import DepthCharge from "./depth_charge.js";
-import Canion from "./canon.js";
+import Cannons from "./cannons.js";
 
 class Destructor extends Phaser.GameObjects.Sprite {
 
@@ -16,6 +16,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.body.position.x = x;
     this.body.position.y = y;
     this.depthCharge = new DepthCharge(scene, x, y);
+    this.cannons = new Cannons(scene);
   }
 
   create(coordenadas, self, cursor) {
@@ -92,11 +93,11 @@ class Destructor extends Phaser.GameObjects.Sprite {
         this.destructor.setVelocityX(300 * velX)
         this.destructor.setVelocityY(300 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        this.shootCannon(input, socket);
+        var angle = Phaser.Math.DegToRad(this.destructor.body.rotation);
+        this.cannons.fireCannons(this.destructor.x, this.destructor.y, self, angle);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        this.depthCharge.fireDepthCharge(this.destructor.x, this.destructor.y, socket, self);
-        
-        //this.shootDepthCharge(socket);
+        var angle = Phaser.Math.DegToRad(this.destructor.body.rotation);
+        this.depthCharge.fireDepthCharge(this.destructor.x, this.destructor.y, socket, self, angle);
       } else {
         this.destructor.setAcceleration(0)
         this.destructor.setVelocityY(0)

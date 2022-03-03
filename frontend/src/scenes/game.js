@@ -30,11 +30,19 @@ class Game extends Phaser.Scene {
     this.load.image('submarino', './static/assets/img/submarino_small.png');
     this.load.image('carguero', './static/assets/img/freighters_small.png');
     this.load.image('torpedo', './static/assets/img/torpedo.png');
-    this.load.image('canon', './static/assets/img/cannon.png');
+    this.load.image('cannon', './static/assets/img/cannon.png');
     this.load.image('tiles', './static/assets/map/terrain.png');
     this.load.image('depth_charge', './static/assets/img/depthcharge.png')
     this.load.image('logo', './static/assets/img/logo.jpeg');
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
+  }
+
+  loadSpritesheet(){
+    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', { 
+      frameWidth: 64, 
+      frameHeight: 64,
+      endFrame: 23 
+    });
   }
 
   loadAudio() {
@@ -59,6 +67,7 @@ class Game extends Phaser.Scene {
   preload() {
     this.loadImages();
     this.loadAudio();
+    this.loadSpritesheet();
   }
 
 
@@ -75,6 +84,17 @@ class Game extends Phaser.Scene {
     var boatType = this.urlParams.get('boattype');
     var difficulty = this.urlParams.get('dificultad');
     this.username = username;
+
+    this.explosionConfig = { 
+      key: 'explodeAnimation',  
+      frames: this.anims.generateFrameNumbers('explosion', { 
+        start: 0, 
+        end: 23, 
+        first: 23 
+      }), 
+      frameRate: 20, 
+      repeat: 0 
+    };
 
     this.socket.on('inicioInstancia', (backGame) => {
       console.log('Evento inicioInstancia');
@@ -104,6 +124,22 @@ class Game extends Phaser.Scene {
         );
       }
 
+      if (this.destructor) {
+        this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () =>
+          this.collisionShipArmy(this.destructor, this.submarino2.torpedos)
+        );
+      }
+
+      if (this.destructor) {
+        this.physics.add.overlap(this.destructor.destructor, this.submarino2.cannons, () =>
+          this.collisionShipArmy(this.destructor, this.submarino2.cannons));
+      }
+
+      if (this.destructor) {
+        this.physics.add.overlap(this.destructor.cannons, this.submarino2.submarino, () =>
+          this.collisionShipArmy(this.submarino2, this.destructor.cannons));
+      }
+
       this.sea_water.play();
       // window.game = this;
     });
@@ -124,9 +160,19 @@ class Game extends Phaser.Scene {
       }
 
       if (this.submarino) {
-        this.physics.add.overlap(this.destructor2.destructor, this.submarino.torpedos, () =>
-          this.collisionShipArmy(this.destructor2.destructor, this.submarino.torpedos)
+        this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () =>
+          this.collisionShipArmy(this.destructor2, this.submarino.torpedos)
         );
+      }
+
+      if (this.submarino) {
+        this.physics.add.overlap(this.submarino.submarino, this.destructor2.cannons, () =>
+          this.collisionShipArmy(this.submarino, this.destructor2.cannons));
+      }
+
+      if (this.submarino) {
+        this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () =>
+          this.collisionShipArmy(this.destructor2, this.submarino.cannons));
       }
 
       //this.start_game.play();
@@ -264,7 +310,10 @@ class Game extends Phaser.Scene {
       this.choqueScena(nave1, self);
     }
 
-
+    this.anims.create(this.explosionConfig);
+    this.add.sprite(nave1.body.positionX, nave1.body.positionY, 'explosion').play('explodeAnimation');
+    nave1.destroy(this.socket);
+    nave2.destroy(this.socket);
   }
 
   collisionShipArmy(objectShip, objectArmy) {
@@ -390,6 +439,42 @@ class Game extends Phaser.Scene {
     }
 
 
+  }
+
+  addCollisions() {
+    //Colisiones entre barcos
+    this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () =>
+      this.choque(this.submarino, this.destructor2));
+
+    this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>
+      this.choque(this.destructor, this.submarino2));
+
+    //Colisiones entre submarino y carga de profundidad
+    this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>
+      this.collisionShipArmy(this.submarino, this.destructor2.depthCharge));
+
+    this.physics.add.overlap(this.destructor.depthCharge, this.submarino2.submarino, () =>
+      this.collisionShipArmy(this.submarino2, this.destructor.depthCharge));
+
+    //Colision entre barcos y torpedos
+    this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () =>
+      this.collisionShipArmy(this.destructor, this.submarino2.torpedos));
+
+    this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () =>
+      this.collisionShipArmy(this.destructor2, this.submarino.torpedos));
+
+    //Colision entre barcos y cañones
+    this.physics.add.overlap(this.destructor.destructor, this.submarino2.cannons, () =>
+      this.collisionShipArmy(this.destructor, this.submarino2.cannons));
+
+    this.physics.add.overlap(this.destructor.cannons, this.submarino2.submarino, () =>
+      this.collisionShipArmy(this.submarino2, this.destructor.cannons));
+
+    this.physics.add.overlap(this.submarino.submarino, this.destructor2.cannons, () =>
+      this.collisionShipArmy(this.submarino, this.destructor2.cannons));
+
+    this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () =>
+      this.collisionShipArmy(this.destructor2, this.submarino.cannons));
   }
 
   update() {
