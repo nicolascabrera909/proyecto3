@@ -226,21 +226,6 @@ class Game extends Phaser.Scene {
       this.destructor2.shootDepthCharge();
     });
 
-    /* this.socket.on('other_surface', (info) => {
-       console.log('submarino en superficie');
-       this.submarino2.surfaceOpponent();
-     });
- 
-     this.socket.on('other_immerse', (info) => {
-       console.log('submarino sumergido');
-       this.submarino2.immerseOpponent();
-     });
- 
-     this.socket.on('other_deepImmerse', (info) => {
-       console.log('submarino sumergido profundo');
-       this.submarino2.deepImmerseOpponent(info);
-     });*/
-
     this.socket.on('opponentThrowDepthCharge', function (info) {
       self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self);
     });
