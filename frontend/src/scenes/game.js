@@ -23,9 +23,9 @@ class Game extends Phaser.Scene {
     this.FreightersList = [];
   }
 
-  
 
-  loadImages(){
+
+  loadImages() {
     this.load.image('destructor', './static/assets/img/destructor_small.png');
     this.load.image('submarino', './static/assets/img/submarino_small.png');
     this.load.image('carguero', './static/assets/img/freighters_small.png');
@@ -37,14 +37,14 @@ class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
-  loadAudio(){
-    this.load.audio('cannon_sound','./static/assets/audio/cannon_sound.mp3')
-    .audio('torpedo_sound',['./static/assets/audio/torpedo_sound.mp3'])
-    .audio('start_game',['./static/assets/audio/start_game.mp3'])
-    .audio('sea_water',['./static/assets/audio/sea_water.mp3'])
+  loadAudio() {
+    this.load.audio('cannon_sound', './static/assets/audio/cannon_sound.mp3')
+      .audio('torpedo_sound', ['./static/assets/audio/torpedo_sound.mp3'])
+      .audio('start_game', ['./static/assets/audio/start_game.mp3'])
+      .audio('sea_water', ['./static/assets/audio/sea_water.mp3'])
   }
 
-  loadAudioVariables(){
+  loadAudioVariables() {
     // aca poner la musca que se use de fondo
     this.sea_water = this.sound.add('sea_water');
     this.sea_water.loop = true;
@@ -84,7 +84,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('currentPlayers', (players) => {
-      for (let i = 0; i < players.length; i++) { 
+      for (let i = 0; i < players.length; i++) {
         if (players[i].socketId === this.socket.id) {
           this.addPlayer(this, players[i])
         } else {
@@ -105,7 +105,7 @@ class Game extends Phaser.Scene {
       }
 
       this.sea_water.play();
-        // window.game = this;
+      // window.game = this;
     });
 
     this.socket.on('newPlayer', (playerInfo) => {
@@ -118,7 +118,7 @@ class Game extends Phaser.Scene {
       }
 
       if (this.submarino) {
-        this.physics.add.overlap(this.submarino.submarino,this.destructor2.depthCharge, () =>
+        this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>
           this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
         );
       }
@@ -146,23 +146,23 @@ class Game extends Phaser.Scene {
     this.socket.on('playerMoved', (playerInfo) => {
 
       let i = 0;
-      this.otherPlayers.getChildren().forEach( (otherPlayer) => {
+      this.otherPlayers.getChildren().forEach((otherPlayer) => {
         if (playerInfo.socketId === otherPlayer.socketId) {
           otherPlayer.setRotation(playerInfo.boatList[i].rotation)
           otherPlayer.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
-           if (otherPlayer.texture.key == 'submarino') {
-             switch (playerInfo.boatList[0].depth) {
-               case 1:
-                 otherPlayer.setAlpha(0.9, 0.9, 0.9, 0.9);
-                 break;
-               case 2:
-                 otherPlayer.setAlpha(0.7, 0.7, 0, 0);
-                 break;
-               case 3:
-                 otherPlayer.setAlpha(0.4, 0.4, 0, 0);
-                 break;
-             }
-           }
+          if (otherPlayer.texture.key == 'submarino') {
+            switch (playerInfo.boatList[0].depth) {
+              case 1:
+                otherPlayer.setAlpha(0.9, 0.9, 0.9, 0.9);
+                break;
+              case 2:
+                otherPlayer.setAlpha(0.7, 0.7, 0, 0);
+                break;
+              case 3:
+                otherPlayer.setAlpha(0.4, 0.4, 0, 0);
+                break;
+            }
+          }
         }
         i++;
       });
@@ -186,7 +186,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('other_destroy_submarino', (info) => {
-      if(this.submarino) {
+      if (this.submarino) {
         this.submarino.destroy();
       }
       else {
@@ -195,7 +195,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('other_destroy_destructor', (info) => {
-      if(this.destructor) {
+      if (this.destructor) {
         this.destructor.destroy();
       } else {
         this.destructor2.destroy();
@@ -226,160 +226,204 @@ class Game extends Phaser.Scene {
       this.destructor2.shootDepthCharge();
     });
 
-   /* this.socket.on('other_surface', (info) => {
-      console.log('submarino en superficie');
-      this.submarino2.surfaceOpponent();
-    });
-
-    this.socket.on('other_immerse', (info) => {
-      console.log('submarino sumergido');
-      this.submarino2.immerseOpponent();
-    });
-
-    this.socket.on('other_deepImmerse', (info) => {
-      console.log('submarino sumergido profundo');
-      this.submarino2.deepImmerseOpponent(info);
-    });*/
+    /* this.socket.on('other_surface', (info) => {
+       console.log('submarino en superficie');
+       this.submarino2.surfaceOpponent();
+     });
+ 
+     this.socket.on('other_immerse', (info) => {
+       console.log('submarino sumergido');
+       this.submarino2.immerseOpponent();
+     });
+ 
+     this.socket.on('other_deepImmerse', (info) => {
+       console.log('submarino sumergido profundo');
+       this.submarino2.deepImmerseOpponent(info);
+     });*/
 
     this.socket.on('opponentThrowDepthCharge', function (info) {
       self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self);
-  });
+    });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
   choque(nave1, nave2) {
-    nave1.destroy(this.socket);
-    nave2.destroy(this.socket);
-    this.choqueScena(nave1,self);
+    let soySubmarino = false;
+    for (let i = 0; i < games.game.playerList.length; i++) {
+      if (nave1.socketId == games.game.playerList[i].socketId) {
+        if (games.game.playerList[i].boatTeam == 'submarino') {
+          if (!(games.game.playerList[i].boatList[0].depth == 1)) {
+            nave1.destroy(this.socket);
+            nave2.destroy(this.socket);
+            this.choqueScena(nave1, self);
+            soySubmarino = true;
+          }
+        }
+      } else {
+        if (nave2.socketId == games.game.playerList[i].socketId) {
+          if (games.game.playerList[i].boatTeam == 'submarino') {
+            if (!(games.game.playerList[i].boatList[0].depth == 1)) {
+              nave1.destroy(this.socket);
+              nave2.destroy(this.socket);
+              this.choqueScena(nave1, self);
+              soySubmarino = true;
+            }
+          }
+        }
+      }
+    }
+    if (soySubmarino == false) {
+      nave1.destroy(this.socket);
+      nave2.destroy(this.socket);
+      this.choqueScena(nave1, self);
+    }
+
 
   }
 
   collisionShipArmy(objectShip, objectArmy) {
-    objectArmy.destroy(this.socket);
-    objectShip.destroy(this.socket);
-    this.choqueScena(objectShip,self);
-    //REDUCIR VIDA NO DESTRUIR VER!!!
-  }
-
-  choqueScena(nave,self){
-    //this.lateralCamera = new LateralCamera(this,nave.x,nave.y, 'choque');
-   // this.lateralCamera.create(nave.x,nave.y,self);
-   var lateralCamera = this.add.image(nave.x, nave.y, 'logo');
-   this.input.once('pointerdown', function (){
-     lateralCamera.destroy();
-     lateralCamera=null
-   });
-  }
-
-  addPlayer(self, playerInfo) {
-    console.log(playerInfo)
-    let currentPlayer = null;
-    if (playerInfo.boatTeam == 'submarino') {
-      //Creo submarino
-      console.log('Dibujo submarino')
-      var coordS = {
-        x: playerInfo.boatList[0].positionX,
-        y: playerInfo.boatList[0].positionY,
+    let soySubmarino = false;
+    for (let i = 0; i < games.game.playerList.length; i++) {
+      if (objectShip.socketId == games.game.playerList[i].socketId) {
+        if (games.game.playerList[i].boatTeam == 'submarino') {
+          if (!(games.game.playerList[i].boatList[0].depth == 1)) {
+            objectArmy.destroy(this.socket);
+            objectShip.destroy(this.socket);
+            this.choqueScena(objectShip, self);
+            soySubmarino = true;
+          }
+        }
       }
-      this.submarino = new Submarino(self, 0, 0, 'submarino');
-      this.submarino.create(coordS, self, true);
-      currentPlayer = this.submarino;
-      currentPlayer.socketId = playerInfo.socketId;
-      this.currentPlayers.add(currentPlayer);
-      console.log('pos inicial submarino x:' + coordS.x + 'y:' + coordS.y + ' rotacion:' + this.submarino.rotation);
-    } else {
-      //Creo destructor y cargueros
-      this.destructor = new Destructor(self, 0, 0, 'destructor');
-      let id = 0;
-      for (let i = 0; i < playerInfo.boatList.length; i++) {
-        if (playerInfo.boatList[i].type == 'destructor') {
-          console.log('Dibujo Destructor');
-          var coordD = {
-            x: playerInfo.boatList[i].positionX,
-            y: playerInfo.boatList[i].positionY,
-          };
-          this.destructor.create(coordD, self, true);
-          currentPlayer = this.destructor;
-          currentPlayer.socketId = playerInfo.socketId;
-          this.currentPlayers.add(currentPlayer);
-          console.log('pos inicial destructor x:' + coordD.x + 'y:' + coordD.y + ' rotacion:' + this.destructor.rotation);
-        } else {
+      if (soySubmarino == false) {
+        objectArmy.destroy(this.socket);
+        objectShip.destroy(this.socket);
+        this.choqueScena(objectShip, self);
+      }
+
+
+
+      //REDUCIR VIDA NO DESTRUIR VER!!!
+    }
+
+    choqueScena(nave, self) {
+      //this.lateralCamera = new LateralCamera(this,nave.x,nave.y, 'choque');
+      // this.lateralCamera.create(nave.x,nave.y,self);
+      var lateralCamera = this.add.image(nave.x, nave.y, 'logo');
+      this.input.once('pointerdown', function () {
+        lateralCamera.destroy();
+        lateralCamera = null
+      });
+    }
+
+    addPlayer(self, playerInfo) {
+      console.log(playerInfo)
+      let currentPlayer = null;
+      if (playerInfo.boatTeam == 'submarino') {
+        //Creo submarino
+        console.log('Dibujo submarino')
+        var coordS = {
+          x: playerInfo.boatList[0].positionX,
+          y: playerInfo.boatList[0].positionY,
+        }
+        this.submarino = new Submarino(self, 0, 0, 'submarino');
+        this.submarino.create(coordS, self, true);
+        currentPlayer = this.submarino;
+        currentPlayer.socketId = playerInfo.socketId;
+        this.currentPlayers.add(currentPlayer);
+        console.log('pos inicial submarino x:' + coordS.x + 'y:' + coordS.y + ' rotacion:' + this.submarino.rotation);
+      } else {
+        //Creo destructor y cargueros
+        this.destructor = new Destructor(self, 0, 0, 'destructor');
+        let id = 0;
+        for (let i = 0; i < playerInfo.boatList.length; i++) {
+          if (playerInfo.boatList[i].type == 'destructor') {
+            console.log('Dibujo Destructor');
+            var coordD = {
+              x: playerInfo.boatList[i].positionX,
+              y: playerInfo.boatList[i].positionY,
+            };
+            this.destructor.create(coordD, self, true);
+            currentPlayer = this.destructor;
+            currentPlayer.socketId = playerInfo.socketId;
+            this.currentPlayers.add(currentPlayer);
+            console.log('pos inicial destructor x:' + coordD.x + 'y:' + coordD.y + ' rotacion:' + this.destructor.rotation);
+          } else {
             console.log('Dibujo carguero');
             id++;
             this.carguero = new Carguero(self, 0, 0, 'carguero', id);
-            currentPlayer=this.carguero;
+            currentPlayer = this.carguero;
             currentPlayer.socketId = playerInfo.socketId;
             this.currentPlayers.add(currentPlayer);
             this.FreightersList.push(this.carguero);
             this.carguero.create(playerInfo.boatList[i])
+          }
         }
       }
     }
-  }
 
-  addOtherPlayers(self, playerInfo) {
-    if (playerInfo.boatTeam == 'destructor') {
-      this.destructor2 = new Destructor(self, 0, 0, 'destructor');
+    addOtherPlayers(self, playerInfo) {
+      if (playerInfo.boatTeam == 'destructor') {
+        this.destructor2 = new Destructor(self, 0, 0, 'destructor');
 
-      for (let i = 0; i < playerInfo.boatList.length; i++) {
+        for (let i = 0; i < playerInfo.boatList.length; i++) {
+          let otherPlayer = null;
+          let otherPlayersCarguero = null;
+          if (playerInfo.boatList[i].type == 'destructor') {
+            console.log('Dibujo Destructor secundario');
+            var coordD2 = {
+              x: playerInfo.boatList[i].positionX,
+              y: playerInfo.boatList[i].positionY,
+            };
+            otherPlayer = this.destructor2.create(coordD2, self, false);
+            otherPlayer.socketId = playerInfo.socketId;
+            this.otherPlayers.add(otherPlayer);
+
+            console.log('creo other player destructor')
+
+          } else {
+            console.log('Dibujo carguero secundario');
+            this.carguero2 = new Carguero(self, 0, 0, 'carguero');
+            otherPlayersCarguero = this.carguero2.create(playerInfo.boatList[i]);
+            otherPlayersCarguero.socketId = playerInfo.socketId;
+            this.otherPlayersCargueros.add(otherPlayersCarguero);
+            console.log('creo other player destructor');
+          }
+        }
+      } else {
         let otherPlayer = null;
-        let otherPlayersCarguero = null;
-        if (playerInfo.boatList[i].type == 'destructor') {
-          console.log('Dibujo Destructor secundario');
-          var coordD2 = {
-            x: playerInfo.boatList[i].positionX,
-            y: playerInfo.boatList[i].positionY,
-          };
-          otherPlayer = this.destructor2.create(coordD2, self, false);
-          otherPlayer.socketId = playerInfo.socketId;
-          this.otherPlayers.add(otherPlayer);
-          
-          console.log('creo other player destructor')
+        console.log('Dibujo submarino  secundario')
+        var coordS2 = {
+          x: playerInfo.boatList[0].positionX,
+          y: playerInfo.boatList[0].positionY,
+        }
+        this.submarino2 = new Submarino(self, 0, 0, 'submarino');
+        otherPlayer = this.submarino2.create(coordS2, self, false);
+        otherPlayer.socketId = playerInfo.socketId;
+        this.otherPlayers.add(otherPlayer)
 
-        } else {
-          console.log('Dibujo carguero secundario');
-          this.carguero2 = new Carguero(self, 0, 0, 'carguero');
-          otherPlayersCarguero = this.carguero2.create(playerInfo.boatList[i]);
-          otherPlayersCarguero.socketId = playerInfo.socketId;
-          this.otherPlayersCargueros.add(otherPlayersCarguero);
-          console.log('creo other player destructor');
+
+        console.log('creo other player submarino')
+      }
+
+
+    }
+
+    update() {
+      if (this.submarino !== undefined) {
+        this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self);
+      }
+
+      if (this.destructor) {
+        this.destructor.moveDestructor(this.cursors, this.socket, this.input, self);
+      }
+      for (let i = 0; i < this.FreightersList.length; i++) {
+        if (this.FreightersList[i] !== undefined) {
+          this.FreightersList[i].moveCarguero(this.socket);
         }
       }
-    } else {
-      let otherPlayer = null;
-      console.log('Dibujo submarino  secundario')
-      var coordS2 = {
-        x: playerInfo.boatList[0].positionX,
-        y: playerInfo.boatList[0].positionY,
-      }
-      this.submarino2 = new Submarino(self, 0, 0, 'submarino');
-      otherPlayer = this.submarino2.create(coordS2, self, false);
-      otherPlayer.socketId = playerInfo.socketId;
-      this.otherPlayers.add(otherPlayer)
-
-
-      console.log('creo other player submarino')
-    }
-    
-   
-  }
-
-  update() {
-    if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self);
-    }
-
-    if (this.destructor) {
-      this.destructor.moveDestructor(this.cursors, this.socket, this.input, self);
-    }
-    for (let i = 0; i < this.FreightersList.length; i++) {
-      if (this.FreightersList[i] !== undefined) {
-        this.FreightersList[i].moveCarguero(this.socket);
-      }
     }
   }
-}
 
 
 export default Game;
