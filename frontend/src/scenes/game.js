@@ -21,6 +21,7 @@ class Game extends Phaser.Scene {
     this.input;
     this.initialTime;
     this.FreightersList = [];
+    this.inicioPartida = false;
   }
 
 
@@ -37,11 +38,11 @@ class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
-  loadSpritesheet(){
-    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', { 
-      frameWidth: 64, 
+  loadSpritesheet() {
+    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', {
+      frameWidth: 64,
       frameHeight: 64,
-      endFrame: 23 
+      endFrame: 23
     });
   }
 
@@ -78,6 +79,18 @@ class Game extends Phaser.Scene {
     this.otherPlayersCargueros = this.physics.add.group();
     this.currentPlayers = this.physics.add.group();
     this.loadAudioVariables();
+    this.explosionConfig = {
+      key: 'explodeAnimation',
+      frames: this.anims.generateFrameNumbers('explosion', {
+        start: 0,
+        end: 23,
+        first: 23
+      }),
+      frameRate: 20,
+      repeat: 0
+    };
+
+
 
     console.log('Obtengo datos pre-game.html');
     var username = this.urlParams.get('username');
@@ -85,16 +98,15 @@ class Game extends Phaser.Scene {
     var difficulty = this.urlParams.get('dificultad');
     this.username = username;
 
-    this.explosionConfig = { 
-      key: 'explodeAnimation',  
-      frames: this.anims.generateFrameNumbers('explosion', { 
-        start: 0, 
-        end: 23, 
-        first: 23 
-      }), 
-      frameRate: 20, 
-      repeat: 0 
-    };
+
+
+    /* this.socket.on('salaEspera', () => {
+         console.log('entre a sala de espera ')
+         this.inicioPartida=true;
+         
+     });*/
+
+
 
     this.socket.on('inicioInstancia', (backGame) => {
       console.log('Evento inicioInstancia');
