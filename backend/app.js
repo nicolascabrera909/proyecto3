@@ -137,9 +137,9 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_destroy_destructor', info)
   });
 
-  socket.on('destroy_depthCharge', function (info) {
+  /*socket.on('destroy_depthCharge', function (info) {
     socket.broadcast.emit('other_destroy_depthCharge', info)
-  });
+  });*/
 
   socket.on('destroy_torpedo', function (info) {
     socket.broadcast.emit('other_destroy_torpedo', info)
