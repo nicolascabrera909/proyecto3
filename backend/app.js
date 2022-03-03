@@ -71,6 +71,15 @@ io.on('connection', function (socket) {
 
     //creo el juego con su jugador y barcos
     gamePlay.createGame(socket.id, name, boatTeam, difficulty);
+    if (gamePlay.game.playerList.length == 2) {
+      console.log('Emito salaEspera');
+      socket.broadcast.emit('salaEspera');
+      socket.emit('salaEspera');
+
+    }
+  });
+
+    socket.on('initGame', function (name, boatTeam, difficulty) {
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
     socket.emit('currentPlayers', gamePlay.game.playerList);
@@ -79,11 +88,9 @@ io.on('connection', function (socket) {
     } else {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
-
-    //version original
-    /*  socket.emit('currentPlayers', players);
-      socket.broadcast.emit('newPlayer', players[socket.id]);*/
   });
+
+
 
   socket.on('disconnect', function () {
     console.log('player [' + socket.id + '] disconnected')
@@ -144,7 +151,7 @@ io.on('connection', function (socket) {
   socket.on('destroy_torpedo', function (info) {
     socket.broadcast.emit('other_destroy_torpedo', info)
   });
-  
+
   socket.on('shooting', function (info) {
     socket.broadcast.emit('other_shot', info)
   });
@@ -173,10 +180,10 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_deepImmerse', info)
   });
 
-  socket.on('depthChargeThrowing', function(info){
+  socket.on('depthChargeThrowing', function (info) {
     console.log('envio al otro jugador info de la deep');
     socket.broadcast.emit('opponentThrowDepthCharge', info);
-});
+  });
 
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////

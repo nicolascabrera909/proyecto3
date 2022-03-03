@@ -25,6 +25,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
     // this.submarino.setDisplaySize(180, 30);
     // this.submarino.setSize(1100, 200);
+    this.coodOriginalX = randomX;
+    this.coodOriginalY = randomY;
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
     //this.submarino.setRotation(playerInfo.rotation)
@@ -184,16 +186,16 @@ class Submarino extends Phaser.GameObjects.Sprite {
       });*/
     
 
-      if (!(this.submarino.coodOriginalX == this.submarino.x &&
-        this.submarino.coodOriginalY == this.submarino.x &&
-        this.submarino.rotationOriginal == this.submarino.rotation &&
-        this.submarino.depthOriginal==this.submarino.depth ) )
+      if (!(this.coodOriginalX == this.submarino.x &&
+        this.coodOriginalY == this.submarino.x &&
+        this.rotationOriginal == this.submarino.rotation &&
+        this.depthOriginal==this.depth ) )
         {
         socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation ,depth: this.submarino.depth})
-        this.submarino.coodOriginalX = x;
-        this.submarino.coodOriginalY = y;
-        this.submarino.rotationOriginal = r;
-        this.submarino.depthOriginal=this.submarino.depth;
+        this.coodOriginalX = x;
+        this.coodOriginalY = y;
+        this.rotationOriginal = r;
+        this.depthOriginal=this.depth;
         
         
       }

@@ -1,5 +1,6 @@
 //IMPORTS
 import Game from "./scenes/game.js";
+import Room from "./scenes/room.js";
 
 // CONFIG BASICA
 const config = {
@@ -16,7 +17,7 @@ const config = {
           }
     },
     title: '1.0',
-    scene: [Game],
+    scene: [Room,Game],
 }
 
 new Phaser.Game(config);

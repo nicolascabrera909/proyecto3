@@ -3,7 +3,6 @@ import Submarino from "../objects/submarino.js";
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
 import Map from "../objects/map.js";
-import LateralCamera from "../objects/lateral_camera.js";
 
 class Game extends Phaser.Scene {
   /*Constructor de la clase Game, inicializo la clase*/
@@ -37,11 +36,11 @@ class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
-  loadSpritesheet(){
-    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', { 
-      frameWidth: 64, 
+  loadSpritesheet() {
+    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', {
+      frameWidth: 64,
       frameHeight: 64,
-      endFrame: 23 
+      endFrame: 23
     });
   }
 
@@ -72,6 +71,7 @@ class Game extends Phaser.Scene {
 
 
   create() {
+
     var self = this
     this.socket = io("http://localhost:3000")
     this.otherPlayers = this.physics.add.group();
@@ -79,29 +79,20 @@ class Game extends Phaser.Scene {
     this.currentPlayers = this.physics.add.group();
     this.loadAudioVariables();
 
-    console.log('Obtengo datos pre-game.html');
-    var username = this.urlParams.get('username');
-    var boatType = this.urlParams.get('boattype');
-    var difficulty = this.urlParams.get('dificultad');
-    this.username = username;
-
-    this.explosionConfig = { 
-      key: 'explodeAnimation',  
-      frames: this.anims.generateFrameNumbers('explosion', { 
-        start: 0, 
-        end: 23, 
-        first: 23 
-      }), 
-      frameRate: 20, 
-      repeat: 0 
+    this.explosionConfig = {
+      key: 'explodeAnimation',
+      frames: this.anims.generateFrameNumbers('explosion', {
+        start: 0,
+        end: 23,
+        first: 23
+      }),
+      frameRate: 20,
+      repeat: 0
     };
 
-    this.socket.on('inicioInstancia', (backGame) => {
-      console.log('Evento inicioInstancia');
-      this.games = backGame;
-      console.log('Emito createGame');
-      this.socket.emit('createGame', username, boatType, difficulty);
-    });
+    
+    this.socket.emit('initGame');
+    
 
     this.socket.on('currentPlayers', (players) => {
       for (let i = 0; i < players.length; i++) {
@@ -140,7 +131,8 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino2, this.destructor.cannons));
       }
 
-      this.sea_water.play();
+      //this.sea_water.play();
+      
       // window.game = this;
     });
 
@@ -177,6 +169,9 @@ class Game extends Phaser.Scene {
 
       //this.start_game.play();
       this.sea_water.play();
+      
+      
+
     });
 
     this.socket.on('playerDisconnected', (playerId) => {
@@ -278,6 +273,22 @@ class Game extends Phaser.Scene {
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
+
+
+  /*pausa(){
+    this.scene.pause();
+    this.events.on('pause', function () {
+      console.log('Game pausa');
+    })
+
+    this.events.on('resume', function () {
+      console.log('Game A resumed');
+    })
+
+    
+    this.scene.resume('sceneA');
+  }*/
+
 
   choque(nave1, nave2) {
     let soySubmarino = false;
@@ -400,6 +411,7 @@ class Game extends Phaser.Scene {
         }
       }
     }
+   
   }
 
   addOtherPlayers(self, playerInfo) {
@@ -445,7 +457,7 @@ class Game extends Phaser.Scene {
 
       console.log('creo other player submarino')
     }
-
+ 
 
   }
 
