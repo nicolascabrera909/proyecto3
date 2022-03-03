@@ -248,9 +248,9 @@ class Game extends Phaser.Scene {
       }
     });
 
-    this.socket.on('other_destroy_depthCharge', (info) => {
+    /*this.socket.on('other_destroy_depthCharge', (info) => {
       this.destructor.depthCharge.destroy();
-    });
+    });*/
 
     this.socket.on('other_destroy_torpedo', (info) => {
       this.destructor.depthCharge.destroy();
@@ -273,7 +273,7 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('opponentThrowDepthCharge', function (info) {
-      self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self);
+      self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self, this.socket);
     });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
@@ -310,10 +310,11 @@ class Game extends Phaser.Scene {
       this.choqueScena(nave1, self);
     }
 
+    /*
     this.anims.create(this.explosionConfig);
     this.add.sprite(nave1.body.positionX, nave1.body.positionY, 'explosion').play('explodeAnimation');
     nave1.destroy(this.socket);
-    nave2.destroy(this.socket);
+    nave2.destroy(this.socket);*/
   }
 
   collisionShipArmy(objectShip, objectArmy) {
@@ -335,6 +336,13 @@ class Game extends Phaser.Scene {
       objectShip.destroy(this.socket);
       this.choqueScena(objectShip, self);
     }
+    nave1.destroy(this.socket, this);
+    nave2.destroy(this.socket, this);
+  }
+
+  collisionShipArmy(objectShip, objectArmy) {
+    objectShip.destroy(this.socket, this);
+    objectArmy.destroy(this.socket, this);
     //REDUCIR VIDA NO DESTRUIR VER!!!
   }
 

@@ -48,12 +48,14 @@ class Submarino extends Phaser.GameObjects.Sprite {
     return this.submarino;
   }
 
-  destroy(socket) {
-    this.submarino.destroy();
+  destroy(socket, self) {
     this.submarino.is_destroyed = true;
+    self.anims.create(self.explosionConfig);
+    self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
     if (socket) {
       socket.emit('destroy_submarino', { socketId: socket.id });
     }
+    this.submarino.destroy();
   }
 
   shootTorpedo(socket) {
