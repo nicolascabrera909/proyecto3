@@ -112,6 +112,12 @@ class Game extends Phaser.Scene {
         }
       }
 
+      /*if (this.destructor) {
+        this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>
+        this.choque(this.submarino, this.destructor2)
+        );
+      }*/
+
       if (this.destructor) {
         this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>
           this.choque(this.destructor, this.submarino2)
@@ -120,7 +126,7 @@ class Game extends Phaser.Scene {
 
       if (this.destructor) {
         this.physics.add.overlap(this.destructor.depthCharge, this.submarino2.submarino, () =>
-          this.collisionShipArmy(this.submarino2, this.destructor.depthCharge)
+          this.collisionShipArmy(this.submarino2, this.destructor.depthCharge, 'entro a this destructor')
         );
       }
 
@@ -140,7 +146,7 @@ class Game extends Phaser.Scene {
           this.collisionShipArmy(this.submarino2, this.destructor.cannons));
       }
 
-      this.sea_water.play();
+      //this.sea_water.play();
       // window.game = this;
     });
 
@@ -155,7 +161,7 @@ class Game extends Phaser.Scene {
 
       if (this.submarino) {
         this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>
-          this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
+          this.collisionShipArmy(this.submarino, this.destructor2.depthCharge, 'entro a this submarino')
         );
       }
 
@@ -176,7 +182,7 @@ class Game extends Phaser.Scene {
       }
 
       //this.start_game.play();
-      this.sea_water.play();
+      //this.sea_water.play();
     });
 
     this.socket.on('playerDisconnected', (playerId) => {
@@ -295,17 +301,22 @@ class Game extends Phaser.Scene {
   }
 
   choque(nave1, nave2) {
-    nave1.destroy(this.socket, this);
-    nave2.destroy(this.socket, this);
+    nave1.setVisible(false);
+    nave2.setVisible(false);
+    this.socket.emit('destroyShips', { socketId: socket.id });
+    // nave1.destroy(this.socket, this);
+    // nave2.destroy(this.socket, this);
   }
 
-  collisionShipArmy(objectShip, objectArmy) {
+  collisionShipArmy(objectShip, objectArmy, string) {
     objectShip.life = objectShip.life - 1;
     //objectArmy.destroy(this.socket, this);
     if (objectShip.life === 0) {
       objectShip.destroy(this.socket, this);
+      objectArmy.destroy();
     }
     console.log('Vida nave1 =' + objectShip.life);
+    console.log(string);
     //REDUCIR VIDA NO DESTRUIR VER!!!
   }
 
