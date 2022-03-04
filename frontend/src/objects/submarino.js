@@ -24,14 +24,14 @@ class Submarino extends Phaser.GameObjects.Sprite {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
     this.submarino = this.scene.physics.add.image(randomX, randomY, "submarino");
-    // this.submarino.setDisplaySize(180, 30);
-    // this.submarino.setSize(1100, 200);
+    this.submarino.setCollideWorldBounds(true);
+    this.submarino.setDisplaySize(100, 20);
+    this.submarino.setSize(140, 20);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
-    //this.submarino.setRotation(playerInfo.rotation)
     if (cursor) {
       this.selfSubmarino = self;
-      self.cameras.main.setBounds(0, 0, 3200, 1600);
+      self.cameras.main.setBounds(0, 0, 1344, 704);
       self.cameras.main.startFollow(this.submarino, true);
       self.cameras.main.roundPixels = true;
       self.cameras.main.setZoom(1.5);
@@ -56,27 +56,6 @@ class Submarino extends Phaser.GameObjects.Sprite {
     // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
     if (socket) {
       socket.emit('destroy_submarino', { socketId: socket.id });
-    }
-  }
-
-  shootTorpedo(socket) {
-    this.torpedo = new Torpedo(this.scene, this.submarino.x, this.submarino.y, 'torpedo')
-    this.torpedo.setVisible(false);
-    this.torpedo.createShootTorpedo(this.submarino);
-    console.log('shootTorpedo submarino', this.submarino.x, this.submarino.y)
-    this.scene.torpedo_sound.play();
-    if (socket) {
-      socket.emit('shooting', { socketId: socket.id });
-    }
-  }
-
-  shootCannon(input, socket) {
-    this.canon = new Canion(this.scene, this.submarino.x, this.submarino.y, 'canon')
-    this.canon.setVisible(false);
-    this.canon.createShootCannon(this.submarino, input, socket);
-    this.scene.cannon_sound.play();
-    if (socket) {
-      socket.emit('shootingCannon', { socketId: socket.id });
     }
   }
 
@@ -110,33 +89,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     //return 3
   }
 
-  /*surfaceOpponent(input, socket) {
-    this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
-    if (socket) {
-      socket.emit('surface', { socketId: socket.id });
-    }
-    return 1;
-  }
-
-  immerseOpponent(input, socket) {
-    this.submarino.setAlpha(0.7, 0.7, 0, 0);
-    if (socket) {
-      socket.emit('immerse', { socketId: socket.id });
-    }
-    return 2;
-  }
-
-  deepImmerseOpponent(input, socket) {
-    this.submarino.setAlpha(0.4, 0.4, 0, 0);
-    if (socket) {
-      socket.emit('deepImmerse', { socketId: socket.id });
-    }
-    return 3
-  }*/
-
-
-
-  moveSubmarino(cursors, socket, input, self) {
+  moveSubmarino(cursors, socket, input, self, target) {
     let nivel;
 
     //Movimientos sumarino)
@@ -161,8 +114,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
         var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
         this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, self, angle);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
-        this.cannons.fireCannons(this.submarino.x, this.submarino.y, self, angle);
+        this.cannons.fireCannons(this.submarino.x, this.submarino.y, self, target);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
         this.surface(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyS)) {

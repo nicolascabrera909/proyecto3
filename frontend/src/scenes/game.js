@@ -20,9 +20,11 @@ class Game extends Phaser.Scene {
     this.input;
     this.initialTime;
     this.FreightersList = [];
+    this.target = {
+      'x': 0, 
+      'y': 0
+    }
   }
-
-
 
   loadImages() {
     this.load.image('destructor', './static/assets/img/destructor_small.png');
@@ -68,7 +70,6 @@ class Game extends Phaser.Scene {
     this.loadAudio();
     this.loadSpritesheet();
   }
-
 
   create() {
     var self = this
@@ -119,11 +120,11 @@ class Game extends Phaser.Scene {
       }*/
 
       if (this.destructor) {
-        this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>{
+        this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () => {
           self.anims.create(self.explosionConfig)
           self.add.sprite(this.destructor.x, this.destructor.y, 'explosion').play('explodeAnimation')
-        self.add.sprite(this.submarino2.x + 10, this.submarino2.y + 10, 'explosion').play('explodeAnimation')
-        this.choque(this.destructor, this.submarino2, self)
+          self.add.sprite(this.submarino2.x + 10, this.submarino2.y + 10, 'explosion').play('explodeAnimation')
+          this.choque(this.destructor, this.submarino2, self)
         });
       }
 
@@ -157,11 +158,11 @@ class Game extends Phaser.Scene {
       this.addOtherPlayers(this, playerInfo);
 
       if (this.submarino) {
-        this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () =>{
+        this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () => {
           self.anims.create(self.explosionConfig)
-        self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation')
-        self.add.sprite(this.destructor2.x + 10, this.destructor2.y + 10, 'explosion').play('explodeAnimation')
-        this.choque(this.submarino, this.destructor2, self)
+          self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation')
+          self.add.sprite(this.destructor2.x + 10, this.destructor2.y + 10, 'explosion').play('explodeAnimation')
+          this.choque(this.submarino, this.destructor2, self)
 
 
 
@@ -475,12 +476,19 @@ class Game extends Phaser.Scene {
   }
 
   update() {
+    //this.pointer = this.input.mousePointer;
+
+    this.input.on('pointerdown', function (pointer) {
+      this.target.x = pointer.x,
+      this.target.y = pointer.y
+    }, this);
+
     if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self);
+      this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self, this.target);
     }
 
     if (this.destructor) {
-      this.destructor.moveDestructor(this.cursors, this.socket, this.input, self);
+      this.destructor.moveDestructor(this.cursors, this.socket, this.input, self, this.target);
     }
     for (let i = 0; i < this.FreightersList.length; i++) {
       if (this.FreightersList[i] !== undefined) {
