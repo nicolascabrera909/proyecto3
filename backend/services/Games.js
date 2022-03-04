@@ -49,7 +49,7 @@ class Games {
         this.game.playerList.push(player);
     }
 
-    createGame(socketId,name,boatTeam, difficulty) {
+    createGame(socketId, name, boatTeam, difficulty) {
         if (boatTeam == 'submarino') {
             console.log("*************submarino*************");
             let boatList = this.logicaSubmarino(this.map);
@@ -70,12 +70,12 @@ class Games {
             var aux = new Freighters(coordenadaAux);
             //falta crear los cargueros y agregarlos a la lista de botes
             var listaCoordendas = aux.coordenadasCargueros(this.map.width, this.map.height);
-            var FreightersA = new Freighters(listaCoordendas[0],1);
-            var FreightersB = new Freighters(listaCoordendas[1],2);
-            var FreightersC = new Freighters(listaCoordendas[2],3);
-            var FreightersD = new Freighters(listaCoordendas[3],4);
-            var FreightersE = new Freighters(listaCoordendas[4],5);
-            var FreightersF = new Freighters(listaCoordendas[5],6);
+            var FreightersA = new Freighters(listaCoordendas[0], 1);
+            var FreightersB = new Freighters(listaCoordendas[1], 2);
+            var FreightersC = new Freighters(listaCoordendas[2], 3);
+            var FreightersD = new Freighters(listaCoordendas[3], 4);
+            var FreightersE = new Freighters(listaCoordendas[4], 5);
+            var FreightersF = new Freighters(listaCoordendas[5], 6);
 
             var theDestructor = new Destructor(difficulty);
 
@@ -106,14 +106,8 @@ class Games {
                 }
                 i++;
             }
-            if(pos==0 && this.game!=null){
-                this.game=null;
-            }else{
-                this.game.playerList.splice(pos, 1);
-            }
-            
+            this.game.playerList.splice(pos, 1);
         }
-
     }
 }
 

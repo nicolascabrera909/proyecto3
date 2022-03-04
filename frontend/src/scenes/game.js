@@ -36,11 +36,11 @@ class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
-  loadSpritesheet(){
-    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', { 
-      frameWidth: 64, 
+  loadSpritesheet() {
+    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', {
+      frameWidth: 64,
       frameHeight: 64,
-      endFrame: 23 
+      endFrame: 23
     });
   }
 
@@ -84,15 +84,15 @@ class Game extends Phaser.Scene {
     var difficulty = this.urlParams.get('dificultad');
     this.username = username;
 
-    this.explosionConfig = { 
-      key: 'explodeAnimation',  
-      frames: this.anims.generateFrameNumbers('explosion', { 
-        start: 0, 
-        end: 23, 
-        first: 23 
-      }), 
-      frameRate: 20, 
-      repeat: 0 
+    this.explosionConfig = {
+      key: 'explodeAnimation',
+      frames: this.anims.generateFrameNumbers('explosion', {
+        start: 0,
+        end: 23,
+        first: 23
+      }),
+      frameRate: 20,
+      repeat: 0
     };
 
     this.socket.on('inicioInstancia', (backGame) => {
@@ -102,7 +102,8 @@ class Game extends Phaser.Scene {
       this.socket.emit('createGame', username, boatType, difficulty);
     });
 
-    this.socket.on('currentPlayers', (players) => {
+    this.socket.on('currentPlayers', (players,gameplay) => {
+      this.games=gameplay;
       for (let i = 0; i < players.length; i++) {
         if (players[i].socketId === this.socket.id) {
           this.addPlayer(this, players[i])
@@ -154,7 +155,7 @@ class Game extends Phaser.Scene {
 
       if (this.submarino) {
         this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>
-          this.collisionShipArmy(this.submarino, this.destructor2.depthCharge) 
+          this.collisionShipArmy(this.submarino, this.destructor2.depthCharge)
         );
       }
 
@@ -299,8 +300,12 @@ class Game extends Phaser.Scene {
   }
 
   collisionShipArmy(objectShip, objectArmy) {
-    objectShip.destroy(this.socket, this);
-    objectArmy.destroy(this.socket, this);
+    objectShip.life = objectShip.life - 1;
+    //objectArmy.destroy(this.socket, this);
+    if (objectShip.life === 0) {
+      objectShip.destroy(this.socket, this);
+    }
+    console.log('Vida nave1 =' + objectShip.life);
     //REDUCIR VIDA NO DESTRUIR VER!!!
   }
 

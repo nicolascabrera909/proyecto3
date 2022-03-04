@@ -17,6 +17,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.depth=1;
     this.torpedos = new Torpedos(scene);
     this.cannons = new Cannons(scene);
+    this.life = 3;
   }
 
   create(coordenadas, self, cursor) {
@@ -52,9 +53,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.is_destroyed = true;
     self.anims.create(self.explosionConfig);
     self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
-    if (socket) {
-      socket.emit('destroy_submarino', { socketId: socket.id });
-    }
+    // if (socket) {
+    //   socket.emit('destroy_submarino', { socketId: socket.id });
+    // }
     this.submarino.destroy();
   }
 

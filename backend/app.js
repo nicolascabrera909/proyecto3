@@ -73,7 +73,7 @@ io.on('connection', function (socket) {
     gamePlay.createGame(socket.id, name, boatTeam, difficulty);
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
-    socket.emit('currentPlayers', gamePlay.game.playerList);
+    socket.emit('currentPlayers', gamePlay.game.playerList,gamePlay);
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
     } else {
