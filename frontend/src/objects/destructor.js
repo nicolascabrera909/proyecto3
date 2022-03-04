@@ -36,7 +36,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
       self.cameras.main.setZoom(1);
       this.keySPACEBAR = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-      
+
     }
     //this.destructor.setCollideWorldBounds(true);
     this.destructor.setImmovable(true);
@@ -52,19 +52,19 @@ class Destructor extends Phaser.GameObjects.Sprite {
   destroy(socket, self) {
     this.destructor.destroy();
     this.destructor.is_destroyed = true;
-    self.anims.create(self.explosionConfig);
-    self.add.sprite(this.destructor.x, this.destructor.y, 'explosion').play('explodeAnimation');
-    // if (socket) {
-    //   socket.emit('destroy_destructor', { socketId: socket.id });
-    // }
+    // self.anims.create(self.explosionConfig);
+    // self.add.sprite(this.destructor.x, this.destructor.y, 'explosion').play('explodeAnimation');
+    if (socket) {
+      socket.emit('destroy_destructor', { socketId: socket.id });
+    }
   }
 
   shootDepthCharge(socket) {
     this.depth_charge = new DepthCharge(this.scene, this.destructor.x, this.destructor.y, 'depth_charge')
     this.depth_charge.setVisible(false);
     this.depth_charge.createShootDepthCharge(this.destructor);
-    if(socket){
-      socket.emit('shootingDepthCharge', {socketId: socket.id});
+    if (socket) {
+      socket.emit('shootingDepthCharge', { socketId: socket.id });
     }
   }
 
@@ -73,8 +73,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.canon.setVisible(false);
     this.canon.createShootCannon(this.destructor, input, socket);
     this.scene.cannon_sound.play();
-    if(socket){
-      socket.emit('shootingCannonDestructor', {socketId: socket.id});
+    if (socket) {
+      socket.emit('shootingCannonDestructor', { socketId: socket.id });
     }
   }
 
@@ -121,8 +121,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
         this.destructor.coodOriginalY == this.destructor.y &&
         this.destructor.rotationOriginal == this.destructor.rotation)) {
         socket.emit('playerMovement', { x: this.destructor.x, y: this.destructor.y, rotation: this.destructor.rotation })
-        this.destructor.coodOriginalX =  this.destructor.x ;
-        this.destructor.coodOriginalY =  this.destructor.y ;
+        this.destructor.coodOriginalX = this.destructor.x;
+        this.destructor.coodOriginalY = this.destructor.y;
         this.destructor.rotationOriginal = this.destructor.rotation;
       }
     }

@@ -14,7 +14,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.coodOriginalY = 0;
     this.depthOriginal = 1;
     this.rotationOriginal = 0;
-    this.depth=1;
+    this.depth = 1;
     this.torpedos = new Torpedos(scene);
     this.cannons = new Cannons(scene);
     this.life = 3;
@@ -50,13 +50,13 @@ class Submarino extends Phaser.GameObjects.Sprite {
   }
 
   destroy(socket, self) {
-    this.submarino.is_destroyed = true;
-    self.anims.create(self.explosionConfig);
-    self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
-    // if (socket) {
-    //   socket.emit('destroy_submarino', { socketId: socket.id });
-    // }
     this.submarino.destroy();
+    this.submarino.is_destroyed = true;
+    // self.anims.create(self.explosionConfig);
+    // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
+    if (socket) {
+      socket.emit('destroy_submarino', { socketId: socket.id });
+    }
   }
 
   shootTorpedo(socket) {
@@ -86,8 +86,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     if (socket) {
       socket.emit('surface', { socketId: socket.id });
     }
-    this.submarino.depth=1;
-   // return 1;
+    this.submarino.depth = 1;
+    // return 1;
   }
 
   immerse(input, socket) {
@@ -96,8 +96,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
     if (socket) {
       socket.emit('immerse', { socketId: socket.id });
     }
-    this.submarino.depth=2;
-   // return 2;
+    this.submarino.depth = 2;
+    // return 2;
   }
 
   deepImmerse(input, socket) {
@@ -106,7 +106,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     if (socket) {
       socket.emit('deepImmerse', { socketId: socket.id });
     }
-    this.submarino.depth=3;
+    this.submarino.depth = 3;
     //return 3
   }
 
@@ -134,7 +134,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     return 3
   }*/
 
- 
+
 
   moveSubmarino(cursors, socket, input, self) {
     let nivel;
@@ -183,20 +183,19 @@ class Submarino extends Phaser.GameObjects.Sprite {
         y: this.submarino.y,
         rotation: this.submarino.rotation
       });*/
-    
+
 
       if (!(this.submarino.coodOriginalX == this.submarino.x &&
         this.submarino.coodOriginalY == this.submarino.x &&
         this.submarino.rotationOriginal == this.submarino.rotation &&
-        this.submarino.depthOriginal==this.submarino.depth ) )
-        {
-        socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation ,depth: this.submarino.depth})
+        this.submarino.depthOriginal == this.submarino.depth)) {
+        socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation, depth: this.submarino.depth })
         this.submarino.coodOriginalX = x;
         this.submarino.coodOriginalY = y;
         this.submarino.rotationOriginal = r;
-        this.submarino.depthOriginal=this.submarino.depth;
-        
-        
+        this.submarino.depthOriginal = this.submarino.depth;
+
+
       }
 
 

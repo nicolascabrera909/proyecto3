@@ -99,7 +99,7 @@ io.on('connection', function (socket) {
       if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
         gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
       }
-      socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0]);
+      socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0],gamePlay);
     } else {
       gamePlay.game.playerList[1].boatList[0].positionX = movementData.x;
       gamePlay.game.playerList[1].boatList[0].positionY = movementData.y;
@@ -107,7 +107,7 @@ io.on('connection', function (socket) {
       if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
         gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
       }
-      socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1]);
+      socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1],gamePlay);
     }
   });
 
@@ -122,7 +122,7 @@ io.on('connection', function (socket) {
             gamePlay.game.playerList[d].boatList[i].positionX = movementData.x;
             gamePlay.game.playerList[d].boatList[i].positionY = movementData.y;
             // gamePlay.game.playerList[d].boatList[i].rotation = movementData.rotation;
-            socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d], id);
+            socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d], id ,gamePlay);
           }
         }
       }
@@ -130,11 +130,11 @@ io.on('connection', function (socket) {
   });
 
   socket.on('destroy_submarino', function (info) {
-    socket.broadcast.emit('other_destroy_submarino', info)
+    socket.broadcast.emit('other_destroy_submarino', info,gamePlay)
   });
 
   socket.on('destroy_destructor', function (info) {
-    socket.broadcast.emit('other_destroy_destructor', info)
+    socket.broadcast.emit('other_destroy_destructor', info,gamePlay)
   });
 
   /*socket.on('destroy_depthCharge', function (info) {
@@ -142,40 +142,40 @@ io.on('connection', function (socket) {
   });*/
 
   socket.on('destroy_torpedo', function (info) {
-    socket.broadcast.emit('other_destroy_torpedo', info)
+    socket.broadcast.emit('other_destroy_torpedo', info,gamePlay)
   });
   
   socket.on('shooting', function (info) {
-    socket.broadcast.emit('other_shot', info)
+    socket.broadcast.emit('other_shot', info,gamePlay)
   });
 
   socket.on('shootingCannon', function (info) {
-    socket.broadcast.emit('other_shotCannon', info)
+    socket.broadcast.emit('other_shotCannon', info,gamePlay)
   });
 
   socket.on('shootingCannonDestructor', function (info) {
-    socket.broadcast.emit('other_shotCannonDestructor', info)
+    socket.broadcast.emit('other_shotCannonDestructor', info,gamePlay)
   });
 
   socket.on('shootingDepthCharge', function (info) {
-    socket.broadcast.emit('other_shotDepthCharge', info)
+    socket.broadcast.emit('other_shotDepthCharge', info,gamePlay)
   });
 
   socket.on('surface', function (info) {
-    socket.broadcast.emit('other_surface', info)
+    socket.broadcast.emit('other_surface', info,gamePlay)
   });
 
   socket.on('immerse', function (info) {
-    socket.broadcast.emit('other_immerse', info)
+    socket.broadcast.emit('other_immerse', info,gamePlay)
   });
 
   socket.on('deepImmerse', function (info) {
-    socket.broadcast.emit('other_deepImmerse', info)
+    socket.broadcast.emit('other_deepImmerse', info,gamePlay)
   });
 
   socket.on('depthChargeThrowing', function(info){
     console.log('envio al otro jugador info de la deep');
-    socket.broadcast.emit('opponentThrowDepthCharge', info);
+    socket.broadcast.emit('opponentThrowDepthCharge', info, gamePlay);
 });
 
 });

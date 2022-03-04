@@ -102,8 +102,8 @@ class Game extends Phaser.Scene {
       this.socket.emit('createGame', username, boatType, difficulty);
     });
 
-    this.socket.on('currentPlayers', (players,gameplay) => {
-      this.games=gameplay;
+    this.socket.on('currentPlayers', (players, gameplay) => {
+      this.games = gameplay;
       for (let i = 0; i < players.length; i++) {
         if (players[i].socketId === this.socket.id) {
           this.addPlayer(this, players[i])
@@ -120,7 +120,7 @@ class Game extends Phaser.Scene {
 
       if (this.destructor) {
         this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>
-          this.choque(this.destructor, this.submarino2)
+          this.choque(this.destructor, this.submarino2, self)
         );
       }
 
@@ -155,7 +155,7 @@ class Game extends Phaser.Scene {
 
       if (this.submarino) {
         this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () =>
-          this.choque(this.submarino, this.destructor2)
+          this.choque(this.submarino, this.destructor2, self)
         );
       }
 
@@ -195,8 +195,8 @@ class Game extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    this.socket.on('playerMoved', (playerInfo) => {
-
+    this.socket.on('playerMoved', (playerInfo, gamePlay) => {
+      this.games = gamePlay;
       let i = 0;
       this.otherPlayers.getChildren().forEach((otherPlayer) => {
         if (playerInfo.socketId === otherPlayer.socketId) {
@@ -220,8 +220,8 @@ class Game extends Phaser.Scene {
       });
     });
 
-    this.socket.on('playerMovedCarguero', (playerInfo) => {
-
+    this.socket.on('playerMovedCarguero', (playerInfo, id, gamePlay) => {
+      this.games = gamePlay;
       let i = 0;
       if (playerInfo.boatList[i].type == 'destructor') {
         i = 1;
@@ -237,7 +237,8 @@ class Game extends Phaser.Scene {
       });
     });
 
-    this.socket.on('other_destroy_submarino', (info) => {
+    this.socket.on('other_destroy_submarino', (info, gamePlay) => {
+      this.games = gamePlay;
       if (this.submarino) {
         this.submarino.destroy();
       }
@@ -246,7 +247,8 @@ class Game extends Phaser.Scene {
       }
     });
 
-    this.socket.on('other_destroy_destructor', (info) => {
+    this.socket.on('other_destroy_destructor', (info, gamePlay) => {
+      this.games = gamePlay;
       if (this.destructor) {
         this.destructor.destroy();
       } else {
@@ -254,58 +256,68 @@ class Game extends Phaser.Scene {
       }
     });
 
-    /*this.socket.on('other_destroy_depthCharge', (info) => {
+    /*this.socket.on('other_destroy_depthCharge', (info, gamePlay) => {
+      this.games=gamePlay;
       this.destructor.depthCharge.destroy();
     });*/
 
-    this.socket.on('other_destroy_torpedo', (info) => {
+    this.socket.on('other_destroy_torpedo', (info, gamePlay) => {
+      this.games = gamePlay;
       this.destructor.depthCharge.destroy();
     });
 
-    this.socket.on('other_shot', (info) => {
+    this.socket.on('other_shot', (info, gamePlay) => {
+      this.games = gamePlay;
       this.submarino2.shootTorpedo();
     });
 
-    this.socket.on('other_shotCannon', (info) => {
+    this.socket.on('other_shotCannon', (info, gamePlay) => {
+      this.games = gamePlay;
       this.submarino2.shootCannon();
     });
 
-    this.socket.on('other_shotCannonDestructor', (info) => {
+    this.socket.on('other_shotCannonDestructor', (info, gamePlay) => {
+      this.games = gamePlay;
       this.destructor2.shootCannon();
     });
 
-    this.socket.on('other_shotDepthCharge', (info) => {
+    this.socket.on('other_shotDepthCharge', (info, gamePlay) => {
+      this.games = gamePlay;
       this.destructor2.shootDepthCharge();
     });
 
-    this.socket.on('other_surface', (info) => {
+    this.socket.on('other_surface', (info, gamePlay) => {
+      this.games = gamePlay;
       console.log('submarino en superficie');
       this.submarino2.surfaceOpponent();
     });
 
-    this.socket.on('other_immerse', (info) => {
+    this.socket.on('other_immerse', (info, gamePlay) => {
+      this.games = gamePlay;
       console.log('submarino sumergido');
       this.submarino2.immerseOpponent();
     });
 
-    this.socket.on('other_deepImmerse', (info) => {
+    this.socket.on('other_deepImmerse', (info, gamePlay) => {
+      this.games = gamePlay;
       console.log('submarino sumergido profundo');
       this.submarino2.deepImmerseOpponent(info);
     });
 
-    this.socket.on('opponentThrowDepthCharge', function (info) {
+    this.socket.on('opponentThrowDepthCharge', function (info, gamePlay) {
+      this.games = gamePlay;
       self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self, this.socket);
     });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
-  choque(nave1, nave2) {
-    nave1.setVisible(false);
-    nave2.setVisible(false);
-    this.socket.emit('destroyShips', { socketId: socket.id });
-    // nave1.destroy(this.socket, this);
-    // nave2.destroy(this.socket, this);
+  choque(nave1, nave2, self) {
+    self.anims.create(self.explosionConfig);
+    self.add.sprite(this.games.game.playerList[0].boatList[0].positionX, this.games.game.playerList[0].boatList[0].positiony, 'explosion').play('explodeAnimation');
+    self.add.sprite(this.games.game.playerList[1].boatList[0].positionX+10, this.games.game.playerList[1].boatList[0].positionY+10, 'explosion').play('explodeAnimation');
+    nave1.destroy(this.socket, this);
+    nave2.destroy(this.socket, this);
   }
 
   collisionShipArmy(objectShip, objectArmy, string) {
