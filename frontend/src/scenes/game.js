@@ -119,9 +119,12 @@ class Game extends Phaser.Scene {
       }*/
 
       if (this.destructor) {
-        this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>
-          this.choque(this.destructor, this.submarino2, self)
-        );
+        this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () =>{
+          self.anims.create(self.explosionConfig)
+          self.add.sprite(this.destructor.x, this.destructor.y, 'explosion').play('explodeAnimation')
+        self.add.sprite(this.submarino2.x + 10, this.submarino2.y + 10, 'explosion').play('explodeAnimation')
+        this.choque(this.destructor, this.submarino2, self)
+        });
       }
 
       if (this.destructor) {
@@ -154,9 +157,15 @@ class Game extends Phaser.Scene {
       this.addOtherPlayers(this, playerInfo);
 
       if (this.submarino) {
-        this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () =>
-          this.choque(this.submarino, this.destructor2, self)
-        );
+        this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () =>{
+          self.anims.create(self.explosionConfig)
+        self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation')
+        self.add.sprite(this.destructor2.x + 10, this.destructor2.y + 10, 'explosion').play('explodeAnimation')
+        this.choque(this.submarino, this.destructor2, self)
+
+
+
+        });
       }
 
       if (this.submarino) {
@@ -313,9 +322,13 @@ class Game extends Phaser.Scene {
   }
 
   choque(nave1, nave2, self) {
-    self.anims.create(self.explosionConfig);
+    /*self.anims.create(self.explosionConfig);
+  
     self.add.sprite(this.games.game.playerList[0].boatList[0].positionX, this.games.game.playerList[0].boatList[0].positiony, 'explosion').play('explodeAnimation');
-    self.add.sprite(this.games.game.playerList[1].boatList[0].positionX+10, this.games.game.playerList[1].boatList[0].positionY+10, 'explosion').play('explodeAnimation');
+    self.add.sprite(this.games.game.playerList[0].boatList[0].positionX + 10, this.games.game.playerList[0].boatList[0].positionY + 10, 'explosion').play('explodeAnimation');
+  
+  */
+
     nave1.destroy(this.socket, this);
     nave2.destroy(this.socket, this);
   }
