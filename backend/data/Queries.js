@@ -13,6 +13,15 @@ class Queries {
         return query;
     } 
 
+    insertDificultad(){
+        const query='insert into difficulty (id,multiMap,multiLife,multiPower,multiVisibility,multiSpeed,multiDistance ) values(1,1,2,3,4,6,7)';
+        return query;
+    }
+    obtengoDificultad(){
+        const query='';
+        return query;
+    }
+
 }
 
 module.exports = Queries;

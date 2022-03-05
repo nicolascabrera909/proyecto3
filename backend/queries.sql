@@ -15,6 +15,17 @@ INSERT INTO version (id, version)
 
 use udenavybd;
 
+CREATE TABLE difficulty (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	multiMap INT,
+	multiLife INT,
+	multiPower INT,
+	multiVisibility INT,
+	multiSpeed INT,
+	multiDistance INT,
+	created_at timestamp NOT NULL DEFAULT current_timestamp
+);
+
 CREATE TABLE game (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	difficulty_id INT,
@@ -31,16 +42,7 @@ CREATE TABLE mapa (
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
 
-CREATE TABLE difficulty (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	multiMap INT,
-	multiLife INT,
-	multiPower INT,
-	multiVisibility INT,
-	multiSpeed INT,
-	multiDistance INT,
-	created_at timestamp NOT NULL DEFAULT current_timestamp
-);
+
 
 CREATE TABLE player (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -50,7 +52,7 @@ CREATE TABLE player (
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
 
-CREATE TABLE freighters (
+/*CREATE TABLE freighters (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	player_id INT,
 	positionX INT,
@@ -60,7 +62,7 @@ CREATE TABLE freighters (
 	visibility INT,
 	FOREIGN KEY (player_id) REFERENCES player(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
-);
+);*/
 
 CREATE TABLE ship (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
