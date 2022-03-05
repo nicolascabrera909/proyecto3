@@ -20,7 +20,7 @@ class DAOGame {
 
     async find(name1, name) {
         const consultas = new queries();
-        const result = await pool.query(consultas.findGamea());
+        const result = await pool.query(consultas.findGamea());///falat terminar
         if (result != null) {
             result[0];
         }

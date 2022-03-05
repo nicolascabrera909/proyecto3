@@ -3,11 +3,11 @@ const Player = require('./Player.js')
 const Game = require('./Game.js')
 const Submarine = require('./Submarine.js')
 const Destructor = require('./Destructor')
-// const Cannon = require('./Cannon.js')
-// const Torpedo = require('./Torpedo.js')
-// const Difficulty = require('./Difficulty.js')
 const Freighters = require('./Freighters.js')
 const Map = require('./Map')
+const DAOGame = require('../data/DAOGame')
+
+
 //const { prependListener } = require('../data/Database.js')
 
 class Games {
@@ -108,6 +108,13 @@ class Games {
             }
             this.game.playerList.splice(pos, 1);
         }
+    }
+
+    LoadPartida(){
+       let daoGameInstancia= new DAOGame();
+       game= new Game();
+       game=daoGameInstancia.findGame();
+       //falta a terminar
     }
 }
 
