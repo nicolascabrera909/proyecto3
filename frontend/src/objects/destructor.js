@@ -51,12 +51,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
   destroy(socket, self) {
     this.destructor.destroy();
     this.destructor.is_destroyed = true;
-    // self.anims.create(self.explosionConfig);
-    // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
     if (socket) {
-      socket.emit('destroy_destructor', { 
-        socketId: socket.id 
-      });
+      socket.emit('destroy_destructor', { socketId: socket.id });
     }
   }
 

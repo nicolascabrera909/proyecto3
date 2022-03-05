@@ -94,8 +94,8 @@ CREATE TABLE submarine (
 CREATE TABLE cannon (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
-	c_power INT,
-	c_distance INT,
+	/*c_power INT,
+	c_distance INT,*/
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -105,8 +105,6 @@ CREATE TABLE depth_charge (
 	destructor_id INT,
 	dp_time INT,
 	dp_depth INT,
-	dp_power INT,
-	dp_distance INT,
 	FOREIGN KEY (destructor_id) REFERENCES destructor(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -114,8 +112,7 @@ CREATE TABLE depth_charge (
 CREATE TABLE torpedo (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	submarine_id INT,
-	t_power INT,
-	t_distance INT,
+	t_cantidad
 	FOREIGN KEY (submarine_id) REFERENCES submarine(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );

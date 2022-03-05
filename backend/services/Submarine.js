@@ -10,14 +10,10 @@ class Submarine {
         //super();
 
         this.torpedo = new Torpedo();
-        this.torpedo.power = 100;
-        this.torpedo.distance = 100;
         this.torpedo.cantMunicion = 30;
 
-        this.cannon = new Cannon();
-        this.cannon.power = 100;
-        this.cannon.distance = 100;
-        this.cannon.cantMunicion = 30;
+        this.cannon = new Cannon(30);
+        //this.cannon.cantMunicion = 30;
 
         /*mapa.getWidth(), mapa.getHeight()*/
         const coordenadas = this.coordenadasSubmarino(map.getWidth(), map.getHeight());

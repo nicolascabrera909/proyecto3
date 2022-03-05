@@ -1,15 +1,14 @@
 const pool = require('./Database');
 const queries = require('./Queries'); 
-const Torpedo = require('../services/Torpedo.js')
+const DepthCharge = require('../services/DepthCharge.js')
 
-class DAOTorpedo {
+class DAODepthCharge {
 
     constructor() {}
 
-  
-    async insert(torpedo,idSubmarin) {
+    async insert(depthCharge,idDestructor) {
         const consultas = new queries();
-        const result = await pool.query(consultas.insertTorpedo() ,[idSubmarin,torpedo.cantidad]);
+        const result = await pool.query(consultas.insertDepthCharge(),[idDestructor, depthCharge.time, depthCharge.depth]);
         if (result != null) {
             return ('OK')
         }
@@ -19,7 +18,7 @@ class DAOTorpedo {
 
     async find(submarineId) {
         const consultas = new queries();
-        const result = await pool.query(consultas.findTorpedo() ,[submarineId]);
+        const result = await pool.query(consultas.findDepthCharge(),[submarineId]);
         if (result != null) {
             result[0];
         }
@@ -28,4 +27,4 @@ class DAOTorpedo {
     }        
 
 }
-module.exports = DAOVersion;
+module.exports = DAODepthCharge;

@@ -14,10 +14,8 @@ class Destructor extends Ship {
         this.carga.setCantMunicion(30);
         this.carga.setTime(10);
         this.carga.setDepth();
-        this.cannon = new Cannon();
-        this.cannon.setDistance(150);
-        this.cannon.setPower(500);
-        this.cannon.setCantMunicion(30);
+        this.cannon = new Cannon(30);
+       // this.cannon.setCantMunicion(30);
 
         //let coordenadas = this.coordenadas(mapa.getWidth(), mapa.getHeight());
         this.positionX = 0

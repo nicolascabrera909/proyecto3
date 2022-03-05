@@ -3,10 +3,9 @@ const Armament = require('./Armament.js')
 class Torpedo extends Armament {
 
     /*Constructor*/
-    constructor(time, depth) {
+    constructor(cantMunicion) {
         super();
-        this.time=time;
-        this.depth=depth;
+        this.cantMunicion=cantMunicion;
         //const Torpedo = new Armament;
     }
 

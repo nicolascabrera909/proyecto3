@@ -1,15 +1,14 @@
 const pool = require('./Database');
 const queries = require('./Queries'); 
-const Torpedo = require('../services/Torpedo.js')
+const Destructor = require('../services/Destructor.js')
 
-class DAOTorpedo {
+class DAODestructor {
 
     constructor() {}
 
-  
-    async insert(torpedo,idSubmarin) {
+    async insert(shipId) {
         const consultas = new queries();
-        const result = await pool.query(consultas.insertTorpedo() ,[idSubmarin,torpedo.cantidad]);
+        const result = await pool.query(consultas.insertDestructor(),[shipId]);
         if (result != null) {
             return ('OK')
         }
@@ -17,9 +16,9 @@ class DAOTorpedo {
             return ('Error');
     } 
 
-    async find(submarineId) {
+    async find(shipId) {
         const consultas = new queries();
-        const result = await pool.query(consultas.findTorpedo() ,[submarineId]);
+        const result = await pool.query(consultas.findDestructor(),[shipId]);
         if (result != null) {
             result[0];
         }
@@ -28,4 +27,4 @@ class DAOTorpedo {
     }        
 
 }
-module.exports = DAOVersion;
+module.exports = DAODestructor;

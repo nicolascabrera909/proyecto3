@@ -7,6 +7,7 @@ const Armament = require('./Armament.js')
         super();
         this.time = time;
         this.depth = depth;
+        
     }
 
     /*Geters and seters*/

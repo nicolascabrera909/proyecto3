@@ -11,6 +11,7 @@ const { database } = require('./config');
 /////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////
 // var players = {};
 var gamePlay = new Games();
+let finishCharge=0;
 // var cantidad =0;
 // var boat = 'boat';
 
@@ -84,6 +85,14 @@ io.on('connection', function (socket) {
     /*  socket.emit('currentPlayers', players);
       socket.broadcast.emit('newPlayer', players[socket.id]);*/
   });
+
+
+  socket.on('fullcharge',function(bandera){
+    console.log('se jecucto new player');
+    if(bandera){
+      socket.emit('addCollition');
+    }
+  })
 
   socket.on('disconnect', function () {
     console.log('player [' + socket.id + '] disconnected')

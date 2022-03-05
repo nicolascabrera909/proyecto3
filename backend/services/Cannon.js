@@ -3,8 +3,9 @@ const Armament = require('./Armament.js')
 class Cannon extends Armament{
     
      /*Constructor*/
-     constructor() {
+     constructor(cantMunicion) {
         super();
+        this.cantMunicion=cantMunicion;
     }
 
     setPower(val){
