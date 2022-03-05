@@ -11,16 +11,14 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         this.depth;
     }
 
-    fire(x, y, self, angle) {
+    fire(x, y, self) {
         this.body.reset(x, y);
         this.setActive(true);
         this.setVisible(true);
-        //this.setAngle(Phaser.Math.RadToDeg(angle));
-        //self.scene.physics.velocityFromRotation(angle, -1, this.body.velocity);
     }
 
-    fireDepthCharge(x, y, socket, self, angle) {
-        this.fire(x, y, this, angle);
+    fireDepthCharge(x, y, socket, self) {
+        this.fire(x, y, this);
         this.disable(self, socket);
         if (socket) {
             socket.emit('depthChargeThrowing', {

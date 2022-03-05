@@ -48,6 +48,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
     return this.destructor;
   }
 
+  /*
   destroy(socket, self) {
     this.destructor.destroy();
     this.destructor.is_destroyed = true;
@@ -56,7 +57,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
     if (socket) {
       socket.emit('destroy_destructor', { socketId: socket.id });
     }
-  }
+  }*/
 
   moveDestructor(cursors, socket, input, self, target) {
     if (!this.destructor.is_destroyed) {
@@ -78,8 +79,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
         this.cannons.fireCannons(this.destructor.x, this.destructor.y, socket, target, 'destructor');
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        var angle = Phaser.Math.DegToRad(this.destructor.body.rotation);
-        this.depthCharge.fireDepthCharge(this.destructor.x, this.destructor.y, socket, self, angle);
+        this.depthCharge.fireDepthCharge(this.destructor.x, this.destructor.y, socket, self);
       } else {
         this.destructor.setAcceleration(0)
         this.destructor.setVelocityY(0)
