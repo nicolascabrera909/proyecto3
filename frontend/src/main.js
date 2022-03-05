@@ -4,8 +4,8 @@ import Game from "./scenes/game.js";
 // CONFIG BASICA
 const config = {
     title: 'UDE Navy',
-    width: 1360,
-    height: 720,
+    width: 1344,
+    height: 704,
     type: Phaser.AUTO,
     parent: 'game-screen',
     pixelArt: true,

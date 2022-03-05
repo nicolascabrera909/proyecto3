@@ -31,8 +31,9 @@ class Carguero extends Phaser.GameObjects.Sprite {
  
     //ubico al carguero
     this.carguero = this.scene.physics.add.sprite(x, y, 'carguero');
-    // this.carguero.setDisplaySize(100, 20)//.setOrigin();  
-    //this.carguero.setCollideWorldBounds(true);
+    this.carguero.setDisplaySize(80, 15);
+    this.carguero.setSize(140, 20);
+    this.carguero.setCollideWorldBounds(true);
   
     return this.carguero;
   }

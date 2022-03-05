@@ -24,8 +24,8 @@ class Freighters extends Boat {
         var yTotal = YMapaSize-350;
         var mapaMitad = (xTotal / 5)*2;
         var listaCoordenadas = [];
-        var distanciaBarcos = 150;
-        var Xminimo= 450;
+        var distanciaBarcos = 80;
+        var Xminimo= 50;
         var Yminimo= 100;
         
         for (var i = 0; i < 6; i++) {

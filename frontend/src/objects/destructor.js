@@ -17,27 +17,27 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.body.position.y = y;
     this.depthCharge = new DepthCharge(scene, x, y);
     this.cannons = new Cannons(scene);
+    this.life = 5;
   }
 
   create(coordenadas, self, cursor) {
     var randomX = coordenadas.x;
     var randomY = coordenadas.y;
     this.destructor = this.scene.physics.add.image(randomX, randomY, 'destructor');
-    // this.destructor.setDisplaySize(180, 30);
-    // this.destructor.setSize(1400, 200);
+    this.destructor.setCollideWorldBounds(true);
+    this.destructor.setDisplaySize(100, 20);
+    this.destructor.setSize(140, 20);
     this.destructor.flipX = false;
-    //this.destructor.setRotation(playerInfo.rotation)
     if (cursor) {
       console.log("Termino crear destructor");
-      self.cameras.main.setBounds(0, 0, 3200, 1600);
+      self.cameras.main.setBounds(0, 0, 1344, 704);
       self.cameras.main.startFollow(this.destructor, true);
       self.cameras.main.roundPixels = true;
-      self.cameras.main.setZoom(1);
+      self.cameras.main.setZoom(1.5);
       this.keySPACEBAR = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-      
+
     }
-    //this.destructor.setCollideWorldBounds(true);
     this.destructor.setImmovable(true);
 
     return this.destructor;
@@ -51,33 +51,14 @@ class Destructor extends Phaser.GameObjects.Sprite {
   destroy(socket, self) {
     this.destructor.destroy();
     this.destructor.is_destroyed = true;
-    self.anims.create(self.explosionConfig);
-    self.add.sprite(this.destructor.x, this.destructor.y, 'explosion').play('explodeAnimation');
+    // self.anims.create(self.explosionConfig);
+    // self.add.sprite(this.destructor.x, this.destructor.y, 'explosion').play('explodeAnimation');
     if (socket) {
       socket.emit('destroy_destructor', { socketId: socket.id });
     }
   }
 
-  shootDepthCharge(socket) {
-    this.depth_charge = new DepthCharge(this.scene, this.destructor.x, this.destructor.y, 'depth_charge')
-    this.depth_charge.setVisible(false);
-    this.depth_charge.createShootDepthCharge(this.destructor);
-    if(socket){
-      socket.emit('shootingDepthCharge', {socketId: socket.id});
-    }
-  }
-
-  shootCannon(input, socket) {
-    this.canon = new Canion(this.scene, this.destructor.x, this.destructor.y, 'canon')
-    this.canon.setVisible(false);
-    this.canon.createShootCannon(this.destructor, input, socket);
-    this.scene.cannon_sound.play();
-    if(socket){
-      socket.emit('shootingCannonDestructor', {socketId: socket.id});
-    }
-  }
-
-  moveDestructor(cursors, socket, input, self) {
+  moveDestructor(cursors, socket, input, self, target) {
     if (!this.destructor.is_destroyed) {
       if (cursors.left.isDown) {
         this.destructor.setAngularVelocity(-120)
@@ -95,8 +76,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
         this.destructor.setVelocityX(300 * velX)
         this.destructor.setVelocityY(300 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        var angle = Phaser.Math.DegToRad(this.destructor.body.rotation);
-        this.cannons.fireCannons(this.destructor.x, this.destructor.y, self, angle);
+        this.cannons.fireCannons(this.destructor.x, this.destructor.y, self, target);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
         var angle = Phaser.Math.DegToRad(this.destructor.body.rotation);
         this.depthCharge.fireDepthCharge(this.destructor.x, this.destructor.y, socket, self, angle);
@@ -120,8 +100,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
         this.destructor.coodOriginalY == this.destructor.y &&
         this.destructor.rotationOriginal == this.destructor.rotation)) {
         socket.emit('playerMovement', { x: this.destructor.x, y: this.destructor.y, rotation: this.destructor.rotation })
-        this.destructor.coodOriginalX =  this.destructor.x ;
-        this.destructor.coodOriginalY =  this.destructor.y ;
+        this.destructor.coodOriginalX = this.destructor.x;
+        this.destructor.coodOriginalY = this.destructor.y;
         this.destructor.rotationOriginal = this.destructor.rotation;
       }
     }

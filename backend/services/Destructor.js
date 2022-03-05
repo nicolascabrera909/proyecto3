@@ -52,7 +52,7 @@ class Destructor extends Ship {
     coordenadas(listaCoordenadas, XMapaSize, YMapaSize) {
 
         /// cordenadas del mapa inicial y  mas variables
-        var distanciaBarcos = 400;
+        var distanciaBarcos = 150;
 
         var x = new Number(listaCoordenadas[listaCoordenadas.length - 2].x + distanciaBarcos);
         var y = new Number(listaCoordenadas[listaCoordenadas.length - 2].y);

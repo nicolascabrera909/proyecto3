@@ -48,10 +48,10 @@ class Submarine {
     coordenadasSubmarino(tamañoXMapa, tamañoYmapa) {
 
         /// cordenadas del mapa inicial es  width: 800,    height: 600,
-        const xTotal = tamañoXMapa - 500;
-        const yTotal = tamañoYmapa - 100;
+        const xTotal = tamañoXMapa - 50;
+        const yTotal = tamañoYmapa - 50;
         const mapaMitad = (xTotal / 4) * 3;
-        const rangoBordes = 100;
+        const rangoBordes = 50;
 
         //calculo numero ramdom
         const x1 = new Number(Math.round(Math.random() * (xTotal - mapaMitad) + (mapaMitad)));
