@@ -138,7 +138,7 @@ class Game extends Phaser.Scene {
 
     this.socket.on('addCollition', function () {
       //this.addCollisions(self);
-      
+
 
     })
 
@@ -204,15 +204,24 @@ class Game extends Phaser.Scene {
       console.log('soket de la pantalla actual' + this.socket.id);
       console.log(this.currentPlayers.children.entries[0].socketId);
       console.log(this.otherPlayers);
-      
+
       /// comparo el socket id en other para eliminar mi copia
-      if (this.otherPlayers.children.entries[i].socketId == info.socketId) {
-        for (let i = 0; i < this.otherPlayers.children.entries.length; i++) {
-          if (this.otherPlayers.children.entries[i].texture.key == 'submarino') {
-            this.otherPlayers.children.entries[i].destroy(false, self);
+      if (this.otherPlayers.children.entries.length > 0) {
+        if (this.otherPlayers.children.entries[0].socketId == info.socketId) {
+          for (let i = 0; i < this.otherPlayers.children.entries.length; i++) {
+            if (this.otherPlayers.children.entries[i].texture.key == 'submarino') {
+              this.otherPlayers.children.entries[i].destroy(false, self);
+            }
           }
+          console.log("eliminado el sub");
+        } else {
+          for (let i = 0; i < this.currentPlayers.children.entries.length; i++) {
+            if (this.currentPlayers.children.entries[i].texture.key == 'submarino') {
+              this.currentPlayers.children.entries[i].destroy(false, self);
+            }
+          }
+          console.log("eliminado el sub");
         }
-        console.log("eliminado el sub");
       } else {
         for (let i = 0; i < this.currentPlayers.children.entries.length; i++) {
           if (this.currentPlayers.children.entries[i].texture.key == 'submarino') {
@@ -221,6 +230,7 @@ class Game extends Phaser.Scene {
         }
         console.log("eliminado el sub");
       }
+
     });
 
 
@@ -233,8 +243,9 @@ class Game extends Phaser.Scene {
       console.log(this.currentPlayers.children.entries[0].socketId);
       console.log(this.otherPlayers);
       /// comparo el socket id en other para eliminar mi copia
-        /// comparo el socket id en other para eliminar mi copia
-        if (this.otherPlayers.children.entries[i].socketId == info.socketId) {
+      /// comparo el socket id en other para eliminar mi copia
+      if (this.otherPlayers.children.entries.length > 0) {
+        if (this.otherPlayers.children.entries[0].socketId == info.socketId) {
           for (let i = 0; i < this.otherPlayers.children.entries.length; i++) {
             if (this.otherPlayers.children.entries[i].texture.key == 'destructor') {
               this.otherPlayers.children.entries[i].destroy(false, self);
@@ -249,6 +260,15 @@ class Game extends Phaser.Scene {
           }
           console.log("eliminado el dest");
         }
+      } else {
+        for (let i = 0; i < this.currentPlayers.children.entries.length; i++) {
+          if (this.currentPlayers.children.entries[i].texture.key == 'destructor') {
+            this.currentPlayers.children.entries[i].destroy(false, self);
+          }
+        }
+        console.log("eliminado el dest");
+      }
+
 
     });
 
