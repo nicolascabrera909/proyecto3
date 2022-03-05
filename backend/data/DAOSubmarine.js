@@ -1,14 +1,14 @@
 const pool = require('./Database');
 const queries = require('./Queries'); 
-const Sumarine = require('../services/Submarine')
+const Submarine = require('../services/Submarine.js')
 
-class DAOSumarine {
+class DAOSubmarine {
 
     constructor() {}
 
-    async insert(sumarine,shipId) {
+    async insert(submarine,shipId) {
         const consultas = new queries();ship_id,s_depth
-        const result = await pool.query(consultas.insertSubmarine(),[shipId, sumarine.depth]);
+        const result = await pool.query(consultas.insertSubmarine(),[shipId, submarine.depth]);
         if (result != null) {
             return ('OK')
         }
@@ -27,4 +27,4 @@ class DAOSumarine {
     }        
 
 }
-module.exports = DAOSumarine;
+module.exports = DAOSubmarine;

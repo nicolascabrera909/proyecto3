@@ -23,7 +23,7 @@ class Queries {
     }
 
     insertGame(){
-        const query='insert into game (id,difficulty_id ) values($1,$2)';
+        const query='insert into game (difficulty_id ) values($1,$2)';
         return query;
     }
     findGame(){
@@ -32,7 +32,7 @@ class Queries {
     }
 
     insertMap(){
-        const query='insert into mapa (id,game_id,heigth,width ) values($1,$2,$3,$4);';
+        const query='insert into mapa (game_id,heigth,width ) values($1,$2,$3,$4);';
         return query;
     }
     findMap(){
@@ -40,7 +40,7 @@ class Queries {
         return query;
     }
     insertMap(){
-        const query='insert into mapa (id,game_id,heigth,width ) values($1,$2,$3,$4);';
+        const query='insert into mapa (game_id,heigth,width ) values($1,$2,$3,$4);';
         return query;
     }
     findMap(){
@@ -48,7 +48,7 @@ class Queries {
         return query;
     }
     insertPlayer(){
-        const query='insert into player (id,name,game_id) values($1,$2,$3);';
+        const query='insert into player (name,game_id) values($1,$2,$3);';
         return query;
     }
     findPlayer(){

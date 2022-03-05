@@ -1,15 +1,15 @@
 const pool = require('./Database');
 const queries = require('./Queries'); 
-const Ship = require('../services/Ship.js')
+const Map = require('../services/Map.js')
 
-class DAOShip {
+class DAOMap {
 
     constructor() {}
   
     //aca le paso o un destructor, submarino o un carguero
-    async insert(playerId,ship) {
+    async insert(map,gameId) {
         const consultas = new queries();
-        const result = await pool.query(consultas.insertShip(),[playerId, ship.positionX,ship.positionY,ship.boatLife,ship.boatType,ship.visibility]);
+        const result = await pool.query(consultas.insertMap(),[gameId, map.heigth,map.width]);
         if (result != null) {
             return ('OK')
         }
@@ -17,9 +17,9 @@ class DAOShip {
             return ('Error');
     } 
 
-    async find(playerId) {
+    async find(gameId) {
         const consultas = new queries();
-        const result = await pool.query(consultas.findShip(),[playerId]);
+        const result = await pool.query(consultas.findMap(),[gameId]);
         if (result != null) {
             result[0];
         }
@@ -28,4 +28,4 @@ class DAOShip {
     }        
 
 }
-module.exports = DAOShip;
+module.exports = DAOMap;
