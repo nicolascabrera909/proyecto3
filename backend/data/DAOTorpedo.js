@@ -28,4 +28,4 @@ class DAOTorpedo {
     }        
 
 }
-module.exports = DAOVersion;
+module.exports = DAOTorpedo;
