@@ -57,7 +57,7 @@ class Queries {
     }
 
     insertShip(){
-        const query='insert into ship (id,player_id ,positionX,positionY,boatLife,boatType,visibility) values($1,$2,$3,$4,$5,$6,$7);';
+        const query='insert into ship (player_id ,positionX,positionY,boatLife,boatType,visibility) values($1,$2,$3,$4,$5,$6,$7);';
         return query;
     }
     findShip(){
