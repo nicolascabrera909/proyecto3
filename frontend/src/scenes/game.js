@@ -214,18 +214,34 @@ class Game extends Phaser.Scene {
 
     // ************* colisiones submarino *************
     this.socket.on('other_destroy_submarino', (info) => {
-      
-        this.otherPlayers.scene.submarino2.destroy(false, self);
-     
+        console.log("antes de eliminar el submarino 2");
+        console.log(info.socketId);
+        console.log(this.socket.id);
+        console.log(this.otherPlayers.socketId );
+        if(this.otherPlayers.socketId == this.socket.id){
+          this.currentPlayers.scene.submarino.destroy(false, self);
+        }else{
+          this.otherPlayers.scene.submarino2.destroy(false, self);
+
+        }
+        console.log("eliminado el sub");
     });
 
 
     // ************* colisiones destructor ******************
  
     this.socket.on('other_destroy_destructor', (info) => {
-  
-        this.otherPlayers.scene.destructor2.destroy(false, self);
-     
+      console.log("antes de eliminar el destructor2 2");
+      console.log(info.socketId);
+        console.log(this.socket.id);
+        console.log(this.otherPlayers.socketId );
+        if(this.otherPlayers.socketId == this.socket.id){
+        this.currentPlayers.scene.destructor.destroy(false, self);
+      }else{
+        this.currentPlayers.scene.destructor.destroy(false, self);
+
+      }
+      console.log("eliminado el destructor2");
     });
 
     // ******************* fin colisiones ******************* 
