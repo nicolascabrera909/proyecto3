@@ -145,8 +145,14 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_destroy_torpedo', info,gamePlay)
   });
   
-  socket.on('shooting', function (info) {
-    socket.broadcast.emit('other_shot', info,gamePlay)
+  socket.on('shootingTorpedo', function (info) {
+    if (gamePlay.game.playerList[0].socketId == socket.id) {
+      console.log('entro al shooting game 0')
+      socket.broadcast.emit('other_shotTorpedo', gamePlay.game.playerList[0].boatList[0], gamePlay, gamePlay.game.playerList[0].socketId)
+    } else {
+      console.log('entro al shooting game 0')
+      socket.broadcast.emit('other_shotTorpedo', gamePlay.game.playerList[1].boatList[0], gamePlay, gamePlay.game.playerList[0].socketId)
+    }
   });
 
   socket.on('shootingCannon', function (info) {

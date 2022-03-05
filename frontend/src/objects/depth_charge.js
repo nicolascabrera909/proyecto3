@@ -7,7 +7,7 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         this.name = "bomb";
         this.available = true;
-        this.setVisible(false);
+        this.setVisible(true);
         this.depth;
     }
 
@@ -48,7 +48,7 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         setTimeout(function () {
             selfDepthCharge.available = false;
             selfDepthCharge.setVisible(false);
-        }, 5000);
+        }, 100000);
     }
 
     bombDestructor(self) {

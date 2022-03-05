@@ -110,11 +110,21 @@ class Submarino extends Phaser.GameObjects.Sprite {
       } else if (cursors.up.isDown) {
         this.submarino.setVelocityX(-400 * velX)
         this.submarino.setVelocityY(-400 * velY)
-      } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
-        this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, self, angle);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        this.cannons.fireCannons(this.submarino.x, this.submarino.y, self, target);
+        var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
+        this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, socket, angle);
+        /*if (this.submarino.depth === 2){
+          var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
+          this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, socket, angle);
+        } else {
+          console.log('Torpedo disponible solo semisumergido.');
+        }*/
+      } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
+        if (this.submarino.depth === 1){
+          this.cannons.fireCannons(this.submarino.x, this.submarino.y, self, target);
+        } else {
+          console.log('Cannon disponible solo en superficie.');
+        }
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
         this.surface(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyS)) {

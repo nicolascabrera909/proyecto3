@@ -19,13 +19,13 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
         if (bullet) {
             this.disable(this);
             bullet.fire(x, y, this, angle);
-        }/*
+        }
         if(socket){
-            socket.emit('shooting', {
+            socket.emit('shootingTorpedo', {
                 x: x, y: y,
                 socket_id : socket.id
             });
-        }*/
+        }
     }
 
     disable(){
