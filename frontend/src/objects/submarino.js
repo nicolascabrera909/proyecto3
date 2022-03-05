@@ -138,11 +138,12 @@ class Submarino extends Phaser.GameObjects.Sprite {
           console.log('Torpedo disponible solo semisumergido.');
         }*/
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        if (this.submarino.depth === 1){
-          this.cannons.fireCannons(this.submarino.x, this.submarino.y, self, target);
+        this.cannons.fireCannons(this.submarino.x, this.submarino.y, socket, target, 'submarino');
+        /*if (this.submarino.depth === 1){
+          this.cannons.fireCannons(this.submarino.x, this.submarino.y, self, target, 'submarino');
         } else {
           console.log('Cannon disponible solo en superficie.');
-        }
+        }*/
       } else if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
         this.surface(input, socket);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyS)) {

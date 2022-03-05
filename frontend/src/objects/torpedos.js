@@ -23,7 +23,8 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
         if(socket){
             socket.emit('shootingTorpedo', {
                 x: x, y: y,
-                socket_id : socket.id
+                socket_id : socket.id,
+                angle: angle
             });
         }
     }

@@ -130,11 +130,11 @@ io.on('connection', function (socket) {
   });
 
   socket.on('destroy_submarino', function (info) {
-    socket.broadcast.emit('other_destroy_submarino', info,gamePlay)
+    socket.broadcast.emit('other_destroy_submarino', info)
   });
 
   socket.on('destroy_destructor', function (info) {
-    socket.broadcast.emit('other_destroy_destructor', info,gamePlay)
+    socket.broadcast.emit('other_destroy_destructor', info)
   });
 
   /*socket.on('destroy_depthCharge', function (info) {
@@ -142,46 +142,42 @@ io.on('connection', function (socket) {
   });*/
 
   socket.on('destroy_torpedo', function (info) {
-    socket.broadcast.emit('other_destroy_torpedo', info,gamePlay)
+    socket.broadcast.emit('other_destroy_torpedo', info)
   });
   
   socket.on('shootingTorpedo', function (info) {
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       console.log('entro al shooting game 0')
-      socket.broadcast.emit('other_shotTorpedo', gamePlay.game.playerList[0].boatList[0], gamePlay, gamePlay.game.playerList[0].socketId)
+      socket.broadcast.emit('other_shotTorpedo', info)
     } else {
       console.log('entro al shooting game 0')
-      socket.broadcast.emit('other_shotTorpedo', gamePlay.game.playerList[1].boatList[0], gamePlay, gamePlay.game.playerList[0].socketId)
+      socket.broadcast.emit('other_shotTorpedo', info)
     }
   });
 
   socket.on('shootingCannon', function (info) {
-    socket.broadcast.emit('other_shotCannon', info,gamePlay)
-  });
-
-  socket.on('shootingCannonDestructor', function (info) {
-    socket.broadcast.emit('other_shotCannonDestructor', info,gamePlay)
+    socket.broadcast.emit('other_shotCannon', info)
   });
 
   socket.on('shootingDepthCharge', function (info) {
-    socket.broadcast.emit('other_shotDepthCharge', info,gamePlay)
+    socket.broadcast.emit('other_shotDepthCharge', info)
   });
 
   socket.on('surface', function (info) {
-    socket.broadcast.emit('other_surface', info,gamePlay)
+    socket.broadcast.emit('other_surface', info)
   });
 
   socket.on('immerse', function (info) {
-    socket.broadcast.emit('other_immerse', info,gamePlay)
+    socket.broadcast.emit('other_immerse', info)
   });
 
   socket.on('deepImmerse', function (info) {
-    socket.broadcast.emit('other_deepImmerse', info,gamePlay)
+    socket.broadcast.emit('other_deepImmerse', info)
   });
 
   socket.on('depthChargeThrowing', function(info){
     console.log('envio al otro jugador info de la deep');
-    socket.broadcast.emit('opponentThrowDepthCharge', info, gamePlay);
+    socket.broadcast.emit('opponentThrowDepthCharge', info);
 });
 
 });

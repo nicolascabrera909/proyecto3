@@ -130,10 +130,10 @@ class Game extends Phaser.Scene {
       }
 
       if (this.destructor) {
-        this.physics.add.overlap(this.destructor.depthCharge, this.submarino2.submarino, () =>{
-          if(this.destructor.depthCharge.depth === this.submarino2.submarino.depth){
+        this.physics.add.overlap(this.destructor.depthCharge, this.submarino2.submarino, () => {
+          if (this.destructor.depthCharge.depth === this.submarino2.submarino.depth) {
             this.collisionShipArmy(this.submarino2, this.destructor.depthCharge, 'entro a this destructor');
-          }else{
+          } else {
             console.log('Distintas profunidades no hay colision');
           }
         });
@@ -178,10 +178,10 @@ class Game extends Phaser.Scene {
       }*/
 
       if (this.submarino) {
-        this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () =>{
-          if(this.destructor2.depthCharge.depth === this.submarino.depth){
+        this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () => {
+          if (this.destructor2.depthCharge.depth === this.submarino.depth) {
             this.collisionShipArmy(this.submarino, this.destructor2.depthCharge, 'entro a this destructor');
-          }else{
+          } else {
             console.log('Distintas profunidades no hay colision');
           }
         });
@@ -283,76 +283,53 @@ class Game extends Phaser.Scene {
       this.destructor.depthCharge.destroy();
     });*/
 
-    this.socket.on('other_destroy_torpedo', (info, gamePlay) => {
-      this.games = gamePlay;
+    this.socket.on('other_destroy_torpedo', (info) => {
       this.destructor.depthCharge.destroy();
     });
 
-    this.socket.on('other_shotTorpedo', (playerInfo, gamePlay, socket) => {
-      console.log('entro al on shooting game 0')
-      this.games = gamePlay;
-      let i = 0;
-      this.otherPlayers.getChildren().forEach((otherPlayer) => {
-        if (socket === otherPlayer.socketId) {
-          console.log('entro al if shooting game 0')
-          otherPlayer.shipShootTorpedo(info, gamePlay.game.playerList[i]);
-        }
-        i++;
-      });
-
-      /*for (let i = 0; i < gamePlay.game.playerList.length; i++) {
-        if (gamePlay.game.playerList[i].socket_id !== info.socket_id) {
-          self.shipShootTorpedo(info, gamePlay.game.playerList[i]);
-          break;
-        }
+    this.socket.on('other_shotTorpedo', (info) => {
+      if (info.socket_id !== self.socket.id) {
+        this.submarinoShootTorpedos(info, false);
       }
-      */
     });
 
-    this.socket.on('other_shotCannon', (info, gamePlay) => {
-      this.games = gamePlay;
-      this.submarino2.shootCannon();
+    this.socket.on('other_shotCannon', (info) => {
+      if (info.socket_id !== self.socket.id) {
+        this.shipShootCannons(info, false);
+      }
     });
 
-    this.socket.on('other_shotCannonDestructor', (info, gamePlay) => {
-      this.games = gamePlay;
-      this.destructor2.shootCannon();
-    });
-
-    this.socket.on('other_shotDepthCharge', (info, gamePlay) => {
-      this.games = gamePlay;
+    this.socket.on('other_shotDepthCharge', (info) => {
       (this.destructor || this.destructor2).shootDepthCharge();
     });
 
-    this.socket.on('other_surface', (info, gamePlay) => {
-      this.games = gamePlay;
+    this.socket.on('other_surface', (info) => {
       console.log('submarino en superficie');
       (this.submarino || this.submarino2).surfaceOpponent(this.input, false);
     });
 
-    this.socket.on('other_immerse', (info, gamePlay) => {
-      this.games = gamePlay;
+    this.socket.on('other_immerse', (info) => {
       console.log('submarino sumergido');
       (this.submarino || this.submarino2).immerseOpponent(this.input, false);
     });
 
-    this.socket.on('other_deepImmerse', (info, gamePlay) => {
-      this.games = gamePlay;
+    this.socket.on('other_deepImmerse', (info) => {
       console.log('submarino sumergido profundo');
       (this.submarino || this.submarino2).deepImmerseOpponent(this.input, false);
     });
 
-    this.socket.on('opponentThrowDepthCharge', function (info, gamePlay) {
-      this.games = gamePlay;
+    this.socket.on('opponentThrowDepthCharge', function (info) {
       self.destructor2.depthCharge.fireDepthChargeOpponent(info.x, info.y, self, this.socket);
     });
+
+    window.game = this;
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
-  /*
+
   choque(nave1, nave2) {
-    let soySubmarino = false;
+    /*let soySubmarino = false;
     for (let i = 0; i < games.game.playerList.length; i++) {
       if (nave1.socketId == games.game.playerList[i].socketId) {
         if (games.game.playerList[i].boatTeam == 'submarino') {
@@ -388,7 +365,7 @@ class Game extends Phaser.Scene {
     nave2.destroy(this.socket);
   }
 
-  collisionShipArmy(objectShip, objectArmy) {
+  /*collisionShipArmy(objectShip, objectArmy) {
     let soySubmarino = false;
     for (let i = 0; i < games.game.playerList.length; i++) {
       if (objectShip.socketId == games.game.playerList[i].socketId) {
@@ -407,17 +384,17 @@ class Game extends Phaser.Scene {
       objectShip.destroy(this.socket);
       this.choqueScena(objectShip, self);
     }
-  choque(nave1, nave2, self) {
-    /*self.anims.create(self.explosionConfig);
-  
-    self.add.sprite(this.games.game.playerList[0].boatList[0].positionX, this.games.game.playerList[0].boatList[0].positiony, 'explosion').play('explodeAnimation');
-    self.add.sprite(this.games.game.playerList[0].boatList[0].positionX + 10, this.games.game.playerList[0].boatList[0].positionY + 10, 'explosion').play('explodeAnimation');
-  
-  */
+    /*choque(nave1, nave2, self) {
+      self.anims.create(self.explosionConfig);
+    
+      self.add.sprite(this.games.game.playerList[0].boatList[0].positionX, this.games.game.playerList[0].boatList[0].positiony, 'explosion').play('explodeAnimation');
+      self.add.sprite(this.games.game.playerList[0].boatList[0].positionX + 10, this.games.game.playerList[0].boatList[0].positionY + 10, 'explosion').play('explodeAnimation');
+    
+    
 
-    nave1.destroy(this.socket, this);
-    nave2.destroy(this.socket, this);
-  }
+      nave1.destroy(this.socket, this);
+      nave2.destroy(this.socket, this);
+    }*/
 
   collisionShipArmy(objectShip, objectArmy, string) {
     objectShip.life = objectShip.life - 1;
@@ -534,13 +511,6 @@ class Game extends Phaser.Scene {
 
   }
 
-  shipShootTorpedo(info, player) {
-    //var angle = Phaser.Math.DegToRad(player.boatList[0].body.rotation); 
-    console.log('entro al metodo shooting game 0')   
-    player.boatList[0].torpedos.fireTorpedos(info.x, info.y, self, 10);
-    this.current_player.plane1.bullets.fireBullet(this.current_player.plane1.x, this.current_player.plane1.y, this.current_player.plane1.rotation, 1, sender, this.socket);
-  }
-
   addCollisions() {
     //Colisiones entre barcos
     this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () =>
@@ -576,6 +546,30 @@ class Game extends Phaser.Scene {
     this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () =>
       this.collisionShipArmy(this.destructor2, this.submarino.cannons));
 
+  }
+
+  submarinoShootTorpedos(info, socket) {
+    if (socket) {
+      this.currentPlayers.scene.submarino.torpedos.fireTorpedos(info.x, info.y, socket, info.angle);
+    } else {
+      this.otherPlayers.scene.submarino2.torpedos.fireTorpedos(info.x, info.y, socket, info.angle);
+    }
+  }
+
+  shipShootCannons(info, socket) {
+    if (info.shipType === 'submarino') {
+      if (socket) {
+        this.currentPlayers.scene.submarino.cannons.fireCannons(info.x, info.y, socket, info.target, 'submarino');
+      } else {
+        this.otherPlayers.scene.submarino2.cannons.fireCannons(info.x, info.y, socket, info.target, 'submarino');
+      }
+    } else {
+      if (socket) {
+        this.currentPlayers.scene.destructor.cannons.fireCannons(info.x, info.y, socket, info.target, 'destructor');
+      } else {
+        this.otherPlayers.scene.destructor2.cannons.fireCannons(info.x, info.y, socket, info.target, 'destructor');
+      }
+    }
   }
 
   update() {
