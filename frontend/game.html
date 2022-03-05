@@ -24,7 +24,8 @@
 		<div class="container"></div>
 		
 		<div class="row">
-			<div>
+
+			<!-- <div>
 				<article class="clock" id="model3">
 					<h4></h4>
 				  
@@ -32,7 +33,7 @@
 					  <div id="timer"></div>
 					</div>
 				  </article>
-			</div>
+			</div> -->
 			<div class="col-1"></div>
 			<div class="col-8">
 				<div id="game-screen"></div>
@@ -45,48 +46,48 @@
 	
 	<script>
 
-		var h3 = document.getElementsByTagName("h4");
-		h3[0].innerHTML = "Tiempo de juego";
+		// var h3 = document.getElementsByTagName("h4");
+		// h3[0].innerHTML = "Tiempo de juego";
 
-		var sec         = 300,
-			countDiv    = document.getElementById("timer"),
-			secpass,
-			countDown   = setInterval(function () {
-				'use strict';
+		// var sec         = 300,
+		// 	countDiv    = document.getElementById("timer"),
+		// 	secpass,
+		// 	countDown   = setInterval(function () {
+		// 		'use strict';
 				
-				secpass();
-			}, 1000);
+		// 		secpass();
+		// 	}, 1000);
 
-		function secpass() {
-			'use strict';
+		// function secpass() {
+		// 	'use strict';
 			
-			var min     = Math.floor(sec / 60),
-				remSec  = sec % 60;
+		// 	var min     = Math.floor(sec / 60),
+		// 		remSec  = sec % 60;
 			
-			if (remSec < 10) {
+		// 	if (remSec < 10) {
 				
-				remSec = '0' + remSec;
+		// 		remSec = '0' + remSec;
 			
-			}
-			if (min < 10) {
+		// 	}
+		// 	if (min < 10) {
 				
-				min = '0' + min;
+		// 		min = '0' + min;
 			
-			}
-			countDiv.innerHTML = min + ":" + remSec;
+		// 	}
+		// 	countDiv.innerHTML = min + ":" + remSec;
 			
-			if (sec > 0) {
+		// 	if (sec > 0) {
 				
-				sec = sec - 1;
+		// 		sec = sec - 1;
 				
-			} else {
+		// 	} else {
 				
-				clearInterval(countDown);
-				window.location.href = "gameover.html"
+		// 		clearInterval(countDown);
+		// 		window.location.href = "gameover.html"
 
 				
-			}
-		}
+		// 	}
+		// }
 
 	</script>
     <script src="./src/phaser.min.js"></script>

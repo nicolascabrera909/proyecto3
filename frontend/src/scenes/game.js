@@ -21,6 +21,8 @@ class Game extends Phaser.Scene {
     this.input;
     this.initialTime;
     this.FreightersList = [];
+    this.save_btn;
+    this.cancel_btn;
     this.target = {
       'x': 0,
       'y': 0
@@ -79,6 +81,7 @@ class Game extends Phaser.Scene {
     this.otherPlayersCargueros = this.physics.add.group();
     this.currentPlayers = this.physics.add.group();
     this.loadAudioVariables();
+    
 
     console.log('Obtengo datos pre-game.html');
     var username = this.urlParams.get('username');
@@ -96,6 +99,15 @@ class Game extends Phaser.Scene {
       frameRate: 20,
       repeat: 0
     };
+
+
+    /*
+    this.save_btn = this.add.sprite(this.sys.game.config.width/2 , this.sys.game.config.heigth/2, 'Guardar').setInteractive();
+    this.save_btn.on('pointerdown', function (event){
+      console.log('Guardar');
+    });
+    //this.save_btn = this.add.sprite(this.sys.game.config.width/2 - 95, this.sys.game.config.heigth, 'Guardar', this.cancelGame, this, 2, 1, 0);
+    */
 
     this.socket.on('inicioInstancia', (backGame) => {
       console.log('Evento inicioInstancia');
@@ -206,7 +218,7 @@ class Game extends Phaser.Scene {
     });
 
     window.game = this;
-
+    
     this.map = new Map(this, 'map', 'tiles', 'terrain');
   }
 
@@ -264,6 +276,7 @@ class Game extends Phaser.Scene {
         }
       }
     }
+    this.createUsuarioLabel()
   }
 
   addOtherPlayers(self, playerInfo) {
@@ -424,6 +437,18 @@ class Game extends Phaser.Scene {
       }
     }
   }
+
+  createUsuarioLabel() {
+    this.username = this.add.text(this.sys.game.config.width/2 - 100, 0, 'Jugador: ' + this.username, {
+      fontSize: '20px',
+      fill: '#fff',
+      fontFamily: 'verdana, arial, sans-serif'
+    });
+  }
+
+ 
+
+  
 }
 
 
