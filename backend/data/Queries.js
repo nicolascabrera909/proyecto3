@@ -14,11 +14,20 @@ class Queries {
     } 
 
     insertDificultad(){
-        const query='insert into difficulty (id,multiMap,multiLife,multiPower,multiVisibility,multiSpeed,multiDistance ) values(1,1,2,3,4,6,7)';
+        const query='insert into difficulty (id,multiMap,multiLife,multiPower,multiVisibility,multiSpeed,multiDistance ) values(?,?,?,?,?,?,?)';
         return query;
     }
     obtengoDificultad(){
-        const query='';
+        const query='SELECT id,multiMap,multiLife,multiPower,multiVisibility,multiSpeed,multiDistance from difficulty  where id=?';
+        return query;
+    }
+
+    insertGame(){
+        const query='insert into game (id,difficulty_id ) values(?,?)';
+        return query;
+    }
+    obtengoGame(){
+        const query='SELECT id,difficulty_id from game where id=?';
         return query;
     }
 
