@@ -167,9 +167,6 @@ class Game extends Phaser.Scene {
           self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation')
           self.add.sprite(this.destructor2.x + 10, this.destructor2.y + 10, 'explosion').play('explodeAnimation')
           this.choque(this.submarino, this.destructor2, self)
-
-
-
         });
       }
 
@@ -323,25 +320,25 @@ class Game extends Phaser.Scene {
 
     this.socket.on('other_shotDepthCharge', (info, gamePlay) => {
       this.games = gamePlay;
-      this.destructor2.shootDepthCharge();
+      (this.destructor || this.destructor2).shootDepthCharge();
     });
 
     this.socket.on('other_surface', (info, gamePlay) => {
       this.games = gamePlay;
       console.log('submarino en superficie');
-      this.submarino2.surfaceOpponent();
+      (this.submarino || this.submarino2).surfaceOpponent();
     });
 
     this.socket.on('other_immerse', (info, gamePlay) => {
       this.games = gamePlay;
       console.log('submarino sumergido');
-      this.submarino2.immerseOpponent();
+      (this.submarino || this.submarino2).immerseOpponent();
     });
 
     this.socket.on('other_deepImmerse', (info, gamePlay) => {
       this.games = gamePlay;
       console.log('submarino sumergido profundo');
-      this.submarino2.deepImmerseOpponent(info);
+      (this.submarino || this.submarino2).deepImmerseOpponent(info);
     });
 
     this.socket.on('opponentThrowDepthCharge', function (info, gamePlay) {
@@ -510,6 +507,7 @@ class Game extends Phaser.Scene {
 
     this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () =>
       this.collisionShipArmy(this.destructor2, this.submarino.cannons));
+
   }
 
   update() {
