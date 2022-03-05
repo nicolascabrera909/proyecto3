@@ -64,6 +64,43 @@ class Queries {
         return query;
     }
 
+    insertShip(){
+        const query='insert into ship (id,player_id ,positionX,positionY,boatLife,boatType,visibility) values(?,?,?,?,?,?,? );';
+        return query;
+    }
+    findShip(){
+        const query='select id,positionX,positionY,boatLife,boatType,visibility from ship where player_id =?';
+        return query;
+    }
+    insertDestructor(){
+        const query=' insert into destructor (id,ship_id) values(?,?);';
+        return query;
+    }
+    findDestructor(){
+        const query='select id from destructor where ship_id =?';
+        return query;
+    }
+    insertSubmarine(){
+        const query=' insert into submarine (id,ship_id,s_depth) values(?,?,?);';
+        return query;
+    }
+    findSubmarine(){
+        const query='select id,s_depth from submarine where ship_id =?';
+        return query;
+    }
+    insertcannon(){
+        const query=' insert into cannon (id,ship_id,c_power,c_distance) values(?,?,?;?);';
+        return query;
+    }
+    findSubmarine(){
+        const query='select id,s_depth from submarine where ship_id =?';
+        return query;
+    }
+    
+    
+
+   
+    
 
 }
 
