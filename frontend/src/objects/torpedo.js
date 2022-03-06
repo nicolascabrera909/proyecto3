@@ -19,17 +19,6 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
             selfTorpedo.destroy();
         }, 5000);
     }
-
-    destroy(socket, self) {
-        this.torpedo.destroy();
-        // self.anims.create(self.explosionConfig);
-        // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
-        if (socket) {
-            socket.emit('destroy_torpedo', {
-                socketId: socket.id
-            });
-        }
-    }
 }
 
 export default Torpedo;

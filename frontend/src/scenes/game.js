@@ -466,45 +466,43 @@ class Game extends Phaser.Scene {
 
       //Colision entre destructor y submarino
       this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () => {
-        console.log(this.choque(this.destructor, this.submarino2));
         console.log('entro al overlap de destructor con submarino');
         this.choque(this.destructor, this.submarino2, self);
       });
 
       //Colision destructor con torpedos de submarino
       this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () => {
-        console.log(this.choque(this.destructor, this.submarino2.torpedos));
         console.log('entro al overlap de torpedo con destructor');
+        //this.destructor.destroy(this.socket, self);
         this.choque(this.destructor, this.submarino2.torpedos, self);
       });
 
       //Colision destructor con cannon de submarino
       this.physics.add.overlap(this.destructor.destructor, this.submarino2.cannons, () => {
-        console.log(this.choque(this.destructor, this.submarino2.torpedos));
         console.log('entro al overlap de cannon con destructor');
         this.choque(this.destructor, this.submarino2.cannons, self);
+        //this.destructor.destroy(this.socket, self);
       });
 
       /// aca hay q agregar a los cargueros a futuro
     } else {
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () => {
-        console.log(this.choque(this.submarino, this.destructor2));
         console.log('entro al overlap de submarino con destructor');
         this.choque(this.submarino, this.destructor2, self);
       });
 
       //Colision submarino con cannon de destructor
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.cannons, () => {
-        console.log(this.choque(this.submarino, this.destructor2.cannons));
         console.log('entro al overlap de cannon con destructor');
         this.choque(this.submarino, this.destructor2.cannons, self);
+        //this.submarino.destroy(this.socket, self);
       });
 
       //Colision submarino con carga de profunidad de destructor
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharge, () => {
-        console.log(this.choque(this.submarino, this.destructor2.depthCharge));
         console.log('entro al overlap de depthCharge con destructor');
         this.choque(this.submarino, this.destructor2.depthCharge, self);
+        //this.submarino.destroy(this.socket, self);
       });
 
     }
