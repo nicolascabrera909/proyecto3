@@ -252,7 +252,6 @@ class Game extends Phaser.Scene {
 
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
-
     window.game = this;
   }
 
