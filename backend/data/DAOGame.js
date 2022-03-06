@@ -23,7 +23,7 @@ class DAOGame {
         const consultas = new Queries();
         var result =  pool.query(consultas.findGame());
         if (result != null) {
-            return result[0].id;
+            return result;
         }
         else {
             console.log('resultado error ');

@@ -117,21 +117,37 @@ class Games {
         game = daoGameInstancia.findGame();
         //falta a terminar
     }
-    saveGame() {
+    async saveGame(name1, name2) {
         let daoGameInstancia = new DAOGame();
-        let daoPlayInstancia=new DAOPlayer();
-        
-        /*
-        //valido si la partida ya existe en la base, controlo los socket en juego
-        let gameAux = daoGameInstancia.find();
+        let daoPlayInstancia = new DAOPlayer();
 
-        console.log('espero promesa');
-
-        //busco el resultado
-        let players=daoPlayInstancia.find(gameAux[0].id);
-        //validos si el jugador existe
-        */
+        let listGames = await daoGameInstancia.find();
+        this.existPartidaPlayers(listGames,name1,name2)
     }
+
+    async existPartidaPlayers(listGame, name1, name2) {
+        let i = 0;
+        let encontre = false;
+        
+        while (i < listGames.length && !encontre) {
+            let resultSql = await daoPlayInstancia.find(listGames[i]);
+            if (resultSql != 'Error') {
+                let contadorIgual=0;
+                for(let j=0;j<resultSql.length;j++){
+                    if((resultSql[j].name==name1)  || (resultSql[j].name==name2)){
+                        contadorIgual++;
+                    }
+                }
+                if(contadorIgual==2){
+                    encontre=true;
+                }
+            }
+            i++;
+        }
+        return encontre;
+    }
+
+
 
     whoWins() {
         let deathSubmarine = false;
@@ -155,13 +171,13 @@ class Games {
         for (let i = 0; i < this.game.playerList.length; i++) {
             for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
                 if (this.game.playerList[i].boatTeam = 'submarino') {
-                    socketSubmarine=this.game.playerList[i].socketId;
+                    socketSubmarine = this.game.playerList[i].socketId;
                     //validos si el submarino esta vivo
                     if (this.game.playerList[i].boatList[j].boatLife == 0) {
                         deathSubmarine = true;
                     }
                 } else {
-                    socketDestructor=this.game.playerList[i].socketId;
+                    socketDestructor = this.game.playerList[i].socketId;
                     //evaluo cuantos cargueros estan vivos y si alguno llego a destino
                     if (this.game.playerList[i].boatList[j].type == 'carguero') {
                         if (this.game.playerList[i].boatList[j].boatLife > 0) {
@@ -176,16 +192,16 @@ class Games {
             }
         }
         //murieron mas de tres cargueros y el submarino esta vivo
-        if(deathFreighters>3 && (!deathSubmarine)){
-            winnerPlayer=socketSubmarine;
+        if (deathFreighters > 3 && (!deathSubmarine)) {
+            winnerPlayer = socketSubmarine;
         }
         //Llegaron 3 o mas cargeros
-        if(arriveFreighters>2){
-            winnerPlayer=socketDestructor;
+        if (arriveFreighters > 2) {
+            winnerPlayer = socketDestructor;
         }
         //Llegaron 3 o mas cargeros
-        if(arriveFreighters>2){
-            winnerPlayer=socketDestructor;
+        if (arriveFreighters > 2) {
+            winnerPlayer = socketDestructor;
         }
 
 
