@@ -130,17 +130,61 @@ class Games {
 
     LoadGame() {
 
-        game = new Game();
-        game = daoGame.findGame();
-        //falta a terminar
+
+        /*this.game = new Game(aDifficulty.id)  //constructor(playerList, idDifficulty)
+        constructor(playerList) 
+        player constructor(name, socketId, boatList, boatTeam)
+        destructor-- > cannon y carga profundidad-- > cannon  CantMunicion(30), carga profundidad  CantMunicion
+        submarino x, y  this.boatLife    this.visibility  this.depth  rotation  this.type = 'submarino'; ->
+            torpedo CantMunicion, cannon - CantMunicion
+        carguero -> x, y  this.boatLife    this.visibility    rotation  this.type = 'destructor'
+                    carga profundida CantMunicion, cannon - CantMunicion*/
+
+        this.torpedo = new Torpedo();
+        this.cannon = new Cannon(30);
+
+        let listGames = await daoGame.find();
+        if (this.existPartidaPlayers(listGames, name1, name2)) {
+            //busco el juego
+            let aGame = findPartidaPlayers(listGames);
+            //busco la dificultad
+            let aDifficulty = daoDifficulty.find(aGame.difficulty_id);
+            //obtengo los players del juego
+            let pleyerList = daoPlayer.find(theGame.id);
+            //obtengo ships
+            for (let i = 0; i < pleyerList.length; i++) {
+                let shipList = daoShip.find(pleyerList[i].id);
+                for (let j = 0; j < shipList.length; j++) {
+                    //me fijo de que tipo es 
+                    switch (shipList[j].boatType) {
+                        case 'submarino':
+
+                            break;
+                        case 'destructor':
+
+                            break;
+                        case 'carguero':
+
+                            break;
+                    }
+                    let dao
+                }
+
+            }
+
+        } else {
+            console.log('no existe la partida');
+        }
     }
 
-    
     //guardo la partida
     async saveGame(name1, name2, difficulty) {
         let listGames = await daoGame.find();
         if (this.existPartidaPlayers(listGames, name1, name2)) {
             //tengo q actualizar lo guardado
+
+            // falta
+
         } else {
             //Guardo por primera vez
             //inserto el game, con dificultad 1. cuando tenga va difficulty
@@ -180,7 +224,6 @@ class Games {
         }
     }
 
-
     //devuelve si existe el jugador
     async existPartidaPlayers(listGames, name1, name2) {
         let i = 0;
@@ -207,27 +250,27 @@ class Games {
     async findPartidaPlayers(listGames, name1, name2) {
         let i = 0;
         let encontre = false;
-        let playerList = [];
+        let gamePleyers = null;
 
         while (i < listGames.length && !encontre) {
-            let resultSql = await daoPlayer.find(listGames[i]);
+            let resultSql = await daoPlayer.find(listGames[i].id);
             if (resultSql != 'Error') {
                 let contadorIgual = 0;
                 for (let j = 0; j < resultSql.length; j++) {
                     if ((resultSql[j].name == name1) || (resultSql[j].name == name2)) {
-                        playerList.push(resultSql[j]);
                         contadorIgual++;
                     }
                 }
                 if (contadorIgual == 2) {
                     encontre = true;
+                    gamePleyers = listGames[i];
                 } else {
-                    playerList = [];
+                    gamePleyers = null;
                 }
             }
             i++;
         }
-        return playerList;
+        return gameId;
     }
 
 
