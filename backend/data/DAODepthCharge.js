@@ -16,9 +16,9 @@ class DAODepthCharge {
             return ('Error');
     } 
 
-    async find(submarineId) {
+    async find(idDestructor) {
         const consultas = new queries();
-        const result = await pool.query(consultas.findDepthCharge(),[submarineId]);
+        const result = await pool.query(consultas.findDepthCharge(),[idDestructor]);
         if (result != null) {
             result[0];
         }

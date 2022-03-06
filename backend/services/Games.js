@@ -4,6 +4,9 @@ const Game = require('./Game.js')
 const Submarine = require('./Submarine.js')
 const Destructor = require('./Destructor')
 const Freighters = require('./Freighters.js')
+const Torpedo = require('./Torpedo.js')
+const Cannon = require('./Cannon.js')
+const DepthCharge = require('./DepthCharge.js')
 const Map = require('./Map.js')
 const DAOGame = require('../data/DAOGame.js')
 const DAOMap = require('../data/DAOMap.js')
@@ -15,6 +18,7 @@ const DAOCannon = require('../data/DAOCannon.js')
 const DAOTorpedo = require('../data/DAOTorpedo.js')
 const DAODepthCharge = require('../data/DAODepthCharge.js')
 const DAODifficulty = require('../data/DAODifficulty.js')
+
 
 //const { prependListener } = require('../data/Database.js')
 
@@ -128,7 +132,7 @@ class Games {
         }
     }
 
-    LoadGame() {
+    async  LoadGame() {
 
 
         /*this.game = new Game(aDifficulty.id)  //constructor(playerList, idDifficulty)
@@ -140,8 +144,8 @@ class Games {
         carguero -> x, y  this.boatLife    this.visibility    rotation  this.type = 'destructor'
                     carga profundida CantMunicion, cannon - CantMunicion*/
 
-        this.torpedo = new Torpedo();
-        this.cannon = new Cannon(30);
+       /* this.torpedo = new Torpedo();
+        this.cannon = new Cannon(30);*/
 
         let listGames = await daoGame.find();
         if (this.existPartidaPlayers(listGames, name1, name2)) {
@@ -158,13 +162,33 @@ class Games {
                     //me fijo de que tipo es 
                     switch (shipList[j].boatType) {
                         case 'submarino':
+                            let aSubmarino = daoSubmarine.find(shipList[j].id);
+                            let aTorpedo=daoTorpedo.find(aSubmarino.id);
+                            let aCannon=daoCannon.find(aSubmarino.id);
+                            //hago los new del armamanto
+                            let cannonS= new Cannon(aCannon.c_cantidad);
+                            let torpedoS=new Torpedo(aTorpedo.t_cantidad);
+                            //hago el new de submarino y lo agreo a una lista
+                            //hago el new del player y lo agrero a una lista
+                            //hago new del game y agrego lista jugadores y dificultad
+                            //agrego el game a la instancia de games
 
                             break;
                         case 'destructor':
+                            let bDestructor = daoDestruction.find(shipList[j].id);
+                            let bDepthCharge=daoDepthCharge.find(bDestructor.id);
+                            let bCannon=daoCannon.find(bDestructor.id);
+                            //hago los new del armamanto
+                            let cannonD= new Cannon(aCannon.c_cantidad);
+                            let depthChargeD=new DepthCharge(bDepthCharge.dp_time,bDepthCharge_dp_depth);
+                            //hago el new de submarino y lo agreo a una lista
+                            //hago el new del player y lo agrero a una lista
+                            //hago new del game y agrego lista jugadores y dificultad
+                            //agrego el game a la instancia de games
 
                             break;
                         case 'carguero':
-
+                            let cCarguero = shipList[j];
                             break;
                     }
                     let dao
