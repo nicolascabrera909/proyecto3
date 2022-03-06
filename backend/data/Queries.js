@@ -30,6 +30,10 @@ class Queries {
         const query='SELECT id,difficulty_id from game;'//where id=$1';
         return query;
     }
+    lastGame(){
+        const query='SELECT max(id) id  from game';
+        return query;
+    }
 
     insertMap(){
         const query='insert into mapa (game_id,heigth,width ) values($1,$2,$3,$4);';

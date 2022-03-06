@@ -7,16 +7,14 @@ const Freighters = require('./Freighters.js')
 const Map = require('./Map.js')
 const DAOGame = require('../data/DAOGame.js')
 const DAOMap = require('../data/DAOMap.js')
-const DAOPLayer = require('../data/DAOPLayer
-..js')
+const DAOPLayer = require('../data/DAOPLayer.js')
 const DAOShip = require('../data/DAOShip.js')
-const DAODestructor= require('../data/DAODestructor.js')
-const DAOSubmarine= require('../data/DAOSubmarine.js')
-const DAOCannon= require('../data/DAOCannon.js')
-const DAOTorpedo= require('../data/DAOTorpedo.js')
-const DAODepthCharge= require('../data/DAODepthCharge.js')
-const DAODifficulty= require('../data/DAODifficulty.js')
-
+const DAODestructor = require('../data/DAODestructor.js')
+const DAOSubmarine = require('../data/DAOSubmarine.js')
+const DAOCannon = require('../data/DAOCannon.js')
+const DAOTorpedo = require('../data/DAOTorpedo.js')
+const DAODepthCharge = require('../data/DAODepthCharge.js')
+const DAODifficulty = require('../data/DAODifficulty.js')
 
 //const { prependListener } = require('../data/Database.js')
 
@@ -25,10 +23,16 @@ class Games {
     constructor() {
         this.game = null;
         this.map = new Map();
-        let daoGame = new DAOGame();
-        let daoPlayer = new DAOPlayer();
-        let daoMap = new DAOMap();
-        let daoShip = new DAOPlayer();
+        const daoGame = new DAOGame();
+        const daoPlayer = new DAOPLayer();
+        const daoMap = new DAOMap();
+        const daoShip = new DAOShip();
+        const daoDestructor = new DAODestructor();
+        const daoSubmarine = new DAOSubmarine();
+        const daoCannon = new DAOCannon();
+        const daoTorpedo = new DAOTorpedo();
+        const daoDepthCharge = new DAODepthCharge();
+        const daoDifficulty = new DAODifficulty();
 
         //singleton de la clase
         if (typeof Games.instance === "object") {
@@ -125,54 +129,84 @@ class Games {
     }
 
     LoadGame() {
-        let daoGameInstancia = new DAOGame();
+
         game = new Game();
-        game = daoGameInstancia.findGame();
+        game = daoGame.findGame();
         //falta a terminar
     }
-    async saveGame(name1, name2) {
-        
+    //guardo la partida
+    async saveGame(name1, name2, difficulty) {
 
-        let listGames = await daoGameInstancia.find();
-        if(this.existPartidaPlayers(listGames,name1,name2)){
+
+        let listGames = await daoGame.find();
+        if (this.existPartidaPlayers(listGames, name1, name2)) {
             //tengo q actualizar lo guardado
-        }else{
+        } else {
             //Guardo por primera vez
-            //inserto el game 
-
-            //inserto mapa 
+            //inserto el game, con dificultad 1. cuando tenga va difficulty
+            daoGame.insert(1);
+            let listGames = await daoGame.find();
+            let ultimoId=await daoGame.lastGame()
+            //inserto mapa [gameId, map.heigth,map.width]
+            daoMap.insert(daoGame.lastGame(),this.map.heigth,this.map.width)  
             //inserto player 
+            dao
             //inserto ship ---> valido de q tipo es   destructor, submarino
             //inserto armamento -> dependiendo de q tipo es, cannon torpedo, profundidad
-            
 
-            
+
+
         }
-        
-    }
 
-    async existPartidaPlayers(listGame, name1, name2) {
+    }
+    //devuelve si existe el jugador
+    async existPartidaPlayers(listGames, name1, name2) {
         let i = 0;
         let encontre = false;
-        
+
         while (i < listGames.length && !encontre) {
-            let resultSql = await daoPlayInstancia.find(listGames[i]);
+            let resultSql = await daoPlayer.find(listGames[i]);
             if (resultSql != 'Error') {
-                let contadorIgual=0;
-                for(let j=0;j<resultSql.length;j++){
-                    if((resultSql[j].name==name1)  || (resultSql[j].name==name2)){
+                let contadorIgual = 0;
+                for (let j = 0; j < resultSql.length; j++) {
+                    if ((resultSql[j].name == name1) || (resultSql[j].name == name2)) {
                         contadorIgual++;
                     }
                 }
-                if(contadorIgual==2){
-                    encontre=true;
+                if (contadorIgual == 2) {
+                    encontre = true;
                 }
             }
             i++;
         }
         return encontre;
     }
+    //devuelve los jugadores
+    async findPartidaPlayers(listGames, name1, name2) {
+        let i = 0;
+        let encontre = false;
+        let playerList = [];
 
+        while (i < listGames.length && !encontre) {
+            let resultSql = await daoPlayer.find(listGames[i]);
+            if (resultSql != 'Error') {
+                let contadorIgual = 0;
+                for (let j = 0; j < resultSql.length; j++) {
+                    if ((resultSql[j].name == name1) || (resultSql[j].name == name2)) {
+                        playerList.push(resultSql[j]);
+                        contadorIgual++;
+                    }
+                }
+                if (contadorIgual == 2) {
+                    encontre = true;
+                } else {
+                    playerList = [];
+                }
+            }
+            i++;
+        }
+        return playerList;
+    }
 
 
     whoWins() {
