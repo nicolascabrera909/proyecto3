@@ -30,7 +30,7 @@ class Game extends Phaser.Scene {
     }
   }
 
-  setGameTimeOut(difficulty){
+  setGameTimeOut(difficulty, socket){
     let time = 5000;
     switch(difficulty) {
       case difficulty == 2:
@@ -40,8 +40,8 @@ class Game extends Phaser.Scene {
         time = 180000;
         break;
     }
-    setTimeout(function () {
-      this.socket.emit('finishGame', socket_id);
+    setTimeout(function (socket) {
+      socket.emit('finishGame', socket.id);
       self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
       this.scene.pause('Game');
     }, time);
@@ -98,7 +98,7 @@ class Game extends Phaser.Scene {
       if (players.length == 2) {
         this.defineCollisions(self);
         this.ignoreSmallMap();
-        this.setGameTimeOut(difficulty);
+        //this.setGameTimeOut(difficulty, this.socket);
 
       }
     });
