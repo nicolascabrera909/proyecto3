@@ -110,12 +110,86 @@ class Games {
         }
     }
 
-    LoadPartida(){
-       let daoGameInstancia= new DAOGame();
-       game= new Game();
-       game=daoGameInstancia.findGame();
-       //falta a terminar
+    LoadGame() {
+        let daoGameInstancia = new DAOGame();
+        game = new Game();
+        game = daoGameInstancia.findGame();
+        //falta a terminar
     }
+    saveGame() {
+        let daoGameInstancia = new DAOGame();
+        game = new Game();
+        game = daoGameInstancia.findGame();
+        //falta a terminar
+    }
+
+    whoWins() {
+        let deathSubmarine = false;
+        let arriveFreighters = 0;
+        let deathFreighters = 0;
+        let winnerPlayer = 'empate';
+        let positionXFinal = this.map.width;
+        let socketSubmarine;
+        let socketDestructor;
+
+        /* La partida es ganada por un equipo cuando:
+        --Gana-->
+        -el destructor destruyó al submarino;
+         -el submrino destruye al menos 4 cargueros
+        - la mitad de cargueros llega al otro lado del mapa;
+         -por cancelación de partida, considerando perdedor a quien cancela y gana su rival--> eso se hace en la scena del game
+        --Empte-->
+             - por tiempo y no cumplo condicion de ganar*/
+
+
+        for (let i = 0; i < this.game.playerList.length; i++) {
+            for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
+                if (this.game.playerList[i].boatTeam = 'submarino') {
+                    socketSubmarine=this.game.playerList[i].socketId;
+                    //validos si el submarino esta vivo
+                    if (this.game.playerList[i].boatList[j].boatLife == 0) {
+                        deathSubmarine = true;
+                    }
+                } else {
+                    socketDestructor=this.game.playerList[i].socketId;
+                    //evaluo cuantos cargueros estan vivos y si alguno llego a destino
+                    if (this.game.playerList[i].boatList[j].type == 'carguero') {
+                        if (this.game.playerList[i].boatList[j].boatLife > 0) {
+                            if (this.game.playerList[i].boatList[j].positionX == positionXFinal) {
+                                arriveFreighters++;
+                            }
+                        } else {
+                            deathFreighters++;
+                        }
+                    }
+                }
+            }
+        }
+        //murieron mas de tres cargueros y el submarino esta vivo
+        if(deathFreighters>3 && (!deathSubmarine)){
+            winnerPlayer=socketSubmarine;
+        }
+        //Llegaron 3 o mas cargeros
+        if(arriveFreighters>2){
+            winnerPlayer=socketDestructor;
+        }
+        //Llegaron 3 o mas cargeros
+        if(arriveFreighters>2){
+            winnerPlayer=socketDestructor;
+        }
+
+
+
+
+
+
+
+
+
+        return winnerPlayer;
+
+    }
+
 }
 
 module.exports = Games;
