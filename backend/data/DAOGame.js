@@ -1,33 +1,37 @@
 const pool = require('./Database.js');
-const Queries = require('./Queries.js'); 
+const Queries = require('./Queries.js');
 const Game = require('../services/Game.js')
 
 class DAOGame {
 
-    constructor() {}
-  
+    constructor() { }
+
     //aca le paso o un destructor, submarino o un carguero
-    async insert(dificultadId) {
+     insert(dificultadId) {
         const consultas = new queries();
-        const result = await pool.query(consultas.insertGame(),[dificultadId]);
+        const result =  pool.query(consultas.insertGame(), [dificultadId]);
         if (result != null) {
             return ('OK')
         }
         else
 
             return ('Error');
-    } 
+    }
 
-    async find() {
+     find() {
+        let resultado
         const consultas = new Queries();
-        //let a =consultas.findGamea();
-        const result = await pool.query(consultas.findGame);///falat terminar
+        var result =  pool.query(consultas.findGame());
         if (result != null) {
-            result[0];
-        } 
-        else
+            return result[0].id;
+        }
+        else {
+            console.log('resultado error ');
             return ('Error');
-    }        
+        }
+    }
+
+
 
 }
 module.exports = DAOGame;

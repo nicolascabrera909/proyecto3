@@ -27,7 +27,7 @@ class Queries {
         return query;
     }
     findGame(){
-        const query='SELECT id,difficulty_id from game where id=$1';
+        const query='SELECT id,difficulty_id from game;'//where id=$1';
         return query;
     }
 
