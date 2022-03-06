@@ -60,21 +60,33 @@ class Queries {
         return query;
     }
 
+    lastPlayerId(){
+        const query='select max(id) id from player where game_id =$1';
+        return query;
+    }
+
     insertShip(){
         const query='insert into ship (player_id ,positionX,positionY,boatLife,boatType,visibility) values($1,$2,$3,$4,$5,$6,$7);';
         return query;
     }
     findShip(){
-        const query='select id,name from ship where game_id =$1';
+        const query='select id,name from ship where player_id =$1';
         return query;
     }
-    
+    lastShipId(){
+        const query='select max(id) id from ship where player_id =$1';
+        return query;
+    }
     insertDestructor(){
         const query='insert into destructor (ship_id) values($1);';
         return query;
     }
     findDestructor(){
         const query='select id from destructor where ship_id =$1';
+        return query;
+    }
+    lastDestructorId(){
+        const query='select max(id) id from destructor where ship_id =$1';
         return query;
     }
 
@@ -86,13 +98,22 @@ class Queries {
         const query='select id,s_depth from submarine where ship_id =$1';
         return query;
     }
+    lastSubmarineId(){
+        const query='select max(id) id from submarine where ship_id =$1';
+        return query;
+    }
 
     insertCannon(){
-        const query='insert into cannon (ship_id,c_distance) values($1,$2,$3,$4);';
+        const query='insert into cannon (ship_id,c_cantidad) values($1,$2);';
         return query;
     }
     findCannon(){
-        const query='select id,c_power,c_distance from cannon where ship_id =$1';
+        const query='select id,ship_id,c_cantidad from cannon where ship_id =$1';
+        return query;
+    }
+    
+    lastCannonId(){
+        const query='select max(id) id  from cannon where ship_id =$1';
         return query;
     }
 

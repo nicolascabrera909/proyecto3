@@ -6,7 +6,7 @@ class DAOSubmarine {
 
     constructor() {}
 
-    async insert(submarine,shipId) {
+    async insert(shipId,submarine) {
         const consultas = new queries();ship_id,s_depth
         const result = await pool.query(consultas.insertSubmarine(),[shipId, submarine.depth]);
         if (result != null) {
@@ -24,7 +24,17 @@ class DAOSubmarine {
         }
         else
             return ('Error');
-    }        
+    }  
+    
+    async lastSubmarineId(shipId) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.lastSubmarineId(),[shipId]);
+        if (result != null) {
+            result[0];
+        }
+        else
+            return ('Error');
+    }
 
 }
 module.exports = DAOSubmarine;

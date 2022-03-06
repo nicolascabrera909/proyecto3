@@ -7,7 +7,7 @@ class DAOPlayer {
     constructor() {}
   
     //aca le paso o un destructor, submarino o un carguero
-    async insert(player,gameId) {
+    async insert(gameId,player) {
         const consultas = new queries();
         const result = await pool.query(consultas.insertPlayer(),[gameId, player.name]);
         if (result != null) {
@@ -26,6 +26,16 @@ class DAOPlayer {
         else
             return ('Error');
     }        
+
+    async lastPlayerId(gameId) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.lastPlayerId(),[gameId]);
+        if (result != null) {
+            return  result;
+        }
+        else
+            return ('Error');
+    } 
 
 }
 module.exports = DAOPlayer;
