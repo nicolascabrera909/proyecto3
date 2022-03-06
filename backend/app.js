@@ -190,6 +190,12 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('finishedGame', socket_id);
   });
 
+  socket.on('showTime', function(socket_id){
+    console.log('mostrat reloj');
+    socket.broadcast.emit('showedTime', socket_id);
+  });
+  
+
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));

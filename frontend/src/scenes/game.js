@@ -24,29 +24,16 @@ class Game extends Phaser.Scene {
     this.save_btn;
     this.cancel_btn;
     this.msg;
+    this.timeText;
+    this.totalTime;
+    this.mostrar_reloj = false;
+    this.remainingTime;
     this.target = {
       'x': 0,
       'y': 0
     }
   }
 
-  setGameTimeOut(difficulty, socket){
-    let time = 5000;
-    switch(difficulty) {
-      case difficulty == 2:
-        time = 240000;
-        break;
-      case difficulty == 3:
-        time = 180000;
-        break;
-    }
-    setTimeout(function (socket) {
-      socket.emit('finishGame', socket.id);
-      self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
-      this.scene.pause('Game');
-    }, time);
-
-  }
 
   preload() {
     this.loadImages();
@@ -98,7 +85,7 @@ class Game extends Phaser.Scene {
       if (players.length == 2) {
         this.defineCollisions(self);
         this.ignoreSmallMap();
-        //this.setGameTimeOut(difficulty, this.socket);
+        this.setGameTimeOut(difficulty, this.socket.id, self);
 
       }
     });
@@ -278,14 +265,44 @@ class Game extends Phaser.Scene {
       
     });
 
+    this.socket.on('showedTime', (socket_id) => {
+      if (socket_id !== self.socket.id) {
+        this.mostrar_reloj = true;
+      }
+      
+    });
+
     
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
 
     window.game = this;
+
+    
+
+
+  }
+
+  tiempo(){
+    var timeTextStyle = {font: "24px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
+    this.timeText = this.add.text(0,0, "Tiempo de la partida", timeTextStyle); //Elapsed Time Text
+    var gameRuntime = (this.totalTime - this.scene.systems.time.now) 
+    this.remainingTime = gameRuntime * 0.001
+    this.timeText.setText("Tiempo de la partida: " + Math.round(this.remainingTime) + " seconds");
   }
 
   update() {
+    if (this.totalTime ){
+      this.tiempo();
+      if(this.remainingTime <= 0){
+        console.log('fin')
+        this.GameTimeOut(self, this.socket.id);
+        this.scene.pause(Game);
+
+      }
+    }
+    
+
     //this.pointer = this.input.mousePointer;
     this.input.on('pointerdown', function (pointer) {
       this.target.x = pointer.x,
@@ -533,6 +550,29 @@ class Game extends Phaser.Scene {
     self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
     this.scene.pause('Game');
   }
+
+  setGameTimeOut(difficulty, socket_id, self){
+    let time = 300000;
+    switch(difficulty) {
+      case difficulty == 2:
+        time = 240000;
+        break;
+      case difficulty == 3:
+        time = 180000;
+        break;
+    }
+
+    this.totalTime = time;
+    this.mostrar_reloj = true;
+    this.socket.emit('showTime', socket_id);
+  }
+
+  GameTimeOut(self, socket_id){
+    console.log('se esta por hacer el emit de juego termninado')
+    this.socket.emit('finishGame', socket_id);
+    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
+    this.scene.pause('Game');
+  }
   
   loadImages() {
     this.load.image('destructor', './static/assets/img/destructor_small.png');
@@ -543,7 +583,6 @@ class Game extends Phaser.Scene {
     this.load.image('tiles', './static/assets/map/terrain.png');
     this.load.image('depth_charge', './static/assets/img/depthcharge.png')
     this.load.image('logo', './static/assets/img/logo.jpeg');
-    this.load.image('canceled', './static/assets/img/canceled.png');
     this.load.image('victory', './static/assets/img/victory.png');
     this.load.image('victory_surrender', './static/assets/img/victory_surrender.png');
     this.load.image('defeat', './static/assets/img/defeat.png');
