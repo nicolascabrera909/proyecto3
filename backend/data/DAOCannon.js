@@ -1,14 +1,14 @@
 const pool = require('./Database');
 const queries = require('./Queries'); 
-const DepthCharge = require('../services/DepthCharge.js')
+const Cannon = require('../services/Cannon.js')
 
 class DAOCannon {
 
     constructor() {}
 
-    async insert(depthCharge,shipId) {
+    async insert(shipId,cannon) {
         const consultas = new queries();
-        const result = await pool.query(consultas.insertCannon(),[shipId, depthCharge.time, depthCharge.depth]);
+        const result = await pool.query(consultas.insertCannon(),[shipId, , cannon.cantMunicion]);
         if (result != null) {
             return ('OK')
         }
@@ -24,7 +24,18 @@ class DAOCannon {
         }
         else
             return ('Error');
-    }        
+    }  
+    
+    async lastCannonId(shipId) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.lastCannonId(),[shipId]);
+        if (result != null) {
+            result[0];
+        }
+        else
+            return ('Error');
+    } 
+
 
 }
 module.exports = DAOCannon;

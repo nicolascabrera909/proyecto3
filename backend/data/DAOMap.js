@@ -7,7 +7,7 @@ class DAOMap {
     constructor() {}
   
     //aca le paso o un destructor, submarino o un carguero
-    async insert(map,gameId) {
+    async insert(gameId ,map) {
         const consultas = new queries();
         const result = await pool.query(consultas.insertMap(),[gameId, map.heigth,map.width]);
         if (result != null) {

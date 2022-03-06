@@ -26,5 +26,15 @@ class DAODestructor {
             return ('Error');
     }        
 
+    async lastDestructorId(shipId) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.lastDestructorId(),[shipId]);
+        if (result != null) {
+            result[0];
+        }
+        else
+            return ('Error');
+    }
+
 }
 module.exports = DAODestructor;
