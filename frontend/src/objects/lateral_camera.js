@@ -6,19 +6,15 @@ class LateralCamera extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this);
     this.scene = scene;
     var lateralCamera;
-
   }
 
   create(x, y, self) {
-
     var lateralCamera = this.scene.physics.add.image(x, y, 'choque');
     lateralCamera.input.once('pointerdown', function (){
       lateralCamera.destroy();
       lateralCamera=null
       //lateralCamera.removeFromDisplayList();
     });
-
-
 
     // self.cameras.main.startFollow(this.lateralCamera, true);
     /* setTimeout(function () {

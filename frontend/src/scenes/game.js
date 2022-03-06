@@ -57,7 +57,6 @@ class Game extends Phaser.Scene {
   }
 
   loadAudioVariables() {
-    // aca poner la musca que se use de fondo
     this.sea_water = this.sound.add('sea_water');
     this.sea_water.loop = true;
     this.start_game = this.sound.add('start_game');
@@ -82,7 +81,6 @@ class Game extends Phaser.Scene {
     this.currentPlayers = this.physics.add.group();
     this.loadAudioVariables();
 
-
     console.log('Obtengo datos pre-game.html');
     var username = this.urlParams.get('username');
     var boatType = this.urlParams.get('boattype');
@@ -99,7 +97,6 @@ class Game extends Phaser.Scene {
       frameRate: 20,
       repeat: 0
     };
-
 
     /*
     this.save_btn = this.add.sprite(this.sys.game.config.width/2 , this.sys.game.config.heigth/2, 'Guardar').setInteractive();
@@ -140,8 +137,6 @@ class Game extends Phaser.Scene {
 
     this.socket.on('addCollition', function () {
       //this.addCollisions(self);
-
-
     })
 
     this.socket.on('playerDisconnected', (playerId) => {
@@ -196,7 +191,6 @@ class Game extends Phaser.Scene {
       });
     });
 
-
     // ************* colisiones submarino *************
     this.socket.on('other_destroy_submarino', (info) => {
       console.log("antes de eliminar el submarino 2");
@@ -234,16 +228,13 @@ class Game extends Phaser.Scene {
 
     });
 
-
     // ************* colisiones destructor ******************
-
     this.socket.on('other_destroy_destructor', (info) => {
       console.log("antes de eliminar el destructor2 2");
       console.log('socket de pantalla submarino' + info.socketId);
       console.log('soket de la pantalla actual' + this.socket.id);
       console.log(this.currentPlayers.children.entries[0].socketId);
       console.log(this.otherPlayers);
-      /// comparo el socket id en other para eliminar mi copia
       /// comparo el socket id en other para eliminar mi copia
       if (this.otherPlayers.children.entries.length > 0) {
         if (this.otherPlayers.children.entries[0].socketId == info.socketId) {
@@ -270,11 +261,9 @@ class Game extends Phaser.Scene {
         console.log("eliminado el dest");
       }
 
-
     });
 
     // ******************* fin colisiones ******************* 
-
     this.socket.on('other_shotTorpedo', (info) => {
       if (info.socket_id !== self.socket.id) {
         this.submarinoShootTorpedos(info, false);
@@ -299,9 +288,30 @@ class Game extends Phaser.Scene {
       }
     });
 
-    window.game = this;
-
     this.map = new Map(this, 'map', 'tiles', 'terrain');
+    
+    window.game = this;
+  }
+
+  update() {
+    //this.pointer = this.input.mousePointer;
+    this.input.on('pointerdown', function (pointer) {
+      this.target.x = pointer.x,
+        this.target.y = pointer.y
+    }, this);
+
+    if (this.submarino !== undefined) {
+      this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self, this.target);
+    }
+
+    if (this.destructor) {
+      this.destructor.moveDestructor(this.cursors, this.socket, this.input, self, this.target);
+    }
+    for (let i = 0; i < this.FreightersList.length; i++) {
+      if (this.FreightersList[i] !== undefined) {
+        this.FreightersList[i].moveCarguero(this.socket);
+      }
+    }
   }
 
   choque(nave1, nave2, self) {
@@ -387,7 +397,6 @@ class Game extends Phaser.Scene {
           otherPlayer = this.destructor2.create(coordD2, self, false);
           otherPlayer.socketId = playerInfo.socketId;
           this.otherPlayers.add(otherPlayer);
-
           console.log('creo other player destructor')
 
         } else {
@@ -410,13 +419,9 @@ class Game extends Phaser.Scene {
       otherPlayer = this.submarino2.create(coordS2, self, false);
       otherPlayer.socketId = playerInfo.socketId;
       this.otherPlayers.add(otherPlayer)
-
-
       console.log('creo other player submarino')
     }
     //this.addCollisions(self);
-
-
   }
 
   defineCollisions(self) {
@@ -489,28 +494,6 @@ class Game extends Phaser.Scene {
     }
   }
 
-  update() {
-    //this.pointer = this.input.mousePointer;
-
-    this.input.on('pointerdown', function (pointer) {
-      this.target.x = pointer.x,
-        this.target.y = pointer.y
-    }, this);
-
-    if (this.submarino !== undefined) {
-      this.submarino.moveSubmarino(this.cursors, this.socket, this.input, self, this.target);
-    }
-
-    if (this.destructor) {
-      this.destructor.moveDestructor(this.cursors, this.socket, this.input, self, this.target);
-    }
-    for (let i = 0; i < this.FreightersList.length; i++) {
-      if (this.FreightersList[i] !== undefined) {
-        this.FreightersList[i].moveCarguero(this.socket);
-      }
-    }
-  }
-
   createUsuarioLabel() {
     this.username = this.add.text(this.sys.game.config.width / 2 - 100, 0, 'Jugador: ' + this.username, {
       fontSize: '20px',
@@ -529,8 +512,6 @@ class Game extends Phaser.Scene {
     }
   }
   
-
-
 }
 
 

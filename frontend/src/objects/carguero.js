@@ -1,9 +1,6 @@
 class Carguero extends Phaser.GameObjects.Sprite {
 
-
-
   constructor(scene, x, y, type,id) {
-
     super(scene, x, y, type);
     scene.add.existing(this);
     scene.physics.world.enable(this);
@@ -14,11 +11,9 @@ class Carguero extends Phaser.GameObjects.Sprite {
     this.idCarguero=id;
   }
 
-
   create(boat) {
     let self = this;
      return self.showCargueros(self, boat);
-    
   }
 
   get_type(boat) {
@@ -37,7 +32,6 @@ class Carguero extends Phaser.GameObjects.Sprite {
   
     return this.carguero;
   }
-  //console.log(gameList[0].playerList[indice].boatList[i].instanceOf))
 
   moveCarguero(socket){
     var velocidad = 2

@@ -47,7 +47,6 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.destructor.setImmovable(true);
 
     return this.destructor;
-
   }
 
   get() {
