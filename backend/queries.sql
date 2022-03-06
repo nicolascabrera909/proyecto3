@@ -69,6 +69,7 @@ CREATE TABLE ship (
 	player_id INT,
 	positionX INT,
 	positionY INT,
+	rotation INT,
 	boatLife INT,
 	boatType INT,
 	visibility INT,

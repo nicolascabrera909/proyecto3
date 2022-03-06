@@ -147,11 +147,15 @@ class Games {
        /* this.torpedo = new Torpedo();
         this.cannon = new Cannon(30);*/
 
+        let boatListSubmarino=[];
+        let boatListDestructor=[];
+
         let listGames = await daoGame.find();
         if (this.existPartidaPlayers(listGames, name1, name2)) {
             //busco el juego
             let aGame = findPartidaPlayers(listGames);
-            //busco la dificultad
+            //busco el mapa 
+            let map=daoMop.find(gameId);          //busco la dificultad
             let aDifficulty = daoDifficulty.find(aGame.difficulty_id);
             //obtengo los players del juego
             let pleyerList = daoPlayer.find(theGame.id);
@@ -169,6 +173,21 @@ class Games {
                             let cannonS= new Cannon(aCannon.c_cantidad);
                             let torpedoS=new Torpedo(aTorpedo.t_cantidad);
                             //hago el new de submarino y lo agreo a una lista
+                            let submarine = new Submarine(map);
+                            submarine.torpedo=torpedoS;
+                            submarine.cannon=cannonS;
+                            submarine.positionX=shipList[j].positionX;
+                            submarine.positionY=shipList[j].positionY;
+                            submarine.rotation=shipList[j].rotation;
+                            submarine.boatLife=shipList[j].rotation;
+                            submarine.visibility=shipList[j].rotation;
+                            submarine.type=shipList[j].rotation;
+                            submarine.depth=shipList[j].rotation;
+
+                           
+
+                            boatListSubmarino=[];
+         
                             //hago el new del player y lo agrero a una lista
                             //hago new del game y agrego lista jugadores y dificultad
                             //agrego el game a la instancia de games
@@ -181,7 +200,9 @@ class Games {
                             //hago los new del armamanto
                             let cannonD= new Cannon(aCannon.c_cantidad);
                             let depthChargeD=new DepthCharge(bDepthCharge.dp_time,bDepthCharge_dp_depth);
-                            //hago el new de submarino y lo agreo a una lista
+                            //hago el new de destructor y lo agreo a una lista
+                            boatListDestructor=[];
+                            
                             //hago el new del player y lo agrero a una lista
                             //hago new del game y agrego lista jugadores y dificultad
                             //agrego el game a la instancia de games
@@ -189,6 +210,11 @@ class Games {
                             break;
                         case 'carguero':
                             let cCarguero = shipList[j];
+                            //hago el new de destructor y lo agreo a una lista
+                            boatListDestructor=[];
+                            //hago el new del player y lo agrero a una lista
+                            //hago new del game y agrego lista jugadores y dificultad
+                            //agrego el game a la instancia de games
                             break;
                     }
                     let dao
