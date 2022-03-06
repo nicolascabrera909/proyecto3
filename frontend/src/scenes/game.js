@@ -316,22 +316,22 @@ class Game extends Phaser.Scene {
 
   tiempo(){
     var timeTextStyle = {font: "24px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
-    this.timeText = this.add.text(0,0, "Tiempo de la partida", timeTextStyle); //Elapsed Time Text
+    this.timeText = this.add.text(); //Elapsed Time Text
     var gameRuntime = (this.totalTime - this.scene.systems.time.now) 
     this.remainingTime = gameRuntime * 0.001
     this.timeText.setText("Tiempo de la partida: " + Math.round(this.remainingTime) + " seconds");
   }
 
   update() {
-    // if (this.totalTime ){
-    //   this.tiempo();
-    //   if(this.remainingTime <= 0){
-    //     console.log('fin')
-    //     this.GameTimeOut(self, this.socket.id);
-    //     this.scene.pause(Game);
+    if (this.totalTime ){
+      this.tiempo();
+      if(this.remainingTime <= 0){
+        console.log('fin')
+        this.GameTimeOut(self, this.socket.id);
+        this.scene.pause(Game);
 
-    //   }
-    // }
+      }
+    }
     
 
     //this.pointer = this.input.mousePointer;
@@ -633,6 +633,7 @@ class Game extends Phaser.Scene {
 
     this.totalTime = time;
     this.mostrar_reloj = true;
+    this.tiempo();
     this.socket.emit('showTime', socket_id);
   }
 
