@@ -323,15 +323,15 @@ class Game extends Phaser.Scene {
   }
 
   update() {
-    if (this.totalTime ){
-      this.tiempo();
-      if(this.remainingTime <= 0){
-        console.log('fin')
-        this.GameTimeOut(self, this.socket.id);
-        this.scene.pause(Game);
+    // if (this.totalTime ){
+    //   this.tiempo();
+    //   if(this.remainingTime <= 0){
+    //     console.log('fin')
+    //     this.GameTimeOut(self, this.socket.id);
+    //     this.scene.pause(Game);
 
-      }
-    }
+    //   }
+    // }
     
 
     //this.pointer = this.input.mousePointer;
