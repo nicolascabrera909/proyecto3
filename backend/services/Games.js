@@ -4,8 +4,18 @@ const Game = require('./Game.js')
 const Submarine = require('./Submarine.js')
 const Destructor = require('./Destructor')
 const Freighters = require('./Freighters.js')
-const Map = require('./Map')
-const DAOGame = require('../data/DAOGame')
+const Map = require('./Map.js')
+const DAOGame = require('../data/DAOGame.js')
+const DAOMap = require('../data/DAOMap.js')
+const DAOPLayer = require('../data/DAOPLayer
+..js')
+const DAOShip = require('../data/DAOShip.js')
+const DAODestructor= require('../data/DAODestructor.js')
+const DAOSubmarine= require('../data/DAOSubmarine.js')
+const DAOCannon= require('../data/DAOCannon.js')
+const DAOTorpedo= require('../data/DAOTorpedo.js')
+const DAODepthCharge= require('../data/DAODepthCharge.js')
+const DAODifficulty= require('../data/DAODifficulty.js')
 
 
 //const { prependListener } = require('../data/Database.js')
@@ -15,6 +25,10 @@ class Games {
     constructor() {
         this.game = null;
         this.map = new Map();
+        let daoGame = new DAOGame();
+        let daoPlayer = new DAOPlayer();
+        let daoMap = new DAOMap();
+        let daoShip = new DAOPlayer();
 
         //singleton de la clase
         if (typeof Games.instance === "object") {
@@ -116,12 +130,50 @@ class Games {
         game = daoGameInstancia.findGame();
         //falta a terminar
     }
-    saveGame() {
-        let daoGameInstancia = new DAOGame();
-        game = new Game();
-        game = daoGameInstancia.findGame();
-        //falta a terminar
+    async saveGame(name1, name2) {
+        
+
+        let listGames = await daoGameInstancia.find();
+        if(this.existPartidaPlayers(listGames,name1,name2)){
+            //tengo q actualizar lo guardado
+        }else{
+            //Guardo por primera vez
+            //inserto el game 
+
+            //inserto mapa 
+            //inserto player 
+            //inserto ship ---> valido de q tipo es   destructor, submarino
+            //inserto armamento -> dependiendo de q tipo es, cannon torpedo, profundidad
+            
+
+            
+        }
+        
     }
+
+    async existPartidaPlayers(listGame, name1, name2) {
+        let i = 0;
+        let encontre = false;
+        
+        while (i < listGames.length && !encontre) {
+            let resultSql = await daoPlayInstancia.find(listGames[i]);
+            if (resultSql != 'Error') {
+                let contadorIgual=0;
+                for(let j=0;j<resultSql.length;j++){
+                    if((resultSql[j].name==name1)  || (resultSql[j].name==name2)){
+                        contadorIgual++;
+                    }
+                }
+                if(contadorIgual==2){
+                    encontre=true;
+                }
+            }
+            i++;
+        }
+        return encontre;
+    }
+
+
 
     whoWins() {
         let deathSubmarine = false;
@@ -145,13 +197,13 @@ class Games {
         for (let i = 0; i < this.game.playerList.length; i++) {
             for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
                 if (this.game.playerList[i].boatTeam = 'submarino') {
-                    socketSubmarine=this.game.playerList[i].socketId;
+                    socketSubmarine = this.game.playerList[i].socketId;
                     //validos si el submarino esta vivo
                     if (this.game.playerList[i].boatList[j].boatLife == 0) {
                         deathSubmarine = true;
                     }
                 } else {
-                    socketDestructor=this.game.playerList[i].socketId;
+                    socketDestructor = this.game.playerList[i].socketId;
                     //evaluo cuantos cargueros estan vivos y si alguno llego a destino
                     if (this.game.playerList[i].boatList[j].type == 'carguero') {
                         if (this.game.playerList[i].boatList[j].boatLife > 0) {
@@ -166,16 +218,16 @@ class Games {
             }
         }
         //murieron mas de tres cargueros y el submarino esta vivo
-        if(deathFreighters>3 && (!deathSubmarine)){
-            winnerPlayer=socketSubmarine;
+        if (deathFreighters > 3 && (!deathSubmarine)) {
+            winnerPlayer = socketSubmarine;
         }
         //Llegaron 3 o mas cargeros
-        if(arriveFreighters>2){
-            winnerPlayer=socketDestructor;
+        if (arriveFreighters > 2) {
+            winnerPlayer = socketDestructor;
         }
         //Llegaron 3 o mas cargeros
-        if(arriveFreighters>2){
-            winnerPlayer=socketDestructor;
+        if (arriveFreighters > 2) {
+            winnerPlayer = socketDestructor;
         }
 
 

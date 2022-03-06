@@ -12,13 +12,14 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
             classType: Torpedo
         });
         this.available = true;
+        this.lastBullet;
     }
 
     fireTorpedos(x, y, socket, angle) {
-        let bullet = this.getFirstDead(false);
-        if (bullet) {
+        this.lastBullet = this.getFirstDead(false);
+        if (this.lastBullet) {
             this.disable(this);
-            bullet.fire(x, y, this, angle);
+            this.lastBullet.fire(x, y, this, angle);
         }
         if (socket) {
             socket.emit('shootingTorpedo', {
@@ -37,12 +38,13 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
     }
 
     destroy(socket, self) {
-        this.torpedos.destroy();
+        this.lastBullet.destroy();
         // self.anims.create(self.explosionConfig);
         // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
         if (socket) {
             socket.emit('destroy_torpedo', {
-                socketId: socket.id
+                socketId: socket.id,
+                torpedo: this.lastBullet
             });
         }
     }
