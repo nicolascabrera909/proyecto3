@@ -94,8 +94,7 @@ CREATE TABLE submarine (
 CREATE TABLE cannon (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
-	/*c_power INT,
-	c_distance INT,*/
+	c_cantidad INT,
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );

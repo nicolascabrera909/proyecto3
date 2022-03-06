@@ -5,21 +5,23 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
     constructor(scene) {
         super(scene.physics.world, scene);
         this.createMultiple({
-            frameQuantity: 100,
+            frameQuantity: 10,
             key: 'bullet',
             active: false,
             visible: true,
             classType: Torpedo
         });
         this.available = true;
-        this.lastBullet;
+        this.last = [];
     }
 
     fireTorpedos(x, y, socket, angle) {
-        this.lastBullet = this.getFirstDead(false);
-        if (this.lastBullet) {
+        let bullet = this.getFirstDead(false);
+        //let bullet = this.getLast(true);
+        //this.lastBullet.setActive(false);
+        if (bullet) {
             this.disable(this);
-            this.lastBullet.fire(x, y, this, angle);
+            bullet.fire(x, y, this, angle);
         }
         if (socket) {
             socket.emit('shootingTorpedo', {
@@ -28,23 +30,24 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
                 angle: angle
             });
         }
+        this.last.push(bullet);
     }
 
     disable() {
         let self = this;
         setTimeout(function () {
             self.available = false;
-        }, 300);
+            self.setVisible(false);
+        }, 1000);
     }
 
     destroy(socket, self) {
-        this.lastBullet.destroy();
-        // self.anims.create(self.explosionConfig);
-        // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
+        let bullet = this.last.pop();
+        console.log(this.last);
+        bullet.destroy();
         if (socket) {
             socket.emit('destroy_torpedo', {
                 socketId: socket.id,
-                torpedo: this.lastBullet
             });
         }
     }

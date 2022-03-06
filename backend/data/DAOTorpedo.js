@@ -7,7 +7,7 @@ class DAOTorpedo {
     constructor() {}
 
   
-    async insert(torpedo,idSubmarin) {
+    async insert(idSubmarin,torpedo) {
         const consultas = new queries();
         const result = await pool.query(consultas.insertTorpedo() ,[idSubmarin,torpedo.cantidad]);
         if (result != null) {

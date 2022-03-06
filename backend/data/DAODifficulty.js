@@ -16,9 +16,9 @@ class DAODifficulty {
             return ('Error');
     } 
 
-    async find() {
+    async find(id) {
         const consultas = new queries();
-        const result = await pool.query(consultas.findDifficulty(),);
+        const result = await pool.query(consultas.findDifficulty(),[id]);
         if (result != null) {
             result[0];
         }

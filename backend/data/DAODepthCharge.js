@@ -6,7 +6,7 @@ class DAODepthCharge {
 
     constructor() {}
 
-    async insert(depthCharge,idDestructor) {
+    async insert(idDestructor,depthCharge) {
         const consultas = new queries();
         const result = await pool.query(consultas.insertDepthCharge(),[idDestructor, depthCharge.time, depthCharge.depth]);
         if (result != null) {

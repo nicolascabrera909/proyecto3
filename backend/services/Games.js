@@ -130,35 +130,100 @@ class Games {
 
     LoadGame() {
 
-        game = new Game();
-        game = daoGame.findGame();
-        //falta a terminar
-    }
-    //guardo la partida
-    async saveGame(name1, name2, difficulty) {
 
+        /*this.game = new Game(aDifficulty.id)  //constructor(playerList, idDifficulty)
+        constructor(playerList) 
+        player constructor(name, socketId, boatList, boatTeam)
+        destructor-- > cannon y carga profundidad-- > cannon  CantMunicion(30), carga profundidad  CantMunicion
+        submarino x, y  this.boatLife    this.visibility  this.depth  rotation  this.type = 'submarino'; ->
+            torpedo CantMunicion, cannon - CantMunicion
+        carguero -> x, y  this.boatLife    this.visibility    rotation  this.type = 'destructor'
+                    carga profundida CantMunicion, cannon - CantMunicion*/
+
+        this.torpedo = new Torpedo();
+        this.cannon = new Cannon(30);
 
         let listGames = await daoGame.find();
         if (this.existPartidaPlayers(listGames, name1, name2)) {
+            //busco el juego
+            let aGame = findPartidaPlayers(listGames);
+            //busco la dificultad
+            let aDifficulty = daoDifficulty.find(aGame.difficulty_id);
+            //obtengo los players del juego
+            let pleyerList = daoPlayer.find(theGame.id);
+            //obtengo ships
+            for (let i = 0; i < pleyerList.length; i++) {
+                let shipList = daoShip.find(pleyerList[i].id);
+                for (let j = 0; j < shipList.length; j++) {
+                    //me fijo de que tipo es 
+                    switch (shipList[j].boatType) {
+                        case 'submarino':
+
+                            break;
+                        case 'destructor':
+
+                            break;
+                        case 'carguero':
+
+                            break;
+                    }
+                    let dao
+                }
+
+            }
+
+        } else {
+            console.log('no existe la partida');
+        }
+    }
+
+    //guardo la partida
+    async saveGame(name1, name2, difficulty) {
+        let listGames = await daoGame.find();
+        if (this.existPartidaPlayers(listGames, name1, name2)) {
             //tengo q actualizar lo guardado
+
+            // falta
+
         } else {
             //Guardo por primera vez
             //inserto el game, con dificultad 1. cuando tenga va difficulty
             daoGame.insert(1);
-            let listGames = await daoGame.find();
-            let ultimoId=await daoGame.lastGame()
+            let ultimoId = await daoGame.lastGame()
             //inserto mapa [gameId, map.heigth,map.width]
-            daoMap.insert(daoGame.lastGame(),this.map.heigth,this.map.width)  
-            //inserto player 
-            dao
-            //inserto ship ---> valido de q tipo es   destructor, submarino
-            //inserto armamento -> dependiendo de q tipo es, cannon torpedo, profundidad
-
-
-
+            daoMap.insert(ultimoId, this.map)
+            //inserto player [gameId, player.name]
+            for (let i = 0; i < this.game.playerList.length; i++) {
+                daoPlayer.insert(ultimoId, this.game.playerList[0]);
+                //inserto ship ---> valido de q tipo es   destructor, submarino. [playerId, ship.positionX,ship.positionY,ship.boatLife,ship.boatType,ship.visibility]
+                let ultimoIdPLayer = await daoPlayer.lastPlayerId(ultimoId)
+                for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
+                    daoShip.insert(ultimoId, this.game.playerList[i].boatList[j]);
+                    let ultimoShip = daoShip.lastShipId(ultimoIdPLayer);
+                    //Busco q tipo de barco es para insertar. 
+                    switch (this.game.playerList[i].boatList[j].type) {
+                        case 'submarino':
+                            //shipId,submarine
+                            daoSubmarine.insert(ultimoShip, this.game.playerList[i].boatList[j]);
+                            //inserto armamaneto de submarino --idSubmarin,torpedo  ---shipId,cannon---
+                            daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
+                            let ultimoSubmarin = daoSubmarine.lastSubmarineId(ultimoShip);
+                            daoTorpedo.insert(ultimoSubmarin, this.game.playerList[i].boatList[j].torpedo);
+                            break;
+                        case 'destructor':
+                            //[shipId]
+                            daoDestructor.insert(ultimoShip);
+                            //inserto armamaneto de submarino--- idDestructor,depthCharge ---
+                            daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
+                            let ultimoDestructor = daoDestructor.lastDestructorId(ultimoShip);
+                            daoDepthCharge.insert(ultimoDestructor, this.game.playerList[i].boatList[j].carga)
+                            break;
+                    }
+                }
+            }
         }
-
     }
+
     //devuelve si existe el jugador
     async existPartidaPlayers(listGames, name1, name2) {
         let i = 0;
@@ -185,27 +250,27 @@ class Games {
     async findPartidaPlayers(listGames, name1, name2) {
         let i = 0;
         let encontre = false;
-        let playerList = [];
+        let gamePleyers = null;
 
         while (i < listGames.length && !encontre) {
-            let resultSql = await daoPlayer.find(listGames[i]);
+            let resultSql = await daoPlayer.find(listGames[i].id);
             if (resultSql != 'Error') {
                 let contadorIgual = 0;
                 for (let j = 0; j < resultSql.length; j++) {
                     if ((resultSql[j].name == name1) || (resultSql[j].name == name2)) {
-                        playerList.push(resultSql[j]);
                         contadorIgual++;
                     }
                 }
                 if (contadorIgual == 2) {
                     encontre = true;
+                    gamePleyers = listGames[i];
                 } else {
-                    playerList = [];
+                    gamePleyers = null;
                 }
             }
             i++;
         }
-        return playerList;
+        return gameId;
     }
 
 
