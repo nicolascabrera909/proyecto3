@@ -6,7 +6,16 @@ const Destructor = require('./Destructor')
 const Freighters = require('./Freighters.js')
 const Map = require('./Map.js')
 const DAOGame = require('../data/DAOGame.js')
-const DAOPlayer = require('../data/DAOPlayer.js')
+const DAOMap = require('../data/DAOMap.js')
+const DAOPLayer = require('../data/DAOPLayer
+..js')
+const DAOShip = require('../data/DAOShip.js')
+const DAODestructor= require('../data/DAODestructor.js')
+const DAOSubmarine= require('../data/DAOSubmarine.js')
+const DAOCannon= require('../data/DAOCannon.js')
+const DAOTorpedo= require('../data/DAOTorpedo.js')
+const DAODepthCharge= require('../data/DAODepthCharge.js')
+const DAODifficulty= require('../data/DAODifficulty.js')
 
 
 //const { prependListener } = require('../data/Database.js')
@@ -16,6 +25,10 @@ class Games {
     constructor() {
         this.game = null;
         this.map = new Map();
+        let daoGame = new DAOGame();
+        let daoPlayer = new DAOPlayer();
+        let daoMap = new DAOMap();
+        let daoShip = new DAOPlayer();
 
         //singleton de la clase
         if (typeof Games.instance === "object") {
@@ -118,11 +131,24 @@ class Games {
         //falta a terminar
     }
     async saveGame(name1, name2) {
-        let daoGameInstancia = new DAOGame();
-        let daoPlayInstancia = new DAOPlayer();
+        
 
         let listGames = await daoGameInstancia.find();
-        this.existPartidaPlayers(listGames,name1,name2)
+        if(this.existPartidaPlayers(listGames,name1,name2)){
+            //tengo q actualizar lo guardado
+        }else{
+            //Guardo por primera vez
+            //inserto el game 
+
+            //inserto mapa 
+            //inserto player 
+            //inserto ship ---> valido de q tipo es   destructor, submarino
+            //inserto armamento -> dependiendo de q tipo es, cannon torpedo, profundidad
+            
+
+            
+        }
+        
     }
 
     async existPartidaPlayers(listGame, name1, name2) {

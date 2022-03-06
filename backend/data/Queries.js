@@ -13,11 +13,11 @@ class Queries {
         return query;
     } 
 
-    insertDificultad(){
+    insertDifficulty(){
         const query='insert into difficulty (id,multiMap,multiLife,multiPower,multiVisibility,multiSpeed,multiDistance ) values($1,$2,$3,$4,$5,$6,$7)';
         return query;
     }
-    findDificultad(){
+    findDifficulty(){
         const query='SELECT id,multiMap,multiLife,multiPower,multiVisibility,multiSpeed,multiDistance from difficulty  where id=$1';
         return query;
     }
