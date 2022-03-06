@@ -170,8 +170,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('depthChargeThrowing', function (info) {
-    console.log('envio al otro jugador info de la deep');
-    socket.broadcast.emit('opponentThrowDepthCharge', info);
+    socket.broadcast.emit('other_shotDepthCharge', info);
   });
 
   socket.on('cancelGame', function(socket_id){
