@@ -179,7 +179,18 @@ io.on('connection', function (socket) {
   socket.on('depthChargeThrowing', function(info){
     console.log('envio al otro jugador info de la deep');
     socket.broadcast.emit('opponentThrowDepthCharge', info);
-});
+  });
+
+  socket.on('cancelGame', function(socket_id){
+    console.log('Juego cancelado');
+    socket.broadcast.emit('canceledGame', socket_id);
+  });
+
+  socket.on('saveGame', function(socket_id){
+    console.log('grabar juego');
+    // aca se llamaria a una funcion del back?
+    //socket.broadcast.emit('canceledGame', socket_id);
+  });
 
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////

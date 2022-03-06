@@ -23,6 +23,7 @@ class Game extends Phaser.Scene {
     this.FreightersList = [];
     this.save_btn;
     this.cancel_btn;
+    this.msg;
     this.target = {
       'x': 0,
       'y': 0
@@ -38,6 +39,15 @@ class Game extends Phaser.Scene {
     this.load.image('tiles', './static/assets/map/terrain.png');
     this.load.image('depth_charge', './static/assets/img/depthcharge.png')
     this.load.image('logo', './static/assets/img/logo.jpeg');
+    this.load.image('canceled', './static/assets/img/canceled.png');
+    this.load.image('victory', './static/assets/img/victory.png');
+    this.load.image('victory_surrender', './static/assets/img/victory_surrender.png');
+
+    this.load.image('defeat', './static/assets/img/defeat.png');
+    this.load.image('defeat_surrender', './static/assets/img/defeat_surrender.png');
+
+    this.load.image('game_over', './static/assets/img/game_over.png');
+
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
@@ -65,6 +75,22 @@ class Game extends Phaser.Scene {
     this.ship_collision_sound;
     this.depth_charge_sound;
     this.bg_sound;
+  }
+
+  setGameTime(difficulty){
+    let time = 10000;
+    switch(difficulty) {
+      case difficulty == 2:
+        time = 240000;
+        break;
+      case difficulty == 3:
+        time = 180000;
+        break;
+    }
+    setTimeout(function () {
+      console.log('juego terminado');
+    }, time);
+
   }
 
   preload() {
@@ -288,9 +314,23 @@ class Game extends Phaser.Scene {
       }
     });
 
+    this.socket.on('canceledGame', (socket_id) => {
+      if (socket_id !== self.socket.id) {
+        self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "victory_surrender");
+        this.scene.pause('Game');
+      }
+    
+      // this.add.displayList.removeAll();
+      // this.scene.start('GameOver');
+      
+    });
+
+    
+
     this.map = new Map(this, 'map', 'tiles', 'terrain');
     
     window.game = this;
+    this.setGameTime(difficulty);
   }
 
   update() {
@@ -422,6 +462,23 @@ class Game extends Phaser.Scene {
       console.log('creo other player submarino')
     }
     //this.addCollisions(self);
+
+    this.save_btn = this.add.text(this.sys.game.config.width/2 + 100, 0, 'Guardar', {
+      fontSize: '20px',
+      fill: '#0a0a0a',
+      fontFamily: 'verdana, arial, sans-serif'
+    })
+      .setInteractive()
+      .on('pointerdown', () => this.saveGame());
+
+    this.cancel_btn = this.add.text(this.sys.game.config.width/2 + 200, 0, 'Cancelar', {
+      fontSize: '20px',
+      fill: '#e62e1b',
+      fontFamily: 'verdana, arial, sans-serif'
+    })
+      .setInteractive()
+      .on('pointerdown', () => this.cancelGame(self));
+
   }
 
   defineCollisions(self) {
@@ -500,6 +557,7 @@ class Game extends Phaser.Scene {
       fill: '#fff',
       fontFamily: 'verdana, arial, sans-serif'
     });
+    this.username.fixedToCamera = true
   }
 
   ignoreSmallMap(){
@@ -510,6 +568,19 @@ class Game extends Phaser.Scene {
     for (let i = 0; i < this.otherPlayersCargueros.children.entries.length; i++) {
       this.smallCamera.ignore(this.otherPlayersCargueros.children.entries[i]);
     }
+  }
+
+  saveGame(){
+    console.log('gRAVAR EL JUEGO');
+    let socket_id = this.socket.id;
+    this.socket.emit('saveGame', socket_id);
+  }
+
+  cancelGame(self){
+    let socket_id = this.socket.id;
+    this.socket.emit('cancelGame', socket_id);
+    self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
+    this.scene.pause('Game');
   }
   
 }
