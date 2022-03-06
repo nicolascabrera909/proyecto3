@@ -106,6 +106,39 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.depth = 3;
   }
 
+  surfaceOpponent(socket) {
+    this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
+    if (socket) {
+      socket.emit('changeDepth', { 
+        depth: 1,
+        socketId: socket.id 
+      });
+    }
+    this.submarino.depth = 1;
+  }
+
+  immerseOpponent(socket) {
+    this.submarino.setAlpha(0.7, 0.7, 0, 0);
+    if (socket) {
+      socket.emit('changeDepth', { 
+        depth: 2,
+        socketId: socket.id 
+      });
+    }
+    this.submarino.depth = 2;
+  }
+
+  deepImmerseOpponent(socket) {
+    this.submarino.setAlpha(0.4, 0.4, 0, 0);
+    if (socket) {
+      socket.emit('changeDepth', { 
+        depth: 3,
+        socketId: socket.id 
+      });
+    }
+    this.submarino.depth = 3;
+  }
+
   moveSubmarino(cursors, socket, input, self, target) {
     let nivel;
     //Movimientos sumarino)

@@ -35,17 +35,6 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
             self.available = false;
         }, 300);
     }
-
-    destroy(socket, self) {
-        this.torpedos.destroy();
-        // self.anims.create(self.explosionConfig);
-        // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
-        if (socket) {
-            socket.emit('destroy_torpedo', {
-                socketId: socket.id
-            });
-        }
-    }
 }
 
 export default Torpedos;
