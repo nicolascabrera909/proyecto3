@@ -174,21 +174,21 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('opponentThrowDepthCharge', info);
   });
 
+  socket.on('cancelGame', function(socket_id){
+    console.log('Juego cancelado');
+    socket.broadcast.emit('canceledGame', socket_id);
+  });
 
-  //// no se usa
-  /*socket.on('fullcharge', function (bandera) {
-    console.log('se jecucto new player');
-    if (bandera) {
-      socket.emit('addCollition');
-    }
-  })*/
-  /*socket.on('destroy_depthCharge', function (info) {
-    socket.broadcast.emit('other_destroy_depthCharge', info)
-  });*/
+  socket.on('saveGame', function(socket_id){
+    console.log('grabar juego');
+    // aca se llamaria a una funcion del back?
+    //socket.broadcast.emit('canceledGame', socket_id);
+  });
 
-
-
-
+  socket.on('finishGame', function(socket_id){
+    console.log('Juego terminado');
+    socket.broadcast.emit('finishedGame', socket_id);
+  });
 
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////

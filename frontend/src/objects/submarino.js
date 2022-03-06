@@ -29,6 +29,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.setSize(140, 20);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
+    this.submarino.depth = 1;
     if (cursor) {
       this.selfSubmarino = self;
       self.cameras.main.setBounds(0, 0, 1344, 704);
@@ -96,6 +97,39 @@ class Submarino extends Phaser.GameObjects.Sprite {
   deepImmerse(socket) {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
     this.selfSubmarino.cameras.main.setZoom(3);
+    if (socket) {
+      socket.emit('changeDepth', { 
+        depth: 3,
+        socketId: socket.id 
+      });
+    }
+    this.submarino.depth = 3;
+  }
+
+  surfaceOpponent(socket) {
+    this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
+    if (socket) {
+      socket.emit('changeDepth', { 
+        depth: 1,
+        socketId: socket.id 
+      });
+    }
+    this.submarino.depth = 1;
+  }
+
+  immerseOpponent(socket) {
+    this.submarino.setAlpha(0.7, 0.7, 0, 0);
+    if (socket) {
+      socket.emit('changeDepth', { 
+        depth: 2,
+        socketId: socket.id 
+      });
+    }
+    this.submarino.depth = 2;
+  }
+
+  deepImmerseOpponent(socket) {
+    this.submarino.setAlpha(0.4, 0.4, 0, 0);
     if (socket) {
       socket.emit('changeDepth', { 
         depth: 3,

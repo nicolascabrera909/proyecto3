@@ -1,6 +1,8 @@
 //IMPORTS
 import Game from "./scenes/game.js";
 
+import Gameover from "./scenes/gameover.js";
+
 // CONFIG BASICA
 const config = {
     title: 'UDE Navy',
@@ -16,7 +18,7 @@ const config = {
           }
     },
     title: '1.0',
-    scene: [Game],
+    scene: [Game, Gameover],
 }
 
 new Phaser.Game(config);
