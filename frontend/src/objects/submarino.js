@@ -30,11 +30,17 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
     if (cursor) {
-      this.selfSubmarino = self;
+      // this.selfSubmarino = self;
       self.cameras.main.setBounds(0, 0, 1344, 704);
       self.cameras.main.startFollow(this.submarino, true);
       self.cameras.main.roundPixels = true;
       self.cameras.main.setZoom(1.5);
+
+      self.smallCamera = self.cameras.add(1200, 10, 200, 200);
+      self.smallCamera.rotation = 0;
+      self.smallCamera.zoom = 0.1;
+      self.smallCamera.setBounds(0, 0, 200, 200);
+
       this.keySPACEBAR = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
       this.keyA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);

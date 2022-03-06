@@ -127,12 +127,14 @@ class Game extends Phaser.Scene {
       }
       if (players.length == 2) {
         this.defineCollisions(self);
+        this.ignoreSmallMap();
       }
     });
-
+    
     this.socket.on('newPlayer', (playerInfo) => {
       this.addOtherPlayers(this, playerInfo);
       this.defineCollisions(self);
+      this.ignoreSmallMap();
 
     });
 
@@ -141,7 +143,6 @@ class Game extends Phaser.Scene {
 
 
     })
-
 
     this.socket.on('playerDisconnected', (playerId) => {
       this.otherPlayers.getChildren().forEach((otherPlayer) => {
@@ -518,7 +519,16 @@ class Game extends Phaser.Scene {
     });
   }
 
-
+  ignoreSmallMap(){
+            // this.smallCamera.ignore(this.submarino2.submarino);
+    for (let i = 0; i < this.otherPlayers.children.entries.length; i++) {
+      this.smallCamera.ignore(this.otherPlayers.children.entries[i]);
+    }
+    for (let i = 0; i < this.otherPlayersCargueros.children.entries.length; i++) {
+      this.smallCamera.ignore(this.otherPlayersCargueros.children.entries[i]);
+    }
+  }
+  
 
 
 }
