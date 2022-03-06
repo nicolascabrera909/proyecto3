@@ -4,8 +4,9 @@ const Game = require('./Game.js')
 const Submarine = require('./Submarine.js')
 const Destructor = require('./Destructor')
 const Freighters = require('./Freighters.js')
-const Map = require('./Map')
-const DAOGame = require('../data/DAOGame')
+const Map = require('./Map.js')
+const DAOGame = require('../data/DAOGame.js')
+const DAOPlayer = require('../data/DAOPlayer.js')
 
 
 //const { prependListener } = require('../data/Database.js')
@@ -118,9 +119,18 @@ class Games {
     }
     saveGame() {
         let daoGameInstancia = new DAOGame();
-        game = new Game();
-        game = daoGameInstancia.findGame();
-        //falta a terminar
+        let daoPlayInstancia=new DAOPlayer();
+        
+        /*
+        //valido si la partida ya existe en la base, controlo los socket en juego
+        let gameAux = daoGameInstancia.find();
+
+        console.log('espero promesa');
+
+        //busco el resultado
+        let players=daoPlayInstancia.find(gameAux[0].id);
+        //validos si el jugador existe
+        */
     }
 
     whoWins() {

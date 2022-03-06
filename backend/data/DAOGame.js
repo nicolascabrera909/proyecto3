@@ -1,5 +1,5 @@
-const pool = require('./Database');
-const queries = require('./Queries'); 
+const pool = require('./Database.js');
+const Queries = require('./Queries.js'); 
 const Game = require('../services/Game.js')
 
 class DAOGame {
@@ -18,12 +18,13 @@ class DAOGame {
             return ('Error');
     } 
 
-    async find(name1, name) {
-        const consultas = new queries();
-        const result = await pool.query(consultas.findGamea());///falat terminar
+    async find() {
+        const consultas = new Queries();
+        //let a =consultas.findGamea();
+        const result = await pool.query(consultas.findGame);///falat terminar
         if (result != null) {
             result[0];
-        }
+        } 
         else
             return ('Error');
     }        
