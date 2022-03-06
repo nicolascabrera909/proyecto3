@@ -29,43 +29,7 @@ class Game extends Phaser.Scene {
     }
   }
 
-  loadImages() {
-    this.load.image('destructor', './static/assets/img/destructor_small.png');
-    this.load.image('submarino', './static/assets/img/submarino_small.png');
-    this.load.image('carguero', './static/assets/img/freighters_small.png');
-    this.load.image('torpedo', './static/assets/img/torpedo.png');
-    this.load.image('cannon', './static/assets/img/cannon.png');
-    this.load.image('tiles', './static/assets/map/terrain.png');
-    this.load.image('depth_charge', './static/assets/img/depthcharge.png')
-    this.load.image('logo', './static/assets/img/logo.jpeg');
-    this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
-  }
 
-  loadSpritesheet() {
-    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', {
-      frameWidth: 64,
-      frameHeight: 64,
-      endFrame: 23
-    });
-  }
-
-  loadAudio() {
-    this.load.audio('cannon_sound', './static/assets/audio/cannon_sound.mp3')
-      .audio('torpedo_sound', ['./static/assets/audio/torpedo_sound.mp3'])
-      .audio('start_game', ['./static/assets/audio/start_game.mp3'])
-      .audio('sea_water', ['./static/assets/audio/sea_water.mp3'])
-  }
-
-  loadAudioVariables() {
-    this.sea_water = this.sound.add('sea_water');
-    this.sea_water.loop = true;
-    this.start_game = this.sound.add('start_game');
-    this.cannon_sound = this.sound.add('cannon_sound');
-    this.torpedo_sound = this.sound.add('torpedo_sound');
-    this.ship_collision_sound;
-    this.depth_charge_sound;
-    this.bg_sound;
-  }
 
   preload() {
     this.loadImages();
@@ -98,14 +62,6 @@ class Game extends Phaser.Scene {
       repeat: 0
     };
 
-    /*
-    this.save_btn = this.add.sprite(this.sys.game.config.width/2 , this.sys.game.config.heigth/2, 'Guardar').setInteractive();
-    this.save_btn.on('pointerdown', function (event){
-      console.log('Guardar');
-    });
-    //this.save_btn = this.add.sprite(this.sys.game.config.width/2 - 95, this.sys.game.config.heigth, 'Guardar', this.cancelGame, this, 2, 1, 0);
-    */
-
     this.socket.on('inicioInstancia', (backGame) => {
       console.log('Evento inicioInstancia');
       this.games = backGame;
@@ -127,17 +83,13 @@ class Game extends Phaser.Scene {
         this.ignoreSmallMap();
       }
     });
-    
+
     this.socket.on('newPlayer', (playerInfo) => {
       this.addOtherPlayers(this, playerInfo);
       this.defineCollisions(self);
       this.ignoreSmallMap();
 
     });
-
-    this.socket.on('addCollition', function () {
-      //this.addCollisions(self);
-    })
 
     this.socket.on('playerDisconnected', (playerId) => {
       this.otherPlayers.getChildren().forEach((otherPlayer) => {
@@ -288,8 +240,19 @@ class Game extends Phaser.Scene {
       }
     });
 
+
+
+
+
+    /********no se usa**********/
+    this.socket.on('addCollition', function () {
+      //this.addCollisions(self);
+    })
+
+
+
     this.map = new Map(this, 'map', 'tiles', 'terrain');
-    
+
     window.game = this;
   }
 
@@ -314,19 +277,18 @@ class Game extends Phaser.Scene {
     }
   }
 
+
+  
   choque(nave1, nave2, self) {
     nave1.destroy(this.socket, self);
     nave2.destroy(this.socket, self);
   }
-
   collisionShipArmy(socket, shipOne, shipTwo) {
     shipOne.detroy(socket);
     shipTwo.destroy(socket);
   }
-
+  //imagen del choque
   choqueScena(nave, self) {
-    //this.lateralCamera = new LateralCamera(this,nave.x,nave.y, 'choque');
-    // this.lateralCamera.create(nave.x,nave.y,self);
     var lateralCamera = this.add.image(nave.x, nave.y, 'logo');
     this.input.once('pointerdown', function () {
       lateralCamera.destroy();
@@ -502,8 +464,8 @@ class Game extends Phaser.Scene {
     });
   }
 
-  ignoreSmallMap(){
-            // this.smallCamera.ignore(this.submarino2.submarino);
+  ignoreSmallMap() {
+    // this.smallCamera.ignore(this.submarino2.submarino);
     for (let i = 0; i < this.otherPlayers.children.entries.length; i++) {
       this.smallCamera.ignore(this.otherPlayers.children.entries[i]);
     }
@@ -511,7 +473,45 @@ class Game extends Phaser.Scene {
       this.smallCamera.ignore(this.otherPlayersCargueros.children.entries[i]);
     }
   }
-  
+
+  loadImages() {
+    this.load.image('destructor', './static/assets/img/destructor_small.png');
+    this.load.image('submarino', './static/assets/img/submarino_small.png');
+    this.load.image('carguero', './static/assets/img/freighters_small.png');
+    this.load.image('torpedo', './static/assets/img/torpedo.png');
+    this.load.image('cannon', './static/assets/img/cannon.png');
+    this.load.image('tiles', './static/assets/map/terrain.png');
+    this.load.image('depth_charge', './static/assets/img/depthcharge.png')
+    this.load.image('logo', './static/assets/img/logo.jpeg');
+    this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
+  }
+
+  loadSpritesheet() {
+    this.load.spritesheet('explosion', './static/assets/sprites/explosion_sheet.png', {
+      frameWidth: 64,
+      frameHeight: 64,
+      endFrame: 23
+    });
+  }
+
+  loadAudio() {
+    this.load.audio('cannon_sound', './static/assets/audio/cannon_sound.mp3')
+      .audio('torpedo_sound', ['./static/assets/audio/torpedo_sound.mp3'])
+      .audio('start_game', ['./static/assets/audio/start_game.mp3'])
+      .audio('sea_water', ['./static/assets/audio/sea_water.mp3'])
+  }
+
+  loadAudioVariables() {
+    this.sea_water = this.sound.add('sea_water');
+    this.sea_water.loop = true;
+    this.start_game = this.sound.add('start_game');
+    this.cannon_sound = this.sound.add('cannon_sound');
+    this.torpedo_sound = this.sound.add('torpedo_sound');
+    this.ship_collision_sound;
+    this.depth_charge_sound;
+    this.bg_sound;
+  }
+
 }
 
 
