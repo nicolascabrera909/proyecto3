@@ -183,7 +183,7 @@ class Games {
                             submarine.visibility=shipList[j].rotation;
                             submarine.type=shipList[j].rotation;
                             submarine.depth=shipList[j].rotation;
-
+                            boatListSubmarino.push(boatListSubmarino);
                            
 
                             boatListSubmarino=[];
