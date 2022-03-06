@@ -33,19 +33,19 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         setTimeout(function () {
             selfDepthCharge.setAlpha(0.7, 0.7, 0, 0);
             this.depth = 1;
-        }, 3000);
+        }, 1200);
         setTimeout(function () {
             selfDepthCharge.setAlpha(0.4, 0.4, 0, 0);
             this.depth = 2;
-        }, 4000);
+        }, 12000);
         setTimeout(function () {
             selfDepthCharge.available = false;
             selfDepthCharge.setVisible(false);
-        }, 100000);
+        }, 60000);
     }
 
     destroy(socket, self) {
-        this.depth_charge.destroy();
+        this.kill();
         // self.anims.create(self.explosionConfig);
         // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
         if (socket) {
