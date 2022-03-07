@@ -677,27 +677,27 @@ class Game extends Phaser.Scene {
     //Collision submarino cannons con Cargueros
     this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[0], () => {
       console.log('entro al overlap de cannons con carguero');
-      this.otherPlayersCargueros.children.entries[0].destroy();
+      //this.otherPlayersCargueros.children.entries[0].destroy();
     });
     this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[1], () => {
       console.log('entro al overlap de cannons con carguero');
-      this.otherPlayersCargueros.children.entries[1].destroy();
+      //this.otherPlayersCargueros.children.entries[1].destroy();
     });
     this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[2], () => {
       console.log('entro al overlap de cannons con carguero');
-      this.otherPlayersCargueros.children.entries[2].destroy();
+      //this.otherPlayersCargueros.children.entries[2].destroy();
     });
     this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[3], () => {
       console.log('entro al overlap de cannons con carguero');
-      this.otherPlayersCargueros.children.entries[3].destroy();
+      //this.otherPlayersCargueros.children.entries[3].destroy();
     });
     this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[4], () => {
       console.log('entro al overlap de cannons con carguero');
-      this.otherPlayersCargueros.children.entries[4].destroy();
+      //this.otherPlayersCargueros.children.entries[4].destroy();
     });
     this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[5], () => {
       console.log('entro al overlap de cannons con carguero');
-      this.otherPlayersCargueros.children.entries[5].destroy();
+      //this.otherPlayersCargueros.children.entries[5].destroy();
     });
   }
 
