@@ -278,6 +278,10 @@ class Games {
                             let ultimoDestructor = daoDestructor.lastDestructorId(ultimoShip);
                             daoDepthCharge.insert(ultimoDestructor, this.game.playerList[i].boatList[j].carga)
                             break;
+
+                        case 'destructor':
+                            //falta por que agrege el id q se nesecita 
+                            break;
                     }
                 }
             }
