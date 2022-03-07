@@ -102,6 +102,19 @@ class Queries {
         return query;
     }
 
+    insertFreighters(){
+        const query='insert into freighters (id,ship_id) values($1,$2);';
+        return query;
+    }
+    findFreighters(){
+        const query='select id from freighters where ship_id =$1';
+        return query;
+    }
+    lastFreightersId(){
+        const query='select max(id) id from freighters where ship_id =$1';
+        return query;
+    }
+
     insertCannon(){
         const query='insert into cannon (ship_id,c_cantidad) values($1,$2);';
         return query;

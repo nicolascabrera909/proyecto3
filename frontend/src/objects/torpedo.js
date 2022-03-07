@@ -10,10 +10,10 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
         this.setVisible(true);
         this.setAngle(Phaser.Math.RadToDeg(angle));
         self.scene.physics.velocityFromRotation(angle, -300, this.body.velocity);
-        this.disable(self);
+        this.disable();
     }
 
-    disable(self) {
+    disable() {
         let selfTorpedo = this;
         setTimeout(function (){
             selfTorpedo.destroy();

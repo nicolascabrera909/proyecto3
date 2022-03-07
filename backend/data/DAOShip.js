@@ -9,7 +9,7 @@ class DAOShip {
     //aca le paso o un destructor, submarino o un carguero
     async insert(playerId, ship) {
         const consultas = new queries();
-        const result = await pool.query(consultas.insertShip(), [playerId, ship.positionX, ship.positionY, ship.boatLife, ship.boatType, ship.visibility]);
+        const result = await pool.query(consultas.insertShip(), [playerId, ship.positionX, ship.positionY,ship.rotation, ship.boatLife, ship.boatType, ship.visibility]);
         if (result != null) {
             return ('OK')
         }

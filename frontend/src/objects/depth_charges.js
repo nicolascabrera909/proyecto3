@@ -1,54 +1,66 @@
-import Torpedo from "./torpedo.js"
+import DepthCharge from "./depth_charge.js"
 
-class Torpedos extends Phaser.Physics.Arcade.Group {
-
+class DepthCharges extends Phaser.Physics.Arcade.Group {
+    
     constructor(scene) {
         super(scene.physics.world, scene);
+        
         this.createMultiple({
-            frameQuantity: 100,
-            key: 'bullet',
+            frameQuantity: 50,
+            key: 'bulletDepthCharge',
             active: false,
             visible: true,
-            classType: Torpedo
+            classType: DepthCharge
         });
         this.available = true;
         this.last = [];
+        //this.depth = 1;
     }
 
-    fireTorpedos(x, y, socket, angle) {
+    fireDepthCharge(x, y, socket) {
         let bullet = this.getFirstDead(false);
         if (bullet) {
             this.disable(this);
-            bullet.fire(x, y, this, angle);
+            bullet.fire(x, y, this);
         }
         if (socket) {
-            socket.emit('shootingTorpedo', {
+            socket.emit('depthChargeThrowing', {
                 x: x, y: y,
                 socket_id: socket.id,
-                angle: angle
             });
         }
         this.last.push(bullet);
     }
+
+    /*disable() {
+        let selfDepthCharge = this;
+        setTimeout(function () {
+            selfDepthCharge.setAlpha(0.7, 0.7, 0, 0);
+        }, 1200);
+        setTimeout(function () {
+            selfDepthCharge.setAlpha(0.4, 0.4, 0, 0);
+            this.depth = 2;
+        }, 12000);
+    }*/
 
     disable() {
         let self = this;
         setTimeout(function () {
             self.available = false;
             self.setVisible(false);
-        }, 1000);
+        }, 100000);
     }
-
+    
     destroy(socket, self) {
         let bullet = this.last.pop();
         console.log(this.last);
         bullet.destroy();
         if (socket) {
-            socket.emit('destroy_torpedo', {
+            socket.emit('destroy_depthCharge', {
                 socketId: socket.id,
             });
         }
     }
 }
 
-export default Torpedos;
+export default DepthCharges;

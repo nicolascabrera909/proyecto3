@@ -5,7 +5,7 @@ const Ship = require("./Ship.js")
 class Destructor extends Ship {
 
     /*Constructor*/
-    constructor(dificulty) {
+    constructor(/*dificulty*/) {
         super();
 
         this.carga = new DepthCharge();
@@ -15,15 +15,14 @@ class Destructor extends Ship {
         this.carga.setTime(10);
         this.carga.setDepth();
         this.cannon = new Cannon(30);
-       // this.cannon.setCantMunicion(30);
 
         //let coordenadas = this.coordenadas(mapa.getWidth(), mapa.getHeight());
         this.positionX = 0
         this.positionY = 0
-        //this.rotation =180;
+        this.rotation =180;
         this.boatLife = 100;
         this.visibility = 100;
-        this.dificulty = dificulty;
+        //this.dificulty = dificulty;
         this.type = 'destructor';
     }
 

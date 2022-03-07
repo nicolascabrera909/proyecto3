@@ -1,58 +1,23 @@
 class DepthCharge extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene, x, y) {
-        super(scene, x, y, 'depth_charge', 1);
-        this.scene = scene;
-        this.scene.physics.world.enable(this);
-        this.scene.add.existing(this);
-        this.name = "bomb";
-        this.available = true;
-        this.setVisible(true);
-        this.depth;
+        super(scene, x, y, 'depth_charge');
     }
 
-    fire(x, y, self) {
+    fire (x, y, self) {
         this.body.reset(x, y);
         this.setActive(true);
         this.setVisible(true);
+        this.setAngle(Phaser.Math.RadToDeg(1));
+        self.scene.physics.velocityFromRotation(0, 1, this.body.velocity);
+        this.disable();
     }
 
-    fireDepthCharge(x, y, socket, self) {
-        this.fire(x, y, this);
-        this.disable(self, socket);
-        if (socket) {
-            socket.emit('depthChargeThrowing', {
-                x: x, y: y,
-                socket_id: socket.id
-            });
-        }
-    }
-
-    disable(self, socket) {
-        let selfDepthCharge = this;
+    disable() {
+        let selfDepthCharge = this;            
         setTimeout(function () {
-            selfDepthCharge.setAlpha(0.7, 0.7, 0, 0);
-            this.depth = 1;
-        }, 1200);
-        setTimeout(function () {
-            selfDepthCharge.setAlpha(0.4, 0.4, 0, 0);
-            this.depth = 2;
-        }, 12000);
-        setTimeout(function () {
-            selfDepthCharge.available = false;
-            selfDepthCharge.setVisible(false);
-        }, 60000);
-    }
-
-    destroy(socket, self) {
-        this.kill();
-        // self.anims.create(self.explosionConfig);
-        // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
-        if (socket) {
-            socket.emit('destroy_depthCharge', {
-                socketId: socket.id
-            });
-        }
+            selfDepthCharge.destroy();
+        }, 6000000);
     }
 }
 
