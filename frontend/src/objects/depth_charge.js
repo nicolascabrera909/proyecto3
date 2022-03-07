@@ -1,6 +1,26 @@
 class DepthCharge extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene, x, y) {
+        super(scene, x, y, 'depth_charge');
+    }
+
+    fire (x, y) {
+        this.body.reset(x, y);
+        this.setActive(true);
+        this.setVisible(true);
+        this.disable();
+    }
+
+    disable() {
+        let selfDepthCharge = this;            
+        setTimeout(function () {
+            selfDepthCharge.destroy();
+        }, 60000);
+    }
+}
+
+    /*
+    constructor(scene, x, y) {
         super(scene, x, y, 'depth_charge', 1);
         this.scene = scene;
         this.scene.physics.world.enable(this);
@@ -54,6 +74,5 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
             });
         }
     }
-}
-
+    */
 export default DepthCharge;
