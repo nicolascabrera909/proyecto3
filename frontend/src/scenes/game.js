@@ -66,6 +66,16 @@ class Game extends Phaser.Scene {
       repeat: 0
     };
 
+    /*this.fireConfig = { 
+      key: 'fireAnimation', 
+      frames: this.anims.generateFrameNumbers('fire', { 
+        start: 0, 
+        end: 23, 
+        first: 60 
+      }), 
+      frameRate: 30, 
+      repeat: 0 };*/
+
     this.socket.on('inicioInstancia', (backGame) => {
       console.log('Evento inicioInstancia');
       this.games = backGame;
@@ -419,9 +429,16 @@ class Game extends Phaser.Scene {
     obj1.destroy(this.socket, self);
     obj2.destroy(this.socket, self);
   }
-  collisionShipArmy(socket, shipOne, shipTwo) {
-    shipOne.detroy(socket);
-    shipTwo.destroy(socket);
+
+  collisionShipArmy(obj1, obj2, self) {
+    if (obj1.life === 0) {
+      obj1.destroy(this.socket, self);
+    } else {
+      /*self.anims.create(self.fireConfig);
+      self.add.sprite(obj1.x, obj1.y, 'fire').play('fireAnimation');*/
+      obj1.life -= 1;
+    }
+    obj2.destroy(this.socket, self);
   }
   //imagen del choque
   choqueScena(nave, self) {
@@ -560,11 +577,19 @@ class Game extends Phaser.Scene {
         this.choque(this.submarino2, this.destructor.cannons, self);
       });
 
-      //Colision torpedo submarino con destructor
+      /*//Colision torpedo submarino con destructor
       this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () => {
         console.log('entro al overlap de canon con submarino');
         this.choque(this.submarino2.torpedos, this.destructor, self);
+      });*/
+
+      ///////////////////////
+      //Collision ship Army
+      this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () => {
+        console.log('entro al overlap de canon con submarino');
+        this.collisionShipArmy(this.destructor, this.submarino2.torpedos, self);
       });
+      //////////////////////
 
       //Colision depth charge submarino con destructor
       this.physics.add.overlap(this.destructor.depthCharges, this.submarino2.submarino, () => {
@@ -597,11 +622,18 @@ class Game extends Phaser.Scene {
         }
       });
 
-      //Colision torpedo submarino con destructor
+      /*//Colision torpedo submarino con destructor
       this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () => {
         console.log('entro al overlap de torpedo con destructor');
         this.choque(this.destructor2, this.submarino.torpedos, self);
+      });*/
+
+      //////////////////////////
+      this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () => {
+        console.log('entro al overlap de torpedo con destructor');
+        this.collisionShipArmy(this.destructor2, this.submarino.torpedos, self);
       });
+      ///////////////////////
 
       //Colision torpedo submarino con destructor
       this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () => {
@@ -834,6 +866,11 @@ class Game extends Phaser.Scene {
       frameHeight: 64,
       endFrame: 23
     });
+
+    this.load.spritesheet('fire', 'assets/sprites/fire.png', { 
+      frameWidth: 64, 
+      frameHeight: 64, 
+      endFrame: 60 });
   }
 
   loadAudio() {
