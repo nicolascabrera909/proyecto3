@@ -311,7 +311,7 @@ class Games {
                             break;
 
                         case 'destructor':
-                            //falta por que agrege el id q se nesecita 
+                            daoFreighters.insert(ultimoShip)
                             break;
                     }
                 }
