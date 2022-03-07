@@ -10,6 +10,7 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         this.setVisible(true);
         this.setAngle(Phaser.Math.RadToDeg(1));
         self.scene.physics.velocityFromRotation(0, 1, this.body.velocity);
+        self.scene.depth_charge_sound.play();
         this.disable();
     }
 

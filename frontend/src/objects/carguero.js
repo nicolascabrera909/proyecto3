@@ -29,6 +29,7 @@ class Carguero extends Phaser.GameObjects.Sprite {
     this.carguero.setDisplaySize(80, 15);
     this.carguero.setSize(140, 20);
     this.carguero.setCollideWorldBounds(true);
+    //this.carguero.setImmovable(true);
   
     return this.carguero;
   }

@@ -347,10 +347,10 @@ class Game extends Phaser.Scene {
         self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "victory_surrender");
         this.scene.pause('Game');
       }
-    
+
       // this.add.displayList.removeAll();
       // this.scene.start('GameOver');
-      
+
     });
 
     this.socket.on('finishedGame', (socket_id) => {
@@ -358,24 +358,25 @@ class Game extends Phaser.Scene {
         self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
         this.scene.pause('Game');
       }
-      
+
     });
 
     this.socket.on('showedTime', (socket_id) => {
       if (socket_id !== self.socket.id) {
         this.mostrar_reloj = true;
       }
-      
+
     });
 
     this.map = new Map(this, 'map', 'tiles', 'terrain');
+    this.physics.world.setBounds(0, 0, 3200, 1120);
     window.game = this;
   }
 
-  tiempo(){
-    var timeTextStyle = {font: "24px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
+  tiempo() {
+    var timeTextStyle = { font: "24px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4 };
     this.timeText = this.add.text(); //Elapsed Time Text
-    var gameRuntime = (this.totalTime - this.scene.systems.time.now) 
+    var gameRuntime = (this.totalTime - this.scene.systems.time.now)
     this.remainingTime = gameRuntime * 0.001
     this.timeText.setText("Tiempo de la partida: " + Math.round(this.remainingTime) + " seconds");
   }
@@ -391,7 +392,7 @@ class Game extends Phaser.Scene {
 
       }
     }*/
-    
+
     //this.pointer = this.input.mousePointer;
     this.input.on('pointerdown', function (pointer) {
       this.target.x = pointer.x,
@@ -413,7 +414,7 @@ class Game extends Phaser.Scene {
   }
 
 
-  
+
   choque(obj1, obj2, self) {
     obj1.destroy(this.socket, self);
     obj2.destroy(this.socket, self);
@@ -520,7 +521,7 @@ class Game extends Phaser.Scene {
     }
     //this.addCollisions(self);
 
-    this.save_btn = this.add.text(this.sys.game.config.width/2 + 100, 0, 'Guardar', {
+    this.save_btn = this.add.text(this.sys.game.config.width / 2 + 100, 0, 'Guardar', {
       fontSize: '20px',
       fill: '#0a0a0a',
       fontFamily: 'verdana, arial, sans-serif'
@@ -528,7 +529,7 @@ class Game extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => this.saveGame());
 
-    this.cancel_btn = this.add.text(this.sys.game.config.width/2 + 200, 0, 'Cancelar', {
+    this.cancel_btn = this.add.text(this.sys.game.config.width / 2 + 200, 0, 'Cancelar', {
       fontSize: '20px',
       fill: '#e62e1b',
       fontFamily: 'verdana, arial, sans-serif'
@@ -568,10 +569,14 @@ class Game extends Phaser.Scene {
       //Colision depth charge submarino con destructor
       this.physics.add.overlap(this.destructor.depthCharges, this.submarino2.submarino, () => {
         console.log('entro al overlap de canon con submarino');
-        this.choque(this.destructor.depthCharges, this.submarino2, self);
+        if (this.submarino2.depth === this.destructor.depthCharges.depth) {
+          this.choque(this.destructor.depthCharges, this.submarino2, self);
+        }
       });
 
       /// aca hay q agregar a los cargueros a futuro
+      this.defineCollisionsFreightersDestuctor();
+
     } else {
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () => {
         console.log('entro al overlap de submarino con destructor');
@@ -587,7 +592,9 @@ class Game extends Phaser.Scene {
       //Colision submarino con carga de profunidad de destructor
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharges, () => {
         console.log('entro al overlap de depthCharge con destructor');
-        this.choque(this.destructor2.depthCharges, this.submarino, self);
+        if (this.submarino.depth === this.destructor2.depthCharges.depth) {
+          this.choque(this.submarino, this.destructor2.depthCharges, self);
+        }
       });
 
       //Colision torpedo submarino con destructor
@@ -601,7 +608,97 @@ class Game extends Phaser.Scene {
         console.log('entro al overlap de canon con destructor');
         this.choque(this.destructor2, this.submarino.cannons, self);
       });
+
+      this.defineCollisionsFreightersSubmarino();
     }
+  }
+
+  defineCollisionsFreightersDestuctor() {
+    this.physics.add.overlap(this.destructor.destructor, this.FreightersList[0].carguero, () => {
+      console.log('entro al overlap de destructor con carguero 0');
+    });
+    this.physics.add.overlap(this.destructor.destructor, this.FreightersList[1].carguero, () => {
+      console.log('entro al overlap de destructor con carguero 1');
+    });
+    this.physics.add.overlap(this.destructor.destructor, this.FreightersList[2].carguero, () => {
+      console.log('entro al overlap de destructor con carguero 2');
+    });
+    this.physics.add.overlap(this.destructor.destructor, this.FreightersList[3].carguero, () => {
+      console.log('entro al overlap de destructor con carguero 3');
+    });
+    this.physics.add.overlap(this.destructor.destructor, this.FreightersList[4].carguero, () => {
+      console.log('entro al overlap de destructor con carguero 4');
+    });
+    this.physics.add.overlap(this.destructor.destructor, this.FreightersList[5].carguero, () => {
+      console.log('entro al overlap de destructor con carguero 5');
+    });
+  }
+
+  defineCollisionsFreightersSubmarino() {
+    this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0], () => {
+      console.log('entro al overlap de submarino con carguero 0');
+    });
+    this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[1], () => {
+      console.log('entro al overlap de submarino con carguero 1');
+    });
+    this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[2], () => {
+      console.log('entro al overlap de submarino con carguero 2');
+    });
+    this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[3], () => {
+      console.log('entro al overlap de submarino con carguero 3');
+    });
+    this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[4], () => {
+      console.log('entro al overlap de submarino con carguero 4');
+    });
+    this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[5], () => {
+      console.log('entro al overlap de submarino con carguero 5');
+    });
+
+    //Collision submarino torpedo con Cargueros
+    this.physics.add.overlap(this.submarino.torpedos, this.otherPlayersCargueros.children.entries[0], () => {
+      console.log('entro al overlap de torpedos con carguero 0');
+    });
+    this.physics.add.overlap(this.submarino.torpedos, this.otherPlayersCargueros.children.entries[1], () => {
+      console.log('entro al overlap de torpedos con carguero 1');
+    });
+    this.physics.add.overlap(this.submarino.torpedos, this.otherPlayersCargueros.children.entries[2], () => {
+      console.log('entro al overlap de torpedos con carguero 2');
+    });
+    this.physics.add.overlap(this.submarino.torpedos, this.otherPlayersCargueros.children.entries[3], () => {
+      console.log('entro al overlap de torpedos con carguero 3');
+    });
+    this.physics.add.overlap(this.submarino.torpedos, this.otherPlayersCargueros.children.entries[4], () => {
+      console.log('entro al overlap de torpedos con carguero 4');
+    });
+    this.physics.add.overlap(this.submarino.torpedos, this.otherPlayersCargueros.children.entries[5], () => {
+      console.log('entro al overlap de torpedos con carguero 5');
+    });
+
+    //Collision submarino cannons con Cargueros
+    this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[0], () => {
+      console.log('entro al overlap de cannons con carguero');
+      this.otherPlayersCargueros.children.entries[0].destroy();
+    });
+    this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[1], () => {
+      console.log('entro al overlap de cannons con carguero');
+      this.otherPlayersCargueros.children.entries[1].destroy();
+    });
+    this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[2], () => {
+      console.log('entro al overlap de cannons con carguero');
+      this.otherPlayersCargueros.children.entries[2].destroy();
+    });
+    this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[3], () => {
+      console.log('entro al overlap de cannons con carguero');
+      this.otherPlayersCargueros.children.entries[3].destroy();
+    });
+    this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[4], () => {
+      console.log('entro al overlap de cannons con carguero');
+      this.otherPlayersCargueros.children.entries[4].destroy();
+    });
+    this.physics.add.overlap(this.submarino.cannons, this.otherPlayersCargueros.children.entries[5], () => {
+      console.log('entro al overlap de cannons con carguero');
+      this.otherPlayersCargueros.children.entries[5].destroy();
+    });
   }
 
   submarinoShootTorpedos(info, socket) {
@@ -677,22 +774,22 @@ class Game extends Phaser.Scene {
     }
   }
 
-  saveGame(){
+  saveGame() {
     console.log('gRAVAR EL JUEGO');
     let socket_id = this.socket.id;
     this.socket.emit('saveGame', socket_id);
   }
 
-  cancelGame(self){
+  cancelGame(self) {
     let socket_id = this.socket.id;
     this.socket.emit('cancelGame', socket_id);
     self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
     this.scene.pause('Game');
   }
 
-  setGameTimeOut(difficulty, socket_id, self){
+  setGameTimeOut(difficulty, socket_id, self) {
     let time = 300000;
-    switch(difficulty) {
+    switch (difficulty) {
       case difficulty == 2:
         time = 240000;
         break;
@@ -707,13 +804,13 @@ class Game extends Phaser.Scene {
     this.socket.emit('showTime', socket_id);
   }
 
-  GameTimeOut(self, socket_id){
+  GameTimeOut(self, socket_id) {
     console.log('se esta por hacer el emit de juego termninado')
     this.socket.emit('finishGame', socket_id);
     this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
     this.scene.pause('Game');
   }
-  
+
   loadImages() {
     this.load.image('destructor', './static/assets/img/destructor_small.png');
     this.load.image('submarino', './static/assets/img/submarino_small.png');
@@ -744,6 +841,9 @@ class Game extends Phaser.Scene {
       .audio('torpedo_sound', ['./static/assets/audio/torpedo_sound.mp3'])
       .audio('start_game', ['./static/assets/audio/start_game.mp3'])
       .audio('sea_water', ['./static/assets/audio/sea_water.mp3'])
+      .audio('ship_collision', ['./static/assets/audio/ship_destroy.mp3'])
+      .audio('depth_charge', ['./static/assets/audio/depth_charge.mp3'])
+      .audio('movement_sound', ['./static/assets/audio/movement_sound.mp3'])
   }
 
   loadAudioVariables() {
@@ -752,8 +852,8 @@ class Game extends Phaser.Scene {
     this.start_game = this.sound.add('start_game');
     this.cannon_sound = this.sound.add('cannon_sound');
     this.torpedo_sound = this.sound.add('torpedo_sound');
-    this.ship_collision_sound;
-    this.depth_charge_sound;
+    this.ship_collision_sound = this.sound.add('ship_collision');
+    this.depth_charge_sound = this.sound.add('depth_charge');
     this.bg_sound;
   }
 

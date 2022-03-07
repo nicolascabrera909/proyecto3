@@ -18,7 +18,7 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
     fireTorpedos(x, y, socket, angle) {
         let bullet = this.getFirstDead(false);
         if (bullet) {
-            this.disable(this);
+            //this.disable(this);
             bullet.fire(x, y, this, angle);
         }
         if (socket) {
@@ -36,7 +36,7 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
         setTimeout(function () {
             self.available = false;
             self.setVisible(false);
-        }, 1000);
+        }, 2000);
     }
 
     destroy(socket, self) {

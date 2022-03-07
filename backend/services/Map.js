@@ -2,8 +2,8 @@ class Map {
 
     /*Constructor*/
     constructor() {
-        this.width = 1344;
-        this.height = 704;
+        this.width = 3200;
+        this.height = 1120;
     }
 
     setHeight(height) {

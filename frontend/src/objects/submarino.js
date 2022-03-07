@@ -32,12 +32,12 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.depth = 1;
     if (cursor) {
       this.selfSubmarino = self;
-      self.cameras.main.setBounds(0, 0, 1344, 704);
+      self.cameras.main.setBounds(0, 0, 3200, 1120);
       self.cameras.main.startFollow(this.submarino, true);
       self.cameras.main.roundPixels = true;
       self.cameras.main.setZoom(1.5);
       
-      self.smallCamera = self.cameras.add(1200, 10, 200, 200);
+      self.smallCamera = self.cameras.add(1000, 10, 500, 400);
       self.smallCamera.rotation = 0;
       self.smallCamera.zoom = 0.1;
       self.smallCamera.setBounds(0, 0, 200, 200);
@@ -59,10 +59,10 @@ class Submarino extends Phaser.GameObjects.Sprite {
   destroy(socket, self) {
     this.submarino.destroy();
     this.submarino.is_destroyed = true;
-    // self.anims.create(self.explosionConfig);
-    // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
+    self.anims.create(self.explosionConfig);
+    self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
     console.log("en clase subamarino, luego del destroy");
-
+    self.ship_collision_sound.play();
     if (socket) {
       socket.emit('destroy_submarino', { 
         socketId: socket.id

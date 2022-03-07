@@ -19,7 +19,7 @@ class Cannons extends Phaser.Physics.Arcade.Group {
     fireCannons (x, y, socket, target, shipType) {
         let bullet = this.getFirstDead(false);
         if (bullet) {
-            this.disable(this);
+            //this.disable(this);
             bullet.fire(x, y, this, target);
         }
         if(socket){

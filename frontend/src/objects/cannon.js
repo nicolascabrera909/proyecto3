@@ -9,6 +9,7 @@ class Cannon extends Phaser.Physics.Arcade.Sprite{
         this.setActive(true);
         this.setVisible(true);
         self.scene.physics.moveToObject(this, target, 200);
+        self.scene.cannon_sound.play();
         this.disable();
     }
 

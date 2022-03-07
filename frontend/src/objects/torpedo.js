@@ -10,6 +10,7 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
         this.setVisible(true);
         this.setAngle(Phaser.Math.RadToDeg(angle));
         self.scene.physics.velocityFromRotation(angle, -300, this.body.velocity);
+        self.scene.torpedo_sound.play();
         this.disable();
     }
 
@@ -17,7 +18,7 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
         let selfTorpedo = this;
         setTimeout(function (){
             selfTorpedo.destroy();
-        }, 10000);
+        }, 2000);
     }
 }
 
