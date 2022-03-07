@@ -12,6 +12,8 @@ class Cannons extends Phaser.Physics.Arcade.Group {
             classType: Cannon
          });
         this.available = true;
+        this.last = [];
+
     }
 
     fireCannons (x, y, socket, target, shipType) {
@@ -28,6 +30,8 @@ class Cannons extends Phaser.Physics.Arcade.Group {
                 shipType: shipType
             });
         }
+        this.last.push(bullet);
+
     }
 
     disable(){
@@ -38,7 +42,9 @@ class Cannons extends Phaser.Physics.Arcade.Group {
     }
 
     destroy(socket, self) {
-        this.cannons.destroy();
+        let bullet = this.last.pop();
+        console.log(this.last);
+        bullet.destroy();
         // self.anims.create(self.explosionConfig);
         // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
         if (socket) {

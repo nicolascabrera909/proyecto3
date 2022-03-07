@@ -147,6 +147,14 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_destroy_torpedo', info)
   });
 
+  socket.on('destroy_cannons', function (info) {
+    socket.broadcast.emit('other_destroy_cannons', info)
+  });
+
+  socket.on('destroy_depthCharge', function (info) {
+    socket.broadcast.emit('other_destroy_depthCharge', info)
+  });
+
   socket.on('shootingTorpedo', function (info) {
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       console.log('entro al shooting game 0')
