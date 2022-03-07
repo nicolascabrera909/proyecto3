@@ -570,6 +570,13 @@ class Game extends Phaser.Scene {
       });
 
       //Colision torpedo submarino con destructor
+      this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () => {
+        console.log('entro al overlap de canon con submarino');
+        this.choque(this.submarino2.torpedos, this.destructor, self);
+        //this.destructor2.destroy(this.socket, self);
+      });
+
+      //Colision torpedo submarino con destructor
       this.physics.add.overlap(this.destructor.depthCharges, this.submarino2.submarino, () => {
         console.log('entro al overlap de canon con submarino');
         this.choque(this.submarino2, this.destructor.depthCharges, self);
