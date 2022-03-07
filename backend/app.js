@@ -117,9 +117,10 @@ io.on('connection', function (socket) {
   });
 
   socket.on('playerMovementCarguero', function (movementData, id) {
-    if(gamePlay.game.playerList){
     for (var d = 0; d < gamePlay.game.playerList.length; d++) {
       if (gamePlay.game.playerList[d].socketId == socket.id) {
+        if(gamePlay.game.playerList[d]){
+          console.log(gamePlay.game.playerList[d])
         for (var i = 0; i < gamePlay.game.playerList[d].boatList.length; i++) {
           if (gamePlay.game.playerList[d].boatList[i].type == 'carguero' &&
             gamePlay.game.playerList[d].boatList[i].id == id) {
@@ -131,8 +132,8 @@ io.on('connection', function (socket) {
           }
         }
       }
+      }
     }
-  }
   });
 
   socket.on('destroy_submarino', function (info) {
