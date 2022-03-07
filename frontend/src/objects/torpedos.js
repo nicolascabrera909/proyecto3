@@ -39,7 +39,7 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
         }, 1000);
     }
 
-    destroy(socket) {
+    destroy(socket, self) {
         let bullet = this.last.pop();
         console.log(this.last);
         bullet.destroy();

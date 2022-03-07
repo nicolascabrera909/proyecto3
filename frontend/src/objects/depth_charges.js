@@ -7,13 +7,14 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
         
         this.createMultiple({
             frameQuantity: 50,
-            key: 'depth_charge',
+            key: 'bulletDepthCharge',
             active: false,
             visible: true,
             classType: DepthCharge
         });
         this.available = true;
         this.last = [];
+        //this.depth = 1;
     }
 
     fireDepthCharge(x, y, socket) {
@@ -31,19 +32,26 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
         this.last.push(bullet);
     }
 
-    disable() {
+    /*disable() {
         let selfDepthCharge = this;
         setTimeout(function () {
             selfDepthCharge.setAlpha(0.7, 0.7, 0, 0);
-            this.depth = 1;
         }, 1200);
         setTimeout(function () {
             selfDepthCharge.setAlpha(0.4, 0.4, 0, 0);
             this.depth = 2;
         }, 12000);
+    }*/
+
+    disable() {
+        let self = this;
+        setTimeout(function () {
+            self.available = false;
+            self.setVisible(false);
+        }, 100000);
     }
     
-    destroy(socket) {
+    destroy(socket, self) {
         let bullet = this.last.pop();
         console.log(this.last);
         bullet.destroy();
