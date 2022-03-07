@@ -43,7 +43,7 @@ class Game extends Phaser.Scene {
 
   create() {
     var self = this
-    this.socket = io("http://localhost:3000")
+    this.socket = io("http://proyecto.sysmemories.com:3000")
     this.otherPlayers = this.physics.add.group();
     this.otherPlayersCargueros = this.physics.add.group();
     this.currentPlayers = this.physics.add.group();
