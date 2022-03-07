@@ -52,17 +52,7 @@ CREATE TABLE player (
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
 
-/*CREATE TABLE freighters (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	player_id INT,
-	positionX INT,
-	positionY INT,
-	boatLife INT,
-	boatType INT,
-	visibility INT,
-	FOREIGN KEY (player_id) REFERENCES player(id),
-	created_at timestamp NOT NULL DEFAULT current_timestamp
-);*/
+
 
 CREATE TABLE ship (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -74,6 +64,13 @@ CREATE TABLE ship (
 	boatType INT,
 	visibility INT,
 	FOREIGN KEY (player_id) REFERENCES player(id),
+	created_at timestamp NOT NULL DEFAULT current_timestamp
+);
+
+CREATE TABLE freighters (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	ship_id INT,
+	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
 
