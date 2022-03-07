@@ -109,7 +109,7 @@ CREATE TABLE depth_charge (
 CREATE TABLE torpedo (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	submarine_id INT,
-	t_cantidad
+	t_cantidad INT,
 	FOREIGN KEY (submarine_id) REFERENCES submarine(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );

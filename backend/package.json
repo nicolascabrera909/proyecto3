@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npx nodemon app.js"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
