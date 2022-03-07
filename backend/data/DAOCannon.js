@@ -36,6 +36,15 @@ class DAOCannon {
             return ('Error');
     } 
 
+    async update(shipId,cannon) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.updateCannon(),[shipId, cannon.cantMunicion]);
+        if (result != null) {
+            return ('OK')
+        }
+        else
+            return ('Error');
+    } 
 
 }
 module.exports = DAOCannon;

@@ -25,7 +25,16 @@ class DAOTorpedo {
         }
         else
             return ('Error');
-    }        
+    } 
 
+    async update(idSubmarine,torpedo) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.updateTorpedo() ,[idSubmarine,torpedo]);
+        if (result != null) {
+            return ('OK')
+        }
+        else
+            return ('Error');
+    } 
 }
 module.exports = DAOTorpedo;

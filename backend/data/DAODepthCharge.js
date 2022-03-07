@@ -26,5 +26,15 @@ class DAODepthCharge {
             return ('Error');
     }        
 
+    async update(idDestructor,depthCharge) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.updateDepthCharge(),[idDestructor, depthCharge.time, depthCharge.depth]);
+        if (result != null) {
+            return ('OK')
+        }
+        else
+            return ('Error');
+    } 
+
 }
 module.exports = DAODepthCharge;

@@ -13,7 +13,7 @@ INSERT INTO version (id, version)
 
 
 
-use udenavybd;
+USE udenavybd;
 
 CREATE TABLE difficulty (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

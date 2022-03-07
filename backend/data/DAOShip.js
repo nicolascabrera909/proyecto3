@@ -37,5 +37,15 @@ class DAOShip {
             return ('Error');
     }
 
+    async update(playerId, ship) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.updateShip(), [playerId, ship.positionX, ship.positionY, ship.rotation, ship.boatLife]);
+        if (result != null) {
+            return ('OK')
+        }
+        else
+            return ('Error');
+    }
+
 }
 module.exports = DAOShip;

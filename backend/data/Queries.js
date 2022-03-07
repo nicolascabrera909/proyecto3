@@ -34,7 +34,6 @@ class Queries {
         const query='SELECT max(id) id  from game';
         return query;
     }
-
     insertMap(){
         const query='insert into mapa (game_id,heigth,width ) values($1,$2,$3,$4);';
         return query;
@@ -70,7 +69,7 @@ class Queries {
         return query;
     }
     findShip(){
-        const query='select id,name from ship where player_id =$1';
+        const query='select id, boatType from ship where player_id =$1';
         return query;
     }
     lastShipId(){
@@ -126,7 +125,6 @@ class Queries {
         return query;
     }
    
-   
     insertTorpedo(){
         const query='insert into torpedo (submarine_id,t_cantidad) values($1,$2);';
         return query;
@@ -135,7 +133,32 @@ class Queries {
         const query='select id,t_cantidad from  torpedo  where submarine_id=$1';
         return query;
     }
+
+    updatetMap(){
+        const query='UPDATE mapa SET heigth=$2, width=$3 WHERE game_id=$1;';
+        return query;
+    }
     
+    updatetShip(){
+        const query='UPDATE ship SET positionX=$2,positionY=$3,rotation=$4,boatLife=$5 WHERE id=$1;';
+        return query;
+    }
+    updateCannon(){
+        const query='UPDATE cannon SET c_cantidad=$2 WHERE ship_id=$1;';
+        return query;
+    }
+    updateDepthCharge(){
+        const query='UPDATE depth_charge SET dp_time=$2, dp_depth=$3 WHERE destructor_id=$1;';
+        return query;
+    }
+    updateSubmarine(){
+        const query='UPDATE submarine SET s_depth=$2 WHERE id=$1;';
+        return query;
+    }
+    updateTorpedo(){
+        const query='UPDATE torpedo SET t_cantidad=$2 WHERE submarine_id=$1;';
+        return query;
+    }
 }
 
 module.exports = Queries;

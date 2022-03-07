@@ -35,6 +35,14 @@ class DAOSubmarine {
         else
             return ('Error');
     }
-
+    async update(submarineId,depth) {
+        const consultas = new queries();
+        const result = await pool.query(consultas.updateSubmarine(),[submarineId, depth]);
+        if (result != null) {
+            return ('OK')
+        }
+        else
+            return ('Error');
+    } 
 }
 module.exports = DAOSubmarine;

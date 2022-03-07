@@ -230,11 +230,42 @@ class Games {
     //guardo la partida
     async saveGame(name1, name2, difficulty) {
         let listGames = await daoGame.find();
+
         if (this.existPartidaPlayers(listGames, name1, name2)) {
+            let players;
+            let currentPlayer;
+            let ships;
+            let submarineId;
+            let destructorId;
             //tengo q actualizar lo guardado
-
-            // falta
-
+            let gameId=this.findPartidaPlayers(listGames, name1, name2);
+            //actualizo mapa [gameId, map.heigth,map.width]
+            await daoMap.update(gameId, this.map)
+            players=await daoPlayer.find(gameId)
+            for (let i = 0; i < players.length; i++) {
+                if(this.game.playerList[0].name==players[i].name){
+                    currentPlayer=this.game.playerList[0];
+                }
+                else {
+                    currentPlayer=this.game.playerList[1];
+                }
+                ships=await daoShip.find(players[i].id)
+                for (let j = 0; j < ships.length; j++) {
+                    daoShip.update(ships[j].id, currentPlayer.boatList[j])
+                    if(currentPlayer.boatList[j].type=='submarino' || currentPlayer.boatList[j].type=='destructor'){
+                        if(currentPlayer.boatList[j].type=='submarino'){
+                            submarineId=daoSubmarine.find(ships[j].id)
+                            daoSubmarine.update(submarineId,currentPlayer.boatList[j].depth)
+                            daoTorpedo.update(submarineId, currentPlayer.boatList[j].torpedo.cantidad)
+                        } else {
+                            destructorId=daoDestructor.find(ships[j].id)
+                            daoDepthCharge.update(destructorId,currentPlayer.boatList[j].carga)
+                        }
+                        daoCannon.update(ships[j].id,currentPlayer.boatList[j].cannon)
+                    }
+                    
+                }
+            }
         } else {
             //Guardo por primera vez
             //inserto el game, con dificultad 1. cuando tenga va difficulty
