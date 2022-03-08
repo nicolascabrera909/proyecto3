@@ -228,6 +228,10 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('showedTime', socket_id);
   });
 
+  socket.on('emit_clock', function (info) {
+    socket.broadcast.emit('other_emit_clock', info)
+  });
+
 
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
