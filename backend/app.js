@@ -214,7 +214,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
-    console.log('grabar juego');
+    console.log('Entre a save game');
     gamePlay.saveGame(name1, name2,difficulty);
   });
 
