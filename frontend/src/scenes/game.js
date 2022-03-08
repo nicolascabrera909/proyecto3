@@ -34,7 +34,6 @@ class Game extends Phaser.Scene {
     this.LoadGame = false;
   }
 
-
   preload() {
     this.loadImages();
     this.loadAudio();
@@ -466,14 +465,25 @@ class Game extends Phaser.Scene {
       obj1.life -= 1;
     }
     obj2.destroy(this.socket, self);
+    this.choqueScena(obj1, self);
   }
   //imagen del choque
   choqueScena(nave, self) {
-    var lateralCamera = this.add.image(nave.x, nave.y, 'logo');
-    this.input.once('pointerdown', function () {
+    var coordX;
+    var coordY;
+    if (nave.texture.key === 'destructor') {
+      coordX = nave.destructor.x;
+      coordY = nave.destructor.y;
+    } else {
+      coordX = nave.submarino.x;
+      coordY = nave.submarino.y;
+    }
+    var lateralCamera = this.add.image(coordX, coordY - 50, 'destruccion');
+    setTimeout(function () {
       lateralCamera.destroy();
-      lateralCamera = null
-    });
+      lateralCamera = null;
+    }, 2000);
+
   }
 
   addPlayer(self, playerInfo) {
@@ -921,6 +931,7 @@ class Game extends Phaser.Scene {
     this.load.image('defeat', './static/assets/img/defeat.png');
     this.load.image('defeat_surrender', './static/assets/img/defeat_surrender.png');
     this.load.image('game_over', './static/assets/img/game_over.png');
+    this.load.image('destruccion', './static/assets/img/destruccion2.png');
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 

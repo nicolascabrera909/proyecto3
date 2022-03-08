@@ -61,8 +61,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
     console.log("en clase destructor, luego del destroy");
     self.ship_collision_sound.play();
     if (socket) {
-      socket.emit('destroy_destructor', { 
-        socketId: socket.id 
+      socket.emit('destroy_destructor', {
+        socketId: socket.id
       });
     }
   }
@@ -104,14 +104,16 @@ class Destructor extends Phaser.GameObjects.Sprite {
         y: this.destructor.y,
         rotation: this.destructor.rotation
       }*/
-      if (!(this.destructor.coodOriginalX == this.destructor.x &&
-        this.destructor.coodOriginalY == this.destructor.y &&
-        this.destructor.rotationOriginal == this.destructor.rotation)) {
-        socket.emit('playerMovement', { x: this.destructor.x, 
-                                        y: this.destructor.y, 
-                                        rotation: this.destructor.rotation, 
-                                        socketId:socket.id,
-                                        life:this.life})
+      if ((this.destructor.coodOriginalX != this.destructor.x &&
+        this.destructor.coodOriginalY != this.destructor.y &&
+        this.destructor.rotationOriginal != this.destructor.rotation)) {
+        socket.emit('playerMovement', {
+          x: this.destructor.x,
+          y: this.destructor.y,
+          rotation: this.destructor.rotation,
+          socketId: socket.id,
+          life: this.life
+        })
         this.destructor.coodOriginalX = this.destructor.x;
         this.destructor.coodOriginalY = this.destructor.y;
         this.destructor.rotationOriginal = this.destructor.rotation;

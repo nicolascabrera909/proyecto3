@@ -186,10 +186,10 @@ class Submarino extends Phaser.GameObjects.Sprite {
       var y = this.submarino.y;
       var r = this.submarino.rotation;
 
-      if (!(this.coodOriginalX == this.submarino.x ||
-        this.coodOriginalY == this.submarino.x ||
-        this.rotationOriginal == this.submarino.rotation ||
-        this.depthOriginal == this.depth)) {
+      if ((this.coodOriginalX != this.submarino.x ||
+        this.coodOriginalY != this.submarino.x ||
+        this.rotationOriginal != this.submarino.rotation ||
+        this.depthOriginal != this.depth)) {
         socket.emit('playerMovement', {
           x: this.submarino.x,
           y: this.submarino.y,
