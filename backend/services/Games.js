@@ -285,11 +285,11 @@ class Games {
             await this.daoMap.insert(ultimoId, this.map)
             //inserto player [gameId, player.name]
             for (let i = 0; i < this.game.playerList.length; i++) {
-                await this.daoPlayer.insert(ultimoId, this.game.playerList[0]);
+                await this.daoPlayer.insert(ultimoId, this.game.playerList[i]);
                 //inserto ship ---> valido de q tipo es   destructor, submarino. [playerId, ship.positionX,ship.positionY,ship.boatLife,ship.boatType,ship.visibility]
                 let ultimoIdPLayer = await this.daoPlayer.lastPlayerId(ultimoId)
                 for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
-                    await this.daoShip.insert(ultimoIdPLayer, this.game.playerList[i].boatList[j]);
+                    await this.daoShip.insert(ultimoIdPLayer,this.game.playerList[i].boatTeam, this.game.playerList[i].boatList[j]);
                     let ultimoShip = await this.daoShip.lastShipId(ultimoIdPLayer);
                     //Busco q tipo de barco es para insertar. 
                     switch (this.game.playerList[i].boatList[j].type) {
@@ -298,15 +298,15 @@ class Games {
                             await this.daoSubmarine.insert(ultimoShip, this.game.playerList[i].boatList[j]);
                             //inserto armamaneto de submarino --idSubmarin,torpedo  ---shipId,cannon---
                             await this.daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
-                            let ultimoSubmarin = daoSubmarine.lastSubmarineId(ultimoShip);
+                            let ultimoSubmarin =await this.daoSubmarine.lastSubmarineId(ultimoShip);
                             await this.daoTorpedo.insert(ultimoSubmarin, this.game.playerList[i].boatList[j].torpedo);
                             break;
                         case 'destructor':
                             //[shipId]
-                            await this.daoDestructor.insert(ultimoShip);
+                            await this.daoDestructor.insert(ultimoShip,this.game.playerList[i].boatList[j].type);
                             //inserto armamaneto de submarino--- idDestructor,depthCharge ---
                             await this.daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
-                            let ultimoDestructor = daoDestructor.lastDestructorId(ultimoShip);
+                            let ultimoDestructor =await this.daoDestructor.lastDestructorId(ultimoShip);
                             await this.daoDepthCharge.insert(ultimoDestructor, this.game.playerList[i].boatList[j].carga)
                             break;
 

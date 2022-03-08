@@ -30,7 +30,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.setSize(140, 20);
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.submarino.flipX = true;
-    this.submarino.depth = 1;
+    this.depth = 1;
     if (cursor) {
       this.selfSubmarino = self;
       self.cameras.main.setBounds(0, 0, 3200, 1120);
@@ -187,23 +187,23 @@ class Submarino extends Phaser.GameObjects.Sprite {
       var y = this.submarino.y;
       var r = this.submarino.rotation;
 
-      if (!(this.submarino.coodOriginalX == this.submarino.x &&
-        this.submarino.coodOriginalY == this.submarino.x &&
-        this.submarino.rotationOriginal == this.submarino.rotation &&
-        this.submarino.depthOriginal == this.submarino.depth)) {
+      if (!(this.coodOriginalX == this.submarino.x ||
+        this.coodOriginalY == this.submarino.x ||
+        this.rotationOriginal == this.submarino.rotation ||
+        this.depthOriginal == this.depth)) {
         socket.emit('playerMovement', {
           x: this.submarino.x,
           y: this.submarino.y,
           rotation: this.submarino.rotation,
-          depth: this.submarino.depth,
+          depth: this.depth,
           socketId: socket.id,
           life: this.life,
 
         })
-        this.submarino.coodOriginalX = x;
-        this.submarino.coodOriginalY = y;
-        this.submarino.rotationOriginal = r;
-        this.submarino.depthOriginal = this.depth;
+        this.coodOriginalX = x;
+        this.coodOriginalY = y;
+        this.rotationOriginal = r;
+        this.depthOriginal = this.depth;
       }
     }
   }

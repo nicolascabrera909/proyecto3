@@ -58,11 +58,11 @@ class Queries {
     }
 
     insertShip(){  
-        const query='insert into ship (player_id,positionX,positionY,rotation,boatLife,boatType) values(?,?,?,?,?,?);';
+        const query='insert into ship (player_id,positionX,positionY,rotation,boatLife,boatTeam) values(?,?,?,?,?,?);';
         return query;
     }
     findShip(){
-        const query='select id, boatType from ship where player_id =?';
+        const query='select id,positionX,positionY,rotation,boatLife,boatTeam from ship where player_id =?';
         return query;
     }
     lastShipId(){
@@ -70,11 +70,11 @@ class Queries {
         return query;
     }
     insertDestructor(){
-        const query='insert into destructor (ship_id) values(?);';
+        const query='insert into destructor (ship_id,boatType) values(?,?);';
         return query;
     }
     findDestructor(){
-        const query='select id from destructor where ship_id =?';
+        const query='select id,boatType from destructor where ship_id =?';
         return query;
     }
     lastDestructorId(){
@@ -83,11 +83,11 @@ class Queries {
     }
 
     insertSubmarine(){
-        const query='insert into submarine (ship_id,s_depth) values(?,?);';
+        const query='insert into submarine (ship_id,s_depth,boatType) values(?,?,?);';
         return query;
     }
     findSubmarine(){
-        const query='select id,s_depth from submarine where ship_id =?';
+        const query='select id,s_depth,boatType from submarine where ship_id =?';
         return query;
     }
     lastSubmarineId(){
@@ -96,11 +96,11 @@ class Queries {
     }
 
     insertFreighters(){
-        const query='insert into freighters (ship_id) values(?);';
+        const query='insert into freighters (ship_id,boatType) values(?,?);';
         return query;
     }
     findFreighters(){
-        const query='select id from freighters where ship_id =?';
+        const query='select id,boatType from freighters where ship_id =?';
         return query;
     }
     lastFreightersId(){

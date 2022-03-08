@@ -61,7 +61,7 @@ CREATE TABLE ship (
 	positionY INT,
 	rotation INT,
 	boatLife INT,
-	boatType varchar(20),
+	boatTeam varchar(20),
 	FOREIGN KEY (player_id) REFERENCES player(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -69,6 +69,7 @@ CREATE TABLE ship (
 CREATE TABLE freighters (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
+	boatType varchar(20),
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -76,6 +77,7 @@ CREATE TABLE freighters (
 CREATE TABLE destructor (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
+	boatType varchar(20),
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -84,6 +86,7 @@ CREATE TABLE submarine (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
 	s_depth INT,
+	boatType varchar(20),
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -108,7 +111,7 @@ CREATE TABLE depth_charge (
 CREATE TABLE torpedo (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	submarine_id INT,
-	t_cantidad
+	t_cantidad INT,
 	FOREIGN KEY (submarine_id) REFERENCES submarine(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );

@@ -7,9 +7,9 @@ class DAOFreighters {
     constructor() { }
 
     //aca le paso o un destructor, submarino o un carguero
-    async insert(shipId,id) {
+    async insert(shipId,type) {
         const consultas = new queries();
-        const result = await pool.query(consultas.insertFreighters(), [shipId]);
+        const result = await pool.query(consultas.insertFreighters(), [shipId,type]);
         if (result != null) {
             return ('OK')
         }
