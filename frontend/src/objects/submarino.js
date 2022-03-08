@@ -186,9 +186,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.setVelocityY(0)
         this.submarino.setVelocityX(0)
       }
-      var x = this.submarino.x;
-      var y = this.submarino.y;
-      var r = this.submarino.rotation;
+    
 
       if ((this.coodOriginalX != this.submarino.x ||
         this.coodOriginalY != this.submarino.y ||
@@ -203,9 +201,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
           life: this.life,
 
         })
-        this.coodOriginalX = x;
-        this.coodOriginalY = y;
-        this.rotationOriginal = r;
+        this.coodOriginalX = this.submarino.x;
+        this.coodOriginalY = this.submarino.y;
+        this.rotationOriginal = this.submarino.rotation;
         this.depthOriginal = this.depth;
       }
     }
