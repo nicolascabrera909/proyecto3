@@ -3,7 +3,6 @@ import Submarino from "../objects/submarino.js";
 import Carguero from "../objects/carguero.js";
 import Destructor from "../objects/destructor.js";
 import Map from "../objects/map.js";
-import LateralCamera from "../objects/lateral_camera.js";
 
 class Game extends Phaser.Scene {
   /*Constructor de la clase Game, inicializo la clase*/
@@ -32,6 +31,7 @@ class Game extends Phaser.Scene {
       'x': 0,
       'y': 0
     }
+    this.LoadGame=false;
   }
 
 
@@ -80,7 +80,12 @@ class Game extends Phaser.Scene {
       console.log('Evento inicioInstancia');
       this.games = backGame;
       console.log('Emito createGame');
-      this.socket.emit('createGame', username, boatType, difficulty);
+      if( this.LoadGame){
+        this.socket.emit('loadGame',this.socket.id)
+        cantidadLoadPlayers++;
+      }else{
+        this.socket.emit('createGame', username, boatType, difficulty);
+      }
     });
 
     this.socket.on('currentPlayers', (players, gameplay) => {
@@ -801,7 +806,7 @@ class Game extends Phaser.Scene {
   saveGame() {
     console.log('gRAVAR EL JUEGO');
     let socket_id = this.socket.id;
-    this.socket.emit('saveGame', socket_id);
+    this.socket.emit('saveGame', socket_id,this.games.game.playerList[0].name,this.games.game.playerList[1].name,this.games.game.idDifficulty);
   }
 
   cancelGame(self) {

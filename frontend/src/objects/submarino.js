@@ -131,6 +131,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
 
   deepImmerseOpponent(socket) {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
+    this.submarino.depth = 3;
     if (socket) {
       socket.emit('changeDepth', {
         depth: 3,
@@ -191,7 +192,15 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.coodOriginalY == this.submarino.x &&
         this.submarino.rotationOriginal == this.submarino.rotation &&
         this.submarino.depthOriginal == this.submarino.depth)) {
-        socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation, depth: this.submarino.depth })
+        socket.emit('playerMovement', {
+          x: this.submarino.x,
+          y: this.submarino.y,
+          rotation: this.submarino.rotation,
+          depth: this.submarino.depth,
+          socketId: socket.id,
+          life: this.life,
+
+        })
         this.submarino.coodOriginalX = x;
         this.submarino.coodOriginalY = y;
         this.submarino.rotationOriginal = r;

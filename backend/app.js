@@ -14,6 +14,7 @@ const { database } = require('./config');
 
 /////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////
 var gamePlay = new Games();
+let cantidadLoadPlayers = 0;
 
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ////////////////////////////////////////////////
@@ -90,6 +91,30 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('newPlayer', players[socket.id]);*/
   });
 
+
+  socket.on('loadGame', function (soketId) {
+
+    //creo el juego con su jugador y barcos
+    gamePlay.LoadGame();
+    console.log('Emito currentPlayers');
+    console.log('Emito broadcast newPlayer');
+    //Envio jugador 1
+    //actualizo el socket del jugador
+    gamePlay.game.playerList[cantidadLoadPlayers].socketId = soketId;
+    let pleyerListIni = gamePlay.game.playerList[cantidadLoadPlayers];
+    socket.emit('currentPlayers', pleyerListIni, gamePlay);
+
+    if (gamePlay.game.playerList[0].socketId == socket.id) {
+      socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
+    } else {
+      socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
+    }
+    cantidadLoadPlayers++;
+    //version original
+    /*  socket.emit('currentPlayers', players);
+      socket.broadcast.emit('newPlayer', players[socket.id]);*/
+  });
+
   socket.on('disconnect', function () {
     console.log('player [' + socket.id + '] disconnected')
     gamePlay.deletePlayer(socket.id)
@@ -97,37 +122,43 @@ io.on('connection', function (socket) {
   })
 
   socket.on('playerMovement', function (movementData) {
-    if (gamePlay.game.playerList[0].socketId == socket.id) {
-      gamePlay.game.playerList[0].boatList[0].positionX = movementData.x;
-      gamePlay.game.playerList[0].boatList[0].positionY = movementData.y;
-      gamePlay.game.playerList[0].boatList[0].rotation = movementData.rotation;
-      if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
-        gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
+    if (gamePlay.game != null) {
+      if (gamePlay.game.playerList[0].socketId == movementData.socketId) {
+        gamePlay.game.playerList[0].boatList[0].positionX = movementData.x;
+        gamePlay.game.playerList[0].boatList[0].positionY = movementData.y;
+        gamePlay.game.playerList[0].boatList[0].rotation = movementData.rotation;
+        gamePlay.game.playerList[0].boatList[0].boatLife = movementData.life;
+        if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
+          gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
+        }
+        socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0], gamePlay);
+      } else {
+        gamePlay.game.playerList[1].boatList[0].positionX = movementData.x;
+        gamePlay.game.playerList[1].boatList[0].positionY = movementData.y;
+        gamePlay.game.playerList[1].boatList[0].rotation = movementData.rotation;
+        gamePlay.game.playerList[1].boatList[0].boatLife = movementData.life;
+        if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
+          gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
+        }
+        socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1], gamePlay);
       }
-      socket.broadcast.emit('playerMoved', gamePlay.game.playerList[0], gamePlay);
-    } else {
-      gamePlay.game.playerList[1].boatList[0].positionX = movementData.x;
-      gamePlay.game.playerList[1].boatList[0].positionY = movementData.y;
-      gamePlay.game.playerList[1].boatList[0].rotation = movementData.rotation;
-      if (gamePlay.game.playerList[0].boatTeam == 'submarino') {
-        gamePlay.game.playerList[0].boatList[0].depth = movementData.depth;
-      }
-      socket.broadcast.emit('playerMoved', gamePlay.game.playerList[1], gamePlay);
     }
+
   });
 
   socket.on('playerMovementCarguero', function (movementData, id) {
+    if (gamePlay.game != null) {
+      for (var d = 0; d < gamePlay.game.playerList.length; d++) {
+        if (gamePlay.game.playerList[d].socketId == socket.id) {
+          for (var i = 0; i < gamePlay.game.playerList[d].boatList.length; i++) {
+            if (gamePlay.game.playerList[d].boatList[i].type == 'carguero' &&
+              gamePlay.game.playerList[d].boatList[i].id == id) {
 
-    for (var d = 0; d < gamePlay.game.playerList.length; d++) {
-      if (gamePlay.game.playerList[d].socketId == socket.id) {
-        for (var i = 0; i < gamePlay.game.playerList[d].boatList.length; i++) {
-          if (gamePlay.game.playerList[d].boatList[i].type == 'carguero' &&
-            gamePlay.game.playerList[d].boatList[i].id == id) {
-
-            gamePlay.game.playerList[d].boatList[i].positionX = movementData.x;
-            gamePlay.game.playerList[d].boatList[i].positionY = movementData.y;
-            // gamePlay.game.playerList[d].boatList[i].rotation = movementData.rotation;
-            socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d], id, gamePlay);
+              gamePlay.game.playerList[d].boatList[i].positionX = movementData.x;
+              gamePlay.game.playerList[d].boatList[i].positionY = movementData.y;
+              // gamePlay.game.playerList[d].boatList[i].rotation = movementData.rotation;
+              socket.broadcast.emit('playerMovedCarguero', gamePlay.game.playerList[d], id, gamePlay);
+            }
           }
         }
       }
@@ -142,7 +173,7 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_destroy_destructor', info)
   });
 
-  
+
   socket.on('destroy_torpedo', function (info) {
     socket.broadcast.emit('other_destroy_torpedo', info)
   });
@@ -156,7 +187,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('shootingTorpedo', function (info) {
-      socket.broadcast.emit('other_shotTorpedo', info)
+    socket.broadcast.emit('other_shotTorpedo', info)
   });
 
   socket.on('shootingCannon', function (info) {
@@ -169,33 +200,34 @@ io.on('connection', function (socket) {
 
   socket.on('changeDepth', function (info) {
     socket.broadcast.emit('other_changeDepth', info)
+    if (gamePlay.game.playerList[0].socketId == socket.id) { }
+
   });
 
   socket.on('depthChargeThrowing', function (info) {
     socket.broadcast.emit('other_shotDepthCharge', info);
   });
 
-  socket.on('cancelGame', function(socket_id){
+  socket.on('cancelGame', function (socket_id) {
     console.log('Juego cancelado');
     socket.broadcast.emit('canceledGame', socket_id);
   });
 
-  socket.on('saveGame', function(socket_id){
+  socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
     console.log('grabar juego');
-    // aca se llamaria a una funcion del back?
-    //socket.broadcast.emit('canceledGame', socket_id);
+    gamePlay.saveGame(name1, name2,difficulty);
   });
 
-  socket.on('finishGame', function(socket_id){
+  socket.on('finishGame', function (socket_id) {
     console.log('Juego terminado');
     socket.broadcast.emit('finishedGame', socket_id);
   });
 
-  socket.on('showTime', function(socket_id){
+  socket.on('showTime', function (socket_id) {
     console.log('mostrat reloj');
     socket.broadcast.emit('showedTime', socket_id);
   });
-  
+
 
 });
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////

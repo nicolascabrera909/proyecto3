@@ -31,17 +31,17 @@ class Games {
     constructor() {
         this.game = null;
         this.map = new Map();
-        const daoGame = new DAOGame();
-        const daoPlayer = new DAOPLayer();
-        const daoMap = new DAOMap();
-        const daoShip = new DAOShip();
-        const daoDestructor = new DAODestructor();
-        const daoSubmarine = new DAOSubmarine();
-        const daoCannon = new DAOCannon();
-        const daoTorpedo = new DAOTorpedo();
-        const daoDepthCharge = new DAODepthCharge();
-        const daoDifficulty = new DAODifficulty();
-        const daoFreighters = new DAOFreighters();
+        this.daoGame = new DAOGame();
+        this.daoPlayer = new DAOPLayer();
+        this.daoMap = new DAOMap();
+        this.daoShip = new DAOShip();
+        this.daoDestructor = new DAODestructor();
+        this.daoSubmarine = new DAOSubmarine();
+        this.daoCannon = new DAOCannon();
+        this.daoTorpedo = new DAOTorpedo();
+        this.daoDepthCharge = new DAODepthCharge();
+        this.daoDifficulty = new DAODifficulty();
+        this.daoFreighters = new DAOFreighters();
 
         //singleton de la clase
         if (typeof Games.instance === "object") {
@@ -178,7 +178,7 @@ class Games {
                             submarine.type = shipList[j].boatType;
                             submarine.depth = aSubmarino.s_depth;
                             boatListSubmarino.push(boatListSubmarino);
-                            let submarinePlayer = new Player(pleyerList[i].name, '', boatListSubmarino, 'submarino');
+                            let submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
                             listPLayers.InsBack(submarinePlayer);
 
 
@@ -201,7 +201,7 @@ class Games {
                             destructor.type = shipList[j].boatType;
                             boatListDestructor.push(destructor);
                             if (destructorPlayer == null) {
-                                destructorPlayer = new Player(pleyerList[i].name, '', boatListSubmarino, 'destructor');
+                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
                             } else {
                                 destructorPlayer.boatList.push(boatListSubmarino);
                             }
@@ -218,7 +218,7 @@ class Games {
                             freighters.id = cCarguero.id;
                             boatListDestructor.push(freighters);
                             if (destructorPlayer == null) {
-                                destructorPlayer = new Player(pleyerList[i].name, '', boatListSubmarino, 'destructor');
+                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
                             } else {
                                 destructorPlayer.boatList.push(boatListSubmarino);
                             }
@@ -239,19 +239,19 @@ class Games {
 
     //guardo la partida
     async saveGame(name1, name2, difficulty) {
-        let listGames = await daoGame.find();
+        let listGames = await this.daoGame.find();
 
-        if (this.existPartidaPlayers(listGames, name1, name2)) {
+        if ( await this.existPartidaPlayers(listGames, name1, name2) ) {
             let players;
             let currentPlayer;
             let ships;
             let submarineId;
             let destructorId;
             //tengo q actualizar lo guardado
-            let gameId=this.findPartidaPlayers(listGames, name1, name2);
+            let gameId= await this.findPartidaPlayers(listGames, name1, name2);
             //actualizo mapa [gameId, map.heigth,map.width]
-            await daoMap.update(gameId, this.map)
-            players=await daoPlayer.find(gameId)
+            await this.daoMap.update(gameId, this.map)
+            players=await this.daoPlayer.find(gameId)
             for (let i = 0; i < players.length; i++) {
                 if(this.game.playerList[0].name==players[i].name){
                     currentPlayer=this.game.playerList[0];
@@ -259,19 +259,19 @@ class Games {
                 else {
                     currentPlayer=this.game.playerList[1];
                 }
-                ships=await daoShip.find(players[i].id)
+                ships=await this.daoShip.find(players[i].id)
                 for (let j = 0; j < ships.length; j++) {
-                    daoShip.update(ships[j].id, currentPlayer.boatList[j])
+                    await this.daoShip.update(ships[j].id, currentPlayer.boatList[j])
                     if(currentPlayer.boatList[j].type=='submarino' || currentPlayer.boatList[j].type=='destructor'){
                         if(currentPlayer.boatList[j].type=='submarino'){
-                            submarineId=daoSubmarine.find(ships[j].id)
-                            daoSubmarine.update(submarineId,currentPlayer.boatList[j].depth)
-                            daoTorpedo.update(submarineId, currentPlayer.boatList[j].torpedo.cantidad)
+                            submarineId=await this.daoSubmarine.find(ships[j].id)
+                            await this.daoSubmarine.update(submarineId,currentPlayer.boatList[j].depth)
+                            await this.daoTorpedo.update(submarineId, currentPlayer.boatList[j].torpedo.cantidad)
                         } else {
-                            destructorId=daoDestructor.find(ships[j].id)
-                            daoDepthCharge.update(destructorId,currentPlayer.boatList[j].carga)
+                            destructorId=await this.daoDestructor.find(ships[j].id)
+                            await this.daoDepthCharge.update(destructorId,currentPlayer.boatList[j].carga)
                         }
-                        daoCannon.update(ships[j].id,currentPlayer.boatList[j].cannon)
+                        await this.daoCannon.update(ships[j].id,currentPlayer.boatList[j].cannon)
                     }
                     
                 }
@@ -279,39 +279,39 @@ class Games {
         } else {
             //Guardo por primera vez
             //inserto el game, con dificultad 1. cuando tenga va difficulty
-            daoGame.insert(1);
-            let ultimoId = await daoGame.lastGame()
+            await this.daoGame.insert(1);
+            let ultimoId = await this.daoGame.lastGame()
             //inserto mapa [gameId, map.heigth,map.width]
-            daoMap.insert(ultimoId, this.map)
+            await this.daoMap.insert(ultimoId, this.map)
             //inserto player [gameId, player.name]
             for (let i = 0; i < this.game.playerList.length; i++) {
-                daoPlayer.insert(ultimoId, this.game.playerList[0]);
+                await this.daoPlayer.insert(ultimoId, this.game.playerList[0]);
                 //inserto ship ---> valido de q tipo es   destructor, submarino. [playerId, ship.positionX,ship.positionY,ship.boatLife,ship.boatType,ship.visibility]
-                let ultimoIdPLayer = await daoPlayer.lastPlayerId(ultimoId)
+                let ultimoIdPLayer = await this.daoPlayer.lastPlayerId(ultimoId)
                 for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
-                    daoShip.insert(ultimoId, this.game.playerList[i].boatList[j]);
-                    let ultimoShip = daoShip.lastShipId(ultimoIdPLayer);
+                    await this.daoShip.insert(ultimoId, this.game.playerList[i].boatList[j]);
+                    let ultimoShip = await this.daoShip.lastShipId(ultimoIdPLayer);
                     //Busco q tipo de barco es para insertar. 
                     switch (this.game.playerList[i].boatList[j].type) {
                         case 'submarino':
                             //shipId,submarine
-                            daoSubmarine.insert(ultimoShip, this.game.playerList[i].boatList[j]);
+                            await this.daoSubmarine.insert(ultimoShip, this.game.playerList[i].boatList[j]);
                             //inserto armamaneto de submarino --idSubmarin,torpedo  ---shipId,cannon---
-                            daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
+                            await this.daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
                             let ultimoSubmarin = daoSubmarine.lastSubmarineId(ultimoShip);
-                            daoTorpedo.insert(ultimoSubmarin, this.game.playerList[i].boatList[j].torpedo);
+                            await this.daoTorpedo.insert(ultimoSubmarin, this.game.playerList[i].boatList[j].torpedo);
                             break;
                         case 'destructor':
                             //[shipId]
-                            daoDestructor.insert(ultimoShip);
+                            await this.daoDestructor.insert(ultimoShip);
                             //inserto armamaneto de submarino--- idDestructor,depthCharge ---
-                            daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
+                            await this.daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
                             let ultimoDestructor = daoDestructor.lastDestructorId(ultimoShip);
-                            daoDepthCharge.insert(ultimoDestructor, this.game.playerList[i].boatList[j].carga)
+                            await this.daoDepthCharge.insert(ultimoDestructor, this.game.playerList[i].boatList[j].carga)
                             break;
 
                         case 'destructor':
-                            daoFreighters.insert(ultimoShip)
+                            await this.daoFreighters.insert(ultimoShip)
                             break;
                     }
                 }
@@ -325,7 +325,7 @@ class Games {
         let encontre = false;
 
         while (i < listGames.length && !encontre) {
-            let resultSql = await daoPlayer.find(listGames[i]);
+            let resultSql = await this.daoPlayer.find(listGames[i].id);
             if (resultSql != 'Error') {
                 let contadorIgual = 0;
                 for (let j = 0; j < resultSql.length; j++) {
@@ -348,7 +348,7 @@ class Games {
         let gamePleyers = null;
 
         while (i < listGames.length && !encontre) {
-            let resultSql = await daoPlayer.find(listGames[i].id);
+            let resultSql = await this.daoPlayer.find(listGames[i].id);
             if (resultSql != 'Error') {
                 let contadorIgual = 0;
                 for (let j = 0; j < resultSql.length; j++) {
