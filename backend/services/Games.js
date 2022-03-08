@@ -238,8 +238,15 @@ class Games {
     }
 
     //guardo la partida
-    async saveGame(name1, name2, difficulty) {
+    async saveGame() {
         let listGames = await this.daoGame.find();
+        //obtengo name y dificultad
+        let name1,name2;
+        let difficulty;
+        name1==this.game.playerList[0].name;
+        name2==this.game.playerList[1].name;
+
+
 
         if ( await this.existPartidaPlayers(listGames, name1, name2) ) {
             let players;
@@ -317,6 +324,7 @@ class Games {
                 }
             }
         }
+        return 'OK'
     }
 
     //devuelve si existe el jugador

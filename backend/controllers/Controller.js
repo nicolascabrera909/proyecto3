@@ -1,5 +1,6 @@
 const express = require('express');
 const daoversion = require('../data/DAOVersion');
+const daogame = require('../data/DAOGame');
 const Games = require('../services/Games');
 
 
@@ -15,13 +16,41 @@ exports.version = async function (req, res, next) {
     res.send(result);
 };
 
+exports.lista = async function (req, res, next) {
+    const daog = new daogame();
+    const result = await daog.list();
+    console.log(result);
+    res.send(result);
+};
+
+exports.guardar = async function (req, res, next) {
+    const gamePlay = new Games();
+    const result=gamePlay.saveGame();
+    console.log(result);
+    res.send(result);
+};
+
+exports.cargar = async function (req, res, next) {
+    const gamePlay = new Games();
+    const result=gamePlay.loadGame();
+    console.log(result);
+    res.send(result);
+};
+
+exports.cancelar = async function (req, res, next) {
+    const gamePlay = new Games();
+    // const result=gamePlay.cancelGame();
+    const result='ok';
+    console.log(result);
+    res.send(result);
+};
+
 exports.partida = async function (req, res, next) {
     var gamePlay = new Games();
     var jsonGame = JSON.stringify(gamePlay);
     console.log('Luego de convertir a JSON: ' + jsonGame);
     res.send(jsonGame);
     // res.render('http://localhost:5500/credits.html', { jsonGame } );
-
 };
 
 exports.ready = async function (req, res, next) {
