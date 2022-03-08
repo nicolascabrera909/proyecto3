@@ -24,42 +24,5 @@
 		<div class="container">
 			<img src="./static/assets/img/background.png" class="img-fluid" alt="background">
     	</diV>
-
-		<script src="./static/js/jquery-3.6.0.min.js"></script>
-    	<script>
-
-			function saveGame(){
-				$.ajax({
-					url: 'http://localhost:3000/guardar',
-					type: 'POST',
-					dataType: 'json',
-					success: function (data, status, xhr) {
-						if (data) {
-							alert('se podría mostrar un aviso de que se grabo la partida')
-						}
-					},
-					error: function (xhr, status, error) {
-						console.log("Error: " + status + " " + error);
-					}
-				});
-			}
-
-			function cancelGame(){
-				$.ajax({
-					url: 'http://localhost:3000/cancelar',
-					type: 'POST',
-					dataType: 'json',
-					success: function (data, status, xhr) {
-						if (data) {
-							alert('se podría mostrar un aviso de que se cancelo la partida')
-						}
-					},
-					error: function (xhr, status, error) {
-						console.log("Error: " + status + " " + error);
-					}
-				});
-			}
-		</script>
-
 	</body>
 </html>
