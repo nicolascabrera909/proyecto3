@@ -289,7 +289,7 @@ class Games {
                 //inserto ship ---> valido de q tipo es   destructor, submarino. [playerId, ship.positionX,ship.positionY,ship.boatLife,ship.boatType,ship.visibility]
                 let ultimoIdPLayer = await this.daoPlayer.lastPlayerId(ultimoId)
                 for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
-                    await this.daoShip.insert(ultimoId, this.game.playerList[i].boatList[j]);
+                    await this.daoShip.insert(ultimoIdPLayer, this.game.playerList[i].boatList[j]);
                     let ultimoShip = await this.daoShip.lastShipId(ultimoIdPLayer);
                     //Busco q tipo de barco es para insertar. 
                     switch (this.game.playerList[i].boatList[j].type) {

@@ -21,8 +21,6 @@ class Destructor extends Ship {
         this.positionY = 0
         this.rotation =180;
         this.boatLife = 100;
-        this.visibility = 100;
-        //this.dificulty = dificulty;
         this.type = 'destructor';
     }
 

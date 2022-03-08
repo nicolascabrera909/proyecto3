@@ -44,7 +44,7 @@ class Queries {
     }
    
     insertPlayer(){
-        const query='insert into player (name,game_id) values(?,?);';
+        const query='insert into player (game_id,name) values(?,?);';
         return query;
     }
     findPlayer(){
@@ -57,8 +57,8 @@ class Queries {
         return query;
     }
 
-    insertShip(){
-        const query='insert into ship (player_id ,positionX,positionY,boatLife,boatType,visibility) values(?,?,?,?,?,?);';
+    insertShip(){  
+        const query='insert into ship (player_id,positionX,positionY,rotation,boatLife,boatType) values(?,?,?,?,?,?);';
         return query;
     }
     findShip(){

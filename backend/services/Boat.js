@@ -6,7 +6,6 @@ class Boat {
         this.positionY;
         this.rotation
         this.boatLife;
-        this.visibility;
     }
 
     isDestroy(){

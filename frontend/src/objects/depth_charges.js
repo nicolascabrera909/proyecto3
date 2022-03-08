@@ -44,7 +44,7 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
         }, 1200);
         setTimeout(function () {
             selfDepthCharge.setAlpha(0.4, 0.4, 0, 0);
-            this.depth = 2;
+            selfDepthCharge.depth = 2;
         }, 12000);
     }
 
