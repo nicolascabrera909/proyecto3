@@ -74,71 +74,70 @@ class Submarino extends Phaser.GameObjects.Sprite {
   surface(socket) {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.selfSubmarino.cameras.main.setZoom(1.5);
+    this.depth = 1;
     if (socket) {
       socket.emit('changeDepth', {
         depth: 1,
         socketId: socket.id
       });
     }
-    this.submarino.depth = 1;
   }
 
   immerse(socket) {
     this.submarino.setAlpha(0.7, 0.7, 0, 0);
     this.selfSubmarino.cameras.main.setZoom(2);
+    this.depth = 2;
     if (socket) {
       socket.emit('changeDepth', {
         depth: 2,
         socketId: socket.id
       });
     }
-    this.submarino.depth = 2;
   }
 
   deepImmerse(socket) {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
     this.selfSubmarino.cameras.main.setZoom(3);
+    this.depth = 3;
     if (socket) {
       socket.emit('changeDepth', {
         depth: 3,
         socketId: socket.id
       });
     }
-    this.submarino.depth = 3;
   }
 
   surfaceOpponent(socket) {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
+    this.depth = 1;
     if (socket) {
       socket.emit('changeDepth', {
         depth: 1,
         socketId: socket.id
       });
     }
-    this.submarino.depth = 1;
   }
 
   immerseOpponent(socket) {
     this.submarino.setAlpha(0.7, 0.7, 0, 0);
+    this.depth = 2;
     if (socket) {
       socket.emit('changeDepth', {
         depth: 2,
         socketId: socket.id
       });
     }
-    this.submarino.depth = 2;
   }
 
   deepImmerseOpponent(socket) {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
-    this.submarino.depth = 3;
+    this.depth = 3;
     if (socket) {
       socket.emit('changeDepth', {
         depth: 3,
         socketId: socket.id
       });
     }
-    this.submarino.depth = 3;
   }
 
   moveSubmarino(cursors, socket, input, self, target) {
@@ -204,7 +203,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.coodOriginalX = x;
         this.submarino.coodOriginalY = y;
         this.submarino.rotationOriginal = r;
-        this.submarino.depthOriginal = this.submarino.depth;
+        this.submarino.depthOriginal = this.depth;
       }
     }
   }

@@ -18,7 +18,7 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         let selfDepthCharge = this;            
         setTimeout(function () {
             selfDepthCharge.destroy();
-        }, 15000);
+        }, 150000);
     }
 }
 

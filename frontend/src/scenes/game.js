@@ -766,20 +766,26 @@ class Game extends Phaser.Scene {
     if (info.depth === 1) {
       if (socket) {
         this.currentPlayers.scene.submarino.surfaceOpponent(socket);
+        this.currentPlayers.scene.submarino.depth = 1;
       } else {
         this.otherPlayers.scene.submarino2.surfaceOpponent(socket);
+        this.currentPlayers.scene.submarino.depth = 1;
       }
     } else if (info.depth === 2) {
       if (socket) {
         this.currentPlayers.scene.submarino.immerseOpponent(socket);
+        this.currentPlayers.scene.submarino.depth = 2;
       } else {
         this.otherPlayers.scene.submarino2.immerseOpponent(socket);
+        this.currentPlayers.scene.submarino.depth = 2;
       }
     } else if (info.depth === 3) {
       if (socket) {
         this.currentPlayers.scene.submarino.deepImmerseOpponent(socket);
+        this.currentPlayers.scene.submarino.depth = 3;
       } else {
         this.otherPlayers.scene.submarino2.deepImmerseOpponent(socket);
+        this.currentPlayers.scene.submarino.depth = 3;
       }
     }
   }
