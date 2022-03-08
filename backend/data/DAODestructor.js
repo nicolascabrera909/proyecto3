@@ -20,7 +20,7 @@ class DAODestructor {
         const consultas = new queries();
         const result = await pool.query(consultas.findDestructor(),[shipId]);
         if (result != null) {
-            result[0];
+            return result[0];
         }
         else
             return ('Error');
@@ -30,7 +30,7 @@ class DAODestructor {
         const consultas = new queries();
         const result = await pool.query(consultas.lastDestructorId(),[shipId]);
         if (result != null) {
-            result[0];
+            return result[0].id;
         }
         else
             return ('Error');

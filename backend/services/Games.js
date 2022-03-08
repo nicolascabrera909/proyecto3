@@ -241,11 +241,11 @@ class Games {
     async saveGame() {
         let listGames = await this.daoGame.find();
         //obtengo name y dificultad
-        let name1,name2;
-        let difficulty;
-        name1==this.game.playerList[0].name;
-        name2==this.game.playerList[1].name;
+        let difficulty=this.game.idDifficulty;
+        let name1=this.game.playerList[0].name;
+        let name2=this.game.playerList[1].name;
 
+        
 
 
         if ( await this.existPartidaPlayers(listGames, name1, name2) ) {
@@ -286,7 +286,7 @@ class Games {
         } else {
             //Guardo por primera vez
             //inserto el game, con dificultad 1. cuando tenga va difficulty
-            await this.daoGame.insert(1);
+            await this.daoGame.insert(difficulty);
             let ultimoId = await this.daoGame.lastGame()
             //inserto mapa [gameId, map.heigth,map.width]
             await this.daoMap.insert(ultimoId, this.map)
@@ -317,8 +317,8 @@ class Games {
                             await this.daoDepthCharge.insert(ultimoDestructor, this.game.playerList[i].boatList[j].carga)
                             break;
 
-                        case 'destructor':
-                            await this.daoFreighters.insert(ultimoShip)
+                        case 'carguero':
+                            await this.daoFreighters.insert(ultimoShip,this.game.playerList[i].boatList[j].type)
                             break;
                     }
                 }
