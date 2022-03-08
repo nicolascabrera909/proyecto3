@@ -31,7 +31,7 @@ class Game extends Phaser.Scene {
       'x': 0,
       'y': 0
     }
-    this.LoadGame=false;
+    this.LoadGame = false;
   }
 
 
@@ -80,10 +80,10 @@ class Game extends Phaser.Scene {
       console.log('Evento inicioInstancia');
       this.games = backGame;
       console.log('Emito createGame');
-      if( this.LoadGame){
-        this.socket.emit('loadGame',this.socket.id)
+      if (this.LoadGame) {
+        this.socket.emit('loadGame', this.socket.id)
         cantidadLoadPlayers++;
-      }else{
+      } else {
         this.socket.emit('createGame', username, boatType, difficulty);
       }
     });
@@ -100,7 +100,8 @@ class Game extends Phaser.Scene {
       if (players.length == 2) {
         this.defineCollisions(self);
         this.ignoreSmallMap();
-        this.setGameTimeOut(difficulty, this.socket.id, self);
+        this.clockTimeOut(this.socket);
+        //this.setGameTimeOut(difficulty, this.socket.id, self);
 
       }
     });
@@ -383,6 +384,29 @@ class Game extends Phaser.Scene {
 
     });
 
+    this.socket.on('other_emit_clock', (info) => {
+      switch (info.minutes) {
+        case 5:
+          console.log('inicio de partida clock');
+          break;
+        case 4:
+          console.log('4 minutos restantes');
+          break;
+        case 3:
+          console.log('3 minutos restantes');
+          break;
+        case 2:
+          console.log('2 minutos restantes');
+          break;
+        case 1:
+          console.log('1 minutos restante');
+          break;
+        case 0:
+          console.log('fin de partida, empate');
+          break;
+      }
+    });
+
     this.map = new Map(this, 'map', 'tiles', 'terrain');
     this.physics.world.setBounds(0, 0, 3200, 1120);
     window.game = this;
@@ -427,8 +451,6 @@ class Game extends Phaser.Scene {
       }
     }
   }
-
-
 
   choque(obj1, obj2, self) {
     obj1.destroy(this.socket, self);
@@ -812,7 +834,7 @@ class Game extends Phaser.Scene {
   saveGame() {
     console.log('gRAVAR EL JUEGO');
     let socket_id = this.socket.id;
-    this.socket.emit('saveGame', socket_id,this.games.game.playerList[0].name,this.games.game.playerList[1].name,this.games.game.idDifficulty);
+    this.socket.emit('saveGame', socket_id, this.games.game.playerList[0].name, this.games.game.playerList[1].name, this.games.game.idDifficulty);
   }
 
   cancelGame(self) {
@@ -837,6 +859,45 @@ class Game extends Phaser.Scene {
     this.mostrar_reloj = true;
     this.tiempo();
     this.socket.emit('showTime', socket_id);
+  }
+
+  clockTimeOut(socket) {
+    setTimeout(function () {
+      console.log('inicia la partida clock');
+      socket.emit('emit_clock', {
+        minutes: 5
+      });
+    }, 0);
+    setTimeout(function () {
+      console.log('4 minutos restantes');
+      socket.emit('emit_clock', {
+        minutes: 4
+      });
+    }, 60000);
+    setTimeout(function () {
+      console.log('3 minutos restantes');
+      socket.emit('emit_clock', {
+        minutes: 3
+      });
+    }, 120000);
+    setTimeout(function () {
+      console.log('2 minutos restantes');
+      socket.emit('emit_clock', {
+        minutes: 2
+      });
+    }, 180000);
+    setTimeout(function () {
+      console.log('1 minutos restantes');
+      socket.emit('emit_clock', {
+        minutes: 1
+      });
+    }, 240000);
+    setTimeout(function () {
+      console.log('fin de partida, empate');
+      socket.emit('emit_clock', {
+        minutes: 0
+      });
+    }, 300000);
   }
 
   GameTimeOut(self, socket_id) {
@@ -870,10 +931,11 @@ class Game extends Phaser.Scene {
       endFrame: 23
     });
 
-    this.load.spritesheet('fire', 'assets/sprites/fire.png', { 
-      frameWidth: 64, 
-      frameHeight: 64, 
-      endFrame: 60 });
+    this.load.spritesheet('fire', 'assets/sprites/fire.png', {
+      frameWidth: 64,
+      frameHeight: 64,
+      endFrame: 60
+    });
   }
 
   loadAudio() {
