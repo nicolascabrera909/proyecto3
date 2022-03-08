@@ -21,7 +21,6 @@ class Submarine {
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
         this.boatLife = 5;
-        this.visibility = 100;
         this.type = 'submarino';
         this.depth = 1;    // 1 superficie, 2 sumergido y 3 sumergido proufundo
 

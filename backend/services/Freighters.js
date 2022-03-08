@@ -8,7 +8,6 @@ class Freighters extends Boat {
         const Freighters = new Boat;
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
-        this.visibility = 100;
         this.type = 'carguero';
         this.id=id;
 

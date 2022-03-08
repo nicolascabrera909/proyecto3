@@ -61,8 +61,7 @@ CREATE TABLE ship (
 	positionY INT,
 	rotation INT,
 	boatLife INT,
-	boatType INT,
-	visibility INT,
+	boatType varchar(20),
 	FOREIGN KEY (player_id) REFERENCES player(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
