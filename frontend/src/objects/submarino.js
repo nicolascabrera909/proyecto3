@@ -18,7 +18,6 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.torpedos = new Torpedos(scene);
     this.cannons = new Cannons(scene);
     this.life = 3;
-    this.armyAvailable = true;
   }
 
   create(coordenadas, self, cursor) {
@@ -160,14 +159,14 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.setVelocityX(-400 * velX)
         this.submarino.setVelocityY(-400 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-          if (this.submarino.depth === 2) {
+          if (this.depth === 2) {
             var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
             this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, socket, angle);
           } else {
             console.log('Torpedo disponible solo semisumergido.');
           }
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        if (this.submarino.depth === 1) {
+        if (this.depth === 1) {
           this.cannons.fireCannons(this.submarino.x, this.submarino.y, socket, target, 'submarino');
         } else {
           console.log('Cannon disponible solo en superficie.');
