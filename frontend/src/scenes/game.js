@@ -457,11 +457,20 @@ class Game extends Phaser.Scene {
   }
 
   collisionShipArmy(obj1, obj2, self) {
+    var coordX;
+    var coordY;
+    if (obj1.texture.key === 'destructor') {
+      coordX = obj1.destructor.x;
+      coordY = obj1.destructor.y;
+    } else {
+      coordX = obj1.submarino.x;
+      coordY = obj1.submarino.y;
+    }
     if (obj1.life === 0) {
       obj1.destroy(this.socket, self);
     } else {
-      /*self.anims.create(self.fireConfig);
-      self.add.sprite(obj1.x, obj1.y, 'fire').play('fireAnimation');*/
+      self.anims.create(self.explosionConfig);
+      self.add.sprite(coordX, coordY, 'explosion').play('explodeAnimation');
       obj1.life -= 1;
     }
     obj2.destroy(this.socket, self);
@@ -941,12 +950,6 @@ class Game extends Phaser.Scene {
       frameHeight: 64,
       endFrame: 23
     });
-
-    this.load.spritesheet('fire', 'assets/sprites/fire.png', {
-      frameWidth: 64,
-      frameHeight: 64,
-      endFrame: 60
-    });
   }
 
   loadAudio() {
@@ -956,7 +959,6 @@ class Game extends Phaser.Scene {
       .audio('sea_water', ['./static/assets/audio/sea_water.mp3'])
       .audio('ship_collision', ['./static/assets/audio/ship_destroy.mp3'])
       .audio('depth_charge', ['./static/assets/audio/depth_charge.mp3'])
-      .audio('movement_sound', ['./static/assets/audio/movement_sound.mp3'])
   }
 
   loadAudioVariables() {
