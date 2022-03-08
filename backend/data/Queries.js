@@ -165,6 +165,10 @@ class Queries {
         const query='UPDATE torpedo SET t_cantidad=? WHERE submarine_id=?;';
         return query;
     }
+    listGames(){
+        const query='select g.id,p.name name1 ,p2.name name2 from game g inner join player  p on g.id=p.game_id inner join player  p2 on g.id=p2.game_id  where p.id >p2.id;';
+        return query;
+    }
 }
 
 module.exports = Queries;
