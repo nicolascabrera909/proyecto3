@@ -59,23 +59,18 @@
 
         }
         $(document).ready(function () {
-           
-            // $("#saved_games").empty();                
-            // for (var i = 0; i < saved_game.length; i++) {
-            //         games += '<option value=' + saved_game[i]['id'] + '>' + saved_game[i]['name'] + '</option>';
-            //         $('#saved_games').append(games)
-            // }
-
             $.ajax({
                 url: 'http://localhost:3000/lista',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data, status, xhr) {
-                    if (data.saved_game != null) {
-                        
-                        alert('cargar el combo')
+                    if (data != null) {
+                        let games;
+                        for (var i = 0; i < data.length; i++) {
+                        games = '<option value=' + data[i]['id'] + '>' + data[i]['name1'] + ' ' + data[i]['name2'] + '</option>';
+                        $('#saved_games').append(games)
+                        }
                     }
-
                 },
                 error: function (xhr, status, error) {
                     console.log("Error: " + status + " " + error);
