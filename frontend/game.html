@@ -15,6 +15,7 @@
 			<a class="navbar-brand" href="./index.html">UDE Navy</a>
 				<div class="navbar-nav">
 				<a class="nav-link" href="./pre_game.html">Comenzar Partida</a>
+				<a class="nav-link" href="./saved_game.html">Partidas existentes</a>
 				<a class="nav-link" href="./help.html">Ayuda</a>
 				<a class="nav-link" href="./credits.html">Créditos</a>
 				</div>
@@ -34,6 +35,12 @@
 					</div>
 				  </article>
 			</div> -->
+			<div class="col-12" style="text-align: center;margin: 20px;">
+				<button style="margin-right: 100px;" class="btn btn-success" onclick="saveGame()">Guardar</button>
+				<button class="btn btn-danger"onclick="cancelGame()">Cancela</button>
+
+			</div>
+			
 			<div class="col-1"></div>
 			<div class="col-8">
 				<div id="game-screen"></div>

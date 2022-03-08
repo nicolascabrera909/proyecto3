@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css"/>
+    <link rel="icon" href="./static/assets/img/favicon.ico">
+    <title>UDE Navy</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./index.html">UDE Navy</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="./pre_game.html">Comenzar Partida</a>
+                <a class="nav-link" href="./saved_game.html">Partidas existentes</a>
+                <a class="nav-link" href="./help.html">Ayuda</a>
+                <a class="nav-link" href="./credits.html">Créditos</a>
+            </div>
+        </div>
+        </div>
+    </nav>
+   
+    <div class="container py-2">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form action="#">
+                    <div class="form-group" id="dif-div">
+                        <label for="saved_games" class="pregame">Listado de partidas guardadas</label>
+                        <select class="form-control" name="saved_games" id="saved_games">
+                            
+                        </select>
+                    </div>
+                    
+                    <div class="mt-5" style="text-align: center">
+                        <button style="font-size: 25px;width: 50%;" type="button" id="startButton" onclick="iniciar()"
+                            class="btn btn-primary">Comenzar</button>
+                    </div>
+                    <div class="mt-5" style="text-align: center">
+                        <audio controls autoplay>
+                           <!-- <source src="./static/assets/audio/menu.mp3" type="audio/mpeg">-->
+                            Your browser does not support the audio element.
+                          </audio>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./static/js/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        function iniciar() {
+            
+
+        }
+        $(document).ready(function () {
+           
+            // $("#saved_games").empty();                
+            // for (var i = 0; i < saved_game.length; i++) {
+            //         games += '<option value=' + saved_game[i]['id'] + '>' + saved_game[i]['name'] + '</option>';
+            //         $('#saved_games').append(games)
+            // }
+
+            $.ajax({
+                url: 'http://localhost:3000/lista',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data, status, xhr) {
+                    if (data.saved_game != null) {
+                        
+                        alert('cargar el combo')
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error: " + status + " " + error);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
