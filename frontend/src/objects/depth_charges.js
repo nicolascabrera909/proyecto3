@@ -1,10 +1,10 @@
 import DepthCharge from "./depth_charge.js"
 
 class DepthCharges extends Phaser.Physics.Arcade.Group {
-    
+
     constructor(scene) {
         super(scene.physics.world, scene);
-        
+
         this.createMultiple({
             frameQuantity: 50,
             key: 'bulletDepthCharge',
@@ -15,21 +15,26 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
         this.available = true;
         this.last = [];
         this.depth = 1;
+        this.armyAvailable = true;
     }
 
     fireDepthCharge(x, y, socket) {
         let bullet = this.getFirstDead(false);
-        if (bullet) {
-            this.disable(this);
-            bullet.fire(x, y, this);
+        if (this.armyAvailable === true) {
+            if (bullet) {
+                this.disable(this);
+                bullet.fire(x, y, this);
+                this.armyAvailable = false;
+                this.resetArmy();
+            }
+            if (socket) {
+                socket.emit('depthChargeThrowing', {
+                    x: x, y: y,
+                    socket_id: socket.id,
+                });
+            }
+            this.last.push(bullet);
         }
-        if (socket) {
-            socket.emit('depthChargeThrowing', {
-                x: x, y: y,
-                socket_id: socket.id,
-            });
-        }
-        this.last.push(bullet);
     }
 
     disable() {
@@ -42,7 +47,7 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
             this.depth = 2;
         }, 12000);
     }
-    
+
     destroy(socket, self) {
         let bullet = this.last.pop();
         console.log(this.last);
@@ -52,6 +57,12 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
                 socketId: socket.id,
             });
         }
+    }
+
+    resetArmy() {
+        setTimeout(() => {
+            this.armyAvailable = true;
+        }, 10000);
     }
 }
 
