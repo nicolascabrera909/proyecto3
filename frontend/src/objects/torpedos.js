@@ -49,6 +49,10 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
             });
         }
     }
+
+    remainingBullet(){
+        return this.getChildren().lenght;
+    }
 }
 
 export default Torpedos;

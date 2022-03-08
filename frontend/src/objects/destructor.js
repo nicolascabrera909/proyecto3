@@ -107,7 +107,11 @@ class Destructor extends Phaser.GameObjects.Sprite {
       if (!(this.destructor.coodOriginalX == this.destructor.x &&
         this.destructor.coodOriginalY == this.destructor.y &&
         this.destructor.rotationOriginal == this.destructor.rotation)) {
-        socket.emit('playerMovement', { x: this.destructor.x, y: this.destructor.y, rotation: this.destructor.rotation })
+        socket.emit('playerMovement', { x: this.destructor.x, 
+                                        y: this.destructor.y, 
+                                        rotation: this.destructor.rotation, 
+                                        socketId:socket.id,
+                                        life:this.life})
         this.destructor.coodOriginalX = this.destructor.x;
         this.destructor.coodOriginalY = this.destructor.y;
         this.destructor.rotationOriginal = this.destructor.rotation;

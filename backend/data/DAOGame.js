@@ -8,7 +8,7 @@ class DAOGame {
 
     //aca le paso o un destructor, submarino o un carguero
     async insert(dificultadId) {
-        const consultas = new queries();
+        const consultas = new Queries();
         const result = await pool.query(consultas.insertGame(), [dificultadId]);
         if (result != null) {
             return ('OK')

@@ -36,7 +36,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
       self.cameras.main.startFollow(this.submarino, true);
       self.cameras.main.roundPixels = true;
       self.cameras.main.setZoom(1.5);
-      
+
       self.smallCamera = self.cameras.add(1000, 10, 500, 400);
       self.smallCamera.rotation = 0;
       self.smallCamera.zoom = 0.1;
@@ -64,7 +64,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     console.log("en clase subamarino, luego del destroy");
     self.ship_collision_sound.play();
     if (socket) {
-      socket.emit('destroy_submarino', { 
+      socket.emit('destroy_submarino', {
         socketId: socket.id
       });
     }
@@ -74,9 +74,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     this.selfSubmarino.cameras.main.setZoom(1.5);
     if (socket) {
-      socket.emit('changeDepth', { 
+      socket.emit('changeDepth', {
         depth: 1,
-        socketId: socket.id 
+        socketId: socket.id
       });
     }
     this.submarino.depth = 1;
@@ -86,9 +86,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.setAlpha(0.7, 0.7, 0, 0);
     this.selfSubmarino.cameras.main.setZoom(2);
     if (socket) {
-      socket.emit('changeDepth', { 
+      socket.emit('changeDepth', {
         depth: 2,
-        socketId: socket.id 
+        socketId: socket.id
       });
     }
     this.submarino.depth = 2;
@@ -98,9 +98,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
     this.selfSubmarino.cameras.main.setZoom(3);
     if (socket) {
-      socket.emit('changeDepth', { 
+      socket.emit('changeDepth', {
         depth: 3,
-        socketId: socket.id 
+        socketId: socket.id
       });
     }
     this.submarino.depth = 3;
@@ -109,9 +109,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
   surfaceOpponent(socket) {
     this.submarino.setAlpha(0.9, 0.9, 0.9, 0.9);
     if (socket) {
-      socket.emit('changeDepth', { 
+      socket.emit('changeDepth', {
         depth: 1,
-        socketId: socket.id 
+        socketId: socket.id
       });
     }
     this.submarino.depth = 1;
@@ -120,9 +120,9 @@ class Submarino extends Phaser.GameObjects.Sprite {
   immerseOpponent(socket) {
     this.submarino.setAlpha(0.7, 0.7, 0, 0);
     if (socket) {
-      socket.emit('changeDepth', { 
+      socket.emit('changeDepth', {
         depth: 2,
-        socketId: socket.id 
+        socketId: socket.id
       });
     }
     this.submarino.depth = 2;
@@ -130,10 +130,11 @@ class Submarino extends Phaser.GameObjects.Sprite {
 
   deepImmerseOpponent(socket) {
     this.submarino.setAlpha(0.4, 0.4, 0, 0);
+    this.submarino.depth = 3;
     if (socket) {
-      socket.emit('changeDepth', { 
+      socket.emit('changeDepth', {
         depth: 3,
-        socketId: socket.id 
+        socketId: socket.id
       });
     }
     this.submarino.depth = 3;
@@ -159,14 +160,14 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.setVelocityX(-400 * velX)
         this.submarino.setVelocityY(-400 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-        if (this.submarino.depth === 2){
+        if (this.submarino.depth === 2) {
           var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
           this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, socket, angle);
         } else {
           console.log('Torpedo disponible solo semisumergido.');
         }
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        if (this.submarino.depth === 1){
+        if (this.submarino.depth === 1) {
           this.cannons.fireCannons(this.submarino.x, this.submarino.y, socket, target, 'submarino');
         } else {
           console.log('Cannon disponible solo en superficie.');
@@ -190,7 +191,15 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.coodOriginalY == this.submarino.x &&
         this.submarino.rotationOriginal == this.submarino.rotation &&
         this.submarino.depthOriginal == this.submarino.depth)) {
-        socket.emit('playerMovement', { x: this.submarino.x, y: this.submarino.y, rotation: this.submarino.rotation, depth: this.submarino.depth })
+        socket.emit('playerMovement', {
+          x: this.submarino.x,
+          y: this.submarino.y,
+          rotation: this.submarino.rotation,
+          depth: this.submarino.depth,
+          socketId: socket.id,
+          life: this.life,
+
+        })
         this.submarino.coodOriginalX = x;
         this.submarino.coodOriginalY = y;
         this.submarino.rotationOriginal = r;
