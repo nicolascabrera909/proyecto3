@@ -92,10 +92,10 @@ io.on('connection', function (socket) {
   });
 
 
-  socket.on('loadGame', function (soketId) {
+  socket.on('loadGame', function (soketId,idGame) {
 
     //creo el juego con su jugador y barcos
-    gamePlay.LoadGame();
+    gamePlay.LoadGame(soketId,idGame);
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
     //Envio jugador 1

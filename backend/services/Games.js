@@ -136,10 +136,10 @@ class Games {
             this.game.playerList.splice(pos, 1);
         }
     }
-
-    async LoadGame() {
-        let listGames = await daoGame.find();
-        if (this.existPartidaPlayers(listGames, name1, name2)) {
+    //exite el game 
+    async LoadGame(soketId,idGame) {
+        
+        
             let boatListSubmarino = [];
             let boatListDestructor = [];
             let listPLayers = new Players();
@@ -147,7 +147,7 @@ class Games {
             let theGame = new Game();
 
             //busco el juego
-            let aGame = findPartidaPlayers(listGames);
+            let aGame  = await daoGame.findGameID();
             //busco el mapa 
             let map = daoMop.find(gameId);          //busco la dificultad
             let aDifficulty = daoDifficulty.find(aGame.difficulty_id);
@@ -232,9 +232,7 @@ class Games {
             theGame.idDifficulty = aDifficulty;
             theGame.playerList = listPLayers;
             this.game = theGame
-        } else {
-            console.log('no existe la partida');
-        }
+        
     }
 
     //guardo la partida
