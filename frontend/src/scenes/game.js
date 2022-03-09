@@ -31,7 +31,7 @@ class Game extends Phaser.Scene {
       'x': 0,
       'y': 0
     }
-    this.LoadGame = false;
+    this.idGame = -1;
   }
 
   preload() {
@@ -52,6 +52,11 @@ class Game extends Phaser.Scene {
     var username = this.urlParams.get('username');
     var boatType = this.urlParams.get('boattype');
     var difficulty = this.urlParams.get('dificultad');
+    if(!(this.urlParams.get('idGame')=='undefined')){
+      this.idGame = this.urlParams.get('idGame');
+    }
+    
+
     this.username = username;
 
     this.explosionConfig = {
@@ -79,8 +84,8 @@ class Game extends Phaser.Scene {
       console.log('Evento inicioInstancia');
       this.games = backGame;
       console.log('Emito createGame');
-      if (this.LoadGame) {
-        this.socket.emit('loadGame', this.socket.id)
+      if (this.idGame>0) {
+        this.socket.emit('loadGame', this.socket.id,this.idGame);
         cantidadLoadPlayers++;
       } else {
         this.socket.emit('createGame', username, boatType, difficulty);

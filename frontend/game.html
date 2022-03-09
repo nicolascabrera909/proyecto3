@@ -1,31 +1,34 @@
 <!doctype html>
 <html lang="en">
-	<head>
-    	<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-    	
-		<link rel="stylesheet" href="./static/css/bootstrap.min.css"/>
-    	<link rel="icon" href="./static/assets/img/favicon.ico">
-		<link href="./static/assets/css/base.css" rel="stylesheet">
-    	<title>UDE Navy</title>
-	</head>
-  	<body >
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<div class="container-fluid">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="./static/css/bootstrap.min.css" />
+	<link rel="icon" href="./static/assets/img/favicon.ico">
+	<link href="./static/assets/css/base.css" rel="stylesheet">
+	<title>UDE Navy</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
 			<a class="navbar-brand" href="./index.html">UDE Navy</a>
-				<div class="navbar-nav">
+			<div class="navbar-nav">
 				<a class="nav-link" href="./pre_game.html">Comenzar Partida</a>
+				<a class="nav-link" href="./saved_game.html">Partidas existentes</a>
 				<a class="nav-link" href="./help.html">Ayuda</a>
 				<a class="nav-link" href="./credits.html">Créditos</a>
-				</div>
 			</div>
-			</div>
-		</nav>
-		<div class="container"></div>
-		
-		<div class="row">
+		</div>
+		</div>
+	</nav>
+	<div class="container"></div>
 
-			<!-- <div>
+	<div class="row">
+
+		<!-- <div>
 				<article class="clock" id="model3">
 					<h4></h4>
 				  
@@ -34,65 +37,61 @@
 					</div>
 				  </article>
 			</div> -->
-			<div class="col-1"></div>
-			<div class="col-8">
-				<div id="game-screen"></div>
-			</div>
-			<div class="col-1"></div>
+		<div class="col-12" style="text-align: center;margin: 20px;">
+			<button style="margin-right: 100px;" class="btn btn-success" onclick="saveGame()">Guardar</button>
+			<button class="btn btn-danger" onclick="cancelGame()">Cancela</button>
 
-		  </div>
 		</div>
-		  
-	
+
+		<div class="col-1"></div>
+		<div class="col-8">
+			<div id="game-screen"></div>
+		</div>
+		<div class="col-1"></div>
+
+	</div>
+	</div>
+
+
+	<script src="./static/js/jquery-3.6.0.min.js"></script>
 	<script>
 
-		// var h3 = document.getElementsByTagName("h4");
-		// h3[0].innerHTML = "Tiempo de juego";
+		function saveGame() {
+			$.ajax({
+				url: 'http://localhost:3000/guardar',
+				type: 'GET',
+				dataType: 'json',
+				success: function (data, status, xhr) {
+					if (data) {
+						alert('se podría mostrar un aviso de que se grabo la partida')
+					}
+				},
+				error: function (xhr, status, error) {
+					console.log("Error: " + status + " " + error);
+				}
+			});
+		}
 
-		// var sec         = 300,
-		// 	countDiv    = document.getElementById("timer"),
-		// 	secpass,
-		// 	countDown   = setInterval(function () {
-		// 		'use strict';
-				
-		// 		secpass();
-		// 	}, 1000);
-
-		// function secpass() {
-		// 	'use strict';
-			
-		// 	var min     = Math.floor(sec / 60),
-		// 		remSec  = sec % 60;
-			
-		// 	if (remSec < 10) {
-				
-		// 		remSec = '0' + remSec;
-			
-		// 	}
-		// 	if (min < 10) {
-				
-		// 		min = '0' + min;
-			
-		// 	}
-		// 	countDiv.innerHTML = min + ":" + remSec;
-			
-		// 	if (sec > 0) {
-				
-		// 		sec = sec - 1;
-				
-		// 	} else {
-				
-		// 		clearInterval(countDown);
-		// 		window.location.href = "gameover.html"
-
-				
-		// 	}
-		// }
-
+		function cancelGame() {
+			$.ajax({
+				url: 'http://localhost:3000/cancelar',
+				type: 'POST',
+				dataType: 'json',
+				success: function (data, status, xhr) {
+					if (data) {
+						alert('se podría mostrar un aviso de que se cancelo la partida')
+					}
+				},
+				error: function (xhr, status, error) {
+					console.log("Error: " + status + " " + error);
+				}
+			});
+		}
 	</script>
-    <script src="./src/phaser.min.js"></script>
-    <script src="./src/main.js" type="module"></script>
+	<script src="./src/phaser.min.js"></script>
+	<script src="./src/main.js" type="module"></script>
 	<script src="./static/js/socket.io.min.js"></script>
 
 </body>
+
 </html>

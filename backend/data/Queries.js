@@ -30,6 +30,12 @@ class Queries {
         const query='SELECT id,difficulty_id from game;';
         return query;
     }
+    
+    findGameId(){
+        const query='SELECT id,difficulty_id from game where id=?;';
+        return query;
+    }
+
     lastGame(){
         const query='SELECT max(id) id  from game';
         return query;
@@ -140,12 +146,12 @@ class Queries {
         return query;
     }
 
-    updatetMap(){
+    updateMap(){
         const query='UPDATE mapa SET heigth=?, width=? WHERE game_id=?;';
         return query;
     }
     
-    updatetShip(){
+    updateShip(){
         const query='UPDATE ship SET positionX=?,positionY=?,rotation=?,boatLife=? WHERE id=?;';
         return query;
     }
@@ -163,6 +169,10 @@ class Queries {
     }
     updateTorpedo(){
         const query='UPDATE torpedo SET t_cantidad=? WHERE submarine_id=?;';
+        return query;
+    }
+    listGames(){
+        const query='select g.id,p.name name1 ,p2.name name2 from game g inner join player  p on g.id=p.game_id inner join player  p2 on g.id=p2.game_id  where p.id >p2.id;';
         return query;
     }
 }

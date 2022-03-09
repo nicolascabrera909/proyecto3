@@ -28,6 +28,9 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.destructor.setDisplaySize(100, 20);
     this.destructor.setSize(140, 20);
     this.destructor.flipX = false;
+    this.coodOriginalX = randomX;
+    this.coodOriginalY = randomY;
+    this.rotationOriginal = 0;
     if (cursor) {
       console.log("Termino crear destructor");
       self.cameras.main.setBounds(0, 0, 3200, 1120);

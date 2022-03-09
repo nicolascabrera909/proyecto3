@@ -29,7 +29,7 @@ class DAOMap {
 
     async update(gameId ,map) {
         const consultas = new queries();
-        const result = await pool.query(consultas.updateMap(),[gameId,map.heigth,map.width]);
+        const result = await pool.query(consultas.updateMap(),[gameId.id,map.heigth,map.width]);
         if (result != null) {
             return ('OK')
         }

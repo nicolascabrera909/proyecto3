@@ -29,6 +29,17 @@ class DAOGame {
             return ('Error');
         }
     }
+    async findGameID(id) {
+        const consultas = new Queries();
+        var result = await pool.query(consultas.findGameId(id));
+        if (result != null) {
+            return result;
+        }
+        else {
+            console.log('resultado error ');
+            return ('Error');
+        }
+    }
 
     async lastGame() {
         const consultas = new Queries();
@@ -42,7 +53,17 @@ class DAOGame {
         }
     }
 
-
+    async list() {
+        const consultas = new Queries();
+        var result = await pool.query(consultas.listGames());
+        if (result != null) {
+            return result;
+        }
+        else {
+            console.log('resultado error ');
+            return ('Error');
+        }
+    }
 
 }
 module.exports = DAOGame;
