@@ -422,6 +422,13 @@ class Games {
     loadingRedy() {
         return this.loading;
     }
+
+    espera() {
+        console.log('Taking a break...');
+        sleep(5000);
+        console.log('Five second later');
+      }
+      
 }
 
 module.exports = Games;

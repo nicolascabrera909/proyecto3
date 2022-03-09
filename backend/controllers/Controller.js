@@ -33,8 +33,9 @@ exports.guardar = async function (req, res, next) {
 exports.cargar = async function (req, res, next) {
     const gamePlay = new Games();
     const result= await gamePlay.LoadGame(req.param("gameId") );
-    gamePlay.loading(true);
+    await gamePlay.loading(true);
     console.log(result);
+    await gamePlay.espera()
     res.send(result);
 };
 
