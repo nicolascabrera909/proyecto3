@@ -56,8 +56,21 @@
 
         function iniciar() {
             let selected = $("#saved_games").val();
-            var queryString = "?idGame=" + selected;
-            window.location.href = "game.html" + queryString;
+            let url = 'http://localhost:3000/cargar';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: "gameId=" + selected,
+                dataType: 'json',
+                success: function (data, status, xhr) {
+                    if (data != null) {
+                        alert('ver se muestra algo aca')
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error: " + status + " " + error);
+                }
+            });
         }
         
         $(document).ready(function () {
