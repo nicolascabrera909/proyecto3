@@ -103,7 +103,7 @@ class Games {
             //Creo la lista de botes y agrego al destructor y los cargueros
             let boatList2 = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             let player2 = new Player(name, socketId, boatList2, boatTeam);
-            console.log("termine de crear al jugador, valido si existe partida");
+            //Termino de crear al jugador, valido si existe partida
             if (this.game == null) {
                 this.partidaNueva(player2, difficulty);
             } else {

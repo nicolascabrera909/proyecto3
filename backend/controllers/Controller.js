@@ -48,12 +48,11 @@ exports.cancelar = async function (req, res, next) {
 exports.partida = async function (req, res, next) {
     var gamePlay = new Games();
     var jsonGame = JSON.stringify(gamePlay);
-    console.log('Luego de convertir a JSON: ' + jsonGame);
+    //console.log('Luego de convertir a JSON: ' + jsonGame);
     res.send(jsonGame);
     // res.render('http://localhost:5500/credits.html', { jsonGame } );
 };
 
 exports.ready = async function (req, res, next) {
-    console.log('Notifico la la partida esta lista para comenzar');
     res.send(true);
 };

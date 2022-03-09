@@ -13,8 +13,7 @@ var gamePlay = new Games();
 let cantidad = 0;
 let pleyerListIni = [];
 
-/////////////////////////////////////////////////////// SOCKET CONFIG ////////////////////////////////////////////////
-console.log("Creo y levanto el socket");
+/////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');
 const socketIO = require('socket.io');
 const { type } = require('os');
@@ -31,6 +30,7 @@ const io = socketIO(server, {
     maxAge: 86400
   }
 });
+console.log("Socket levantado");
 
 ///////////////////////////////////////////////////////  CORS  ///////////////////////////////////////////////////////
 app.use(
@@ -50,7 +50,7 @@ let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:
 
 /////////////////////////////////////////////////////// SOCKET ///////////////////////////////////////////////////////
 io.on('connection', function (socket) {
-  console.log('player [' + socket.id + '] connected')
+  console.log('Player [' + socket.id + '] connected')
   /* players[socket.id] = {
    rotation: 0,
      x: 30,
@@ -67,8 +67,6 @@ io.on('connection', function (socket) {
   socket.on('createGame', function (name, boatTeam, difficulty) {
     //Creo el juego con su jugador y barcos
     gamePlay.createGame(socket.id, name, boatTeam, difficulty);
-    console.log('Emito currentPlayers');
-    console.log('Emito broadcast newPlayer');
     socket.emit('currentPlayers', gamePlay.game.playerList, gamePlay);
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
@@ -106,7 +104,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function () {
-    console.log('player [' + socket.id + '] disconnected')
+    console.log('Player [' + socket.id + '] disconnected')
     gamePlay.deletePlayer(socket.id)
     io.emit('playerDisconnected', socket.id)
   })
