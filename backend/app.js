@@ -15,7 +15,7 @@ const { database } = require('./config');
 /////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////
 var gamePlay = new Games();
 let cantidad = 0;
-let pleyerListIni=[];
+let pleyerListIni = [];
 
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ////////////////////////////////////////////////
@@ -80,7 +80,7 @@ io.on('connection', function (socket) {
     gamePlay.createGame(socket.id, name, boatTeam, difficulty);
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
-    
+
     socket.emit('currentPlayers', gamePlay.game.playerList, gamePlay);
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
@@ -88,13 +88,13 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
 
- 
+
   });
 
 
   socket.on('loadGame', function (soketId, idGame) {
 
-   /* let listo= gamePlay.LoadGame(socketId,idGame);
+    let listo = gamePlay.LoadGame(socketId, idGame);
     //creo el juego con su jugador y barcos
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
@@ -117,7 +117,7 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
     cantidadLoadPlayers++;*/
- 
+
   });
 
   socket.on('disconnect', function () {
@@ -222,6 +222,10 @@ io.on('connection', function (socket) {
     console.log('Juego cancelado');
     socket.broadcast.emit('canceledGame', socket_id);
   });
+
+  socket.on('emit_clock', function (info) {
+    socket.broadcast.emit('other_emit_clock', info)
+  });
 /*
   socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
     console.log('Entre a save game');
@@ -246,7 +250,7 @@ io.on('connection', function (socket) {
     console.log('Juego terminado');
     socket.broadcast.emit('other_submarino_wins', info);
   });
-  
+
   socket.on('destructor_wins', function (info) {
     console.log('Juego terminado');
     socket.broadcast.emit('other_destructor_wins', info);
@@ -257,8 +261,8 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_empate', info);
   });
 
-
 });
+
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));
 
@@ -287,3 +291,5 @@ app.use(function (err, req, res, next) {
 server.listen(port, () => {
   console.log(`Servidor Express corriendo en el puerto: ${port}`);
 });
+
+
