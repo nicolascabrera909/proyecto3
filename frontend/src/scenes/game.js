@@ -70,7 +70,7 @@ class Game extends Phaser.Scene {
       repeat: 0
     };
 
-    this.socket.on('inicioInstancia', (backGame) => {
+    this.socket.on('inicioInstancia', (backGame,hacerLoad) => {
       this.games = backGame;
       if (hacerLoad) {
         this.socket.emit('loadGame', this.socket.id, this.idGame);
