@@ -103,8 +103,8 @@ class Game extends Phaser.Scene {
       if (players.length == 2) {
         this.defineCollisions(self);
         this.ignoreSmallMap();
-        this.clockTimeOut(this.socket);
-        //this.setGameTimeOut(difficulty, this.socket.id, self);
+        //this.clockTimeOut(this.socket);
+        this.setGameTimeOut(difficulty, this.socket.id, self);
 
       }
     });
@@ -882,71 +882,29 @@ class Game extends Phaser.Scene {
   }
 
   setGameTimeOut(difficulty, socket_id, self) {
-    let time = 300000;
+    console.log('por setear el tiempo');
+    let time;
     switch (difficulty) {
-      case difficulty == 2:
-        time = 240000;
+      case difficulty == 1:
+        time = 10000;
         break;
-      case difficulty == 3:
+      case difficulty == 2:
         time = 180000;
+      case difficulty == 3:
+          time = 180000;
         break;
     }
-    this.totalTime = time;
-    this.mostrar_reloj = true;
-    this.tiempo();
-    this.socket.emit('showTime', socket_id);
+    setTimeout(function () {
+      console.log('en set timeout');  
+      self.socket.emit('finishGame', socket_id);
+      console.log('despues del emit de finishgame');  
+      self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
+      console.log('despues de la imagen');  
+      self.scene.pause('Game');
+    }, time);
   }
 
-  //Timer de partida, empieza en 5 minutos y finaliza en 0
-  clockTimeOut(socket) {
-    setTimeout(function () {
-      console.log('inicia la partida clock');
-      socket.emit('emit_clock', {
-        minutes: 5
-      });
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
-    }, 0);
-    setTimeout(function () {
-      console.log('4 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 4 minutos");
-
-      socket.emit('emit_clock', {
-        minutes: 4
-      });
-    }, 60000);
-    setTimeout(function () {
-      console.log('3 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 3 minutos");
-
-      socket.emit('emit_clock', {
-        minutes: 3
-      });
-    }, 120000);
-    setTimeout(function () {
-      console.log('2 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 2 minutos");
-
-      socket.emit('emit_clock', {
-        minutes: 2
-      });
-    }, 180000);
-    setTimeout(function () {
-      console.log('1 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Resta 1 minuto");
-
-      socket.emit('emit_clock', {
-        minutes: 1
-      });
-    }, 240000);
-    setTimeout(function () {
-      console.log('fin de partida, empate');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "FIN DE PARTIDA");
-
-      socket.emit('emit_clock', {
-        minutes: 0
-      });
-    }, 300000);
-  }
+  
 
   GameTimeOut(self, socket_id) {
     this.socket.emit('finishGame', socket_id);
