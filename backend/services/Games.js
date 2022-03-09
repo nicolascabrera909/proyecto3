@@ -38,7 +38,7 @@ class Games {
         this.daoDepthCharge = new DAODepthCharge();
         this.daoDifficulty = new DAODifficulty();
         this.daoFreighters = new DAOFreighters();
-        this.loading = false;
+        this.charge = false;
 
 
         //singleton de la clase
@@ -416,19 +416,24 @@ class Games {
 
 
     loading(cargada) {
-        this.loading = cargada;
+        this.charge = cargada;
     }
 
     loadingRedy() {
-        return this.loading;
+        return this.charge;
     }
 
     espera() {
-        console.log('Taking a break...');
-        sleep(5000);
-        console.log('Five second later');
-      }
-      
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+         if ((new Date().getTime() - start) > 5000) {
+          break;
+         }
+        }
+    }
+
 }
+
+
 
 module.exports = Games;
