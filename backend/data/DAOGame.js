@@ -32,9 +32,9 @@ class DAOGame {
     async findGameId(id) {
         try {
             const consultas = new Queries();
-            var result = await pool.query(consultas.findGameId(id));
+            var result = await pool.query(consultas.findGameId(), [id] );
             if (result != null) {
-                return result;
+                return result[0];
             }
             else {
                 console.log('resultado error ');

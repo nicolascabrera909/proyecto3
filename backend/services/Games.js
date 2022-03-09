@@ -137,7 +137,7 @@ class Games {
         }
     }
     //exite el game 
-    async LoadGame(soketId, idGame) {
+    async LoadGame(socketId,gameId) {
 
 
         let boatListSubmarino = [];
@@ -147,14 +147,12 @@ class Games {
         let theGame = new Game();
 
         //busco el juego
-        console.time('tiempo consulta');
-        let aGame = await this.daoGame.findGameId(idGame);
-        console.endTime('tiempo consulta');
+        let aGame = await this.daoGame.findGameId(gameId);
         //busco el mapa 
         let map = await this.daoMap.find(gameId);          //busco la dificultad
         let aDifficulty =await this.daoDifficulty.find(aGame.difficulty_id);
         //obtengo los players del juego
-        let pleyerList = await this.daoPlayer.find(theGame.id);
+        let pleyerList = await this.daoPlayer.find(gameId);
         //obtengo ships
         for (let i = 0; i < pleyerList.length; i++) {
             let shipList = await this.daoShip.find(pleyerList[i].id);
