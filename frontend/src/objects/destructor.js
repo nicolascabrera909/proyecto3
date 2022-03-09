@@ -2,7 +2,7 @@ import DepthCharges from "./depth_charges.js";
 import Cannons from "./cannons.js";
 
 class Destructor extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, type) {
+  constructor(scene, x, y, type, dificulty) {
     super(scene, x, y, type);
     scene.add.existing(this);
     scene.physics.world.enable(this);
@@ -16,7 +16,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.body.position.y = y;
     this.depthCharges = new DepthCharges(scene);
     this.cannons = new Cannons(scene);
-    this.life = 5;
+    this.life = 12 / parseInt(dificulty);
   }
 
   create(coordenadas, self, cursor) {
@@ -34,7 +34,7 @@ class Destructor extends Phaser.GameObjects.Sprite {
       self.cameras.main.setBounds(0, 0, 3200, 1120);
       self.cameras.main.startFollow(this.destructor, true);
       self.cameras.main.roundPixels = true;
-      self.cameras.main.setZoom(1.5);
+      self.cameras.main.setZoom(1);
 
       self.smallCamera = self.cameras.add(1000, 10, 500, 400);
       self.smallCamera.rotation = 0;
@@ -68,20 +68,20 @@ class Destructor extends Phaser.GameObjects.Sprite {
   moveDestructor(cursors, socket, input, self, target) {
     if (!this.destructor.is_destroyed) {
       if (cursors.left.isDown) {
-        this.destructor.setAngularVelocity(-120)
+        this.destructor.setAngularVelocity(-80)
       } else if (cursors.right.isDown) {
-        this.destructor.setAngularVelocity(120)
+        this.destructor.setAngularVelocity(80)
       } else {
         this.destructor.setAngularVelocity(0)
       }
       const velX = Math.cos((this.destructor.angle - 360) * 0.01745)
       const velY = Math.sin((this.destructor.angle - 360) * 0.01745)
       if (cursors.down.isDown) {
-        this.destructor.setVelocityX(-300 * velX)
-        this.destructor.setVelocityY(-300 * velY)
+        this.destructor.setVelocityX(-80 * velX)
+        this.destructor.setVelocityY(-80 * velY)
       } else if (cursors.up.isDown) {
-        this.destructor.setVelocityX(300 * velX)
-        this.destructor.setVelocityY(300 * velY)
+        this.destructor.setVelocityX(100 * velX)
+        this.destructor.setVelocityY(100 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
         var angle = Phaser.Math.DegToRad(this.destructor.body.rotation);
         this.cannons.fireCannons(this.destructor.x, this.destructor.y, socket, target, 'destructor', angle);

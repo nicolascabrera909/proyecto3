@@ -3,7 +3,7 @@ import Cannons from "./cannons.js";
 
 class Submarino extends Phaser.GameObjects.Sprite {
 
-  constructor(scene, x, y, type) {
+  constructor(scene, x, y, type, dificulty) {
     super(scene, x, y, type);
     scene.add.existing(this);
     scene.physics.world.enable(this);
@@ -17,7 +17,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.depth = 1;
     this.torpedos = new Torpedos(scene);
     this.cannons = new Cannons(scene);
-    this.life = 3;
+    this.life = 12 / parseInt(dificulty);
   }
 
   create(coordenadas, self, cursor) {
@@ -147,27 +147,32 @@ class Submarino extends Phaser.GameObjects.Sprite {
     //Movimientos sumarino)
     if (!this.submarino.is_destroyed) {
       if (cursors.left.isDown) {
-        this.submarino.setAngularVelocity(-120)
+        this.submarino.setAngularVelocity(-80)
       } else if (cursors.right.isDown) {
-        this.submarino.setAngularVelocity(120)
+        this.submarino.setAngularVelocity(80)
       } else {
         this.submarino.setAngularVelocity(0)
       }
       const velX = Math.cos((this.submarino.angle - 360) * 0.01745)
       const velY = Math.sin((this.submarino.angle - 360) * 0.01745)
       if (cursors.down.isDown) {
-        this.submarino.setVelocityX(200 * velX)
-        this.submarino.setVelocityY(200 * velY)
+        this.submarino.setVelocityX(80 * velX)
+        this.submarino.setVelocityY(80 * velY)
       } else if (cursors.up.isDown) {
-        this.submarino.setVelocityX(-400 * velX)
-        this.submarino.setVelocityY(-400 * velY)
+        if (this.depth === 2) {
+          this.submarino.setVelocityX(-150 * velX)
+          this.submarino.setVelocityY(-150 * velY)
+        } else {
+          this.submarino.setVelocityX(-100 * velX)
+          this.submarino.setVelocityY(-100 * velY)
+        }
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
-          if (this.depth === 2) {
-            var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
-            this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, socket, angle);
-          } else {
-            console.log('Torpedo disponible solo semisumergido.');
-          }
+        if (this.depth === 2) {
+          var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
+          this.torpedos.fireTorpedos(this.submarino.x, this.submarino.y, socket, angle);
+        } else {
+          console.log('Torpedo disponible solo semisumergido.');
+        }
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
         if (this.depth === 1) {
           var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);

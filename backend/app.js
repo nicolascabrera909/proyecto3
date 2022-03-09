@@ -228,10 +228,10 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('finishedGame', socket_id);
   });
 
-  socket.on('showTime', function (socket_id) {
-    console.log('mostrat reloj');
-    socket.broadcast.emit('showedTime', socket_id);
-  });
+  // socket.on('showTime', function (socket_id, time) {
+  //   console.log('mostrat reloj');
+  //   socket.broadcast.emit('showedTime', socket_id, time);
+  // });
 
   socket.on('emit_clock', function (info) {
     socket.broadcast.emit('other_emit_clock', info)
@@ -245,6 +245,11 @@ io.on('connection', function (socket) {
   socket.on('destructor_wins', function (info) {
     console.log('Juego terminado');
     socket.broadcast.emit('other_destructor_wins', info);
+  });
+
+  socket.on('carguero_wins', function (info) {
+    console.log('Juego terminado');
+    socket.broadcast.emit('other_carguero_wins', info);
   });
 
   socket.on('empate', function (info) {

@@ -20,7 +20,7 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
         let selfTorpedo = this;
         setTimeout(function (){
             selfTorpedo.destroy();
-        }, 3000);
+        }, 2000);
     }
 }
 

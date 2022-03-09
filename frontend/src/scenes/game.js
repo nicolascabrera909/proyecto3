@@ -31,6 +31,7 @@ class Game extends Phaser.Scene {
       'y': 0
     }
     this.idGame = -1;
+    this.gameDifficulty;
   }
 
   preload() {
@@ -51,10 +52,10 @@ class Game extends Phaser.Scene {
     var username = this.urlParams.get('username');
     var boatType = this.urlParams.get('boattype');
     var difficulty = this.urlParams.get('dificultad');
+    this.gameDifficulty = difficulty;
     if (!(this.urlParams.get('idGame') == 'undefined')) {
       this.idGame = this.urlParams.get('idGame');
     }
-
 
     this.username = username;
 
@@ -69,17 +70,7 @@ class Game extends Phaser.Scene {
       repeat: 0
     };
 
-    /*this.fireConfig = { 
-      key: 'fireAnimation', 
-      frames: this.anims.generateFrameNumbers('fire', { 
-        start: 0, 
-        end: 23, 
-        first: 60 
-      }), 
-      frameRate: 30, 
-      repeat: 0 };*/
-
-    this.socket.on('inicioInstancia', (backGame,hacerLoad) => {
+    this.socket.on('inicioInstancia', (backGame) => {
       this.games = backGame;
       if (hacerLoad) {
         this.socket.emit('loadGame', this.socket.id, this.idGame);
@@ -103,8 +94,8 @@ class Game extends Phaser.Scene {
       if (players.length == 2) {
         this.defineCollisions(self);
         this.ignoreSmallMap();
-        this.clockTimeOut(this.socket);
-        //this.setGameTimeOut(difficulty, this.socket.id, self);
+        //this.clockTimeOut(this.socket);
+        this.setGameTimeOut(this.socket);
 
       }
     });
@@ -113,7 +104,6 @@ class Game extends Phaser.Scene {
       this.addOtherPlayers(this, playerInfo);
       this.defineCollisions(self);
       this.ignoreSmallMap();
-
     });
 
     this.socket.on('playerDisconnected', (playerId) => {
@@ -157,11 +147,13 @@ class Game extends Phaser.Scene {
       if (playerInfo.boatList[i].type == 'destructor') {
         i = 1;
       }
-
       this.otherPlayersCargueros.getChildren().forEach((otherPlayersCargueros) => {
         if (playerInfo.socketId === otherPlayersCargueros.socketId) {
           if (playerInfo.boatList[i].type == 'carguero') {
-            otherPlayersCargueros.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
+            if (playerInfo.boatList[i].positionX > 3100 && playerInfo.boatList[i].positionX < 3105) {
+              this.freightersWins();
+            } else
+              otherPlayersCargueros.setPosition(playerInfo.boatList[i].positionX, playerInfo.boatList[i].positionY)
           }
         }
         i++;
@@ -410,6 +402,15 @@ class Game extends Phaser.Scene {
       }
     });
 
+    //Muestra cartel de derrota si gana el destructor enemigo porque llegan los cargueros al otro extremo
+    this.socket.on('other_carguero_wins', (info) => {
+      if (info.socketId !== self.socket.id) {
+        self.add.image(this.otherPlayers.children.entries[0].x, this.otherPlayers.children.entries[0].y, "victory");
+      } else {
+        self.add.image(this.otherPlayers.children.entries[0].x, this.otherPlayers.children.entries[0].y, "defeat");
+      }
+    });
+
     //Muestra cartel de empate
     this.socket.on('other_empate', (info) => {
       if (info.socketId !== self.socket.id) {
@@ -558,14 +559,14 @@ class Game extends Phaser.Scene {
         x: playerInfo.boatList[0].positionX,
         y: playerInfo.boatList[0].positionY,
       }
-      this.submarino = new Submarino(self, 0, 0, 'submarino');
+      this.submarino = new Submarino(self, 0, 0, 'submarino', this.gameDifficulty);
       this.submarino.create(coordS, self, true);
       currentPlayer = this.submarino;
       currentPlayer.socketId = playerInfo.socketId;
       this.currentPlayers.add(currentPlayer);
     } else {
       //Creo destructor y cargueros
-      this.destructor = new Destructor(self, 0, 0, 'destructor');
+      this.destructor = new Destructor(self, 0, 0, 'destructor', this.gameDifficulty);
       let id = 0;
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         if (playerInfo.boatList[i].type == 'destructor') {
@@ -594,8 +595,9 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
+    var dificulty = this.games.game.idDifficulty;
     if (playerInfo.boatTeam == 'destructor') {
-      this.destructor2 = new Destructor(self, 0, 0, 'destructor');
+      this.destructor2 = new Destructor(self, 0, 0, 'destructor', this.gameDifficulty);
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         let otherPlayer = null;
         let otherPlayersCarguero = null;
@@ -623,7 +625,7 @@ class Game extends Phaser.Scene {
         x: playerInfo.boatList[0].positionX,
         y: playerInfo.boatList[0].positionY,
       }
-      this.submarino2 = new Submarino(self, 0, 0, 'submarino');
+      this.submarino2 = new Submarino(self, 0, 0, 'submarino', this.gameDifficulty);
       otherPlayer = this.submarino2.create(coordS2, self, false);
       otherPlayer.socketId = playerInfo.socketId;
       this.otherPlayers.add(otherPlayer)
@@ -635,8 +637,10 @@ class Game extends Phaser.Scene {
     if (this.currentPlayers.children.entries[0].texture.key === 'destructor') {
       //Colision entre destructor y submarino
       this.physics.add.overlap(this.destructor.destructor, this.submarino2.submarino, () => {
-        console.log('entro al overlap de destructor con submarino');
-        this.choque(this.destructor, this.submarino2, self);
+        if (this.submarino2.depth != 3) {
+          console.log('entro al overlap de destructor con submarino');
+          this.choque(this.destructor, this.submarino2, self);
+        }
       });
       //Colision destructor con cannon de submarino
       this.physics.add.overlap(this.destructor.destructor, this.submarino2.cannons, () => {
@@ -645,8 +649,10 @@ class Game extends Phaser.Scene {
       });
       //Colision cannon destructor con submarino 
       this.physics.add.overlap(this.destructor.cannons, this.submarino2.submarino, () => {
-        console.log('entro al overlap de canon con submarino');
-        this.collisionShipCannon(this.submarino2, this.destructor.cannons, self);
+        if (this.submarino2.depth != 3) {
+          console.log('entro al overlap de canon con submarino');
+          this.collisionShipCannon(this.submarino2, this.destructor.cannons, self);
+        }
       });
       //Colision destructor con torpedo submarino 
       this.physics.add.overlap(this.destructor.destructor, this.submarino2.torpedos, () => {
@@ -667,13 +673,17 @@ class Game extends Phaser.Scene {
     } else {
       //Colision entre submarino y destructor
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.destructor, () => {
-        console.log('entro al overlap de submarino con destructor');
-        this.choque(this.submarino, this.destructor2, self);
+        if (this.submarino.depth != 3) {
+          console.log('entro al overlap de submarino con destructor');
+          this.choque(this.submarino, this.destructor2, self);
+        }
       });
       //Colision submarino con cannon de destructor
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.cannons, () => {
-        console.log('entro al overlap de cannon con destructor');
-        this.collisionShipCannon(this.submarino, this.destructor2.cannons, self);
+        if (this.submarino.depth != 3) {
+          console.log('entro al overlap de cannon con destructor');
+          this.collisionShipCannon(this.submarino, this.destructor2.cannons, self);
+        }
       });
       //Colision submarino con carga de profunidad de destructor
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharges, () => {
@@ -881,72 +891,30 @@ class Game extends Phaser.Scene {
     this.scene.pause('Game');
   }
 
-  setGameTimeOut(difficulty, socket_id, self) {
-    let time = 300000;
-    switch (difficulty) {
-      case difficulty == 2:
-        time = 240000;
+  setGameTimeOut(socket) {
+    console.log('por setear el tiempo' + this.gameDifficulty);
+    var time;
+    switch (this.gameDifficulty) {
+      case this.gameDifficulty == 1:
+        time = 60000;
         break;
-      case difficulty == 3:
+      case this.gameDifficulty == 2:
         time = 180000;
+      case this.gameDifficulty == 3:
+          time = 180000;
         break;
     }
-    this.totalTime = time;
-    this.mostrar_reloj = true;
-    this.tiempo();
-    this.socket.emit('showTime', socket_id);
+    setTimeout(function () {
+      console.log('en set timeout.- valor de tiempo' + time);  
+      socket.emit('finishGame', socket.id);
+      console.log('despues del emit de finishgame');  
+      this.add.image(500, 600, "game_over");
+      console.log('despues de la imagen');  
+      this.scene.pause('Game');
+    }, time);
   }
 
-  //Timer de partida, empieza en 5 minutos y finaliza en 0
-  clockTimeOut(socket) {
-    setTimeout(function () {
-      console.log('inicia la partida clock');
-      socket.emit('emit_clock', {
-        minutes: 5
-      });
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
-    }, 0);
-    setTimeout(function () {
-      console.log('4 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 4 minutos");
-
-      socket.emit('emit_clock', {
-        minutes: 4
-      });
-    }, 60000);
-    setTimeout(function () {
-      console.log('3 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 3 minutos");
-
-      socket.emit('emit_clock', {
-        minutes: 3
-      });
-    }, 120000);
-    setTimeout(function () {
-      console.log('2 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 2 minutos");
-
-      socket.emit('emit_clock', {
-        minutes: 2
-      });
-    }, 180000);
-    setTimeout(function () {
-      console.log('1 minutos restantes');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Resta 1 minuto");
-
-      socket.emit('emit_clock', {
-        minutes: 1
-      });
-    }, 240000);
-    setTimeout(function () {
-      console.log('fin de partida, empate');
-      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "FIN DE PARTIDA");
-
-      socket.emit('emit_clock', {
-        minutes: 0
-      });
-    }, 300000);
-  }
+  
 
   GameTimeOut(self, socket_id) {
     this.socket.emit('finishGame', socket_id);
@@ -1035,6 +1003,22 @@ class Game extends Phaser.Scene {
         socketId: this.socket.id
       });
       this.bg_sound.play();
+    }
+  }
+
+  freightersWins() {
+    if (this.currentPlayers.children.entries[0].texture.key === 'submarino') {
+      console.log('gana el destructor');
+      this.add.image(this.submarino.submarino.x, this.submarino.submarino.y, "defeat");
+      this.socket.emit('carguero_wins', {
+        socketId: this.socket.id,
+      });
+    } else {
+      console.log('gana el destructor');
+      this.add.image(this.destructor.destructor.x, this.destructor.destructor.y, "victory");
+      this.socket.emit('carguero_wins', {
+        socketId: this.socket.id,
+      });
     }
   }
 }
