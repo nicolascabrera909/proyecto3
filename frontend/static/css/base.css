@@ -21,3 +21,9 @@ article #timer{
     background-color: aliceblue;
     border-radius: 2px;
 }
+
+.msg-dificultad {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}

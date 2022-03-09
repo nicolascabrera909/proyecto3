@@ -175,6 +175,10 @@ class Queries {
         const query='select g.id,p.name name1 ,p2.name name2 from game g inner join player  p on g.id=p.game_id inner join player  p2 on g.id=p2.game_id  where p.id >p2.id;';
         return query;
     }
+    dificultad() {
+        const query='SELECT multiTime FROM difficulty WHERE id=?;';
+        return query;
+    } 
 }
 
 module.exports = Queries;

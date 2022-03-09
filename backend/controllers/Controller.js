@@ -55,6 +55,13 @@ exports.partida = async function (req, res, next) {
     // res.render('http://localhost:5500/credits.html', { jsonGame } );
 };
 
+exports.dificultad = async function (req, res, next) {
+    const daog = new daogame();
+    const result = await daog.dificultad(req.param("dificultad"));
+    console.log(result);
+    res.send(result);
+};
+
 exports.ready = async function (req, res, next) {
     res.send(true);
 };
