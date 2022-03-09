@@ -886,7 +886,7 @@ class Game extends Phaser.Scene {
     let time;
     switch (difficulty) {
       case difficulty == 1:
-        time = 10000;
+        time = 60000;
         break;
       case difficulty == 2:
         time = 180000;
@@ -895,10 +895,10 @@ class Game extends Phaser.Scene {
         break;
     }
     setTimeout(function () {
-      console.log('en set timeout');  
+      console.log('en set timeout.- valor de tiempo' + time);  
       self.socket.emit('finishGame', socket_id);
       console.log('despues del emit de finishgame');  
-      self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
+      self.add.image(500, 600, "game_over");
       console.log('despues de la imagen');  
       self.scene.pause('Game');
     }, time);
