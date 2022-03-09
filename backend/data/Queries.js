@@ -140,12 +140,12 @@ class Queries {
         return query;
     }
 
-    updatetMap(){
+    updateMap(){
         const query='UPDATE mapa SET heigth=?, width=? WHERE game_id=?;';
         return query;
     }
     
-    updatetShip(){
+    updateShip(){
         const query='UPDATE ship SET positionX=?,positionY=?,rotation=?,boatLife=? WHERE id=?;';
         return query;
     }

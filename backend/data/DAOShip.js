@@ -24,7 +24,7 @@ class DAOShip {
         const consultas = new queries();
         const result = await pool.query(consultas.findShip(), [playerId]);
         if (result != null) {
-            result[0];
+            return result;
         }
         else
             return ('Error');

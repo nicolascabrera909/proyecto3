@@ -258,7 +258,7 @@ class Games {
             let gameId= await this.findPartidaPlayers(listGames, name1, name2);
             //actualizo mapa [gameId, map.heigth,map.width]
             await this.daoMap.update(gameId, this.map)
-            players=await this.daoPlayer.find(gameId)
+            players=await this.daoPlayer.find(gameId.id)
             for (let i = 0; i < players.length; i++) {
                 if(this.game.playerList[0].name==players[i].name){
                     currentPlayer=this.game.playerList[0];
@@ -268,7 +268,8 @@ class Games {
                 }
                 ships=await this.daoShip.find(players[i].id)
                 for (let j = 0; j < ships.length; j++) {
-                    await this.daoShip.update(ships[j].id, currentPlayer.boatList[j])
+                    //problemas con update
+                    let resultado= await this.daoShip.update(ships[j].id, currentPlayer.boatList[j]);
                     if(currentPlayer.boatList[j].type=='submarino' || currentPlayer.boatList[j].type=='destructor'){
                         if(currentPlayer.boatList[j].type=='submarino'){
                             submarineId=await this.daoSubmarine.find(ships[j].id)
