@@ -387,7 +387,9 @@ class Game extends Phaser.Scene {
     this.socket.on('other_emit_clock', (info) => {
       switch (info.minutes) {
         case 5:
-          console.log('inicio de partida clock');
+          setTimeout(function () {
+            this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
+          }, 2000);
           break;
         case 4:
           console.log('4 minutos restantes');
@@ -964,6 +966,11 @@ class Game extends Phaser.Scene {
       socket.emit('emit_clock', {
         minutes: 5
       });
+      setTimeout(function () {
+        this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
+      }, 2000);
+
+      
     }, 0);
     setTimeout(function () {
       console.log('4 minutos restantes');
