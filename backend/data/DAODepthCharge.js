@@ -20,7 +20,7 @@ class DAODepthCharge {
         const consultas = new queries();
         const result = await pool.query(consultas.findDepthCharge(),[idDestructor]);
         if (result != null) {
-            result[0];
+           return result[0];
         }
         else
             return ('Error');

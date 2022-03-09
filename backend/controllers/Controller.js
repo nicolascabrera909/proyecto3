@@ -32,7 +32,7 @@ exports.guardar = async function (req, res, next) {
 
 exports.cargar = async function (req, res, next) {
     const gamePlay = new Games();
-    const result= await gamePlay.LoadGame('asdasdasdasdasd',27);
+    const result= await gamePlay.LoadGame(req.param("gameId") );
     console.log(result);
     res.send(result);
 };

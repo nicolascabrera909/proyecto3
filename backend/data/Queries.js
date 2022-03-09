@@ -119,7 +119,7 @@ class Queries {
         return query;
     }
     findCannon(){
-        const query='select id,ship_id,c_cantidad from cannon where ship_id =?';
+        const query='select id,c_cantidad from cannon where ship_id =?';
         return query;
     }
     
@@ -133,7 +133,7 @@ class Queries {
         return query;
     }
     findDepthCharge(){
-        const query='select id,dp_time,dp_depth,dp_power,dp_distance from depth_charge where destructor_id =?';
+        const query=' select id,dp_time,dp_depth from depth_charge where destructor_id = ?';
         return query;
     }
    

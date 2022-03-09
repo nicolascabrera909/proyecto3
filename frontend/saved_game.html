@@ -59,7 +59,7 @@
             let url = 'http://localhost:3000/cargar';
             $.ajax({
                 url: url,
-                type: 'POST',
+                type: 'GET',
                 data: "gameId=" + selected,
                 dataType: 'json',
                 success: function (data, status, xhr) {

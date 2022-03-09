@@ -88,15 +88,13 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
 
-    //version original
-    /*  socket.emit('currentPlayers', players);
-      socket.broadcast.emit('newPlayer', players[socket.id]);*/
+ 
   });
 
 
   socket.on('loadGame', function (socketId,idGame) {
 
-    let listo= gamePlay.LoadGame(socketId,idGame);
+   /* let listo= gamePlay.LoadGame(socketId,idGame);
     //creo el juego con su jugador y barcos
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
@@ -106,7 +104,7 @@ io.on('connection', function (socket) {
       cantidad++;
     }else{
       pleyerListIni=gamePlay.game.playerList;
-    }*/
+    }
     //actualizo el socket del jugador
     gamePlay.game.playerList[cantidad].socketId = soketId;
     pleyerListIni.push(gamePlay.game.playerList[cantidad]);
@@ -118,10 +116,8 @@ io.on('connection', function (socket) {
     } else {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
-    cantidadLoadPlayers++;
-    //version original
-    /*  socket.emit('currentPlayers', players);
-      socket.broadcast.emit('newPlayer', players[socket.id]);*/
+    cantidadLoadPlayers++;*/
+ 
   });
 
   socket.on('disconnect', function () {
