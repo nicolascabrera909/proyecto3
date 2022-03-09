@@ -88,9 +88,7 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
 
-    //version original
-    /*  socket.emit('currentPlayers', players);
-      socket.broadcast.emit('newPlayer', players[socket.id]);*/
+ 
   });
 
 
@@ -106,7 +104,7 @@ io.on('connection', function (socket) {
       cantidad++;
     }else{
       pleyerListIni=gamePlay.game.playerList;
-    }*/
+    }
     //actualizo el socket del jugador
     gamePlay.game.playerList[cantidad].socketId = soketId;
     pleyerListIni.push(gamePlay.game.playerList[cantidad]);
@@ -118,10 +116,8 @@ io.on('connection', function (socket) {
     } else {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
-    cantidadLoadPlayers++;
-    //version original
-    /*  socket.emit('currentPlayers', players);
-      socket.broadcast.emit('newPlayer', players[socket.id]);*/
+    cantidadLoadPlayers++;*/
+ 
   });
 
   socket.on('disconnect', function () {
