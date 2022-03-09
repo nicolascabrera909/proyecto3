@@ -735,21 +735,39 @@ class Game extends Phaser.Scene {
   defineCollisionsFreightersSubmarino() {
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0], () => {
       console.log('entro al overlap de submarino con carguero 0');
+      if (this.otherPlayersCargueros.children.entries[0].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[1], () => {
       console.log('entro al overlap de submarino con carguero 1');
+      if (this.otherPlayersCargueros.children.entries[1].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[1]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[2], () => {
       console.log('entro al overlap de submarino con carguero 2');
+      if (this.otherPlayersCargueros.children.entries[2].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[2]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[3], () => {
       console.log('entro al overlap de submarino con carguero 3');
+      if (this.otherPlayersCargueros.children.entries[3].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[3]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[4], () => {
       console.log('entro al overlap de submarino con carguero 4');
+      if (this.otherPlayersCargueros.children.entries[4].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[4]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[5], () => {
       console.log('entro al overlap de submarino con carguero 5');
+      if (this.otherPlayersCargueros.children.entries[5].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[5]);
+      }
     });
 
     //Collision submarino torpedo con Cargueros

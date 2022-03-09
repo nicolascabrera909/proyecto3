@@ -9,6 +9,21 @@ class Carguero extends Phaser.GameObjects.Sprite {
     this.coodOriginalX=0;
     this.coodOriginalY=0;
     this.idCarguero=id;
+    this.available = true;
+  }
+
+  destroy(socket, self) {
+    this.available = false;
+    this.carguero.setVisible(false);
+    this.carguero.is_destroyed = true;
+    self.anims.create(self.explosionConfig);
+    self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
+    self.ship_collision_sound.play();
+    if (socket) {
+      socket.emit('destroy_carguero', {
+        socketId: socket.id
+      });
+    }
   }
 
   create(boat) {
