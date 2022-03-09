@@ -13,6 +13,7 @@ var gamePlay = new Games();
 let cantidad = 0;
 let pleyerListIni = [];
 let cargada=false;
+let contador=0;
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');
@@ -36,7 +37,7 @@ console.log("Socket levantado");
 
 
 ///variables carga partida
-cargada=gamePlay.loadingRedy();
+cargada=false;
 
 
 
@@ -61,8 +62,11 @@ let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:
 /////////////////////////////////////////////////////// SOCKET ///////////////////////////////////////////////////////
 io.on('connection', function (socket) {
   console.log('Player [' + socket.id + '] connected')
- 
-   
+ if(contador==0){
+  cargada=gamePlay.loadingRedy(); 
+  contador++;
+ }
+  
   socket.emit('inicioInstancia', gamePlay,cargada);
 
   //Partida nueva
@@ -107,7 +111,7 @@ io.on('connection', function (socket) {
     } else {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
-    cantidadLoadPlayers++;
+    //cantidad++;
 
   });
 
