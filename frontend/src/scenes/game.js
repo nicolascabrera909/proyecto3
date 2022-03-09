@@ -1078,18 +1078,7 @@ class Game extends Phaser.Scene {
           socketId: this.socket.id
         });
         this.bg_sound.play();
-      } else if (this.destructor2.destructor.is_destroyed && this.submarino.submarino.is_destroyed) {
-        console.log('empate');
-        this.add.image(this.submarino.submarino.x, this.submarino.submarino.y, "empate");
-        var coordX = this.submarino.submarino.x;
-        var coordY = this.submarino.submarino.y;
-        this.socket.emit('empate', {
-          socketId: this.socket.id,
-          x: coordX,
-          y: coordY
-        });
-        this.bg_sound.play();
-      }
+      } 
     } else if (this.submarino2.submarino.is_destroyed && this.destructor.destructor.is_destroyed) {
       console.log('gana el destructor');
       this.add.image(this.destructor.destructor.x, this.destructor.destructor.y, "victory");
@@ -1097,18 +1086,7 @@ class Game extends Phaser.Scene {
         socketId: this.socket.id
       });
       this.bg_sound.play();
-    } else if (this.destructor.destructor.is_destroyed && this.submarino2.submarino.is_destroyed) {
-      console.log('empate');
-      this.add.image(this.destructor.destructor.x, this.destructor.destructor.y, "empate");
-      var coordX = this.submarino2.submarino.x;
-      var coordY = this.submarino2.submarino.y;
-      this.socket.emit('empate', {
-        socketId: this.socket.id,
-        x: coordX,
-        y: coordY
-      });
-      this.bg_sound.play();
-    }
+    } 
   }
 }
 
