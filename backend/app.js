@@ -247,6 +247,11 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_destructor_wins', info);
   });
 
+  socket.on('carguero_wins', function (info) {
+    console.log('Juego terminado');
+    socket.broadcast.emit('other_carguero_wins', info);
+  });
+
   socket.on('empate', function (info) {
     console.log('Juego terminado en empate');
     socket.broadcast.emit('other_empate', info);
