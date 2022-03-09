@@ -71,7 +71,8 @@ class DAOGame {
 
     async dificultad(dificultad) {
         const consultas = new Queries();
-        var result = await pool.query(consultas.dificultad(dificultad));
+        const result = await pool.query(consultas.dificultad(),[dificultad]);
+
         if (result != null) {
             return result;
         }

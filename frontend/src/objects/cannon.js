@@ -27,7 +27,7 @@ class Cannon extends Phaser.Physics.Arcade.Sprite{
         let selfCannon = this;
         setTimeout(function (){
             selfCannon.destroy();
-        }, 5000);
+        }, 1500);
     }
 }
 

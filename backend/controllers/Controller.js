@@ -69,9 +69,10 @@ exports.partida = async function (req, res, next) {
 
 exports.dificultad = async function (req, res, next) {
     const daog = new daogame();
-    const result = await daog.dificultad(req.param("dificultad"));
-    console.log(result);
-    res.send(result);
+    const result = await daog.dificultad(req.query.dificultad);
+    const value=JSON.stringify(result[0].multiTime);
+    console.log(value);
+    res.send(value);
 };
 
 exports.ready = async function (req, res, next) {

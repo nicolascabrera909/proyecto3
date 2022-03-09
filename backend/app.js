@@ -232,10 +232,10 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('finishedGame', socket_id);
   });
 
-  socket.on('showTime', function (socket_id) {
-    console.log('mostrat reloj');
-    socket.broadcast.emit('showedTime', socket_id);
-  });
+  // socket.on('showTime', function (socket_id, time) {
+  //   console.log('mostrat reloj');
+  //   socket.broadcast.emit('showedTime', socket_id, time);
+  // });
 
   socket.on('emit_clock', function (info) {
     socket.broadcast.emit('other_emit_clock', info)
@@ -251,6 +251,11 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_destructor_wins', info);
   });
 
+  socket.on('carguero_wins', function (info) {
+    console.log('Juego terminado');
+    socket.broadcast.emit('other_carguero_wins', info);
+  });
+
   socket.on('empate', function (info) {
     console.log('Juego terminado en empate');
     socket.broadcast.emit('other_empate', info);
@@ -262,9 +267,9 @@ io.on('connection', function (socket) {
 app.use(require('./routes/index'));
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
+// app.use(function (req, res, next) {
+//   next(createError(404));
+// });
 
 // 404
 app.use(function (req, res, next) {

@@ -33,7 +33,10 @@ class Carguero extends Phaser.GameObjects.Sprite {
   moveCarguero(socket){
     var velocidad = 5
     this.carguero.setVelocity(velocidad, 0);
-    if( !(this.carguero.x== this.coodOriginalX && this.carguero.y==this.coodOriginalX  )){
+    if( !(this.carguero.x== this.coodOriginalX && this.carguero.y==this.coodOriginalX && this.carguero.x)){
+      if (this.carguero.x > 3160){
+        this.carguero.setVelocity(0, 0);
+      }
       socket.emit('playerMovementCarguero', { 
         x: this.carguero.x, 
         y: this.carguero.y 
