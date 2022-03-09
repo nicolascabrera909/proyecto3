@@ -4,6 +4,7 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, 'depth_charge');
     }
 
+    //Dispara la depthCharge
     fire (x, y, self) {
         this.body.reset(x, y);
         this.setActive(true);
@@ -14,11 +15,12 @@ class DepthCharge extends Phaser.Physics.Arcade.Sprite {
         this.disable();
     }
 
+
     disable() {
         let selfDepthCharge = this;            
         setTimeout(function () {
             selfDepthCharge.destroy();
-        }, 150000);
+        }, 15000);
     }
 }
 

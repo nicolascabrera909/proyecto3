@@ -4,6 +4,7 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
         super(scene, x, y, 'torpedo');
     }
 
+    //Dispara el torpedo en el angulo recibido por parametro
     fire (x, y, self, angle) {
         this.body.reset(x, y);
         this.setActive(true);
@@ -14,6 +15,7 @@ class Torpedo extends Phaser.Physics.Arcade.Sprite{
         this.disable();
     }
 
+    //Destruye al cannon al superar el tiempo definido si no hubo una colision 
     disable() {
         let selfTorpedo = this;
         setTimeout(function (){

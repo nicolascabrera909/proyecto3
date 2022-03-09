@@ -1,8 +1,6 @@
 /////////////////////////////////////////////////////// CLASES ///////////////////////////////////////////////////////
 const Games = require('./services/Games.js');
 
-
-
 /////////////////////////////////////////////////////// IMPORTS ///////////////////////////////////////////////////////
 const express = require('express')
 const app = express()
@@ -10,16 +8,12 @@ const port = 3000
 const cors = require('cors');
 const { database } = require('./config');
 
-
-
 /////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////
 var gamePlay = new Games();
 let cantidad = 0;
 let pleyerListIni = [];
 
-
-/////////////////////////////////////////////////////// SOCKET CONFIG ////////////////////////////////////////////////
-console.log("Creo y levanto el socket");
+/////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');
 const socketIO = require('socket.io');
 const { type } = require('os');
@@ -36,6 +30,7 @@ const io = socketIO(server, {
     maxAge: 86400
   }
 });
+console.log("Socket levantado");
 
 ///////////////////////////////////////////////////////  CORS  ///////////////////////////////////////////////////////
 app.use(
@@ -53,13 +48,9 @@ app.use(
 );
 let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:5501', 'http://localhost:3000', 'http://127.0.0.1', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501', 'http://127.0.0.1:3000', 'http://proyecto.sysmemories.com', 'http://proyecto.sysmemories.com:5500', 'http://proyecto.sysmemories.com:5501', 'http://proyecto.sysmemories.com:3000'];
 
-
-
-
-
 /////////////////////////////////////////////////////// SOCKET ///////////////////////////////////////////////////////
 io.on('connection', function (socket) {
-  console.log('player [' + socket.id + '] connected')
+  console.log('Player [' + socket.id + '] connected')
   /* players[socket.id] = {
    rotation: 0,
      x: 30,
@@ -69,28 +60,20 @@ io.on('connection', function (socket) {
      playerId: socket.id
    }
    cantidad++;*/
-
+   
   socket.emit('inicioInstancia', gamePlay);
 
-
-  //evento de una partida nueva
+  //Partida nueva
   socket.on('createGame', function (name, boatTeam, difficulty) {
-
-    //creo el juego con su jugador y barcos
+    //Creo el juego con su jugador y barcos
     gamePlay.createGame(socket.id, name, boatTeam, difficulty);
-    console.log('Emito currentPlayers');
-    console.log('Emito broadcast newPlayer');
-
     socket.emit('currentPlayers', gamePlay.game.playerList, gamePlay);
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
     } else {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
-
-
   });
-
 
   socket.on('loadGame', function (soketId, idGame) {
 
@@ -121,7 +104,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function () {
-    console.log('player [' + socket.id + '] disconnected')
+    console.log('Player [' + socket.id + '] disconnected')
     gamePlay.deletePlayer(socket.id)
     io.emit('playerDisconnected', socket.id)
   })

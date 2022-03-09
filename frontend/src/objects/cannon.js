@@ -4,6 +4,7 @@ class Cannon extends Phaser.Physics.Arcade.Sprite{
         super(scene, x, y, 'cannon');
     }
 
+    //Dispara el cannon en el angulo recibido por parametro
     fire (x, y, self, target, shipType, angle) {
         this.body.reset(x, y);
         this.setActive(true);
@@ -21,6 +22,7 @@ class Cannon extends Phaser.Physics.Arcade.Sprite{
         this.disable();
     }
 
+    //Destruye al cannon al superar el tiempo definido si no hubo una colision 
     disable(self) {
         let selfCannon = this;
         setTimeout(function (){

@@ -20,10 +20,6 @@ const DAOTorpedo = require('../data/DAOTorpedo.js')
 const DAODepthCharge = require('../data/DAODepthCharge.js')
 const DAODifficulty = require('../data/DAODifficulty.js')
 const DAOFreighters = require('../data/DAOFreighters.js')
-
-
-
-
 //const { prependListener } = require('../data/Database.js')
 
 class Games {
@@ -78,10 +74,8 @@ class Games {
 
     createGame(socketId, name, boatTeam, difficulty) {
         if (boatTeam == 'submarino') {
-            console.log("*************submarino*************");
             let boatList = this.logicaSubmarino(this.map);
             var player = new Player(name, socketId, boatList, boatTeam);
-
             //valido si hay que crear la partida o agregar a una existente
             if (this.game == null) {
                 this.partidaNueva(player, difficulty)
@@ -89,14 +83,13 @@ class Games {
                 this.partidaExistente(player)
             }
         } else {
-            console.log("++++++++++DESTRUCTOR++++++++++");
             var coordenadaAux = {
                 "x": 0,
                 "y": 0
             };
             var aux = new Freighters(coordenadaAux);
-            //falta crear los cargueros y agregarlos a la lista de botes
             var listaCoordendas = aux.coordenadasCargueros(this.map.width, this.map.height);
+            //Creo los cargueros
             var FreightersA = new Freighters(listaCoordendas[0], 1);
             var FreightersB = new Freighters(listaCoordendas[1], 2);
             var FreightersC = new Freighters(listaCoordendas[2], 3);
@@ -107,10 +100,10 @@ class Games {
             var theDestructor = new Destructor(difficulty);
 
             theDestructor.coordenadas(listaCoordendas);
-            //creo la lista de botes y agrego al al destructor y los cargueros
+            //Creo la lista de botes y agrego al destructor y los cargueros
             let boatList2 = [theDestructor, FreightersA, FreightersB, FreightersC, FreightersD, FreightersE, FreightersF];
             let player2 = new Player(name, socketId, boatList2, boatTeam);
-            console.log("termine de crear al jugador, valido si existe partida");
+            //Termino de crear al jugador, valido si existe partida
             if (this.game == null) {
                 this.partidaNueva(player2, difficulty);
             } else {
@@ -120,12 +113,10 @@ class Games {
     }
 
     deletePlayer(socketId) {
-        //busco el indice del arreglo del
         var i = 0;
         var encontre = false;
         var pos = 0;
         if (!(this.game == null)) {
-
             while (i < this.game.playerList.length && !encontre) {
                 if (this.game.playerList[i].socketId == socketId) {
                     encontre = true;
@@ -136,7 +127,7 @@ class Games {
             this.game.playerList.splice(pos, 1);
         }
     }
-    //exite el game 
+    
     async LoadGame(gameId) {
 
 

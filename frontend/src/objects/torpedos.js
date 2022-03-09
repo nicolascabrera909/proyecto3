@@ -20,7 +20,6 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
         let bullet = this.getFirstDead(false);
         if (this.armyAvailable === true){
             if (bullet) {
-                //this.disable(this);
                 bullet.fire(x, y, this, angle);
                 this.armyAvailable = false;
                 this.resetArmy();
@@ -46,7 +45,6 @@ class Torpedos extends Phaser.Physics.Arcade.Group {
 
     destroy(socket, self) {
         let bullet = this.last.pop();
-        console.log(this.last);
         bullet.destroy();
         if (socket) {
             socket.emit('destroy_torpedo', {
