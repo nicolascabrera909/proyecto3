@@ -101,12 +101,12 @@ io.on('connection', function (socket) {
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
     //Envio jugador 1
-    if(cantidad==0){
+    /*if(cantidad==0){
       pleyerListIni.push( gamePlay.game.playerList[cantidad]);
       cantidad++;
     }else{
       pleyerListIni=gamePlay.game.playerList;
-    }
+    }*/
     //actualizo el socket del jugador
     gamePlay.game.playerList[cantidad].socketId = soketId;
     pleyerListIni.push(gamePlay.game.playerList[cantidad]);

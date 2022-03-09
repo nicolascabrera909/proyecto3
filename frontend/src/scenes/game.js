@@ -85,7 +85,7 @@ class Game extends Phaser.Scene {
       this.games = backGame;
       console.log('Emito createGame');
       if (this.idGame>0) {
-        this.socket.emit('loadGame',this.socket.id,this.idGame);
+       // this.socket.emit('loadGame',this.socket.id,this.idGame);
       } else {
         this.socket.emit('createGame', username, boatType, difficulty);
       }

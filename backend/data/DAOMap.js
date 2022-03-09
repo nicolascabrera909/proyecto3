@@ -21,7 +21,7 @@ class DAOMap {
         const consultas = new queries();
         const result = await pool.query(consultas.findMap(),[gameId]);
         if (result != null) {
-            result[0];
+            return result[0];
         }
         else
             return ('Error');
