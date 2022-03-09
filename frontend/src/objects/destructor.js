@@ -88,7 +88,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
         this.destructor.setVelocityX(300 * velX)
         this.destructor.setVelocityY(300 * velY)
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
-        this.cannons.fireCannons(this.destructor.x, this.destructor.y, socket, target, 'destructor');
+        var angle = Phaser.Math.DegToRad(this.destructor.body.rotation);
+        this.cannons.fireCannons(this.destructor.x, this.destructor.y, socket, target, 'destructor', angle);
       } else if (Phaser.Input.Keyboard.JustDown(this.keyENTER)) {
         this.depthCharges.fireDepthCharge(this.destructor.x, this.destructor.y, socket);
       } else {

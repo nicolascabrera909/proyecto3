@@ -171,7 +171,8 @@ class Submarino extends Phaser.GameObjects.Sprite {
           }
       } else if (Phaser.Input.Keyboard.JustDown(this.keySPACEBAR)) {
         if (this.depth === 1) {
-          this.cannons.fireCannons(this.submarino.x, this.submarino.y, socket, target, 'submarino');
+          var angle = Phaser.Math.DegToRad(this.submarino.body.rotation);
+          this.cannons.fireCannons(this.submarino.x, this.submarino.y, socket, target, 'submarino', angle);
         } else {
           console.log('Cannon disponible solo en superficie.');
         }
