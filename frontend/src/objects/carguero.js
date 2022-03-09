@@ -23,14 +23,10 @@ class Carguero extends Phaser.GameObjects.Sprite {
   showCargueros(self, boat) {
     const x = boat.positionX;
     const y = boat.positionY;
- 
-    //ubico al carguero
     this.carguero = this.scene.physics.add.sprite(x, y, 'carguero');
     this.carguero.setDisplaySize(80, 15);
     this.carguero.setSize(140, 20);
     this.carguero.setCollideWorldBounds(true);
-    //this.carguero.setImmovable(true);
-  
     return this.carguero;
   }
 
@@ -48,6 +44,5 @@ class Carguero extends Phaser.GameObjects.Sprite {
     }
   }
 }
-
 
 export default Carguero;

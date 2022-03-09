@@ -37,6 +37,7 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
         }
     }
 
+    //Mientras pasa el tiempo la carga de profunidad cambia su profundidad
     disable() {
         let selfDepthCharge = this;
         setTimeout(function () {
@@ -45,12 +46,11 @@ class DepthCharges extends Phaser.Physics.Arcade.Group {
         setTimeout(function () {
             selfDepthCharge.setAlpha(0.4, 0.4, 0, 0);
             selfDepthCharge.depth = 2;
-        }, 12000);
+        }, 6000);
     }
 
     destroy(socket, self) {
         let bullet = this.last.pop();
-        console.log(this.last);
         bullet.destroy();
         if (socket) {
             socket.emit('destroy_depthCharge', {

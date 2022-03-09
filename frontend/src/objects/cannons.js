@@ -1,5 +1,4 @@
 import Cannon from "./cannon.js"
-
 class Cannons extends Phaser.Physics.Arcade.Group {
 
     constructor(scene) {
@@ -20,7 +19,6 @@ class Cannons extends Phaser.Physics.Arcade.Group {
         let bullet = this.getFirstDead(false);
         if (this.armyAvailable === true) {
             if (bullet) {
-                //this.disable(this);
                 bullet.fire(x, y, this, target, shipType, angle);
                 this.armyAvailable = false;
                 this.resetArmy();
@@ -47,10 +45,7 @@ class Cannons extends Phaser.Physics.Arcade.Group {
 
     destroy(socket, self) {
         let bullet = this.last.pop();
-        console.log(this.last);
         bullet.destroy();
-        // self.anims.create(self.explosionConfig);
-        // self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
         if (socket) {
             socket.emit('destroy_cannons', {
                 socketId: socket.id

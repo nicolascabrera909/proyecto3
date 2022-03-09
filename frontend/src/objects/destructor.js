@@ -2,7 +2,6 @@ import DepthCharges from "./depth_charges.js";
 import Cannons from "./cannons.js";
 
 class Destructor extends Phaser.GameObjects.Sprite {
-
   constructor(scene, x, y, type) {
     super(scene, x, y, type);
     scene.add.existing(this);
@@ -32,7 +31,6 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.coodOriginalY = randomY;
     this.rotationOriginal = 0;
     if (cursor) {
-      console.log("Termino crear destructor");
       self.cameras.main.setBounds(0, 0, 3200, 1120);
       self.cameras.main.startFollow(this.destructor, true);
       self.cameras.main.roundPixels = true;
@@ -45,10 +43,8 @@ class Destructor extends Phaser.GameObjects.Sprite {
 
       this.keySPACEBAR = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       this.keyENTER = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-
     }
     this.destructor.setImmovable(true);
-
     return this.destructor;
   }
 
@@ -61,7 +57,6 @@ class Destructor extends Phaser.GameObjects.Sprite {
     this.destructor.is_destroyed = true;
     self.anims.create(self.explosionConfig);
     self.add.sprite(this.destructor.x, this.destructor.y, 'explosion').play('explodeAnimation');
-    console.log("en clase destructor, luego del destroy");
     self.ship_collision_sound.play();
     if (socket) {
       socket.emit('destroy_destructor', {
@@ -97,17 +92,6 @@ class Destructor extends Phaser.GameObjects.Sprite {
         this.destructor.setVelocityY(0)
         this.destructor.setVelocityX(0)
       }
-      /*var x = this.destructor.x
-      var y = this.destructor.y
-      var r = this.destructor.rotation*/
-      /*if (this.destructor.oldPosition && (x !== this.destructor.oldPosition.x || y !== this.destructor.oldPosition.y || r !== this.destructor.oldPosition.rotation)) {
-        socket.emit('playerMovement', { x: this.destructor.x, y: this.destructor.y, rotation: this.destructor.rotation })
-      }
-      this.destructor.oldPosition = {
-        x: this.destructor.x,
-        y: this.destructor.y,
-        rotation: this.destructor.rotation
-      }*/
       if ((this.destructor.coodOriginalX != this.destructor.x &&
         this.destructor.coodOriginalY != this.destructor.y &&
         this.destructor.rotationOriginal != this.destructor.rotation)) {

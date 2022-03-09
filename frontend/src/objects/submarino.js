@@ -65,7 +65,6 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.submarino.is_destroyed = true;
     self.anims.create(self.explosionConfig);
     self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
-    console.log("en clase subamarino, luego del destroy");
     self.ship_collision_sound.play();
     if (socket) {
       socket.emit('destroy_submarino', {
@@ -187,8 +186,6 @@ class Submarino extends Phaser.GameObjects.Sprite {
         this.submarino.setVelocityY(0)
         this.submarino.setVelocityX(0)
       }
-    
-
       if ((this.coodOriginalX != this.submarino.x ||
         this.coodOriginalY != this.submarino.y ||
         this.rotationOriginal != this.submarino.rotation ||
