@@ -21,7 +21,7 @@ class DAOTorpedo {
         const consultas = new queries();
         const result = await pool.query(consultas.findTorpedo() ,[submarineId]);
         if (result != null) {
-            result[0];
+            return result[0];
         }
         else
             return ('Error');

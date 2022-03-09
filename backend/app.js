@@ -222,11 +222,11 @@ io.on('connection', function (socket) {
     console.log('Juego cancelado');
     socket.broadcast.emit('canceledGame', socket_id);
   });
-
-  /*socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
+/*
+  socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
     console.log('Entre a save game');
     gamePlay.saveGame(name1, name2, difficulty);
-  });
+  });*/
 
   socket.on('finishGame', function (socket_id) {
     console.log('Juego terminado');
