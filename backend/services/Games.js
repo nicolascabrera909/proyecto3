@@ -137,102 +137,102 @@ class Games {
         }
     }
     //exite el game 
-    async LoadGame(soketId,idGame) {
-        
-        
-            let boatListSubmarino = [];
-            let boatListDestructor = [];
-            let listPLayers = new Players();
-            let destructorPlayer = null;
-            let theGame = new Game();
-
-            //busco el juego
-            let aGame  = await daoGame.findGameID();
-            //busco el mapa 
-            let map = daoMop.find(gameId);          //busco la dificultad
-            let aDifficulty = daoDifficulty.find(aGame.difficulty_id);
-            //obtengo los players del juego
-            let pleyerList = daoPlayer.find(theGame.id);
-            //obtengo ships
-            for (let i = 0; i < pleyerList.length; i++) {
-                let shipList = daoShip.find(pleyerList[i].id);
-                for (let j = 0; j < shipList.length; j++) {
-                    //me fijo de que tipo es 
-                    switch (shipList[j].boatType) {
-                        case 'submarino':
-                            let aSubmarino = daoSubmarine.find(shipList[j].id);
-                            let aTorpedo = daoTorpedo.find(aSubmarino.id);
-                            let aCannon = daoCannon.find(aSubmarino.id);
-                            //hago los new del armamanto
-                            let cannonS = new Cannon(aCannon.c_cantidad);
-                            let torpedoS = new Torpedo(aTorpedo.t_cantidad);
-                            //hago el new de submarino y lo agreo a una lista
-                            let submarine = new Submarine(map);
-                            submarine.torpedo = torpedoS;
-                            submarine.cannon = cannonS;
-                            submarine.positionX = shipList[j].positionX;
-                            submarine.positionY = shipList[j].positionY;
-                            submarine.rotation = shipList[j].rotation;
-                            submarine.boatLife = shipList[j].boatLife;
-                            submarine.visibility = shipList[j].visibility;
-                            submarine.type = shipList[j].boatType;
-                            submarine.depth = aSubmarino.s_depth;
-                            boatListSubmarino.push(boatListSubmarino);
-                            let submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
-                            listPLayers.InsBack(submarinePlayer);
+    async LoadGame(socketId,gameId) {
 
 
-                            break;
-                        case 'destructor':
-                            let bDestructor = daoDestruction.find(shipList[j].id);
-                            let bDepthCharge = daoDepthCharge.find(bDestructor.id);
-                            let bCannon = daoCannon.find(bDestructor.id);
-                            //hago los new del armamanto
-                            let cannonD = new Cannon(aCannon.c_cantidad);
-                            let depthChargeD = new DepthCharge(bDepthCharge.dp_time, bDepthCharge_dp_depth);
-                            //hago el new de destructor y lo agreo a una lista
-                            let destructor = new Destructor();
-                            destructor.carga = depthChargeD;
-                            destructor.cannon = cannonD;
-                            destructor.positionX = shipList[j].positionX;
-                            destructor.positionY = shipList[j].positionY;
-                            destructor.rotation = shipList[j].rotation;
-                            destructor.visibility = shipList[j].visibility;
-                            destructor.type = shipList[j].boatType;
-                            boatListDestructor.push(destructor);
-                            if (destructorPlayer == null) {
-                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
-                            } else {
-                                destructorPlayer.boatList.push(boatListSubmarino);
-                            }
+        let boatListSubmarino = [];
+        let boatListDestructor = [];
+        let listPLayers = new Players();
+        let destructorPlayer = null;
+        let theGame = new Game();
 
-                            break;
-                        case 'carguero':
-                            let cCarguero = daoFreighters.find(shipList[j].id);
-                            //hago el new de destructor y lo agreo a una lista
-                            let freighters = new Freighters();
-                            freighters.positionX = shipList[j].positionX;
-                            freighters.positionY = shipList[j].positionY;
-                            freighters.visibility = shipList[j].visibility;
-                            freighters.type = shipList[j].boatType;
-                            freighters.id = cCarguero.id;
-                            boatListDestructor.push(freighters);
-                            if (destructorPlayer == null) {
-                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
-                            } else {
-                                destructorPlayer.boatList.push(boatListSubmarino);
-                            }
-                            break;
-                    }
+        //busco el juego
+        let aGame = await this.daoGame.findGameId(gameId);
+        //busco el mapa 
+        let map = await this.daoMap.find(gameId);          //busco la dificultad
+        let aDifficulty =await this.daoDifficulty.find(aGame.difficulty_id);
+        //obtengo los players del juego
+        let pleyerList = await this.daoPlayer.find(gameId);
+        //obtengo ships
+        for (let i = 0; i < pleyerList.length; i++) {
+            let shipList = await this.daoShip.find(pleyerList[i].id);
+            for (let j = 0; j < shipList.length; j++) {
+                //me fijo de que tipo es 
+                switch (shipList[j].boatType) {
+                    case 'submarino':
+                        let aSubmarino = await this.daoSubmarine.find(shipList[j].id);
+                        let aTorpedo = await this.daoTorpedo.find(aSubmarino.id);
+                        let aCannon = await this.daoCannon.find(aSubmarino.id);
+                        //hago los new del armamanto
+                        let cannonS = new Cannon(aCannon.c_cantidad);
+                        let torpedoS = new Torpedo(aTorpedo.t_cantidad);
+                        //hago el new de submarino y lo agreo a una lista
+                        let submarine = new Submarine(map);
+                        submarine.torpedo = torpedoS;
+                        submarine.cannon = cannonS;
+                        submarine.positionX = shipList[j].positionX;
+                        submarine.positionY = shipList[j].positionY;
+                        submarine.rotation = shipList[j].rotation;
+                        submarine.boatLife = shipList[j].boatLife;
+                        submarine.visibility = shipList[j].visibility;
+                        submarine.type = shipList[j].boatType;
+                        submarine.depth = aSubmarino.s_depth;
+                        boatListSubmarino.push(boatListSubmarino);
+                        let submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
+                        listPLayers.InsBack(submarinePlayer);
+
+
+                        break;
+                    case 'destructor':
+                        let bDestructor = await this.daoDestruction.find(shipList[j].id);
+                        let bDepthCharge = await this.daoDepthCharge.find(bDestructor.id);
+                        let bCannon = await this.daoCannon.find(bDestructor.id);
+                        //hago los new del armamanto
+                        let cannonD = new Cannon(aCannon.c_cantidad);
+                        let depthChargeD = new DepthCharge(bDepthCharge.dp_time, bDepthCharge_dp_depth);
+                        //hago el new de destructor y lo agreo a una lista
+                        let destructor = new Destructor();
+                        destructor.carga = depthChargeD;
+                        destructor.cannon = cannonD;
+                        destructor.positionX = shipList[j].positionX;
+                        destructor.positionY = shipList[j].positionY;
+                        destructor.rotation = shipList[j].rotation;
+                        destructor.visibility = shipList[j].visibility;
+                        destructor.type = shipList[j].boatType;
+                        boatListDestructor.push(destructor);
+                        if (destructorPlayer == null) {
+                            destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
+                        } else {
+                            destructorPlayer.boatList.push(boatListSubmarino);
+                        }
+
+                        break;
+                    case 'carguero':
+                        let cCarguero = await this.daoFreighters.find(shipList[j].id);
+                        //hago el new de destructor y lo agreo a una lista
+                        let freighters = new Freighters();
+                        freighters.positionX = shipList[j].positionX;
+                        freighters.positionY = shipList[j].positionY;
+                        freighters.visibility = shipList[j].visibility;
+                        freighters.type = shipList[j].boatType;
+                        freighters.id = cCarguero.id;
+                        boatListDestructor.push(freighters);
+                        if (destructorPlayer == null) {
+                            destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
+                        } else {
+                            destructorPlayer.boatList.push(boatListSubmarino);
+                        }
+                        break;
                 }
-                //agrego el jugador de destructor con los cargeros
-                listPLayers.InsBack(destructorPlayer);
             }
-            //completo el game 
-            theGame.idDifficulty = aDifficulty;
-            theGame.playerList = listPLayers;
-            this.game = theGame
-        
+            //agrego el jugador de destructor con los cargeros
+            listPLayers.InsBack(destructorPlayer);
+        }
+        //completo el game 
+        theGame.idDifficulty = aDifficulty;
+        theGame.playerList = listPLayers;
+        this.game = theGame
+        return 'ok';
     }
 
     //guardo la partida

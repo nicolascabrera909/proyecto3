@@ -32,7 +32,7 @@ class Queries {
     }
     
     findGameId(){
-        const query='SELECT id,difficulty_id from game where id=?;';
+        const query='SELECT id, difficulty_id  from game where id=?;';
         return query;
     }
 

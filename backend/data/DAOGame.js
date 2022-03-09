@@ -29,15 +29,19 @@ class DAOGame {
             return ('Error');
         }
     }
-    async findGameID(id) {
-        const consultas = new Queries();
-        var result = await pool.query(consultas.findGameId(id));
-        if (result != null) {
-            return result;
-        }
-        else {
-            console.log('resultado error ');
-            return ('Error');
+    async findGameId(id) {
+        try {
+            const consultas = new Queries();
+            var result = await pool.query(consultas.findGameId(), [id] );
+            if (result != null) {
+                return result[0];
+            }
+            else {
+                console.log('resultado error ');
+                return ('Error');
+            }
+        } catch (err) {
+            console.log('falle  ' + err)
         }
     }
 

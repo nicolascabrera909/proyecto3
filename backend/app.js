@@ -14,7 +14,8 @@ const { database } = require('./config');
 
 /////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////
 var gamePlay = new Games();
-let cantidadLoadPlayers = 0;
+let cantidad = 0;
+let pleyerListIni=[];
 
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ////////////////////////////////////////////////
@@ -79,6 +80,7 @@ io.on('connection', function (socket) {
     gamePlay.createGame(socket.id, name, boatTeam, difficulty);
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
+    
     socket.emit('currentPlayers', gamePlay.game.playerList, gamePlay);
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
@@ -94,15 +96,22 @@ io.on('connection', function (socket) {
 
   socket.on('loadGame', function (soketId, idGame) {
 
+    let listo= gamePlay.LoadGame(socketId,idGame);
     //creo el juego con su jugador y barcos
-    gamePlay.LoadGame(soketId, idGame);
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
     //Envio jugador 1
+    /*if(cantidad==0){
+      pleyerListIni.push( gamePlay.game.playerList[cantidad]);
+      cantidad++;
+    }else{
+      pleyerListIni=gamePlay.game.playerList;
+    }*/
     //actualizo el socket del jugador
-    gamePlay.game.playerList[cantidadLoadPlayers].socketId = soketId;
-    let pleyerListIni = gamePlay.game.playerList[cantidadLoadPlayers];
+    gamePlay.game.playerList[cantidad].socketId = soketId;
+    pleyerListIni.push(gamePlay.game.playerList[cantidad]);
     socket.emit('currentPlayers', pleyerListIni, gamePlay);
+    cantidad++;
 
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
@@ -218,7 +227,7 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('canceledGame', socket_id);
   });
 
-  socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
+  /*socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
     console.log('Entre a save game');
     gamePlay.saveGame(name1, name2, difficulty);
   });
@@ -277,7 +286,6 @@ app.use(function (err, req, res, next) {
 
 //clase prueba
 //gamePlay.saveGame();
-
 
 ///////////////////////////////////////////////////////  LISTEN  ////////////////////////////////////////////////////////
 server.listen(port, () => {
