@@ -94,8 +94,10 @@ class Game extends Phaser.Scene {
       for (let i = 0; i < players.length; i++) {
         if (players[i].socketId === this.socket.id) {
           this.addPlayer(this, players[i])
+          this.start_game.play();
         } else {
           this.addOtherPlayers(this, players[i])
+          this.start_game.play();
         }
       }
       if (players.length == 2) {
