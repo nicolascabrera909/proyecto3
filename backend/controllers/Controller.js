@@ -2,7 +2,7 @@ const express = require('express');
 const daoversion = require('../data/DAOVersion');
 const daogame = require('../data/DAOGame');
 const Games = require('../services/Games.js');
-
+let cargado = 0;
 
 exports.index = function (req, res) {
     res.send('Bienvenidos a UDE Navy');
@@ -24,28 +24,37 @@ exports.lista = async function (req, res, next) {
 
 exports.guardar = async function (req, res, next) {
     const gamePlay = new Games();
-    const result=gamePlay.saveGame();
+    const result = gamePlay.saveGame();
     console.log(result);
     res.send(result);
 };
 
 exports.cargar = async function (req, res, next) {
-    const gamePlay = new Games();
-    const result= await gamePlay.LoadGame(req.param("gameId") );
-   try{
-    gamePlay.loading(true);
-    gamePlay.espera()
-   }catch(err){
-    console.log('error   ' +err);
-   }
-    console.log(result);
-    res.send(result);
+    let result ='error'
+    if (cargado == 0) {
+        cargado++;
+        const gamePlay = new Games();
+        result = await gamePlay.LoadGame(req.query.gameId);
+        gamePlay.loading(true);
+        gamePlay.espera()
+    } else {
+        try {
+            gamePlay.loading(true);
+            gamePlay.espera()
+        } catch (err) {
+            console.log('error   ' + err);
+        }
+
+    }
+    console.log({ result });
+    res.send({ result });
+
 };
 
 exports.cancelar = async function (req, res, next) {
     const gamePlay = new Games();
     // const result=gamePlay.cancelGame();
-    const result='ok';
+    const result = 'ok';
     console.log(result);
     res.send(result);
 };
