@@ -1,8 +1,7 @@
 const express = require('express');
 const daoversion = require('../data/DAOVersion');
 const daogame = require('../data/DAOGame');
-const Games = require('../services/Games');
-
+const Games = require('../services/Games.js');
 
 
 exports.index = function (req, res) {
@@ -33,9 +32,13 @@ exports.guardar = async function (req, res, next) {
 exports.cargar = async function (req, res, next) {
     const gamePlay = new Games();
     const result= await gamePlay.LoadGame(req.param("gameId") );
-    await gamePlay.loading(true);
+   try{
+    gamePlay.loading(true);
+    gamePlay.espera()
+   }catch(err){
+    console.log('error   ' +err);
+   }
     console.log(result);
-    await gamePlay.espera()
     res.send(result);
 };
 
