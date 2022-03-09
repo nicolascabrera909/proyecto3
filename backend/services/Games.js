@@ -38,6 +38,8 @@ class Games {
         this.daoDepthCharge = new DAODepthCharge();
         this.daoDifficulty = new DAODifficulty();
         this.daoFreighters = new DAOFreighters();
+        this.charge = false;
+
 
         //singleton de la clase
         if (typeof Games.instance === "object") {
@@ -127,13 +129,13 @@ class Games {
             this.game.playerList.splice(pos, 1);
         }
     }
-    
+
     async LoadGame(gameId) {
 
 
         let boatListSubmarino = [];
         let boatListDestructor = [];
-        let submarinePlayer=null;
+        let submarinePlayer = null;
         let destructorPlayer = null;
         let theGame = new Game();
 
@@ -166,11 +168,11 @@ class Games {
                         submarine.rotation = shipList[j].rotation;
                         submarine.boatLife = shipList[j].boatLife;
                         submarine.visibility = shipList[j].visibility;
-                        submarine.type = shipList[j].boatType;
-                        submarine.depth = aSubmarino.s_depth;
-                        boatListSubmarino.push(boatListSubmarino);
-                         submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
-                        
+                        //submarine.type = shipList[j].boatType;
+                        //submarine.depth = aSubmarino.s_depth;
+                        boatListSubmarino.push(submarine);
+                        submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
+
 
 
                         break;
@@ -194,9 +196,9 @@ class Games {
                             destructor.visibility = shipList[j].visibility;
                             destructor.type = shipList[j].boatType;
                             boatListDestructor.push(destructor);
-                            if (j+1 == shipList.length) {
+                            if (j + 1 == shipList.length) {
                                 destructorPlayer = new Player(pleyerList[i].name, '0', boatListDestructor, 'destructor');
-                            } 
+                            }
 
                         } else {
                             // 'carguero':
@@ -205,16 +207,16 @@ class Games {
                                 "x": shipList[j].positionX,
                                 "y": shipList[j].positionY
                             };
-                            let freighters = new Freighters(coordenadas,cCarguero.id);//coordenadas,id
+                            let freighters = new Freighters(coordenadas, cCarguero.id);//coordenadas,id
                             //freighters.positionX = shipList[j].positionX;
                             //freighters.positionY = shipList[j].positionY;
                             freighters.visibility = shipList[j].visibility;
                             freighters.type = shipList[j].boatType;
                             //freighters.id = cCarguero.id;
                             boatListDestructor.push(freighters);
-                            if (j+1 == shipList.length) {
+                            if (j + 1 == shipList.length) {
                                 destructorPlayer = new Player(pleyerList[i].name, '0', boatListDestructor, 'destructor');
-                            } 
+                            }
                         }
 
                         break;
@@ -222,16 +224,23 @@ class Games {
                 }
             }
             //agrego el jugador de destructor con los cargeros
-           
+
         }
         /*listPLayers.InsBack(submarinePlayer);
         listPLayers.InsBack(destructorPlayer);*/
-        let lista=[submarinePlayer,destructorPlayer]
-        let listPLayers = new Players(lista);
+        let lista = [submarinePlayer, destructorPlayer]
+        // let listPLayers = new Players();
+        // listPLayers.InsBack(submarinePlayer);
+        // listPLayers.InsBack(destructorPlayer);
         //completo el game 
-        theGame.idDifficulty = aDifficulty;
-        theGame.playerList = listPLayers;
-        this.game = theGame
+        //theGame.idDifficulty = aDifficulty;
+        //theGame.playerList = listPLayers;
+        //theGame.playerList.push(submarinePlayer);
+        //theGame.playerList.push(destructorPlayer);
+        this.game = new Game(lista, aDifficulty)
+        // this.game.idDifficulty = aDifficulty;
+        // this.game.playerList.push(submarinePlayer);
+        //this.game.playerList.push(destructorPlayer)
         return 'ok';
     }
 
@@ -405,6 +414,26 @@ class Games {
         return winnerPlayer;
     }
 
+
+    loading(cargada) {
+        this.charge = cargada;
+    }
+
+    loadingRedy() {
+        return this.charge;
+    }
+
+    espera() {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+         if ((new Date().getTime() - start) > 5000) {
+          break;
+         }
+        }
+    }
+
 }
+
+
 
 module.exports = Games;

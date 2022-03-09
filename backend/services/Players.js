@@ -3,8 +3,8 @@ const Player = require('./Player.js')
 class Players {
 
     /*Constructor*/
-    constructor(playerList) {
-        this.playerList = playerList;
+    constructor(playerLst) {
+        this.playerList = [];
     }
 
     InsBack(player) {

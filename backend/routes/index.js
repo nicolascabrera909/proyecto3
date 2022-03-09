@@ -18,5 +18,7 @@ router.get('/cancelar', controller.cancelar);
 
 router.get('/lista', controller.lista);
 
+router.get('/dificultad', controller.dificultad);
+
 module.exports = router;
 

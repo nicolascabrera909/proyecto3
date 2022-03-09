@@ -64,7 +64,9 @@
                 dataType: 'json',
                 success: function (data, status, xhr) {
                     if (data != null) {
-                        alert('ver se muestra algo aca')
+                        window.location.href = "game.html";
+                    }else{
+                        alert('Ocurrio un error al obtener la información de la base de datos.');
                     }
                 },
                 error: function (xhr, status, error) {
