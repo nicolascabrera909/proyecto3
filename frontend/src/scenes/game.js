@@ -387,9 +387,8 @@ class Game extends Phaser.Scene {
     this.socket.on('other_emit_clock', (info) => {
       switch (info.minutes) {
         case 5:
-          setTimeout(function () {
+            console.log('5 minutos restantes');
             this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
-          }, 2000);
           break;
         case 4:
           console.log('4 minutos restantes');
@@ -966,38 +965,44 @@ class Game extends Phaser.Scene {
       socket.emit('emit_clock', {
         minutes: 5
       });
-      setTimeout(function () {
-        this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
-      }, 2000);
-
-      
+      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
     }, 0);
     setTimeout(function () {
       console.log('4 minutos restantes');
+      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 4 minutos");
+
       socket.emit('emit_clock', {
         minutes: 4
       });
     }, 60000);
     setTimeout(function () {
       console.log('3 minutos restantes');
+      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 3 minutos");
+
       socket.emit('emit_clock', {
         minutes: 3
       });
     }, 120000);
     setTimeout(function () {
       console.log('2 minutos restantes');
+      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Restan 2 minutos");
+
       socket.emit('emit_clock', {
         minutes: 2
       });
     }, 180000);
     setTimeout(function () {
       console.log('1 minutos restantes');
+      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Resta 1 minuto");
+
       socket.emit('emit_clock', {
         minutes: 1
       });
     }, 240000);
     setTimeout(function () {
       console.log('fin de partida, empate');
+      this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "FIN DE PARTIDA");
+
       socket.emit('emit_clock', {
         minutes: 0
       });
