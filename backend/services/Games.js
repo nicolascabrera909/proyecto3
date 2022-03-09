@@ -142,7 +142,7 @@ class Games {
 
         let boatListSubmarino = [];
         let boatListDestructor = [];
-       
+        let submarinePlayer=null;
         let destructorPlayer = null;
         let theGame = new Game();
 
@@ -178,7 +178,7 @@ class Games {
                         submarine.type = shipList[j].boatType;
                         submarine.depth = aSubmarino.s_depth;
                         boatListSubmarino.push(boatListSubmarino);
-                        let submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
+                         submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
                         
 
 
