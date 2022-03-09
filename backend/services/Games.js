@@ -142,7 +142,7 @@ class Games {
 
         let boatListSubmarino = [];
         let boatListDestructor = [];
-        let listPLayers = new Players();
+       
         let destructorPlayer = null;
         let theGame = new Game();
 
@@ -179,7 +179,7 @@ class Games {
                         submarine.depth = aSubmarino.s_depth;
                         boatListSubmarino.push(boatListSubmarino);
                         let submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
-                        listPLayers.InsBack(submarinePlayer);
+                        
 
 
                         break;
@@ -192,7 +192,7 @@ class Games {
                             let bCannon = await this.daoCannon.find(shipList[j].id);
                             //hago los new del armamanto
                             let cannonD = new Cannon(bCannon.c_cantidad);
-                            let depthChargeD = new DepthCharge(bDepthCharge.dp_time, bDepthCharge_dp_depth);
+                            let depthChargeD = new DepthCharge(bDepthCharge.dp_time, bDepthCharge.dp_depth);
                             //hago el new de destructor y lo agreo a una lista
                             let destructor = new Destructor();
                             destructor.carga = depthChargeD;
@@ -203,28 +203,27 @@ class Games {
                             destructor.visibility = shipList[j].visibility;
                             destructor.type = shipList[j].boatType;
                             boatListDestructor.push(destructor);
-                            if (destructorPlayer == null) {
-                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
-                            } else {
-                                destructorPlayer.boatList.push(boatListSubmarino);
-                            }
+                            if (j+1 == shipList.length) {
+                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListDestructor, 'destructor');
+                            } 
 
                         } else {
                             // 'carguero':
-
                             //hago el new de destructor y lo agreo a una lista
-                            let freighters = new Freighters();
-                            freighters.positionX = shipList[j].positionX;
-                            freighters.positionY = shipList[j].positionY;
+                            let coordenadas = {
+                                "x": shipList[j].positionX,
+                                "y": shipList[j].positionY
+                            };
+                            let freighters = new Freighters(coordenadas,cCarguero.id);//coordenadas,id
+                            //freighters.positionX = shipList[j].positionX;
+                            //freighters.positionY = shipList[j].positionY;
                             freighters.visibility = shipList[j].visibility;
                             freighters.type = shipList[j].boatType;
-                            freighters.id = cCarguero.id;
+                            //freighters.id = cCarguero.id;
                             boatListDestructor.push(freighters);
-                            if (destructorPlayer == null) {
-                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'destructor');
-                            } else {
-                                destructorPlayer.boatList.push(boatListSubmarino);
-                            }
+                            if (j+1 == shipList.length) {
+                                destructorPlayer = new Player(pleyerList[i].name, '0', boatListDestructor, 'destructor');
+                            } 
                         }
 
                         break;
@@ -232,8 +231,12 @@ class Games {
                 }
             }
             //agrego el jugador de destructor con los cargeros
-            listPLayers.InsBack(destructorPlayer);
+           
         }
+        /*listPLayers.InsBack(submarinePlayer);
+        listPLayers.InsBack(destructorPlayer);*/
+        lista=[submarinePlayer,destructorPlayer]
+        let listPLayers = new Players(lista);
         //completo el game 
         theGame.idDifficulty = aDifficulty;
         theGame.playerList = listPLayers;
