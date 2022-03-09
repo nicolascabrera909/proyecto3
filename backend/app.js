@@ -92,7 +92,7 @@ io.on('connection', function (socket) {
   });
 
 
-  socket.on('loadGame', function (socketId,idGame) {
+  socket.on('loadGame', function (soketId, idGame) {
 
    /* let listo= gamePlay.LoadGame(socketId,idGame);
     //creo el juego con su jugador y barcos
@@ -153,9 +153,11 @@ io.on('connection', function (socket) {
 
   socket.on('playerMovementCarguero', function (movementData, id) {
     if (gamePlay.game != null) {
-      let socketId= gamePlay.whoWins();
-      socket.broadcast.emit('who_wins',socketId);
-      socket.emit('who_wins',socketId);
+      //let socketId = gamePlay.whoWins();
+      // if (socketId !== 'empate') {
+      //   socket.broadcast.emit('who_wins', socketId);
+      //   socket.emit('who_wins', socketId);
+      // }
       for (var d = 0; d < gamePlay.game.playerList.length; d++) {
         if (gamePlay.game.playerList[d].socketId == socket.id) {
           for (var i = 0; i < gamePlay.game.playerList[d].boatList.length; i++) {
@@ -223,8 +225,8 @@ io.on('connection', function (socket) {
 
   /*socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
     console.log('Entre a save game');
-    gamePlay.saveGame(name1, name2,difficulty);
-  });*/
+    gamePlay.saveGame(name1, name2, difficulty);
+  });
 
   socket.on('finishGame', function (socket_id) {
     console.log('Juego terminado');
@@ -238,6 +240,21 @@ io.on('connection', function (socket) {
 
   socket.on('emit_clock', function (info) {
     socket.broadcast.emit('other_emit_clock', info)
+  });
+
+  socket.on('submarino_wins', function (info) {
+    console.log('Juego terminado');
+    socket.broadcast.emit('other_submarino_wins', info);
+  });
+  
+  socket.on('destructor_wins', function (info) {
+    console.log('Juego terminado');
+    socket.broadcast.emit('other_destructor_wins', info);
+  });
+
+  socket.on('empate', function (info) {
+    console.log('Juego terminado en empate');
+    socket.broadcast.emit('other_empate', info);
   });
 
 

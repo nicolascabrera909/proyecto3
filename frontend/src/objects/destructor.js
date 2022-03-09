@@ -117,9 +117,9 @@ class Destructor extends Phaser.GameObjects.Sprite {
           socketId: socket.id,
           life: this.life
         })
-        this.destructor.coodOriginalX = this.destructor.x;
-        this.destructor.coodOriginalY = this.destructor.y;
-        this.destructor.rotationOriginal = this.destructor.rotation;
+        this.coodOriginalX = this.destructor.x;
+        this.coodOriginalY = this.destructor.y;
+        this.rotationOriginal = this.destructor.rotation;
       }
     }
   }

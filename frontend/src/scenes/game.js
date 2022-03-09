@@ -52,10 +52,10 @@ class Game extends Phaser.Scene {
     var username = this.urlParams.get('username');
     var boatType = this.urlParams.get('boattype');
     var difficulty = this.urlParams.get('dificultad');
-    if(!(this.urlParams.get('idGame')=='undefined')){
+    if (!(this.urlParams.get('idGame') == 'undefined')) {
       this.idGame = this.urlParams.get('idGame');
     }
-    
+
 
     this.username = username;
 
@@ -84,8 +84,9 @@ class Game extends Phaser.Scene {
       console.log('Evento inicioInstancia');
       this.games = backGame;
       console.log('Emito createGame');
-      if (this.idGame>0) {
-       // this.socket.emit('loadGame',this.socket.id,this.idGame);
+      if (this.idGame > 0) {
+        this.socket.emit('loadGame', this.socket.id, this.idGame);
+        cantidadLoadPlayers++;
       } else {
         this.socket.emit('createGame', username, boatType, difficulty);
       }
@@ -366,10 +367,6 @@ class Game extends Phaser.Scene {
         self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "victory_surrender");
         this.scene.pause('Game');
       }
-
-      // this.add.displayList.removeAll();
-      // this.scene.start('GameOver');
-
     });
 
     this.socket.on('finishedGame', (socket_id) => {
@@ -411,8 +408,33 @@ class Game extends Phaser.Scene {
     });
 
     this.socket.on('who_wins', (info) => {
-      if (info.socketId === socket.id){
-        //this.currentPlayers.children.entries[0]
+      if (info.socketId === this.socket.id) {
+        console.log('gana el destructor current');
+        this.add.image(this.currentPlayers.children.entries[0].coodOriginalX, this.currentPlayers.children.entries[0].coodOriginalY, "victory");
+        this.bg_sound.play();
+      } else {
+        console.log('gana el destructor other');
+        this.add.image(this.otherPlayers.children.entries[0].x, this.currentPlayers.children.entries[0].y, "victory");
+        this.bg_sound.play();
+      }
+    });
+
+    this.socket.on('other_submarino_wins', (info) => {
+      if (info.socketId !== self.socket.id) {
+        self.add.image(this.otherPlayers.children.entries[0].x, this.otherPlayers.children.entries[0].y, "defeat");
+      }
+    });
+
+    this.socket.on('other_destructor_wins', (info) => {
+      if (info.socketId !== self.socket.id) {
+        self.add.image(this.otherPlayers.children.entries[0].x, this.otherPlayers.children.entries[0].y, "defeat");
+      }
+    });
+
+    this.socket.on('other_empate', (info) => {
+      if (info.socketId !== self.socket.id) {
+        self.add.image(info.x, info.y, "empate");
+        this.bg_sound.play();
       }
     });
 
@@ -462,9 +484,31 @@ class Game extends Phaser.Scene {
   }
 
   choque(obj1, obj2, self) {
+    this.add.image(obj1.coodOriginalX, obj1.coodOriginalY, "empate");
+    var coordX = obj1.coodOriginalX;
+    var coordY = obj1.coodOriginalY;
+    this.socket.emit('empate', {
+      socketId: this.socket.id,
+      x: coordX,
+      y: coordY
+    });
     obj1.destroy(this.socket, self);
     obj2.destroy(this.socket, self);
-    this.checkVictory ();
+    this.bg_sound.play();
+  }
+
+  choqueDepthCharge(obj1, obj2, self) {
+    this.add.image(obj1.coodOriginalX, obj1.coodOriginalY, "victory");
+    var coordX = obj1.coodOriginalX;
+    var coordY = obj1.coodOriginalY;
+    this.socket.emit('destructor_wins', {
+      socketId: this.socket.id,
+      x: coordX,
+      y: coordY
+    });
+    obj1.destroy(this.socket, self);
+    obj2.destroy(this.socket, self);
+    this.bg_sound.play();
   }
 
   collisionShipTorpedo(obj1, obj2, self) {
@@ -479,7 +523,7 @@ class Game extends Phaser.Scene {
     }
     if (obj1.life < 1) {
       obj1.destroy(this.socket, self);
-      this.checkVictory ();
+      this.checkVictory();
     } else {
       self.anims.create(self.explosionConfig);
       self.add.sprite(coordX, coordY, 'explosion').play('explodeAnimation');
@@ -501,6 +545,7 @@ class Game extends Phaser.Scene {
     }
     if (obj1.life < 1) {
       obj1.destroy(this.socket, self);
+      this.checkVictory();
     } else {
       self.anims.create(self.explosionConfig);
       self.add.sprite(coordX, coordY, 'explosion').play('explodeAnimation');
@@ -666,7 +711,7 @@ class Game extends Phaser.Scene {
       this.physics.add.overlap(this.destructor.depthCharges, this.submarino2.submarino, () => {
         console.log('entro al overlap de canon con submarino');
         if (this.submarino2.depth === this.destructor.depthCharges.depth) {
-          this.choque(this.destructor.depthCharges, this.submarino2, self);
+          this.choqueDepthCharge(this.destructor.depthCharges, this.submarino2, self);
         }
       });
 
@@ -689,7 +734,7 @@ class Game extends Phaser.Scene {
       this.physics.add.overlap(this.submarino.submarino, this.destructor2.depthCharges, () => {
         console.log('entro al overlap de depthCharge con destructor');
         if (this.submarino.depth === this.destructor2.depthCharges.depth) {
-          this.choque(this.submarino, this.destructor2.depthCharges, self);
+          this.choqueDepthCharge(this.submarino, this.destructor2.depthCharges, self);
         }
       });
 
@@ -974,6 +1019,7 @@ class Game extends Phaser.Scene {
     this.load.image('defeat_surrender', './static/assets/img/defeat_surrender.png');
     this.load.image('game_over', './static/assets/img/game_over.png');
     this.load.image('destruccion', './static/assets/img/destruccion2.png');
+    this.load.image('empate', './static/assets/img/empate.png');
     this.load.tilemapTiledJSON('map', './static/assets/map/map.json');
   }
 
@@ -1008,24 +1054,52 @@ class Game extends Phaser.Scene {
     this.bg_sound = this.sound.add('background');;
   }
 
-  checkVictory (){
-     /* La partida es ganada por un equipo cuando:
-        --Gana-->
-        -el destructor destruyó al submarino;
-         -el submrino destruye al menos 4 cargueros
-        - la mitad de cargueros llega al otro lado del mapa;
-         -por cancelación de partida, considerando perdedor a quien cancela y gana su rival--> eso se hace en la scena del game
-        --Empte-->
-             - por tiempo y no cumplo condicion de ganar*/
-    if (this.currentPlayers.children.entries[0].texture.key === 'submarino'){
-      if (this.destructor2.destructor.is_destroyed){
+  checkVictory() {
+    /* La partida es ganada por un equipo cuando:
+       --Gana-->
+       -el destructor destruyó al submarino;
+        -el submrino destruye al menos 4 cargueros
+       - la mitad de cargueros llega al otro lado del mapa;
+        -por cancelación de partida, considerando perdedor a quien cancela y gana su rival--> eso se hace en la scena del game
+       --Empte-->
+            - por tiempo y no cumplo condicion de ganar*/
+    if (this.currentPlayers.children.entries[0].texture.key === 'submarino') {
+      if (this.destructor2.destructor.is_destroyed && !this.submarino.submarino.is_destroyed) {
         console.log('gana el submarino');
         this.add.image(this.submarino.submarino.x, this.submarino.submarino.y, "victory");
-        this.bg_sound.play(); 
-      } 
-    } else if (this.submarino2.submarino.is_destroyed) {
+        this.socket.emit('submarino_wins', {
+          socketId: this.socket.id
+        });
+        this.bg_sound.play();
+      } else if (this.destructor2.destructor.is_destroyed && this.submarino.submarino.is_destroyed) {
+        console.log('empate');
+        this.add.image(this.submarino.submarino.x, this.submarino.submarino.y, "empate");
+        var coordX = this.submarino.submarino.x;
+        var coordY = this.submarino.submarino.y;
+        this.socket.emit('empate', {
+          socketId: this.socket.id,
+          x: coordX,
+          y: coordY
+        });
+        this.bg_sound.play();
+      }
+    } else if (this.submarino2.submarino.is_destroyed && this.destructor.destructor.is_destroyed) {
       console.log('gana el destructor');
       this.add.image(this.destructor.destructor.x, this.destructor.destructor.y, "victory");
+      this.socket.emit('destructor_wins', {
+        socketId: this.socket.id
+      });
+      this.bg_sound.play();
+    } else if (this.destructor.destructor.is_destroyed && this.submarino2.submarino.is_destroyed) {
+      console.log('empate');
+      this.add.image(this.destructor.destructor.x, this.destructor.destructor.y, "empate");
+      var coordX = this.submarino2.submarino.x;
+      var coordY = this.submarino2.submarino.y;
+      this.socket.emit('empate', {
+        socketId: this.socket.id,
+        x: coordX,
+        y: coordY
+      });
       this.bg_sound.play();
     }
   }
