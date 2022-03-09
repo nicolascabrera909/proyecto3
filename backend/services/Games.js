@@ -235,7 +235,7 @@ class Games {
         }
         /*listPLayers.InsBack(submarinePlayer);
         listPLayers.InsBack(destructorPlayer);*/
-        lista=[submarinePlayer,destructorPlayer]
+        let lista=[submarinePlayer,destructorPlayer]
         let listPLayers = new Players(lista);
         //completo el game 
         theGame.idDifficulty = aDifficulty;
