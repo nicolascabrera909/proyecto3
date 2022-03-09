@@ -258,9 +258,9 @@ io.on('connection', function (socket) {
 app.use(require('./routes/index'));
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
+// app.use(function (req, res, next) {
+//   next(createError(404));
+// });
 
 // 404
 app.use(function (req, res, next) {
