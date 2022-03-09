@@ -31,7 +31,7 @@ class Game extends Phaser.Scene {
       'x': 0,
       'y': 0
     }
-    this.LoadGame = false;
+    this.idGame = -1;
   }
 
   preload() {
@@ -52,6 +52,8 @@ class Game extends Phaser.Scene {
     var username = this.urlParams.get('username');
     var boatType = this.urlParams.get('boattype');
     var difficulty = this.urlParams.get('dificultad');
+    this.idGame = this.this.urlParams.get('idGame');
+
     this.username = username;
 
     this.explosionConfig = {
