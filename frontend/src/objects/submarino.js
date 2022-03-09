@@ -197,7 +197,6 @@ class Submarino extends Phaser.GameObjects.Sprite {
           depth: this.depth,
           socketId: socket.id,
           life: this.life,
-
         })
         this.coodOriginalX = x;
         this.coodOriginalY = y;
