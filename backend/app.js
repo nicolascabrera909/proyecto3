@@ -148,6 +148,9 @@ io.on('connection', function (socket) {
 
   socket.on('playerMovementCarguero', function (movementData, id) {
     if (gamePlay.game != null) {
+      let socketId= gamePlay.whoWins();
+      socket.broadcast.emit('who_wins',socketId);
+      socket.emit('who_wins',socketId);
       for (var d = 0; d < gamePlay.game.playerList.length; d++) {
         if (gamePlay.game.playerList[d].socketId == socket.id) {
           for (var i = 0; i < gamePlay.game.playerList[d].boatList.length; i++) {
