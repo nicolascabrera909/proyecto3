@@ -226,11 +226,11 @@ io.on('connection', function (socket) {
   socket.on('emit_clock', function (info) {
     socket.broadcast.emit('other_emit_clock', info)
   });
-/*
-  socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
-    console.log('Entre a save game');
-    gamePlay.saveGame(name1, name2, difficulty);
-  });*/
+  /*
+    socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
+      console.log('Entre a save game');
+      gamePlay.saveGame(name1, name2, difficulty);
+    });*/
 
   socket.on('finishGame', function (socket_id) {
     console.log('Juego terminado');
