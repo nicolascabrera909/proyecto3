@@ -3,7 +3,6 @@ const daoversion = require('../data/DAOVersion');
 const daogame = require('../data/DAOGame');
 const Games = require('../services/Games.js');
 
-
 exports.index = function (req, res) {
     res.send('Bienvenidos a UDE Navy');
 };
@@ -44,7 +43,6 @@ exports.cargar = async function (req, res, next) {
 
 exports.cancelar = async function (req, res, next) {
     const gamePlay = new Games();
-    // const result=gamePlay.cancelGame();
     const result='ok';
     console.log(result);
     res.send(result);
@@ -53,9 +51,7 @@ exports.cancelar = async function (req, res, next) {
 exports.partida = async function (req, res, next) {
     var gamePlay = new Games();
     var jsonGame = JSON.stringify(gamePlay);
-    //console.log('Luego de convertir a JSON: ' + jsonGame);
     res.send(jsonGame);
-    // res.render('http://localhost:5500/credits.html', { jsonGame } );
 };
 
 exports.dificultad = async function (req, res, next) {
