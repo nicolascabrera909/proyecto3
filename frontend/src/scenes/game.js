@@ -79,11 +79,11 @@ class Game extends Phaser.Scene {
       frameRate: 30, 
       repeat: 0 };*/
 
-    this.socket.on('inicioInstancia', (backGame) => {
+    this.socket.on('inicioInstancia', (backGame,hacerLoad) => {
       this.games = backGame;
-      if (this.idGame > 0) {
+      if (hacerLoad) {
         this.socket.emit('loadGame', this.socket.id, this.idGame);
-        cantidadLoadPlayers++;
+        //cantidadLoadPlayers++;
       } else {
         this.socket.emit('createGame', username, boatType, difficulty);
       }

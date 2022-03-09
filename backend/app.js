@@ -12,6 +12,7 @@ const { database } = require('./config');
 var gamePlay = new Games();
 let cantidad = 0;
 let pleyerListIni = [];
+let cargada=false;
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');
@@ -30,7 +31,16 @@ const io = socketIO(server, {
     maxAge: 86400
   }
 });
+
 console.log("Socket levantado");
+
+
+///variables carga partida
+cargada=gamePlay.loadingRedy();
+
+
+
+
 
 ///////////////////////////////////////////////////////  CORS  ///////////////////////////////////////////////////////
 app.use(
@@ -51,23 +61,16 @@ let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:
 /////////////////////////////////////////////////////// SOCKET ///////////////////////////////////////////////////////
 io.on('connection', function (socket) {
   console.log('Player [' + socket.id + '] connected')
-  /* players[socket.id] = {
-   rotation: 0,
-     x: 30,
-   y: 30,
-   boat: boat,
-     cant: cantidad,
-     playerId: socket.id
-   }
-   cantidad++;*/
+ 
    
-  socket.emit('inicioInstancia', gamePlay);
+  socket.emit('inicioInstancia', gamePlay,cargada);
 
   //Partida nueva
   socket.on('createGame', function (name, boatTeam, difficulty) {
     //Creo el juego con su jugador y barcos
     gamePlay.createGame(socket.id, name, boatTeam, difficulty);
     socket.emit('currentPlayers', gamePlay.game.playerList, gamePlay);
+
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
     } else {
@@ -77,29 +80,34 @@ io.on('connection', function (socket) {
 
   socket.on('loadGame', function (soketId, idGame) {
 
-    let listo = gamePlay.LoadGame(socketId, idGame);
+    
     //creo el juego con su jugador y barcos
     console.log('Emito currentPlayers');
     console.log('Emito broadcast newPlayer');
+    
+    
     //Envio jugador 1
-    /*if(cantidad==0){
+    if(cantidad==0){
+      gamePlay.game.playerList[cantidad].socketId=soketId;
       pleyerListIni.push( gamePlay.game.playerList[cantidad]);
       cantidad++;
     }else{
       pleyerListIni=gamePlay.game.playerList;
+      gamePlay.game.playerList[cantidad].socketId=soketId
     }
-    //actualizo el socket del jugador
-    gamePlay.game.playerList[cantidad].socketId = soketId;
-    pleyerListIni.push(gamePlay.game.playerList[cantidad]);
+
+
+    //actualizo el socket del jugador, este seria el camino normal
+    //gamePlay.game.playerList[cantidad].socketId = soketId;
+    //pleyerListIni.push(gamePlay.game.playerList[cantidad]);
     socket.emit('currentPlayers', pleyerListIni, gamePlay);
-    cantidad++;
 
     if (gamePlay.game.playerList[0].socketId == socket.id) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[0]);
     } else {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
-    cantidadLoadPlayers++;*/
+    cantidadLoadPlayers++;
 
   });
 
