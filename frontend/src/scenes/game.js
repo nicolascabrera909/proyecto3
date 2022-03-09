@@ -31,7 +31,7 @@ class Game extends Phaser.Scene {
       'x': 0,
       'y': 0
     }
-    this.LoadGame = false;
+    this.idGame = -1;
   }
 
   preload() {
@@ -52,6 +52,11 @@ class Game extends Phaser.Scene {
     var username = this.urlParams.get('username');
     var boatType = this.urlParams.get('boattype');
     var difficulty = this.urlParams.get('dificultad');
+    if(!(this.urlParams.get('idGame')=='undefined')){
+      this.idGame = this.urlParams.get('idGame');
+    }
+    
+
     this.username = username;
 
     this.explosionConfig = {
@@ -79,8 +84,8 @@ class Game extends Phaser.Scene {
       console.log('Evento inicioInstancia');
       this.games = backGame;
       console.log('Emito createGame');
-      if (this.LoadGame) {
-        this.socket.emit('loadGame', this.socket.id)
+      if (this.idGame>0) {
+        this.socket.emit('loadGame', this.socket.id,this.idGame);
         cantidadLoadPlayers++;
       } else {
         this.socket.emit('createGame', username, boatType, difficulty);
@@ -406,6 +411,12 @@ class Game extends Phaser.Scene {
       }
     });
 
+    this.socket.on('who_wins', (info) => {
+      if (info.socketId === socket.id){
+        //this.currentPlayers.children.entries[0]
+      }
+    });
+
     this.map = new Map(this, 'map', 'tiles', 'terrain');
     this.physics.world.setBounds(0, 0, 3200, 1120);
     window.game = this;
@@ -454,6 +465,7 @@ class Game extends Phaser.Scene {
   choque(obj1, obj2, self) {
     obj1.destroy(this.socket, self);
     obj2.destroy(this.socket, self);
+    this.checkVictory ();
   }
 
   collisionShipTorpedo(obj1, obj2, self) {
@@ -466,8 +478,9 @@ class Game extends Phaser.Scene {
       coordX = obj1.submarino.x;
       coordY = obj1.submarino.y;
     }
-    if (obj1.life <= 0) {
+    if (obj1.life < 1) {
       obj1.destroy(this.socket, self);
+      this.checkVictory ();
     } else {
       self.anims.create(self.explosionConfig);
       self.add.sprite(coordX, coordY, 'explosion').play('explodeAnimation');
@@ -487,7 +500,7 @@ class Game extends Phaser.Scene {
       coordX = obj1.submarino.x;
       coordY = obj1.submarino.y;
     }
-    if (obj1.life <= 0) {
+    if (obj1.life < 1) {
       obj1.destroy(this.socket, self);
     } else {
       self.anims.create(self.explosionConfig);
@@ -980,6 +993,8 @@ class Game extends Phaser.Scene {
       .audio('sea_water', ['./static/assets/audio/sea_water.mp3'])
       .audio('ship_collision', ['./static/assets/audio/ship_destroy.mp3'])
       .audio('depth_charge', ['./static/assets/audio/depth_charge.mp3'])
+      .audio('victory', ['./static/assets/audio/victory.mp3'])
+      .audio('background', ['./static/assets/audio/menu.mp3'])
   }
 
   loadAudioVariables() {
@@ -990,9 +1005,31 @@ class Game extends Phaser.Scene {
     this.torpedo_sound = this.sound.add('torpedo_sound');
     this.ship_collision_sound = this.sound.add('ship_collision');
     this.depth_charge_sound = this.sound.add('depth_charge');
-    this.bg_sound;
+    this.victory_sound = this.sound.add('victory');
+    this.bg_sound = this.sound.add('background');;
   }
 
+  checkVictory (){
+     /* La partida es ganada por un equipo cuando:
+        --Gana-->
+        -el destructor destruyó al submarino;
+         -el submrino destruye al menos 4 cargueros
+        - la mitad de cargueros llega al otro lado del mapa;
+         -por cancelación de partida, considerando perdedor a quien cancela y gana su rival--> eso se hace en la scena del game
+        --Empte-->
+             - por tiempo y no cumplo condicion de ganar*/
+    if (this.currentPlayers.children.entries[0].texture.key === 'submarino'){
+      if (this.destructor2.destructor.is_destroyed){
+        console.log('gana el submarino');
+        this.add.image(this.submarino.submarino.x, this.submarino.submarino.y, "victory");
+        this.bg_sound.play(); 
+      } 
+    } else if (this.submarino2.submarino.is_destroyed) {
+      console.log('gana el destructor');
+      this.add.image(this.destructor.destructor.x, this.destructor.destructor.y, "victory");
+      this.bg_sound.play();
+    }
+  }
 }
 
 

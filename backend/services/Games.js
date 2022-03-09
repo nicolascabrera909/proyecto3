@@ -136,10 +136,10 @@ class Games {
             this.game.playerList.splice(pos, 1);
         }
     }
-
-    async LoadGame() {
-        let listGames = await daoGame.find();
-        if (this.existPartidaPlayers(listGames, name1, name2)) {
+    //exite el game 
+    async LoadGame(soketId,idGame) {
+        
+        
             let boatListSubmarino = [];
             let boatListDestructor = [];
             let listPLayers = new Players();
@@ -147,7 +147,7 @@ class Games {
             let theGame = new Game();
 
             //busco el juego
-            let aGame = findPartidaPlayers(listGames);
+            let aGame  = await daoGame.findGameID();
             //busco el mapa 
             let map = daoMop.find(gameId);          //busco la dificultad
             let aDifficulty = daoDifficulty.find(aGame.difficulty_id);
@@ -232,56 +232,55 @@ class Games {
             theGame.idDifficulty = aDifficulty;
             theGame.playerList = listPLayers;
             this.game = theGame
-        } else {
-            console.log('no existe la partida');
-        }
+        
     }
 
     //guardo la partida
     async saveGame() {
         let listGames = await this.daoGame.find();
         //obtengo name y dificultad
-        let difficulty=this.game.idDifficulty;
-        let name1=this.game.playerList[0].name;
-        let name2=this.game.playerList[1].name;
-
-        
+        let difficulty = this.game.idDifficulty;
+        let name1 = this.game.playerList[0].name;
+        let name2 = this.game.playerList[1].name;
 
 
-        if ( await this.existPartidaPlayers(listGames, name1, name2) ) {
+
+
+        if (await this.existPartidaPlayers(listGames, name1, name2)) {
             let players;
             let currentPlayer;
             let ships;
             let submarineId;
             let destructorId;
             //tengo q actualizar lo guardado
-            let gameId= await this.findPartidaPlayers(listGames, name1, name2);
+            let gameId = await this.findPartidaPlayers(listGames, name1, name2);
             //actualizo mapa [gameId, map.heigth,map.width]
             await this.daoMap.update(gameId, this.map)
-            players=await this.daoPlayer.find(gameId.id)
+            players = await this.daoPlayer.find(gameId.id)
             for (let i = 0; i < players.length; i++) {
-                if(this.game.playerList[0].name==players[i].name){
-                    currentPlayer=this.game.playerList[0];
+                if (this.game.playerList[0].name == players[i].name) {
+                    currentPlayer = this.game.playerList[0];
                 }
                 else {
-                    currentPlayer=this.game.playerList[1];
+                    currentPlayer = this.game.playerList[1];
                 }
-                ships=await this.daoShip.find(players[i].id)
+                ships = await this.daoShip.find(players[i].id)
                 for (let j = 0; j < ships.length; j++) {
                     //problemas con update
-                    let resultado= await this.daoShip.update(ships[j].id, currentPlayer.boatList[j]);
-                    if(currentPlayer.boatList[j].type=='submarino' || currentPlayer.boatList[j].type=='destructor'){
-                        if(currentPlayer.boatList[j].type=='submarino'){
-                            submarineId=await this.daoSubmarine.find(ships[j].id)
-                            await this.daoSubmarine.update(submarineId,currentPlayer.boatList[j].depth)
+                    // await this.daoShip.update(ships[j].id, currentPlayer.boatList[j]);
+                    console.log(await this.daoShip.update(ships[j].id, currentPlayer.boatList[j]));
+                    if (currentPlayer.boatList[j].type == 'submarino' || currentPlayer.boatList[j].type == 'destructor') {
+                        if (currentPlayer.boatList[j].type == 'submarino') {
+                            submarineId = await this.daoSubmarine.find(ships[j].id)
+                            await this.daoSubmarine.update(submarineId, currentPlayer.boatList[j].depth)
                             await this.daoTorpedo.update(submarineId, currentPlayer.boatList[j].torpedo.cantidad)
                         } else {
-                            destructorId=await this.daoDestructor.find(ships[j].id)
-                            await this.daoDepthCharge.update(destructorId,currentPlayer.boatList[j].carga)
+                            destructorId = await this.daoDestructor.find(ships[j].id)
+                            await this.daoDepthCharge.update(destructorId, currentPlayer.boatList[j].carga)
                         }
-                        await this.daoCannon.update(ships[j].id,currentPlayer.boatList[j].cannon)
+                        await this.daoCannon.update(ships[j].id, currentPlayer.boatList[j].cannon)
                     }
-                    
+
                 }
             }
         } else {
@@ -297,7 +296,7 @@ class Games {
                 //inserto ship ---> valido de q tipo es   destructor, submarino. [playerId, ship.positionX,ship.positionY,ship.boatLife,ship.boatType,ship.visibility]
                 let ultimoIdPLayer = await this.daoPlayer.lastPlayerId(ultimoId)
                 for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
-                    await this.daoShip.insert(ultimoIdPLayer,this.game.playerList[i].boatTeam, this.game.playerList[i].boatList[j]);
+                    await this.daoShip.insert(ultimoIdPLayer, this.game.playerList[i].boatTeam, this.game.playerList[i].boatList[j]);
                     let ultimoShip = await this.daoShip.lastShipId(ultimoIdPLayer);
                     //Busco q tipo de barco es para insertar. 
                     switch (this.game.playerList[i].boatList[j].type) {
@@ -306,20 +305,20 @@ class Games {
                             await this.daoSubmarine.insert(ultimoShip, this.game.playerList[i].boatList[j]);
                             //inserto armamaneto de submarino --idSubmarin,torpedo  ---shipId,cannon---
                             await this.daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
-                            let ultimoSubmarin =await this.daoSubmarine.lastSubmarineId(ultimoShip);
+                            let ultimoSubmarin = await this.daoSubmarine.lastSubmarineId(ultimoShip);
                             await this.daoTorpedo.insert(ultimoSubmarin, this.game.playerList[i].boatList[j].torpedo);
                             break;
                         case 'destructor':
                             //[shipId]
-                            await this.daoDestructor.insert(ultimoShip,this.game.playerList[i].boatList[j].type);
+                            await this.daoDestructor.insert(ultimoShip, this.game.playerList[i].boatList[j].type);
                             //inserto armamaneto de submarino--- idDestructor,depthCharge ---
                             await this.daoCannon.insert(ultimoShip, this.game.playerList[i].boatList[j].cannon);
-                            let ultimoDestructor =await this.daoDestructor.lastDestructorId(ultimoShip);
+                            let ultimoDestructor = await this.daoDestructor.lastDestructorId(ultimoShip);
                             await this.daoDepthCharge.insert(ultimoDestructor, this.game.playerList[i].boatList[j].carga)
                             break;
 
                         case 'carguero':
-                            await this.daoFreighters.insert(ultimoShip,this.game.playerList[i].boatList[j].type)
+                            await this.daoFreighters.insert(ultimoShip, this.game.playerList[i].boatList[j].type)
                             break;
                     }
                 }
@@ -379,70 +378,31 @@ class Games {
 
 
     whoWins() {
-        let deathSubmarine = false;
         let arriveFreighters = 0;
-        let deathFreighters = 0;
         let winnerPlayer = 'empate';
         let positionXFinal = this.map.width;
-        let socketSubmarine;
         let socketDestructor;
-
-        /* La partida es ganada por un equipo cuando:
-        --Gana-->
-        -el destructor destruyó al submarino;
-         -el submrino destruye al menos 4 cargueros
-        - la mitad de cargueros llega al otro lado del mapa;
-         -por cancelación de partida, considerando perdedor a quien cancela y gana su rival--> eso se hace en la scena del game
-        --Empte-->
-             - por tiempo y no cumplo condicion de ganar*/
 
 
         for (let i = 0; i < this.game.playerList.length; i++) {
             for (let j = 0; j < this.game.playerList[i].boatList.length; j++) {
-                if (this.game.playerList[i].boatTeam = 'submarino') {
-                    socketSubmarine = this.game.playerList[i].socketId;
-                    //validos si el submarino esta vivo
-                    if (this.game.playerList[i].boatList[j].boatLife == 0) {
-                        deathSubmarine = true;
-                    }
-                } else {
+                if (this.game.playerList[i].boatTeam = 'destructor') {
                     socketDestructor = this.game.playerList[i].socketId;
                     //evaluo cuantos cargueros estan vivos y si alguno llego a destino
                     if (this.game.playerList[i].boatList[j].type == 'carguero') {
-                        if (this.game.playerList[i].boatList[j].boatLife > 0) {
-                            if (this.game.playerList[i].boatList[j].positionX == positionXFinal) {
-                                arriveFreighters++;
-                            }
-                        } else {
-                            deathFreighters++;
+                        if (this.game.playerList[i].boatList[j].positionX == positionXFinal) {
+                            arriveFreighters++;
                         }
+
                     }
                 }
             }
         }
-        //murieron mas de tres cargueros y el submarino esta vivo
-        if (deathFreighters > 3 && (!deathSubmarine)) {
-            winnerPlayer = socketSubmarine;
-        }
         //Llegaron 3 o mas cargeros
         if (arriveFreighters > 2) {
             winnerPlayer = socketDestructor;
         }
-        //Llegaron 3 o mas cargeros
-        if (arriveFreighters > 2) {
-            winnerPlayer = socketDestructor;
-        }
-
-
-
-
-
-
-
-
-
         return winnerPlayer;
-
     }
 
 }

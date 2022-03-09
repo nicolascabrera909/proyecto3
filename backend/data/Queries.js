@@ -30,6 +30,12 @@ class Queries {
         const query='SELECT id,difficulty_id from game;';
         return query;
     }
+    
+    findGameId(){
+        const query='SELECT id,difficulty_id from game where id=?;';
+        return query;
+    }
+
     lastGame(){
         const query='SELECT max(id) id  from game';
         return query;
