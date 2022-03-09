@@ -166,9 +166,9 @@ class Games {
                         submarine.rotation = shipList[j].rotation;
                         submarine.boatLife = shipList[j].boatLife;
                         submarine.visibility = shipList[j].visibility;
-                        submarine.type = shipList[j].boatType;
-                        submarine.depth = aSubmarino.s_depth;
-                        boatListSubmarino.push(boatListSubmarino);
+                        //submarine.type = shipList[j].boatType;
+                        //submarine.depth = aSubmarino.s_depth;
+                        boatListSubmarino.push(submarine);
                          submarinePlayer = new Player(pleyerList[i].name, '0', boatListSubmarino, 'submarino');
                         
 
@@ -227,11 +227,18 @@ class Games {
         /*listPLayers.InsBack(submarinePlayer);
         listPLayers.InsBack(destructorPlayer);*/
         let lista=[submarinePlayer,destructorPlayer]
-        let listPLayers = new Players(lista);
+       // let listPLayers = new Players();
+       // listPLayers.InsBack(submarinePlayer);
+       // listPLayers.InsBack(destructorPlayer);
         //completo el game 
-        theGame.idDifficulty = aDifficulty;
-        theGame.playerList = listPLayers;
-        this.game = theGame
+        //theGame.idDifficulty = aDifficulty;
+        //theGame.playerList = listPLayers;
+        //theGame.playerList.push(submarinePlayer);
+        //theGame.playerList.push(destructorPlayer);
+        this.game = new Game(lista, aDifficulty)
+       // this.game.idDifficulty = aDifficulty;
+       // this.game.playerList.push(submarinePlayer);
+        //this.game.playerList.push(destructorPlayer)
         return 'ok';
     }
 
