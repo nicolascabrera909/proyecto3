@@ -915,12 +915,12 @@ class Game extends Phaser.Scene {
     var difficulty = parseInt(this.gameDifficulty);
     switch (difficulty) {
       case 1:
-        time = 60000;
+        time = 360000;
         break;
       case 2:
-        time = 180000;
+        time = 240000;
       case  3:
-          time = 180000;
+          time = 120000;
         break;
     }
     setTimeout(function () {
