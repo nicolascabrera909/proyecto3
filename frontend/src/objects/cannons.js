@@ -30,7 +30,8 @@ class Cannons extends Phaser.Physics.Arcade.Group {
                     x: x, y: y,
                     socket_id: socket.id,
                     target: target,
-                    shipType: shipType
+                    shipType: shipType,
+                    angle: angle
                 });
             }
             this.last.push(bullet);
