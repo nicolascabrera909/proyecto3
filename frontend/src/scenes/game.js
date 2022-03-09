@@ -95,7 +95,7 @@ class Game extends Phaser.Scene {
         this.defineCollisions(self);
         this.ignoreSmallMap();
         //this.clockTimeOut(this.socket);
-        this.setGameTimeOut(this.socket);
+        this.setGameTimeOut(this.socket, self);
 
       }
     });
@@ -891,16 +891,17 @@ class Game extends Phaser.Scene {
     this.scene.pause('Game');
   }
 
-  setGameTimeOut(socket) {
+  setGameTimeOut(socket, self) {
     console.log('por setear el tiempo' + this.gameDifficulty);
     var time;
-    switch (this.gameDifficulty) {
-      case this.gameDifficulty == 1:
+    var difficulty = parseInt(this.gameDifficulty);
+    switch (difficulty) {
+      case 1:
         time = 60000;
         break;
-      case this.gameDifficulty == 2:
+      case 2:
         time = 180000;
-      case this.gameDifficulty == 3:
+      case  3:
           time = 180000;
         break;
     }
@@ -908,19 +909,12 @@ class Game extends Phaser.Scene {
       console.log('en set timeout.- valor de tiempo' + time);  
       socket.emit('finishGame', socket.id);
       console.log('despues del emit de finishgame');  
-      this.add.image(500, 600, "game_over");
+      self.add.image(500, 600, "game_over");
       console.log('despues de la imagen');  
-      this.scene.pause('Game');
+      self.scene.pause('Game');
     }, time);
   }
 
-  
-
-  GameTimeOut(self, socket_id) {
-    this.socket.emit('finishGame', socket_id);
-    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
-    this.scene.pause('Game');
-  }
 
   //Carga de imagenes en la escena
   loadImages() {
