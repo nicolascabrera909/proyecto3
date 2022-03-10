@@ -15,6 +15,8 @@ let pleyerListIni = [];
 let cargada = false;
 let cancelar = false;
 let contador = 0;
+let cancelada = false;
+let contadorCancel = 0;
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');
@@ -253,6 +255,10 @@ io.on('connection', function (socket) {
   socket.on('empate', function (info) {
     console.log('Juego terminado en empate');
     socket.broadcast.emit('other_empate', info);
+  });
+
+  socket.on('destroy_carguero', function (info) {
+    socket.broadcast.emit('other_destroy_carguero', info);
   });
 
 });
