@@ -15,6 +15,8 @@ let pleyerListIni = [];
 let cargada = false;
 let cancelar = false;
 let contador = 0;
+let cancelada = false;
+let contadorCancel = 0;
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');

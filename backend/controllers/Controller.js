@@ -3,6 +3,7 @@ const daoversion = require('../data/DAOVersion');
 const daogame = require('../data/DAOGame');
 const Games = require('../services/Games.js');
 let cargado = 0;
+let cancelado=0;
 
 exports.index = function (req, res) {
     res.send('Bienvenidos a UDE Navy');

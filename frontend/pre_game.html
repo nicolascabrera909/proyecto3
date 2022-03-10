@@ -73,8 +73,9 @@
 
     <script>
 
-        $("#dificultad").change(function(){
+        function control_dificultad(){
             let selected = $("#dificultad").val();
+            
             $.ajax({
                 url: 'http://localhost:3000/dificultad', // dificultad
                 type: 'GET',
@@ -92,6 +93,11 @@
                     console.log("Error: " + status + " " + error);
                 }
             });
+        }
+           
+        
+        $("#dificultad").change(function(){
+            control_dificultad();
         });
 
         function iniciar() {
@@ -117,7 +123,7 @@
 
         }
         $(document).ready(function () {
-
+            control_dificultad();
 
             let cant_jugadores = $('#cant_players').val();
             $.ajax({
@@ -166,7 +172,6 @@
         }
 
 
-    </script>
     </script>
 </body>
 
