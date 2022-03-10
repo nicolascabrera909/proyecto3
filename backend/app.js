@@ -14,6 +14,8 @@ let cantidad = 0;
 let pleyerListIni = [];
 let cargada = false;
 let contador = 0;
+let cancelada = false;
+let contadorCancel = 0;
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');
@@ -38,7 +40,7 @@ console.log("Socket levantado");
 
 ///variables carga partida
 cargada = false;
-
+cancelada = false;
 
 
 
@@ -67,7 +69,12 @@ io.on('connection', function (socket) {
     contador++;
   }
 
-  socket.emit('inicioInstancia', gamePlay, cargada);
+  if (contadorCancel == 0) {
+    cancelada = gamePlay.cancelingRedy();
+    contadorCancel++;
+  }
+
+  socket.emit('inicioInstancia', gamePlay, cargada, cancelada);
 
   //Partida nueva
   socket.on('createGame', function (name, boatTeam, difficulty) {

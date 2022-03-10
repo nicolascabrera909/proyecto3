@@ -39,6 +39,7 @@ class Games {
         this.daoDifficulty = new DAODifficulty();
         this.daoFreighters = new DAOFreighters();
         this.charge = false;
+        this.cancel = false;
 
 
         //singleton de la clase
@@ -430,6 +431,14 @@ class Games {
           break;
          }
         }
+    }
+
+    canceling(cancelada) {
+        this.cancel = cancelada;
+    }
+
+    cancelingRedy() {
+        return this.cancel;
     }
 
 }
