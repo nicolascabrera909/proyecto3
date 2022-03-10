@@ -238,7 +238,7 @@ class Games {
         //theGame.playerList = listPLayers;
         //theGame.playerList.push(submarinePlayer);
         //theGame.playerList.push(destructorPlayer);
-        this.game = new Game(lista, aDifficulty)
+        this.game = new Game(lista, aDifficulty.id)
         // this.game.idDifficulty = aDifficulty;
         // this.game.playerList.push(submarinePlayer);
         //this.game.playerList.push(destructorPlayer)
