@@ -65,6 +65,7 @@ let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:
 io.on('connection', function (socket) {
   console.log('Player [' + socket.id + '] connected')
   cancelar=false;
+  
   gamePlay.cancel=false;
   console.log(cancelar);
   if (contador == 0) {
@@ -124,6 +125,8 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('Player [' + socket.id + '] disconnected')
     cancelar=false;
+    cargada=false;
+    contador=0;
     console.log(cancelar);
     gamePlay.deletePlayer(socket.id)
     io.emit('playerDisconnected', socket.id)

@@ -74,8 +74,19 @@ class Game extends Phaser.Scene {
       this.games = backGame;
       //defino la vida de los barcos segun dificultad
       if (this.gameDifficulty == null) {
-        this.gameDifficult = this.games.game.idDifficulty;
+        if(this.games.game==null){
+          this.gameDifficult = '1';
+        }else{
+          if(this.games.game.idDifficulty==null){
+            this.gameDifficult = '1';
+  
+          }else{
+            this.gameDifficult = this.games.game.idDifficulty;
+          }
+        }
+       
       }
+
 
 
       if (hacerLoad) {

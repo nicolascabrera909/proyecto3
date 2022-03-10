@@ -43,10 +43,15 @@ exports.cargar = async function (req, res, next) {
             gamePlay.loading(true);
             gamePlay.espera(9000)
             result='ok'
+            
         } catch (err) {
             console.log('error   ' + err);
         }
 
+    }
+    if(cargado==2){
+        cargado=0;
+        gamePlay.loading(false);
     }
     console.log({ result });
     res.send({ result });
