@@ -421,7 +421,13 @@ class Game extends Phaser.Scene {
       if (info.socketId !== this.socket.id) {
         //this.FreightersList[info.id].setVisible(false);
         //this.FreightersList[info.id].setVisible(true);
-        this.FreightersList[info.id].destroy();
+        //this.FreightersList[info.id].destroy();
+        for(let i=0;i<this.FreightersList.length;i++){
+          if(this.FreightersList[i].id=info.id){
+            this.FreightersList[i].destroy();
+          }
+        }
+
       }
     });
 
@@ -591,7 +597,7 @@ class Game extends Phaser.Scene {
         } else {
           //Dibujo carguero
           id++;
-          this.carguero = new Carguero(self, 0, 0, 'carguero', playerInfo.boatList[i].id);
+          this.carguero = new Carguero(self, 0, 0, 'carguero',/*id*/ playerInfo.boatList[i].id);
           this.carguero.create(playerInfo.boatList[i])
           currentPlayer = this.carguero;
           currentPlayer.socketId = playerInfo.socketId;
@@ -609,6 +615,7 @@ class Game extends Phaser.Scene {
     //this.gameDifficulty = this.games.game.idDifficulty;
     if (playerInfo.boatTeam == 'destructor') {
       this.destructor2 = new Destructor(self, 0, 0, 'destructor', this.boatLiftSet(this.gameDifficulty));
+      let id2 = 0;
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         let otherPlayer = null;
         let otherPlayersCarguero = null;
@@ -622,9 +629,10 @@ class Game extends Phaser.Scene {
           otherPlayer.socketId = playerInfo.socketId;
           this.otherPlayers.add(otherPlayer);
         } else {
+          id2++;
           //Dibujo carguero secundario
-          this.carguero2 = new Carguero(self, 0, 0, 'carguero');
-          otherPlayersCarguero = this.carguero2.create(playerInfo.boatList[i].id);
+          this.carguero2 = new Carguero(self, 0, 0, 'carguero',/*id2*/ playerInfo.boatList[i].id);
+          otherPlayersCarguero = this.carguero2.create(playerInfo.boatList[i]);
           otherPlayersCarguero.socketId = playerInfo.socketId;
           this.otherPlayersCargueros.add(otherPlayersCarguero);
         }
@@ -962,7 +970,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: socket.id,
+          socketId: this.socket.id,
           id: 0
         });
       }
@@ -979,7 +987,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: socket.id,
+          socketId: this.socket.id,
           id: 1
         });
       }
@@ -996,7 +1004,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: socket.id,
+          socketId: this.socket.id,
           id: 2
         });
       }
@@ -1013,7 +1021,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: socket.id,
+          socketId: this.socket.id,
           id: 3
         });
       }
@@ -1030,7 +1038,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: socket.id,
+          socketId: this.socket.id,
           id: 4
         });
       }
@@ -1047,7 +1055,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: socket.id,
+          socketId: this.socket.id,
           id: 5
         });
       }
