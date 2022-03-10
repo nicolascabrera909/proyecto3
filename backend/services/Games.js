@@ -194,7 +194,7 @@ class Games {
                             destructor.positionY = shipList[j].positionY;
                             destructor.rotation = shipList[j].rotation;
                             destructor.visibility = shipList[j].visibility;
-                            destructor.type = shipList[j].boatType;
+                           // destructor.type = shipList[j].boatType;
                             boatListDestructor.push(destructor);
                             if (j + 1 == shipList.length) {
                                 destructorPlayer = new Player(pleyerList[i].name, '0', boatListDestructor, 'destructor');
@@ -211,7 +211,7 @@ class Games {
                             //freighters.positionX = shipList[j].positionX;
                             //freighters.positionY = shipList[j].positionY;
                             freighters.visibility = shipList[j].visibility;
-                            freighters.type = shipList[j].boatType;
+                            //freighters.type = shipList[j].boatType;
                             //freighters.id = cCarguero.id;
                             boatListDestructor.push(freighters);
                             if (j + 1 == shipList.length) {

@@ -73,7 +73,7 @@ class Game extends Phaser.Scene {
     this.socket.on('inicioInstancia', (backGame,hacerLoad) => {
       this.games = backGame;
       if (hacerLoad) {
-        this.socket.emit('loadGame', this.socket.id, this.idGame);
+        this.socket.emit('loadGame', this.socket.id);
         //cantidadLoadPlayers++;
       } else {
         this.socket.emit('createGame', username, boatType, difficulty);
@@ -595,7 +595,7 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
-    var dificulty = this.games.game.idDifficulty;
+    this.gameDifficulty = this.games.game.idDifficulty.id;
     if (playerInfo.boatTeam == 'destructor') {
       this.destructor2 = new Destructor(self, 0, 0, 'destructor', this.gameDifficulty);
       for (let i = 0; i < playerInfo.boatList.length; i++) {
@@ -625,7 +625,7 @@ class Game extends Phaser.Scene {
         x: playerInfo.boatList[0].positionX,
         y: playerInfo.boatList[0].positionY,
       }
-      this.submarino2 = new Submarino(self, 0, 0, 'submarino', this.gameDifficulty);
+      this.submarino2 = new Submarino(self, 0, 0, 'submarino', this.gameDifficulty );
       otherPlayer = this.submarino2.create(coordS2, self, false);
       otherPlayer.socketId = playerInfo.socketId;
       this.otherPlayers.add(otherPlayer)

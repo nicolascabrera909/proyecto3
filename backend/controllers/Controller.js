@@ -30,10 +30,10 @@ exports.guardar = async function (req, res, next) {
 };
 
 exports.cargar = async function (req, res, next) {
+    const gamePlay = new Games();
     let result ='error'
     if (cargado == 0) {
         cargado++;
-        const gamePlay = new Games();
         result = await gamePlay.LoadGame(req.query.gameId);
         gamePlay.loading(true);
         gamePlay.espera()
@@ -41,6 +41,7 @@ exports.cargar = async function (req, res, next) {
         try {
             gamePlay.loading(true);
             gamePlay.espera()
+            result='ok'
         } catch (err) {
             console.log('error   ' + err);
         }
