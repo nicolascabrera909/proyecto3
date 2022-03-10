@@ -95,7 +95,7 @@ class Game extends Phaser.Scene {
         this.defineCollisions(self);
         this.ignoreSmallMap();
         //this.clockTimeOut(this.socket);
-        this.setGameTimeOut(this.socket);
+        this.setGameTimeOut(this.socket, self);
 
       }
     });
@@ -735,21 +735,39 @@ class Game extends Phaser.Scene {
   defineCollisionsFreightersSubmarino() {
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0], () => {
       console.log('entro al overlap de submarino con carguero 0');
+      if (this.otherPlayersCargueros.children.entries[0].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[1], () => {
       console.log('entro al overlap de submarino con carguero 1');
+      if (this.otherPlayersCargueros.children.entries[1].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[1]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[2], () => {
       console.log('entro al overlap de submarino con carguero 2');
+      if (this.otherPlayersCargueros.children.entries[2].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[2]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[3], () => {
       console.log('entro al overlap de submarino con carguero 3');
+      if (this.otherPlayersCargueros.children.entries[3].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[3]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[4], () => {
       console.log('entro al overlap de submarino con carguero 4');
+      if (this.otherPlayersCargueros.children.entries[4].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[4]);
+      }
     });
     this.physics.add.overlap(this.submarino.submarino, this.otherPlayersCargueros.children.entries[5], () => {
       console.log('entro al overlap de submarino con carguero 5');
+      if (this.otherPlayersCargueros.children.entries[5].available){
+        this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[5]);
+      }
     });
 
     //Collision submarino torpedo con Cargueros
@@ -891,36 +909,30 @@ class Game extends Phaser.Scene {
     this.scene.pause('Game');
   }
 
-  setGameTimeOut(socket) {
+  setGameTimeOut(socket, self) {
     console.log('por setear el tiempo' + this.gameDifficulty);
     var time;
-    switch (this.gameDifficulty) {
-      case this.gameDifficulty == 1:
-        time = 60000;
+    var difficulty = parseInt(this.gameDifficulty);
+    switch (difficulty) {
+      case 1:
+        time = 360000;
         break;
-      case this.gameDifficulty == 2:
-        time = 180000;
-      case this.gameDifficulty == 3:
-          time = 180000;
+      case 2:
+        time = 240000;
+      case  3:
+          time = 120000;
         break;
     }
     setTimeout(function () {
       console.log('en set timeout.- valor de tiempo' + time);  
       socket.emit('finishGame', socket.id);
       console.log('despues del emit de finishgame');  
-      this.add.image(500, 600, "game_over");
+      self.add.image(500, 600, "game_over");
       console.log('despues de la imagen');  
-      this.scene.pause('Game');
+      self.scene.pause('Game');
     }, time);
   }
 
-  
-
-  GameTimeOut(self, socket_id) {
-    this.socket.emit('finishGame', socket_id);
-    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "game_over");
-    this.scene.pause('Game');
-  }
 
   //Carga de imagenes en la escena
   loadImages() {

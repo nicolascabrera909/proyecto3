@@ -10,6 +10,7 @@ CREATE TABLE difficulty (
 	multiVisibility INT,
 	multiSpeed INT,
 	multiDistance INT,
+	multiTime INT,
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
 CREATE TABLE game (
@@ -95,5 +96,9 @@ CREATE TABLE version (
 );
 INSERT INTO version (id, version)
 	VALUES (1, '0.1');
-INSERT INTO difficulty (id, multiMap, multiLife, multiPower, multiVisibility, multiSpeed, multiDistance) 
-	VALUES (1,1,1,1,1,1,1);
+INSERT INTO difficulty (multiMap, multiLife, multiPower, multiVisibility, multiSpeed, multiDistance, multiTime) 
+	VALUES (1,1,1,1,1,1,6);
+INSERT INTO difficulty (multiMap, multiLife, multiPower, multiVisibility, multiSpeed, multiDistance, multiTime) 
+	VALUES (2,2,2,2,2,2,4);
+INSERT INTO difficulty (multiMap, multiLife, multiPower, multiVisibility, multiSpeed, multiDistance, multiTime) 
+	VALUES (3,3,3,3,3,3,2);
