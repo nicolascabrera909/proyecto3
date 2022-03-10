@@ -227,21 +227,22 @@ class Games {
             //agrego el jugador de destructor con los cargeros
 
         }
-        /*listPLayers.InsBack(submarinePlayer);
-        listPLayers.InsBack(destructorPlayer);*/
+      
         let lista = [submarinePlayer, destructorPlayer]
-        // let listPLayers = new Players();
-        // listPLayers.InsBack(submarinePlayer);
-        // listPLayers.InsBack(destructorPlayer);
-        //completo el game 
-        //theGame.idDifficulty = aDifficulty;
-        //theGame.playerList = listPLayers;
-        //theGame.playerList.push(submarinePlayer);
-        //theGame.playerList.push(destructorPlayer);
-        this.game = new Game(lista, aDifficulty.id)
-        // this.game.idDifficulty = aDifficulty;
-        // this.game.playerList.push(submarinePlayer);
-        //this.game.playerList.push(destructorPlayer)
+        let dificultad=0;
+        switch(aDifficulty.id){
+            case 1:dificultad="1";
+            break;
+            case 2:dificultad="2";
+            break;
+            case 3:dificultad="3";
+            break;
+        }
+        
+
+       
+        this.game = new Game(lista, dificultad)
+     
         return 'ok';
     }
 
@@ -424,10 +425,10 @@ class Games {
         return this.charge;
     }
 
-    espera() {
+    espera(milisegundos) {
         var start = new Date().getTime();
         for (var i = 0; i < 1e7; i++) {
-         if ((new Date().getTime() - start) > 9000) {
+         if ((new Date().getTime() - start) > milisegundos) {
           break;
          }
         }
@@ -438,6 +439,7 @@ class Games {
     }
 
     askCancel(){
+       // this.espera(900);
         return this.cancel;
     }
 }

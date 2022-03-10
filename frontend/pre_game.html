@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css" />
     <link rel="icon" href="./static/assets/img/favicon.ico">
     <link rel="stylesheet" href="./static/css/base.css">
     <title>UDE Navy</title>
@@ -26,9 +26,10 @@
         </div>
     </nav>
     <h2 class="mt-5" style="text-align:center">Cantidad de jugadores en línea </br>
-        <input style="color: green;text-align: center;width:50px;margin-top: 10px;" id="cant_players" name="cant_players" value='0' disabled="disabled"></input>
+        <input style="color: green;text-align: center;width:50px;margin-top: 10px;" id="cant_players"
+            name="cant_players" value='0' disabled="disabled"></input>
     </h2>
-     <!--type="hidden"-->
+    <!--type="hidden"-->
     <div class="container py-2">
         <div class="row justify-content-center">
             <div class="col-6">
@@ -60,9 +61,9 @@
                     </div>
                     <div class="mt-5" style="text-align: center">
                         <audio controls autoplay>
-                           <source src="./static/assets/audio/menu.mp3" type="audio/mpeg">
+                            <source src="./static/assets/audio/menu.mp3" type="audio/mpeg">
                             Your browser does not support the audio element.
-                          </audio>
+                        </audio>
                     </div>
                 </form>
             </div>
@@ -73,9 +74,9 @@
 
     <script>
 
-        function control_dificultad(){
+        function control_dificultad() {
             let selected = $("#dificultad").val();
-            
+
             $.ajax({
                 url: 'http://localhost:3000/dificultad', // dificultad
                 type: 'GET',
@@ -85,7 +86,7 @@
                     if (data != null) {
                         let msg = 'El tiempo de vida de la partida será de ' + data + ' minutos'
                         $("#dif-seleccionada").text(msg);
-                    }else{
+                    } else {
                         $("#dif-seleccionada").text('');
                     }
                 },
@@ -94,9 +95,9 @@
                 }
             });
         }
-           
-        
-        $("#dificultad").change(function(){
+
+
+        $("#dificultad").change(function () {
             control_dificultad();
         });
 
@@ -107,15 +108,15 @@
             var cant_players = document.getElementById("cant_players").value;
 
             if (username != '') {
-                
-                if ( cant_players < 2){
+
+                if (cant_players < 2) {
                     var queryString = "?username=" + username + "&boattype=" + boattype + "&dificultad=" + dificultad;
                     window.location.href = "game.html" + queryString;
-                }else{
+                } else {
                     alert('Existe una partida en juego intente mas tarde');
                     window.location.href = "index.html"
                 }
-               
+
 
             } else {
                 alert("El nombre de usuario es obligatorio.")
@@ -132,13 +133,16 @@
                 dataType: 'json',
                 success: function (data, status, xhr) {
                     if (data.game != null) {
-                        if(cant_jugadores){
+                        if (cant_jugadores) {
                             $('#startButton').html('Unirse');
                         }
                         $('#cant_players').val(data.game.playerList.length);
                         if (data.game.playerList.length <= 2) {
-                            eliminarOptionTipoBarco(data.game.playerList[0].boatTeam);
-                            setearNivelYaPrecargado(data.game.idDifficulty);
+                            if (data.game.playerList.length == 1) {
+                                eliminarOptionTipoBarco(data.game.playerList[0].boatTeam);
+                                setearNivelYaPrecargado(data.game.idDifficulty);
+                            }
+
 
                         } else {
                             alert('Juego lleno, actualmente ya hay conectado ' + $('#cant_players').val() + 'jugadores');

@@ -72,6 +72,12 @@ class Game extends Phaser.Scene {
 
     this.socket.on('inicioInstancia', (backGame, hacerLoad) => {
       this.games = backGame;
+      //defino la vida de los barcos segun dificultad
+      if (this.gameDifficulty == null) {
+        this.gameDifficult = this.games.game.idDifficulty;
+      }
+
+
       if (hacerLoad) {
         this.socket.emit('loadGame', this.socket.id);
         //cantidadLoadPlayers++;
@@ -330,10 +336,13 @@ class Game extends Phaser.Scene {
     //Muestra cartel de victoria por rendicion del enemigo
     this.socket.on('canceledGame', (socket_id) => {
       if (socket_id !== self.socket.id) {
-        self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "victory_surrender");
+        this.currentPlayers.children.entries[0].coodOriginalX
+        self.add.image(this.currentPlayers.children.entries[0].coodOriginalX, this.currentPlayers.children.entries[0].coodOriginalY, "victory_surrender");
+        //self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "victory_surrender");
         this.scene.pause('Game');
-      }else{
-        self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
+      } else {
+        self.add.image(this.currentPlayers.children.entries[0].coodOriginalX, this.currentPlayers.children.entries[0].coodOriginalY, "defeat_surrender");
+        //self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
         this.scene.pause('Game');
       }
     });
@@ -422,7 +431,7 @@ class Game extends Phaser.Scene {
   }
 
   update() {
-   
+
     this.socket.emit('listenCancel');
 
     this.input.on('pointerdown', function (pointer) {
@@ -539,18 +548,6 @@ class Game extends Phaser.Scene {
   //Metodos de creacion de jugadores
 
   addPlayer(self, playerInfo) {
-    var dificulty;
-    switch (this.gameDifficulty) {
-      case "1":
-        dificulty = 1;
-        break;
-      case "2":
-        dificulty = 2;
-        break;
-      case "3":
-        dificulty = 3;
-        break;
-    };
     console.log(playerInfo)
     let currentPlayer = null;
     if (playerInfo.boatTeam == 'submarino') {
@@ -560,14 +557,14 @@ class Game extends Phaser.Scene {
         x: playerInfo.boatList[0].positionX,
         y: playerInfo.boatList[0].positionY,
       }
-      this.submarino = new Submarino(self, 0, 0, 'submarino', dificulty);
+      this.submarino = new Submarino(self, 0, 0, 'submarino', this.boatLiftSet(this.gameDifficulty));
       this.submarino.create(coordS, self, true);
       currentPlayer = this.submarino;
       currentPlayer.socketId = playerInfo.socketId;
       this.currentPlayers.add(currentPlayer);
     } else {
       //Creo destructor y cargueros
-      this.destructor = new Destructor(self, 0, 0, 'destructor', dificulty);
+      this.destructor = new Destructor(self, 0, 0, 'destructor', this.boatLiftSet(this.gameDifficulty));
       let id = 0;
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         if (playerInfo.boatList[i].type == 'destructor') {
@@ -596,21 +593,10 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
-    var dificulty;
-    switch (this.gameDifficulty) {
-      case "1":
-        dificulty = 1;
-        break;
-      case "2":
-        dificulty = 2;
-        break;
-      case "3":
-        dificulty = 3;
-        break;
-    };
-    this.gameDifficulty = this.games.game.idDifficulty.id;
+
+    //this.gameDifficulty = this.games.game.idDifficulty;
     if (playerInfo.boatTeam == 'destructor') {
-      this.destructor2 = new Destructor(self, 0, 0, 'destructor', dificulty);
+      this.destructor2 = new Destructor(self, 0, 0, 'destructor', this.boatLiftSet(this.gameDifficulty));
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         let otherPlayer = null;
         let otherPlayersCarguero = null;
@@ -638,7 +624,7 @@ class Game extends Phaser.Scene {
         x: playerInfo.boatList[0].positionX,
         y: playerInfo.boatList[0].positionY,
       }
-      this.submarino2 = new Submarino(self, 0, 0, 'submarino', dificulty);
+      this.submarino2 = new Submarino(self, 0, 0, 'submarino', this.boatLiftSet(this.gameDifficulty));
       otherPlayer = this.submarino2.create(coordS2, self, false);
       otherPlayer.socketId = playerInfo.socketId;
       this.otherPlayers.add(otherPlayer)
@@ -1096,7 +1082,7 @@ class Game extends Phaser.Scene {
 
   setGameTimeOut(socket, self) {
     var time;
-    var difficulty = parseInt(this.gameDifficulty);
+    var difficulty = parseInt(this.boatLiftSet(this.gameDifficulty));
     switch (1) {
       case 1:
         time = 360000;
@@ -1221,6 +1207,27 @@ class Game extends Phaser.Scene {
       });
     }
   }
+
+  boatLiftSet(nivel) {
+    var dificulty = 0;
+    switch (nivel) {
+      case "1":
+        dificulty = 1;
+        break;
+      case "2":
+        dificulty = 2;
+        break;
+      case "3":
+        dificulty = 3;
+        break;
+    }
+
+    return dificulty;
+  }
+  
+
+
 }
+
 
 export default Game;

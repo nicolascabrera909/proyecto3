@@ -24,7 +24,7 @@ const socketIO = require('socket.io');
 const { type } = require('os');
 const server = http.Server(app);
 const io = socketIO(server, {
-  pingTimeout: 500000,
+  pingTimeout: 50000,
   cors: {
     origin: "http://localhost:5500",
   },
@@ -64,6 +64,9 @@ let whitelist = ['http://localhost', 'http://localhost:5500', 'http://localhost:
 /////////////////////////////////////////////////////// SOCKET ///////////////////////////////////////////////////////
 io.on('connection', function (socket) {
   console.log('Player [' + socket.id + '] connected')
+  cancelar=false;
+  gamePlay.cancel=false;
+  console.log(cancelar);
   if (contador == 0) {
     cargada = gamePlay.loadingRedy();
     contador++;
@@ -76,6 +79,7 @@ io.on('connection', function (socket) {
    if(cancelar){
     socket.emit('canceledGame', socket.id);
     socket.broadcast.emit('canceledGame', socket.id);
+    cancelar=false;
    }
   });
 
@@ -119,6 +123,8 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function () {
     console.log('Player [' + socket.id + '] disconnected')
+    cancelar=false;
+    console.log(cancelar);
     gamePlay.deletePlayer(socket.id)
     io.emit('playerDisconnected', socket.id)
   })
@@ -251,6 +257,16 @@ io.on('connection', function (socket) {
   });
 
 });
+
+
+
+
+
+
+
+
+
+
 
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
 app.use(require('./routes/index'));

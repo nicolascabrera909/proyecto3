@@ -37,11 +37,11 @@ exports.cargar = async function (req, res, next) {
         cargado++;
         result = await gamePlay.LoadGame(req.query.gameId);
         gamePlay.loading(true);
-        gamePlay.espera()
+        gamePlay.espera(9000)
     } else {
         try {
             gamePlay.loading(true);
-            gamePlay.espera()
+            gamePlay.espera(9000)
             result='ok'
         } catch (err) {
             console.log('error   ' + err);
