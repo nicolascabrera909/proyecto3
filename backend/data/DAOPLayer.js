@@ -31,7 +31,7 @@ class DAOPlayer {
         const consultas = new queries();
         const result = await pool.query(consultas.lastPlayerId(),[gameId]);
         if (result != null) {
-            return  result;
+            return  result[0].id;
         }
         else
             return ('Error');

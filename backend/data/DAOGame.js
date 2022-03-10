@@ -8,7 +8,7 @@ class DAOGame {
 
     //aca le paso o un destructor, submarino o un carguero
     async insert(dificultadId) {
-        const consultas = new queries();
+        const consultas = new Queries();
         const result = await pool.query(consultas.insertGame(), [dificultadId]);
         if (result != null) {
             return ('OK')
@@ -29,6 +29,21 @@ class DAOGame {
             return ('Error');
         }
     }
+    async findGameId(id) {
+        try {
+            const consultas = new Queries();
+            var result = await pool.query(consultas.findGameId(), [id] );
+            if (result != null) {
+                return result[0];
+            }
+            else {
+                console.log('resultado error ');
+                return ('Error');
+            }
+        } catch (err) {
+            console.log('falle  ' + err)
+        }
+    }
 
     async lastGame() {
         const consultas = new Queries();
@@ -42,7 +57,30 @@ class DAOGame {
         }
     }
 
+    async list() {
+        const consultas = new Queries();
+        var result = await pool.query(consultas.listGames());
+        if (result != null) {
+            return result;
+        }
+        else {
+            console.log('resultado error ');
+            return ('Error');
+        }
+    }
 
+    async dificultad(dificultad) {
+        const consultas = new Queries();
+        const result = await pool.query(consultas.dificultad(),[dificultad]);
+
+        if (result != null) {
+            return result;
+        }
+        else {
+            console.log('resultado error ');
+            return ('Error');
+        }
+    }
 
 }
 module.exports = DAOGame;

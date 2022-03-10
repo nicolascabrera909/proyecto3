@@ -9,6 +9,21 @@ class Carguero extends Phaser.GameObjects.Sprite {
     this.coodOriginalX=0;
     this.coodOriginalY=0;
     this.idCarguero=id;
+    this.available = true;
+  }
+
+  destroy(socket, self) {
+    this.available = false;
+    this.carguero.setVisible(false);
+    this.carguero.is_destroyed = true;
+    self.anims.create(self.explosionConfig);
+    self.add.sprite(this.submarino.x, this.submarino.y, 'explosion').play('explodeAnimation');
+    self.ship_collision_sound.play();
+    if (socket) {
+      socket.emit('destroy_carguero', {
+        socketId: socket.id
+      });
+    }
   }
 
   create(boat) {
@@ -23,27 +38,29 @@ class Carguero extends Phaser.GameObjects.Sprite {
   showCargueros(self, boat) {
     const x = boat.positionX;
     const y = boat.positionY;
- 
-    //ubico al carguero
     this.carguero = this.scene.physics.add.sprite(x, y, 'carguero');
     this.carguero.setDisplaySize(80, 15);
     this.carguero.setSize(140, 20);
     this.carguero.setCollideWorldBounds(true);
-    //this.carguero.setImmovable(true);
-  
     return this.carguero;
   }
 
   moveCarguero(socket){
-    var velocidad = 2
+    var velocidad = 5
     this.carguero.setVelocity(velocidad, 0);
-    if( !(this.carguero.x== this.coodOriginalX && this.carguero.y==this.coodOriginalX  )){
-      socket.emit('playerMovementCarguero', { x: this.carguero.x, y: this.carguero.y },this.idCarguero)
+    if( !(this.carguero.x== this.coodOriginalX && this.carguero.y==this.coodOriginalX && this.carguero.x)){
+      if (this.carguero.x > 3160){
+        this.carguero.setVelocity(0, 0);
+      }
+      socket.emit('playerMovementCarguero', { 
+        x: this.carguero.x, 
+        y: this.carguero.y 
+      },
+      this.idCarguero)
       this.coodOriginalX=this.carguero.x;
       this.coodOriginalY=this.carguero.y;
     }
   }
 }
-
 
 export default Carguero;

@@ -16,12 +16,12 @@ class Submarine {
         //this.cannon.cantMunicion = 30;
 
         /*mapa.getWidth(), mapa.getHeight()*/
-        const coordenadas = this.coordenadasSubmarino(map.getWidth(), map.getHeight());
+        //const coordenadas = this.coordenadasSubmarino(map.getWidth(), map.getHeight());
+        const coordenadas = this.coordenadasSubmarino(map.width, map.height);
         this.rotation = 180;
         this.positionX = coordenadas.x;
         this.positionY = coordenadas.y;
-        this.boatLife = 100;
-        this.visibility = 100;
+        this.boatLife = 5;
         this.type = 'submarino';
         this.depth = 1;    // 1 superficie, 2 sumergido y 3 sumergido proufundo
 

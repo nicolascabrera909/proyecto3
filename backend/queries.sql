@@ -2,19 +2,6 @@ CREATE DATABASE udenavybd;
 CREATE USER 'udeuser'@'%' IDENTIFIED BY 'udepass';
 GRANT ALL PRIVILEGES ON udenavybd.* TO udeuser@'%';
 USE udenavybd;
-CREATE TABLE version (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  version VARCHAR(10) NOT NULL,
-  created_at timestamp NOT NULL DEFAULT current_timestamp
-);
-INSERT INTO version (id, version)
-  VALUES (1, '0.1');
-
-
-
-
-USE udenavybd;
-
 CREATE TABLE difficulty (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	multiMap INT,
@@ -23,16 +10,15 @@ CREATE TABLE difficulty (
 	multiVisibility INT,
 	multiSpeed INT,
 	multiDistance INT,
+	multiTime INT,
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE game (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	difficulty_id INT,
 	FOREIGN KEY (difficulty_id) REFERENCES difficulty(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE mapa (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	game_id INT,
@@ -41,9 +27,6 @@ CREATE TABLE mapa (
 	FOREIGN KEY (game_id) REFERENCES game(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
-
-
 CREATE TABLE player (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(20),
@@ -51,9 +34,6 @@ CREATE TABLE player (
 	FOREIGN KEY (game_id) REFERENCES game(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
-
-
 CREATE TABLE ship (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	player_id INT,
@@ -61,34 +41,32 @@ CREATE TABLE ship (
 	positionY INT,
 	rotation INT,
 	boatLife INT,
-	boatType INT,
-	visibility INT,
+	boatTeam varchar(20),
 	FOREIGN KEY (player_id) REFERENCES player(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE freighters (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
+	boatType varchar(20),
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE destructor (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
+	boatType varchar(20),
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE submarine (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
 	s_depth INT,
+	boatType varchar(20),
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE cannon (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ship_id INT,
@@ -96,7 +74,6 @@ CREATE TABLE cannon (
 	FOREIGN KEY (ship_id) REFERENCES ship(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE depth_charge (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	destructor_id INT,
@@ -105,7 +82,6 @@ CREATE TABLE depth_charge (
 	FOREIGN KEY (destructor_id) REFERENCES destructor(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
-
 CREATE TABLE torpedo (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	submarine_id INT,
@@ -113,3 +89,16 @@ CREATE TABLE torpedo (
 	FOREIGN KEY (submarine_id) REFERENCES submarine(id),
 	created_at timestamp NOT NULL DEFAULT current_timestamp
 );
+CREATE TABLE version (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	version VARCHAR(10) NOT NULL,
+	created_at timestamp NOT NULL DEFAULT current_timestamp
+);
+INSERT INTO version (id, version)
+	VALUES (1, '0.1');
+INSERT INTO difficulty (multiMap, multiLife, multiPower, multiVisibility, multiSpeed, multiDistance, multiTime) 
+	VALUES (1,1,1,1,1,1,6);
+INSERT INTO difficulty (multiMap, multiLife, multiPower, multiVisibility, multiSpeed, multiDistance, multiTime) 
+	VALUES (2,2,2,2,2,2,4);
+INSERT INTO difficulty (multiMap, multiLife, multiPower, multiVisibility, multiSpeed, multiDistance, multiTime) 
+	VALUES (3,3,3,3,3,3,2);
