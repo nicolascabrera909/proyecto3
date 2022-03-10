@@ -113,6 +113,7 @@ class Games {
                 this.partidaExistente(player2);
             }
         }
+        return this.game;
     }
 
     deletePlayer(socketId) {
@@ -128,6 +129,9 @@ class Games {
                 i++;
             }
             this.game.playerList.splice(pos, 1);
+        }
+        if(this.game.playerList.length==0){
+            this.game=null;
         }
     }
 

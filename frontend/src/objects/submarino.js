@@ -17,7 +17,7 @@ class Submarino extends Phaser.GameObjects.Sprite {
     this.depth = 1;
     this.torpedos = new Torpedos(scene);
     this.cannons = new Cannons(scene);
-    this.life = 12 / dificulty;
+    this.life = (12 / dificulty);
   }
 
   create(coordenadas, self, cursor) {

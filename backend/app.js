@@ -88,7 +88,7 @@ io.on('connection', function (socket) {
   //Partida nueva
   socket.on('createGame', function (name, boatTeam, difficulty) {
     //Creo el juego con su jugador y barcos
-    gamePlay.createGame(socket.id, name, boatTeam, difficulty);
+    gamePlay.game=gamePlay.createGame(socket.id, name, boatTeam, difficulty);
     socket.emit('currentPlayers', gamePlay.game.playerList, gamePlay);
 
     if (gamePlay.game.playerList[0].socketId == socket.id) {
