@@ -13,6 +13,7 @@ var gamePlay = new Games();
 let cantidad = 0;
 let pleyerListIni = [];
 let cargada = false;
+let cancelar = false;
 let contador = 0;
 let cancelada = false;
 let contadorCancel = 0;
@@ -38,9 +39,8 @@ const io = socketIO(server, {
 console.log("Socket levantado");
 
 
-///variables carga partida
-cargada = false;
-cancelada = false;
+
+
 
 
 
@@ -69,12 +69,11 @@ io.on('connection', function (socket) {
     contador++;
   }
 
-  if (contadorCancel == 0) {
-    cancelada = gamePlay.cancelingRedy();
-    contadorCancel++;
-  }
+ 
+  cancelar= gamePlay.askCancel();
 
-  socket.emit('inicioInstancia', gamePlay, cargada, cancelada);
+
+  socket.emit('inicioInstancia', gamePlay, cargada);
 
   //Partida nueva
   socket.on('createGame', function (name, boatTeam, difficulty) {
@@ -88,6 +87,9 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
   });
+
+  
+
   socket.on('loadGame', function (soketId) {
     //creo el juego con su jugador y barcos
     console.log('Emito currentPlayers');
@@ -253,6 +255,10 @@ io.on('connection', function (socket) {
   socket.on('empate', function (info) {
     console.log('Juego terminado en empate');
     socket.broadcast.emit('other_empate', info);
+  });
+
+  socket.on('destroy_carguero', function (info) {
+    socket.broadcast.emit('other_destroy_carguero', info);
   });
 
 });
