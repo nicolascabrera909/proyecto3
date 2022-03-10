@@ -962,7 +962,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: this.socket.id,
+          socketId: socket.id,
           id: 0
         });
       }
@@ -979,7 +979,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: this.socket.id,
+          socketId: socket.id,
           id: 1
         });
       }
@@ -996,7 +996,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: this.socket.id,
+          socketId: socket.id,
           id: 2
         });
       }
@@ -1013,7 +1013,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: this.socket.id,
+          socketId: socket.id,
           id: 3
         });
       }
@@ -1030,7 +1030,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: this.socket.id,
+          socketId: socket.id,
           id: 4
         });
       }
@@ -1047,7 +1047,7 @@ class Game extends Phaser.Scene {
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
-          socketId: this.socket.id,
+          socketId: socket.id,
           id: 5
         });
       }
