@@ -248,6 +248,10 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_empate', info);
   });
 
+  socket.on('destroy_carguero', function (info) {
+    socket.broadcast.emit('other_destroy_carguero', info);
+  });
+
 });
 
 /////////////////////////////////////////////////////////  ROUTES  /////////////////////////////////////////////////////
