@@ -215,17 +215,6 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_shotDepthCharge', info);
   });
 
-  /*socket.on('cancelGame', function (socket_id) {
-   // aca terminamos el juego
-    console.log('Juego cancelado');
-    socket.broadcast.emit('canceledGame', socket_id);
-  });*/
-
-  socket.on('emit_clock', function (info) {
-    socket.broadcast.emit('other_emit_clock', info)
-  });
- 
-
   socket.on('finishGame', function (socket_id) {
     console.log('Juego terminado');
     socket.broadcast.emit('finishedGame', socket_id);

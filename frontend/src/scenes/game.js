@@ -355,31 +355,6 @@ class Game extends Phaser.Scene {
 
     });
 
-    //Reloj de la partida
-    this.socket.on('other_emit_clock', (info) => {
-      switch (info.minutes) {
-        case 5:
-          console.log('5 minutos restantes');
-          this.msg = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Inicio la partida");
-          break;
-        case 4:
-          console.log('4 minutos restantes');
-          break;
-        case 3:
-          console.log('3 minutos restantes');
-          break;
-        case 2:
-          console.log('2 minutos restantes');
-          break;
-        case 1:
-          console.log('1 minutos restante');
-          break;
-        case 0:
-          console.log('fin de partida, empate');
-          break;
-      }
-    });
-
     //Muestra cartel de victoria si los cargueros llegan al otro lado del mapa
     this.socket.on('who_wins', (info) => {
       if (info.socketId === this.socket.id) {
@@ -1119,16 +1094,7 @@ class Game extends Phaser.Scene {
     this.socket.emit('saveGame', socket_id, this.games.game.playerList[0].name, this.games.game.playerList[1].name, this.games.game.idDifficulty);
   }
 
-  //Cancela la partida en curso
- /* cancelGame(self) {
-    let socket_id = this.socket.id;
-    this.socket.emit('cancelGame', socket_id);
-    self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
-    this.scene.pause('Game');
-  }*/
-
   setGameTimeOut(socket, self) {
-    console.log('por setear el tiempo' + this.gameDifficulty);
     var time;
     var difficulty = parseInt(this.gameDifficulty);
     switch (1) {
@@ -1142,11 +1108,8 @@ class Game extends Phaser.Scene {
         break;
     }
     setTimeout(function () {
-      console.log('en set timeout.- valor de tiempo' + time);
       socket.emit('finishGame', socket.id);
-      console.log('despues del emit de finishgame');
       self.add.image(500, 600, "game_over");
-      console.log('despues de la imagen');
       self.scene.pause('Game');
     }, time);
   }
