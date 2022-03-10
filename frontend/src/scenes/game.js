@@ -910,6 +910,7 @@ class Game extends Phaser.Scene {
   }
 
   setGameTimeOut(socket, self) {
+    
     console.log('por setear el tiempo' + this.gameDifficulty);
     var time;
     var difficulty = parseInt(this.gameDifficulty);
