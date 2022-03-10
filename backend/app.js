@@ -13,6 +13,7 @@ var gamePlay = new Games();
 let cantidad = 0;
 let pleyerListIni = [];
 let cargada = false;
+let cancelar = false;
 let contador = 0;
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
@@ -36,8 +37,7 @@ const io = socketIO(server, {
 console.log("Socket levantado");
 
 
-///variables carga partida
-cargada = false;
+
 
 
 
@@ -67,6 +67,10 @@ io.on('connection', function (socket) {
     contador++;
   }
 
+ 
+  cancelar= gamePlay.askCancel();
+
+
   socket.emit('inicioInstancia', gamePlay, cargada);
 
   //Partida nueva
@@ -81,6 +85,9 @@ io.on('connection', function (socket) {
       socket.broadcast.emit('newPlayer', gamePlay.game.playerList[1]);
     }
   });
+
+  
+
   socket.on('loadGame', function (soketId) {
     //creo el juego con su jugador y barcos
     console.log('Emito currentPlayers');

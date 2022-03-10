@@ -63,7 +63,7 @@
 				dataType: 'json',
 				success: function (data, status, xhr) {
 					if (data) {
-						alert('se podría mostrar un aviso de que se grabo la partida')
+						alert('Partida guardada')
 					}
 				},
 				error: function (xhr, status, error) {
@@ -75,11 +75,11 @@
 		function cancelGame() {
 			$.ajax({
 				url: 'http://localhost:3000/cancelar',
-				type: 'POST',
+				type: 'GET',
 				dataType: 'json',
 				success: function (data, status, xhr) {
 					if (data) {
-						alert('se podría mostrar un aviso de que se cancelo la partida')
+						alert('Partida Cancelada')
 					}
 				},
 				error: function (xhr, status, error) {

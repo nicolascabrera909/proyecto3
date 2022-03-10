@@ -600,7 +600,7 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
-    this.gameDifficulty = this.games.game.idDifficulty.id;
+    this.gameDifficulty = this.games.game.idDifficulty;
     if (playerInfo.boatTeam == 'destructor') {
       this.destructor2 = new Destructor(self, 0, 0, 'destructor', this.gameDifficulty);
       for (let i = 0; i < playerInfo.boatList.length; i++) {
@@ -1059,6 +1059,7 @@ class Game extends Phaser.Scene {
   }
 
   setGameTimeOut(socket, self) {
+    
     console.log('por setear el tiempo' + this.gameDifficulty);
     var time;
     var difficulty = parseInt(this.gameDifficulty);

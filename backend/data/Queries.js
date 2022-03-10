@@ -18,7 +18,7 @@ class Queries {
         return query;
     }
     findDifficulty(){
-        const query='SELECT id,multiMap,multiLife,multiPower,multiVisibility,multiSpeed,multiDistance from difficulty  where id=?';
+        const query='SELECT id from difficulty  where id=?';
         return query;
     }
 
