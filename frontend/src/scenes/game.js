@@ -564,6 +564,18 @@ class Game extends Phaser.Scene {
   //Metodos de creacion de jugadores
 
   addPlayer(self, playerInfo) {
+    var dificulty;
+    switch (this.gameDifficulty) {
+      case "1":
+        dificulty = 1;
+        break;
+      case "2":
+        dificulty = 2;
+        break;
+      case "3":
+        dificulty = 3;
+        break;
+    };
     console.log(playerInfo)
     let currentPlayer = null;
     if (playerInfo.boatTeam == 'submarino') {
@@ -573,14 +585,15 @@ class Game extends Phaser.Scene {
         x: playerInfo.boatList[0].positionX,
         y: playerInfo.boatList[0].positionY,
       }
-      this.submarino = new Submarino(self, 0, 0, 'submarino', this.gameDifficulty);
+      this.submarino = new Submarino(self, 0, 0, 'submarino', dificulty);
+      debugger;
       this.submarino.create(coordS, self, true);
       currentPlayer = this.submarino;
       currentPlayer.socketId = playerInfo.socketId;
       this.currentPlayers.add(currentPlayer);
     } else {
       //Creo destructor y cargueros
-      this.destructor = new Destructor(self, 0, 0, 'destructor', this.gameDifficulty);
+      this.destructor = new Destructor(self, 0, 0, 'destructor', dificulty);
       let id = 0;
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         if (playerInfo.boatList[i].type == 'destructor') {
@@ -609,9 +622,21 @@ class Game extends Phaser.Scene {
   }
 
   addOtherPlayers(self, playerInfo) {
+    var dificulty;
+    switch (this.gameDifficulty) {
+      case "1":
+        dificulty = 1;
+        break;
+      case "2":
+        dificulty = 2;
+        break;
+      case "3":
+        dificulty = 3;
+        break;
+    };
     this.gameDifficulty = this.games.game.idDifficulty.id;
     if (playerInfo.boatTeam == 'destructor') {
-      this.destructor2 = new Destructor(self, 0, 0, 'destructor', this.gameDifficulty);
+      this.destructor2 = new Destructor(self, 0, 0, 'destructor', dificulty);
       for (let i = 0; i < playerInfo.boatList.length; i++) {
         let otherPlayer = null;
         let otherPlayersCarguero = null;
@@ -639,7 +664,7 @@ class Game extends Phaser.Scene {
         x: playerInfo.boatList[0].positionX,
         y: playerInfo.boatList[0].positionY,
       }
-      this.submarino2 = new Submarino(self, 0, 0, 'submarino', this.gameDifficulty);
+      this.submarino2 = new Submarino(self, 0, 0, 'submarino', dificulty);
       otherPlayer = this.submarino2.create(coordS2, self, false);
       otherPlayer.socketId = playerInfo.socketId;
       this.otherPlayers.add(otherPlayer)
@@ -709,11 +734,13 @@ class Game extends Phaser.Scene {
       //Colision torpedo submarino con destructor
       this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () => {
         console.log('entro al overlap de torpedo con destructor');
+        debugger;
         this.collisionShipTorpedo(this.destructor2, this.submarino.torpedos, self);
       });
       //Colision cannon submarino con destructor
       this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () => {
         console.log('entro al overlap de canon con destructor');
+        debugger;
         this.collisionShipCannon(this.destructor2, this.submarino.cannons, self);
       });
 
