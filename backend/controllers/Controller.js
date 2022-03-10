@@ -3,6 +3,7 @@ const daoversion = require('../data/DAOVersion');
 const daogame = require('../data/DAOGame');
 const Games = require('../services/Games.js');
 let cargado = 0;
+let cancelado=0;
 
 exports.index = function (req, res) {
     res.send('Bienvenidos a UDE Navy');
@@ -54,6 +55,7 @@ exports.cargar = async function (req, res, next) {
 
 exports.cancelar = async function (req, res, next) {
     const gamePlay = new Games();
+    gamePlay.cancelo(true);
     const result='ok';
     console.log(result);
     res.send(result);

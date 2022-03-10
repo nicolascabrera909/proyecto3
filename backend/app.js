@@ -15,6 +15,8 @@ let pleyerListIni = [];
 let cargada = false;
 let cancelar = false;
 let contador = 0;
+let cancelada = false;
+let contadorCancel = 0;
 
 /////////////////////////////////////////////////////// SOCKET CONFIG ///////////////////////////////////////////////
 const http = require('http');
@@ -68,8 +70,14 @@ io.on('connection', function (socket) {
   }
 
  
-  cancelar= gamePlay.askCancel();
 
+  socket.on('listenCancel', function () {
+    cancelar= gamePlay.askCancel();
+   if(cancelar){
+    socket.emit('canceledGame', socket.id);
+    socket.broadcast.emit('canceledGame', socket.id);
+   }
+  });
 
   socket.emit('inicioInstancia', gamePlay, cargada);
 
@@ -207,29 +215,23 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('other_shotDepthCharge', info);
   });
 
-  socket.on('cancelGame', function (socket_id) {
+  /*socket.on('cancelGame', function (socket_id) {
+   // aca terminamos el juego
     console.log('Juego cancelado');
     socket.broadcast.emit('canceledGame', socket_id);
-  });
+  });*/
 
   socket.on('emit_clock', function (info) {
     socket.broadcast.emit('other_emit_clock', info)
   });
-  /*
-    socket.on('saveGame', function (socket_id, name1, name2, difficulty) {
-      console.log('Entre a save game');
-      gamePlay.saveGame(name1, name2, difficulty);
-    });*/
+ 
 
   socket.on('finishGame', function (socket_id) {
     console.log('Juego terminado');
     socket.broadcast.emit('finishedGame', socket_id);
   });
 
-  // socket.on('showTime', function (socket_id, time) {
-  //   console.log('mostrat reloj');
-  //   socket.broadcast.emit('showedTime', socket_id, time);
-  // });
+  
 
   socket.on('emit_clock', function (info) {
     socket.broadcast.emit('other_emit_clock', info)
