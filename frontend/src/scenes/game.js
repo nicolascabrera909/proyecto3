@@ -424,7 +424,9 @@ class Game extends Phaser.Scene {
         //this.FreightersList[info.id].destroy();
         for(let i=0;i<this.FreightersList.length;i++){
           if(this.FreightersList[i].id=info.id){
-            this.FreightersList[i].destroy();
+            //this.FreightersList[i].destroy();
+            this.FreightersList[i].setVisible(false);
+            this.FreightersList[i].setActive(false);
           }
         }
 
@@ -756,15 +758,16 @@ class Game extends Phaser.Scene {
       const indiceA=0;
       console.log('entro al overlap de submarino con carguero 0');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
         this.submarino.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 0
+          id:idCargado //0
         });
       }
     });
@@ -772,15 +775,16 @@ class Game extends Phaser.Scene {
       const indiceA=1;
       console.log('entro al overlap de submarino con carguero 1');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
         this.submarino.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 1
+          id: idCargado//1
         });
       }
     });
@@ -788,16 +792,17 @@ class Game extends Phaser.Scene {
       const indiceA=2;
       console.log('entro al overlap de submarino con carguero 2');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 2
+          id: idCargado//2
         });
       }
     });
@@ -805,16 +810,17 @@ class Game extends Phaser.Scene {
       const indiceA=3;
       console.log('entro al overlap de submarino con carguero 3');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 3
+          id: idCargado//3
         });
       }
     });
@@ -822,16 +828,17 @@ class Game extends Phaser.Scene {
       const indiceA=4;
       console.log('entro al overlap de submarino con carguero 4');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 4
+          id: idCargado//4
         });
       }
     });
@@ -839,16 +846,17 @@ class Game extends Phaser.Scene {
       const indiceA=5;
       console.log('entro al overlap de submarino con carguero 5');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 5
+          id: idCargado//5
         });
       }
     });
@@ -858,16 +866,17 @@ class Game extends Phaser.Scene {
       const indiceA=0;
       console.log('entro al overlap de torpedos con carguero 0');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.torpedos.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 0
+          id: idCargado//0
         });
       }
     });
@@ -875,16 +884,17 @@ class Game extends Phaser.Scene {
       const indiceA=1;
       console.log('entro al overlap de torpedos con carguero 1');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.torpedos.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 1
+          id: idCargado//1
         });
       }
     });
@@ -892,16 +902,17 @@ class Game extends Phaser.Scene {
       const indiceA=2;
       console.log('entro al overlap de torpedos con carguero 2');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.torpedos.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 2
+          id: idCargado//2
         });
       }
     });
@@ -909,16 +920,17 @@ class Game extends Phaser.Scene {
       const indiceA=3;
       console.log('entro al overlap de torpedos con carguero 3');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.torpedos.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 3
+          id: idCargado//3
         });
       }
     });
@@ -926,16 +938,17 @@ class Game extends Phaser.Scene {
       const indiceA=4;
       console.log('entro al overlap de torpedos con carguero 4');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.torpedos.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 4
+          id: idCargado//4
         });
       }
     });
@@ -943,16 +956,17 @@ class Game extends Phaser.Scene {
       const indiceA=5;
       console.log('entro al overlap de torpedos con carguero 5');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.torpedos.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 5
+          id: idCargado//5
         });
       }
     });
@@ -962,16 +976,17 @@ class Game extends Phaser.Scene {
       const indiceA=0;
       console.log('entro al overlap de cannons con carguero');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[indiceA]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 0
+          id: idCargado//0
         });
       }
     });
@@ -979,16 +994,17 @@ class Game extends Phaser.Scene {
       const indiceA=1;
       console.log('entro al overlap de cannons con carguero');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 1
+          id: idCargado//1
         });
       }
     });
@@ -996,16 +1012,17 @@ class Game extends Phaser.Scene {
       const indiceA=2
       console.log('entro al overlap de cannons con carguero');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 2
+          id: idCargado//2
         });
       }
     });
@@ -1013,16 +1030,17 @@ class Game extends Phaser.Scene {
       const indiceA=3;
       console.log('entro al overlap de cannons con carguero');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 3
+          id: idCargado//3
         });
       }
     });
@@ -1030,16 +1048,17 @@ class Game extends Phaser.Scene {
       const indiceA=4;
       console.log('entro al overlap de cannons con carguero');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 4
+          id: idCargado//4
         });
       }
     });
@@ -1047,16 +1066,17 @@ class Game extends Phaser.Scene {
       const indiceA=5
       console.log('entro al overlap de cannons con carguero');
       if (this.otherPlayersCargueros.children.entries[indiceA].active) {
+        const idCargado=this.otherPlayersCargueros.children.entries[indiceA].idCarguero;
         //this.choque(this.submarino.submarino, this.otherPlayersCargueros.children.entries[0]);
         this.otherPlayersCargueros.children.entries[indiceA].setVisible(false);
         this.otherPlayersCargueros.children.entries[indiceA].setActive(false);
-        this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
+        //this.otherPlayersCargueros.remove(this.otherPlayersCargueros.children.entries[indiceA], true);
 
         this.submarino.cannons.destroy(this.socket, self);
         this.checkVictory();
         this.socket.emit('destroy_carguero', {
           socketId: this.socket.id,
-          id: 5
+          id: idCargado//5
         });
       }
     });
@@ -1246,13 +1266,26 @@ class Game extends Phaser.Scene {
           socketId: this.socket.id
         });
         this.bg_sound.play();
-      } else if (this.otherPlayersCargueros.children.entries.length < 3) {
+      } else{ /*if (this.otherPlayersCargueros.children.entries.length < 3) {
         console.log('gana el submarino');
         this.add.image(this.submarino.submarino.x, this.submarino.submarino.y, "victory");
         this.socket.emit('submarino_wins', {
           socketId: this.socket.id
         });
-        this.bg_sound.play();
+        this.bg_sound.play();*/
+        let contador=0;
+        for (let i=0; i<this.otherPlayersCargueros.children.entries.length;i++){
+          if(this.otherPlayersCargueros.children.entries[i].active){
+            contador++
+          }
+        }
+        if(contador<3){
+          this.add.image(this.submarino.submarino.x, this.submarino.submarino.y, "victory");
+          this.socket.emit('submarino_wins', {    socketId: this.socket.id    });
+        }
+
+
+
       }
     } else if (this.submarino2.submarino.is_destroyed && this.destructor.destructor.is_destroyed) {
       console.log('gana el destructor');
