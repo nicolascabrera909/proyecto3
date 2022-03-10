@@ -586,7 +586,6 @@ class Game extends Phaser.Scene {
         y: playerInfo.boatList[0].positionY,
       }
       this.submarino = new Submarino(self, 0, 0, 'submarino', dificulty);
-      debugger;
       this.submarino.create(coordS, self, true);
       currentPlayer = this.submarino;
       currentPlayer.socketId = playerInfo.socketId;
@@ -734,13 +733,11 @@ class Game extends Phaser.Scene {
       //Colision torpedo submarino con destructor
       this.physics.add.overlap(this.submarino.torpedos, this.destructor2.destructor, () => {
         console.log('entro al overlap de torpedo con destructor');
-        debugger;
         this.collisionShipTorpedo(this.destructor2, this.submarino.torpedos, self);
       });
       //Colision cannon submarino con destructor
       this.physics.add.overlap(this.submarino.cannons, this.destructor2.destructor, () => {
         console.log('entro al overlap de canon con destructor');
-        debugger;
         this.collisionShipCannon(this.destructor2, this.submarino.cannons, self);
       });
 
