@@ -39,6 +39,7 @@ class Games {
         this.daoDifficulty = new DAODifficulty();
         this.daoFreighters = new DAOFreighters();
         this.charge = false;
+        this.cancel=false;
 
 
         //singleton de la clase
@@ -237,7 +238,7 @@ class Games {
         //theGame.playerList = listPLayers;
         //theGame.playerList.push(submarinePlayer);
         //theGame.playerList.push(destructorPlayer);
-        this.game = new Game(lista, aDifficulty)
+        this.game = new Game(lista, aDifficulty.id)
         // this.game.idDifficulty = aDifficulty;
         // this.game.playerList.push(submarinePlayer);
         //this.game.playerList.push(destructorPlayer)
@@ -432,6 +433,13 @@ class Games {
         }
     }
 
+    cancelo(seCancela){
+        this.cancel=seCancela;
+    }
+
+    askCancel(){
+        return this.cancel;
+    }
 }
 
 
