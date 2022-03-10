@@ -54,6 +54,7 @@ exports.cargar = async function (req, res, next) {
 
 exports.cancelar = async function (req, res, next) {
     const gamePlay = new Games();
+    gamePlay.cancelo(true);
     const result='ok';
     console.log(result);
     res.send(result);

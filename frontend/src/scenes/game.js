@@ -332,6 +332,9 @@ class Game extends Phaser.Scene {
       if (socket_id !== self.socket.id) {
         self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "victory_surrender");
         this.scene.pause('Game');
+      }else{
+        self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
+        this.scene.pause('Game');
       }
     });
 
@@ -441,6 +444,9 @@ class Game extends Phaser.Scene {
   }
 
   update() {
+   
+    this.socket.emit('listenCancel');
+
     this.input.on('pointerdown', function (pointer) {
       this.target.x = pointer.x,
         this.target.y = pointer.y
@@ -1051,12 +1057,12 @@ class Game extends Phaser.Scene {
   }
 
   //Cancela la partida en curso
-  cancelGame(self) {
+ /* cancelGame(self) {
     let socket_id = this.socket.id;
     this.socket.emit('cancelGame', socket_id);
     self.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "defeat_surrender");
     this.scene.pause('Game');
-  }
+  }*/
 
   setGameTimeOut(socket, self) {
     
