@@ -591,12 +591,13 @@ class Game extends Phaser.Scene {
         } else {
           //Dibujo carguero
           id++;
-          this.carguero = new Carguero(self, 0, 0, 'carguero', id);
+          this.carguero = new Carguero(self, 0, 0, 'carguero', playerInfo.boatList[i].id);
+          this.carguero.create(playerInfo.boatList[i])
           currentPlayer = this.carguero;
           currentPlayer.socketId = playerInfo.socketId;
           this.currentPlayers.add(currentPlayer);
           this.FreightersList.push(this.carguero);
-          this.carguero.create(playerInfo.boatList[i])
+          
         }
       }
     }
@@ -623,7 +624,7 @@ class Game extends Phaser.Scene {
         } else {
           //Dibujo carguero secundario
           this.carguero2 = new Carguero(self, 0, 0, 'carguero');
-          otherPlayersCarguero = this.carguero2.create(playerInfo.boatList[i]);
+          otherPlayersCarguero = this.carguero2.create(playerInfo.boatList[i].id);
           otherPlayersCarguero.socketId = playerInfo.socketId;
           this.otherPlayersCargueros.add(otherPlayersCarguero);
         }
