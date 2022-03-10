@@ -168,14 +168,12 @@ class Game extends Phaser.Scene {
           for (let i = 0; i < this.otherPlayers.children.entries.length; i++) {
             if (this.otherPlayers.children.entries[i].texture.key == 'submarino') {
               this.otherPlayers.children.entries[i].destroy(false, self);
-              this.checkVictory();
             }
           }
         } else {
           for (let i = 0; i < this.currentPlayers.children.entries.length; i++) {
             if (this.currentPlayers.children.entries[i].texture.key == 'submarino') {
               this.currentPlayers.children.entries[i].destroy(false, self);
-              this.checkVictory();
             }
           }
         }
@@ -183,7 +181,6 @@ class Game extends Phaser.Scene {
         for (let i = 0; i < this.currentPlayers.children.entries.length; i++) {
           if (this.currentPlayers.children.entries[i].texture.key == 'submarino') {
             this.currentPlayers.children.entries[i].destroy(false, self);
-            this.checkVictory();
           }
         }
       }
@@ -197,14 +194,12 @@ class Game extends Phaser.Scene {
           for (let i = 0; i < this.otherPlayers.children.entries.length; i++) {
             if (this.otherPlayers.children.entries[i].texture.key == 'destructor') {
               this.otherPlayers.children.entries[i].destroy(false, self);
-              this.checkVictory();
             }
           }
         } else {
           for (let i = 0; i < this.currentPlayers.children.entries.length; i++) {
             if (this.currentPlayers.children.entries[i].texture.key == 'destructor') {
               this.currentPlayers.children.entries[i].destroy(false, self);
-              this.checkVictory();
             }
           }
         }
@@ -212,7 +207,6 @@ class Game extends Phaser.Scene {
         for (let i = 0; i < this.currentPlayers.children.entries.length; i++) {
           if (this.currentPlayers.children.entries[i].texture.key == 'destructor') {
             this.currentPlayers.children.entries[i].destroy(false, self);
-            this.checkVictory();
           }
         }
       }
@@ -517,6 +511,7 @@ class Game extends Phaser.Scene {
     }
     if (obj1.life < 1) {
       obj1.destroy(this.socket, self);
+      this.checkVictory();
     } else {
       self.anims.create(self.explosionConfig);
       self.add.sprite(coordX, coordY, 'explosion').play('explodeAnimation');
