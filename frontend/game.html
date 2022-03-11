@@ -58,7 +58,7 @@
 
 		function saveGame() {
 			$.ajax({
-				url: 'http://localhost:3000/guardar',
+				url: 'http://proyecto.sysmemories.com:3000/guardar',
 				type: 'GET',
 				dataType: 'json',
 				success: function (data, status, xhr) {
@@ -74,7 +74,7 @@
 
 		function cancelGame() {
 			$.ajax({
-				url: 'http://localhost:3000/cancelar',
+				url: 'http://proyecto.sysmemories.com:3000/cancelar',
 				type: 'GET',
 				dataType: 'json',
 				success: function (data, status, xhr) {

@@ -26,7 +26,7 @@ const server = http.Server(app);
 const io = socketIO(server, {
   pingTimeout: 50000,
   cors: {
-    origin: "http://localhost:5500",
+    origin: "http://proyecto.sysmemories.com",
   },
   cookie: {
     name: "my-cookie",
